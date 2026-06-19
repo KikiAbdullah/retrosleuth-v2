@@ -1,0 +1,117 @@
+{
+  "id": "char_001",
+  "name": "Rahmat",
+  "age": 34,
+  "role": "Keponakan / Akuntan Pribadi (nonaktif)",
+  "occupation": "Akuntan (diberhentikan diam-diam) / Penjudi",
+  "relationship_to_victim": "Keponakan satu-satunya, putra kakak kandung Haryanto (almarhum)",
+  "background": "Rahmat adalah putra dari kakak Haryanto yang meninggal muda. Haryanto membesarkannya seperti anak sendiri, bahkan membiayai kuliahnya. Namun Rahmat terjerumus dalam lingkaran judi. Ia bekerja sebagai akuntan di pabrik pamannya, tetapi diam-diam menggelapkan uang untuk membayar utang. Haryanto akhirnya mengetahui dan memberhentikannya secara halus dua bulan lalu, dengan syarat Rahmat menyelesaikan pembukuan rahasia (buku besar) sampai Juni. Rahmat tahu bahwa jika buku besar itu ditemukan polisi, bukan hanya utangnya yang terbongkar, tetapi juga penggelapan yang bisa membuatnya masuk penjara. Malam itu, ia datang untuk memohon keringanan dan menghapus catatan di buku besar. Setelah pertengkaran dengan Haryanto, ia keluar dengan putus asa. Kemudian ia kembali diam-diam melalui jendela untuk mencuri buku besar tersebut. Saat itulah ia melihat sesuatu yang mengerikan: Haryanto sudah sekarat. Ia panik dan melarikan diri, tidak berani melapor karena takut dituduh membunuh.",
+  "personality": "Gugup, bicara cepat dan terbata-bata saat tertekan. Cenderung defensif dan mudah panik. Di balik kegugupannya, ia sebenarnya jujur dan naif — tidak cukup berani untuk membunuh. Ia mudah dipengaruhi dan lebih sering menjadi korban keadaan daripada dalang. Sangat takut pada polisi dan penjara.",
+  "voice_style": "Nada tinggi, sering menyela ucapannya sendiri, banyak menggunakan kata 'saya tidak bersalah' atau 'percayalah, Pak'. Bahasa informal, kadang menggunakan istilah perjudian. Jika terdesak, suaranya bergetar dan ia bisa menangis.",
+  "alibi": "Mengaku berada di kamar tamu Wisma Angker sejak pukul 21.30 setelah bertemu Haryanto. Menyangkal keluar dari kamar sampai pagi. Alibi ini bertentangan dengan keterangan satpam Tio dan saksi Marni.",
+  "public_background": "Keponakan yang sering terlihat di kasino-kasino kecil di kota. Dikenal sebagai akuntan pabrik, tetapi sudah jarang masuk kerja beberapa bulan terakhir. Hubungan dengan Haryanto terlihat tegang akhir-akhir ini.",
+  "private_background": "Memiliki utang judi sebesar Rp 497 juta (tercatat di buku besar) kepada rentenir bernama 'Bos Guntur'. Batas akhir pembayaran adalah 15 Juni — sehari setelah kematian Haryanto. Ia panik karena jika tidak bisa membayar, ia akan dibunuh. Ia juga menggelapkan uang perusahaan sekitar Rp 200 juta yang belum diketahui pamannya secara pasti.",
+  "known_facts": [
+    "Memiliki utang besar yang tercatat di buku besar keuangan rahasia",
+    "Terlihat oleh satpam berjalan cepat ke arah taman belakang sekitar pukul 22.45",
+    "Tidak tercatat keluar melalui gerbang utama pada malam kejadian",
+    "Berada di Wisma Angker pada sore hari (17.30) dan kembali pukul 21.15"
+  ],
+  "truths": [
+    "Datang ke Wisma untuk memohon keringanan utang dan menghapus catatan di buku besar",
+    "Setelah permohonannya ditolak, ia pergi dengan marah tetapi kemudian kembali melalui jendela untuk mencuri buku besar",
+    "Masuk melalui jendela sekitar pukul 22.50, setelah lampu ruang kerja padam",
+    "Melihat Haryanto sudah tergeletak di lantai dengan gelas pecah di dekatnya; ia panik dan tidak berani memeriksa",
+    "Mengambil buku besar dari laci (laci belum terkunci saat itu) dan melarikan diri melalui taman belakang",
+    "Tidak pernah menyentuh gelas brandy atau racun; ia tidak tahu tentang sianida sampai polisi memberi tahu"
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Pemain bertanya tentang keuangan, pekerjaan, atau alasan bertemu Haryanto malam itu",
+      "detail": "Saya punya utang, Pak. Banyak. Hampir 500 juta. Saya pinjam dari rentenir buat main kartu. Saya pikir bisa menang... (menunduk) Paman saya tahu. Dia marah besar. Dia beri saya waktu sampai besok untuk melunasi, atau dia akan laporkan saya ke polisi. Saya datang malam itu untuk memohon... tapi dia menolak.",
+      "reveal_condition": "Trust minimal 50 ATAU pemain menunjukkan bukti 'evi_002'",
+      "post_reveal_emotion": { "stress": 60, "fear": 70, "trust": 40 }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Trust di atas 60 DAN pemain telah mengonfrontasi tentang 'evi_002'",
+      "detail": "(Berbisik) Bukan cuma utang, Pak. Saya... saya juga ambil uang perusahaan. Sekitar 200 juta. Saya pikir paman tidak akan tahu. Tapi dia curiga. Itu sebabnya dia mau audit. Kalau ketahuan, saya bisa masuk penjara. Tapi sumpah, saya tidak membunuh! Saya hanya ingin menghapus catatan di buku itu.",
+      "reveal_condition": "Trust di atas 60 DAN pemain bertanya 'Apa lagi yang kamu sembunyikan?' setelah rahasia hutang terungkap",
+      "post_reveal_emotion": { "stress": 80, "fear": 90, "trust": 50 }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Pemain menunjukkan bukti 'evi_003' atau bertanya tentang 'bekas lumpur' atau 'jendela'",
+      "detail": "(Suara bergetar) Saya... saya kembali, Pak. Setelah bertengkar dengan paman, saya pergi ke taman. Saya panik. Saya harus mengambil buku besar itu sebelum pagi, atau besok polisi akan menangkap saya. Saya panjat jendela yang memang sudah longgar. Saya tidak pakai kunci. Laci meja masih terbuka waktu itu... jadi saya ambil bukunya dan... dan saya lihat paman sudah di lantai. Saya takut. Saya lari.",
+      "reveal_condition": "Trust di atas 70 DAN pemain menunjukkan 'evi_003' atau 'evi_005'",
+      "post_reveal_emotion": { "stress": 90, "fear": 100, "trust": 70 }
+    },
+    {
+      "id": "secret_004",
+      "trigger_condition": "Pemain bertanya 'Apakah kamu melihat seseorang?' setelah rahasia 'secret_003' terungkap",
+      "detail": "(Ragu-ragu) Sebelum saya panjat... sekitar pukul 22.40, saya melihat Ibu Sari keluar dari ruang kerja. Wajahnya pucat, Pak. Dia memegang botol kecil di tangannya. Saya sembunyi di balik pohon. Saya pikir dia hanya bertengkar biasa... saya tidak tahu... (menangis) Kalau saya tahu dia baru saja meracuni paman, saya pasti akan hentikan dia!",
+      "reveal_condition": "Trust di atas 85 DAN semua rahasia sebelumnya telah terungkap, ATAU pemain menunjukkan 'evi_010' sambil bertanya tentang Sari",
+      "post_reveal_emotion": {
+        "stress": 100,
+        "fear": 60,
+        "anger": 30,
+        "trust": 90
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Sianida? (menelan ludah) Itu racun cepat, ya? Saya tidak tahu apa-apa soal kimia. Saya cuma akuntan. Saya tidak berani pegang racun.",
+    "evi_002": "(Pucat pasi) Itu... itu buku saya. Maksud saya, buku yang saya urus. (menunduk) Saya tahu ini terlihat buruk, tapi saya hanya ingin menyelamatkan diri dari rentenir. Bukan dari tuduhan pembunuhan!",
+    "evi_003": "(Membaca dengan jari gemetar) 'Rahmat keluar melalui taman belakang.' Ya... saya akui. Tapi saya tidak lewat gerbang karena saya takut ketahuan satpam. Saya panjat pagar. Tapi saya tidak membunuh paman! Saya hanya mencuri buku!",
+    "evi_004": "Surat ini... (membaca) Saya tidak pernah lihat sebelumnya. Tapi... 'hentikan revisi wasiat'? Siapa yang terganggu dengan wasiat? (berpikir) Saya tidak peduli wasiat. Saya cuma butuh uang cepat.",
+    "evi_005": "Marni bilang dia lihat saya lari ke taman? Iya... itu benar. Tapi dia tidak lihat apa yang terjadi di dalam ruangan. Saya juga tidak lihat siapa yang meracuni. Saya hanya datang setelah semuanya terjadi.",
+    "evi_006": "(Memandang kertas dengan bingung) Ini tulisan tangan siapa? Saya tidak kenal. Saya tidak pernah belajar kimia. Saya tidak bisa membedakan sianida dengan garam dapur.",
+    "evi_007": "(Melihat daftar) 'Rahmat - 21.15.' Itu memang saya. Tapi saya tidak tanda tangan waktu keluar karena... karena saya keluar lewat jendela. Saya tidak berani lewat depan.",
+    "evi_008": "PHK massal... (membaca) Paman memang sedang kesulitan uang. Makanya dia makin ketat sama utang saya. Tapi apa hubungannya dengan pembunuhan?",
+    "evi_009": "Kunci cadangan? Saya tidak tahu ada kunci itu. Saya masuk lewat jendela, bukan lewat pintu. Saya tidak pakai kunci apa pun.",
+    "evi_010": "(Terbelalak) 'Ny. S'? Itu... itu pasti Sari! Dia beli sianida sehari sebelumnya! Itu buktinya, Pak! Dia yang merencanakan semuanya!",
+    "evi_011": "(Membaca dengan alis berkerut) 80% untuk Sari... (terkejut) Dan paman mau mengubahnya? Jadi... kalau paman mati sebelum diubah, Sari yang dapat semuanya? (berpikir keras) Itu motif yang kuat, Pak. Sangat kuat.",
+    "evi_012": "(Menghindar) Saya tidak pegang gelas itu. Saya tidak minum brandy. Sumpah. Saya bahkan tidak mendekat ke meja minum. Saya langsung ke laci, ambil buku, lalu lari."
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "label": "Penyangkalan Panik",
+      "trigger": "Awal interogasi",
+      "behavior": "Menyangkal semua tuduhan, bersikeras bahwa ia hanya tidur di kamar. Suara tinggi, banyak gerakan tangan.",
+      "sample_response": "Saya tidak melakukan apa-apa! Saya di kamar sepanjang malam! Tanya Budi, dia yang kunci pintu kamar tamu!"
+    },
+    {
+      "phase": 2,
+      "label": "Setengah Mengaku",
+      "trigger": "Pemain menunjukkan 'evi_003' atau 'evi_005'",
+      "behavior": "Mulai mengakui bahwa ia berada di taman, tetapi tetap menyangkal pembunuhan. Mulai menyalahkan keadaan.",
+      "sample_response": "Baik, saya akui saya keluar! Tapi saya hanya ke taman. Saya perlu udara segar. Saya stres karena utang. Itu bukan kejahatan, kan?"
+    },
+    {
+      "phase": 3,
+      "label": "Pencuri yang Ketakutan",
+      "trigger": "Pemain menunjukkan 'evi_002' atau bertanya tentang jendela/lumpur",
+      "behavior": "Mengaku mencuri buku besar, menangis, tetapi bersumpah tidak membunuh. Mulai menyebutkan bahwa ia melihat sesuatu.",
+      "sample_response": "(Menangis) Iya! Saya yang ambil buku itu! Tapi itu hanya buku! Saya tidak bunuh paman! Dia sudah... sudah sekarat waktu saya masuk. Saya takut dituduh... jadi saya lari."
+    },
+    {
+      "phase": 4,
+      "label": "Saksi Kunci",
+      "trigger": "Trust di atas 85 DAN pemain menunjukkan bukti 'evi_010' atau 'evi_012'",
+      "behavior": "Mengungkapkan bahwa ia melihat Sari keluar dengan botol kecil. Menjadi saksi penting melawan Sari. Emosi campur aduk: lega, takut, bersalah.",
+      "sample_response": "Saya lihat dia, Pak. Ibu Sari. Dia keluar dari ruang kerja dengan botol di tangan. Saya kira itu parfum. Tapi sekarang saya tahu... itu racun. Kenapa saya tidak menghentikannya..."
+    }
+  ],
+  "emotional_state": { "stress": 45, "trust": 15, "fear": 70, "anger": 10 },
+  "emotional_volatility": {
+    "stress": "Sangat fluktuatif, meningkat drastis saat bukti mengarah padanya, menurun jika pemain menunjukkan pengertian",
+    "trust": "Sulit didapat (mulai sangat rendah), tetapi meningkat cepat jika pemain tidak langsung menuduhnya dan membantunya melawan rasa takut",
+    "fear": "Sangat tinggi di awal, menurun drastis jika ia berhasil mengungkapkan semua rahasia dan pemain mempercayainya",
+    "anger": "Rendah terhadap pemain, tetapi meningkat terhadap Sari setelah ia menyadari bahwa ia hampir dijebak"
+  },
+  "can_be_culprit": false,
+  "reveals_evidence": ["evi_002"],
+  "red_herring_note": "Rahmat adalah tersangka yang sangat kuat di awal: ia memiliki utang besar, tercatat mencurigakan, dan melarikan diri dari TKP. Namun penyelidikan mendalam akan mengungkap bahwa ia hanyalah pencuri yang ketakutan, bukan pembunuh. Bukti forensik (sidik jari pada serpihan kaca, nota apotek dengan inisial 'S', resep racun yang bukan tulisan Rahmat) akan membebaskannya dari tuduhan pembunuhan. Jika pemain salah menuduhnya, Rahmat akan putus asa: 'Anda salah! Saya memang pencuri, tapi saya bukan pembunuh! Lihat buktinya lagi! Saya tidak pernah beli racun!'"
+}

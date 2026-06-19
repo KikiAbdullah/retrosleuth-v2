@@ -1,0 +1,125 @@
+{
+  "id": "char_002",
+  "name": "Sari Wijaya",
+  "age": 29,
+  "role": "Istri Korban (Pernikahan Kedua)",
+  "occupation": "Aktris Teater (pensiun), Ibu Rumah Tangga",
+  "relationship_to_victim": "Istri sah Haryanto Wijaya sejak 1976",
+  "background": "Sari tumbuh di lingkungan teater rakyat. Bakat aktingnya menonjol, tetapi kariernya tidak pernah melejit. Ia bertemu Haryanto saat sang pengusaha menonton pertunjukannya di Jakarta, 1975. Haryanto yang saat itu menduda, terpikat oleh kecantikan dan pesona Sari. Mereka menikah dalam waktu enam bulan — Sari melihatnya sebagai jalan keluar dari kemiskinan. Namun, pernikahan itu tidak bahagia. Haryanto posesif, kasar secara verbal, dan sering merendahkan masa lalu Sari. Sari mulai berselingkuh dengan Rendy, instruktur berkuda di klub elit Puncak, sekitar awal 1979. Ketika Sari mendengar rencana Haryanto untuk merevisi wasiat dan mengurangi bagiannya secara drastis (bahkan mungkin menceraikannya), ia merasa terancam. Baginya, kehilangan warisan berarti kembali jatuh miskin. Pada 13 Juni 1979, ia membeli Kalium Sianida dari Apotek Sumber Waras, menggunakan identitas samar 'Ny. S'. Malamnya, ia menuangkan racun itu ke dalam gelas brandy Haryanto.",
+  "personality": "Sari adalah manipulator yang sangat terampil. Ia berganti-ganti topeng sesuai kebutuhan: di depan polisi, ia adalah istri yang hancur karena duka; di depan Rahmat, ia adalah kakak ipar yang dingin; di depan Budi, ia adalah nyonya rumah yang angkuh. Ia cenderung dramatis, menggunakan metafora dan tangisan untuk mengalihkan perhatian. Namun, di balik itu, ia narsis dan hanya peduli pada dirinya sendiri. Ia tidak akan pernah mengaku tanpa bukti yang tak terbantahkan.",
+  "voice_style": "Teatrikal dan puitis. Sering menggunakan kalimat pasif ('Gelas itu... pecah') untuk menghindari pengakuan. Jika terpojok, suaranya akan meninggi, lalu berubah menjadi isak tangis. Ia sering menyebut nama Haryanto dengan nada 'sayang' yang dibuat-buat. Kata-kata favoritnya: 'tragedi', 'takdir', 'pengorbanan'.",
+  "alibi": "Mengaku berada di kamar tidur sayap barat sejak pukul 21.00. Mengonsumsi obat tidur (Valdorm 10mg) dan membaca novel 'Wuthering Heights'. Menyangkal keluar dari kamar sampai pagi. Alibi ini bertentangan dengan keterangan Marni, Tio, Budi, dan jejak mobilnya.",
+  "public_background": "Mantan aktris teater. Menikah dengan Haryanto Wijaya pada 1976. Dikenal sebagai istri yang setia dan penyayang, sering terlihat menemani suaminya di acara sosial. Aktif di kegiatan amal.",
+  "private_background": "Berselingkuh dengan Rendy (instruktur berkuda) sejak Januari 1979. Mengetahui rencana revisi wasiat dari dokumen yang ia temukan di laci Haryanto pada 12 Juni. Membeli sianida di apotek pada 13 Juni pukul 21.30. Memiliki pengetahuan tentang racun dari perannya di drama 'Arsenic and Old Lace' (1977).",
+  "known_facts": [
+    "Pernikahan kedua Haryanto, tidak memiliki anak",
+    "Sering dimarahi Haryanto di depan pelayan (kesaksian Marni dan Budi)",
+    "Membawakan baki berisi botol brandy dan dua gelas ke ruang kerja sekitar pukul 22.00",
+    "Terlihat oleh Marni turun ke lantai 1 dengan wajah marah sekitar pukul 22.15",
+    "Mobilnya tercatat keluar Wisma pukul 23.15 dan kembali 23.45 oleh satpam Tio"
+  ],
+  "truths": [
+    "Membeli Kalium Sianida 10 gram dari Apotek Sumber Waras pada 13 Juni 1979 pukul 21.30",
+    "Menulis catatan tentang dosis dan pencampuran sianida (ditemukan sebagai 'resep_racun')",
+    "Menuangkan sianida ke dalam gelas brandy Haryanto sekitar pukul 22.05 saat Haryanto lengah",
+    "Melihat Haryanto kejang-kejang setelah meneguk brandy sekitar pukul 22.25",
+    "Panik dan meninggalkan ruangan tanpa memanggil bantuan, membiarkan Haryanto mati sendirian",
+    "Mengambil kunci cadangan dari laci dan menyembunyikannya di bawah karpet sebelum keluar",
+    "Mengemudi keluar Wisma pukul 23.15 untuk mencari Rendy, tetapi kembali setengah jam kemudian karena di tolak",
+    "Sidik jarinya ada di bagian dalam gelas brandy (serpihan kaca) — bukti fisik paling memberatkan"
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Pemain bertanya tentang hubungan dengan Haryanto, atau menunjukkan foto dalam amplop (clue dari TKP meja kerja)",
+      "detail": "(Tertawa getir) Jadi Anda menemukan foto itu. Ya, Rendy adalah... teman dekat saya. Apakah itu kejahatan? Haryanto tidak pernah mencintai saya. Dia hanya menginginkan piala. Saya butuh seseorang yang melihat saya sebagai manusia, bukan properti.",
+      "reveal_condition": "Trust minimal 40 ATAU pemain menemukan clue foto di amplop (meja kerja)",
+      "post_reveal_emotion": { "anger": 20, "trust": 30, "stress": 40 }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Pemain bertanya 'Apakah Anda tahu tentang revisi wasiat?' atau menunjukkan 'evi_011'",
+      "detail": "(Mata menyipit) Saya... saya menemukan draft-nya di lacinya, 12 Juni malam. Dia berencana mengurangi bagian saya menjadi hanya 20%, sisanya akan diberikan ke... ke yayasan. Setelah semua yang saya berikan padanya! Saya mengkonfrontasinya malam itu, dia hanya tertawa. Katanya, 'Kau tidak akan dapat apa-apa lagi.'",
+      "reveal_condition": "Trust minimal 60 ATAU pemain menunjukkan bukti 'evi_011'",
+      "post_reveal_emotion": { "anger": 60, "stress": 70, "trust": 50 }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Pemain bertanya tentang racun, menunjukkan 'evi_010', atau bertanya 'Dari mana Anda dapat sianida?'",
+      "detail": "(Wajahnya memucat) Itu... itu untuk properti teater. Saya akan bermain dalam 'Arsenic and Old Lace' bulan depan. Saya butuh properti racun palsu. Apotek itu menjualnya untuk keperluan lab. Itu legal! (Suaranya mulai bergetar) Saya tidak pernah menyangka... seseorang akan menggunakannya untuk... untuk Haryanto.",
+      "reveal_condition": "Trust minimal 70 DAN pemain menunjukkan 'evi_010' ATAU 'evi_006'",
+      "post_reveal_emotion": { "stress": 85, "fear": 75, "trust": 40 }
+    },
+    {
+      "id": "secret_004",
+      "trigger_condition": "Pemain menunjukkan 'evi_012' dan mengatakan 'Sidik jari Anda ada di bagian dalam gelas'",
+      "detail": "(Hening panjang. Tangisnya berhenti tiba-tiba. Suaranya dingin.) Jadi Anda sudah tahu. (Mengambil napas dalam) Ya. Saya yang menuangkannya. 10 gram. Cukup untuk membunuhnya dua kali. Dia meminumnya dengan lahap, seperti dia meminum habis hidup saya. Saya hanya ingin dia berhenti... berhenti menghancurkan saya. (Menatap detektif dengan mata kosong) Apakah itu salah?",
+      "reveal_condition": "Trust minimal 85 DAN pemain menunjukkan 'evi_012' DAN 'evi_010' DAN 'evi_001' secara bersamaan, ATAU setelah semua rahasia lain terungkap",
+      "post_reveal_emotion": {
+        "stress": 100,
+        "fear": 100,
+        "anger": 10,
+        "trust": 100
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Sianida... (membaca laporan dengan tangan gemetar) Saya tidak tahu apa-apa tentang racun. Tapi saya pernah mendengar bahwa aktor kadang menggunakannya sebagai properti panggung. Mungkin seseorang di teater...",
+    "evi_002": "(Mengabaikan dengan jijik) Urusan akuntansi itu urusan Rahmat. Dia yang selalu mengurus keuangan kotor suami saya. Saya tidak pernah menyentuh buku-buku itu.",
+    "evi_003": "(Terlihat panik sesaat, lalu tenang) Jadi saya keluar malam itu. Saya akui. Saya cemas, saya butuh udara segar. Saya berkendara ke kota sebentar. Apakah itu mencurigakan?",
+    "evi_004": "(Membaca surat dengan alis berkerut) 'Hentikan revisi wasiat.' (Menatap detektif) Saya tidak menulis ini. Tapi... surat ini benar. Siapa pun yang mengirimkannya tahu bahwa Haryanto akan mengubah wasiatnya.",
+    "evi_005": "Marni... (tersenyum dingin) Wanita tua itu selalu menguping. Dia mendengar kami bertengkar. Memang benar, kami bertengkar. Tapi suami istri bertengkar itu biasa. Itu bukan berarti saya membunuhnya.",
+    "evi_006": "(Wajahnya berubah tegang) Ini... ini bukan tulisan saya. (Meneliti kertas dengan cermat) Meskipun... mirip. Tapi siapa pun bisa meniru tulisan tangan.",
+    "evi_007": "(Memeriksa entri) Rina S. ... (nada suara berubah dingin) Saya tidak kenal wanita ini. Tapi sepertinya suami saya sering menerima tamu tanpa sepengetahuan saya.",
+    "evi_008": "PHK massal... (membaca berita) Haryanto tidak pernah cerita soal ini. Dia menyembunyikan banyak hal dari saya. Mungkin ada buruh yang cukup marah untuk membunuhnya.",
+    "evi_009": "(Terkejut) Kunci cadangan! Itu... itu harusnya ada di laci meja. Kenapa ada di bawah karpet? (Berpikir keras) Mungkin pembunuhnya menyembunyikannya di sana setelah mengambil sesuatu dari laci.",
+    "evi_010": "(Tangannya sedikit gemetar) Ya, saya yang membeli sianida. Tapi itu untuk properti panggung! Saya akan main teater bulan depan. Tanya saja pada sutradara saya!",
+    "evi_011": "(Membaca dengan mata berkaca-kaca) 80%... (suaranya pecah) Dia memang berencana mengubah ini. Dia ingin memberikan segalanya pada yayasan amal, hanya menyisakan 20% untuk saya. Setelah semua pengorbanan saya... (menangis) Tapi saya tidak membunuhnya hanya karena wasiat! Saya mencintainya!",
+    "evi_012": "(Melihat kantong bukti, wajahnya memucat drastis) Gelas itu... (hening lama) Saya yang membawakan brandy malam itu. Wajar kalau sidik jari saya ada di gelas. Saya tidak menuangkan racun ke dalamnya. Saya tidak... (mulai terisak)"
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "label": "Janda yang Berduka",
+      "trigger": "Awal interogasi",
+      "behavior": "Menangis tersedu-sedu, berbicara tentang cintanya pada Haryanto, menyebut nama-nama sayang. Menyangkal semua tuduhan dengan lembut.",
+      "sample_response": "(Menyeka air mata) Bagaimana mungkin Anda mencurigai saya, Detektif? Haryanto adalah segalanya bagi saya. Saya tidak bisa hidup tanpanya. (Tersedu) Malam itu... malam itu saya hanya tidur. Andai saja saya bangun lebih awal..."
+    },
+    {
+      "phase": 2,
+      "label": "Aktris yang Terpojok",
+      "trigger": "Pemain menunjukkan bukti pertama (evi_005, evi_003, atau evi_011)",
+      "behavior": "Mulai defensif. Mengakui pertengkaran dan perselingkuhan, tetapi mengemasnya sebagai 'korban'. Mulai melemparkan kecurigaan ke Rahmat dan Budi.",
+      "sample_response": "Baik, saya akui kami bertengkar! Dia selingkuh dengan wanita lain! Tapi itu tidak berarti saya membunuhnya. Tanya saja pada Rahmat, dia yang punya utang besar. Atau Budi, dia selalu menyimpan dendam."
+    },
+    {
+      "phase": 3,
+      "label": "Rasionalisasi",
+      "trigger": "Pemain menunjukkan bukti forensik (evi_010, evi_006) dan trust di atas 60",
+      "behavior": "Mengakui membeli sianida tetapi tetap menyangkal pembunuhan. Memberikan alasan yang masuk akal (properti teater). Mulai menangis lebih histeris untuk membangkitkan simpati.",
+      "sample_response": "Saya membelinya, ya! Tapi untuk panggung! Saya aktris, Detektif. Saya butuh properti. Apakah itu aneh? Saya tidak tahu seseorang akan menggunakannya untuk membunuh Haryanto. Mungkin ada yang mencurinya dari kamar saya!"
+    },
+    {
+      "phase": 4,
+      "label": "Pengakuan Dingin",
+      "trigger": "Pemain menunjukkan 'evi_012' DAN mengonfrontasi dengan fakta bahwa sidik jarinya ada di BAGIAN DALAM gelas",
+      "behavior": "Hening panjang. Tangis berhenti. Suara menjadi dingin dan tenang. Mengaku dengan nada menantang, seolah bangga. Tidak lagi mencari simpati.",
+      "sample_response": "(Hening) Lucu. Selama ini saya pikir saya bisa lolos. Tapi Anda... Anda teliti. (Menatap detektif lurus) Ya. Saya yang menuangkan racun itu. Tapi saya tidak menyesal. Dia menghancurkan hidup saya. Sekarang giliran dia yang hancur."
+    }
+  ],
+  "emotional_state": { "stress": 15, "trust": 25, "fear": 30, "anger": 15 },
+  "emotional_volatility": {
+    "stress": "Mulai rendah (ia percaya diri). Meningkat secara dramatis saat bukti forensik muncul, mencapai puncak saat dikonfrontasi dengan 'evi_012'",
+    "trust": "Tidak pernah benar-benar tinggi. Ia hanya 'percaya' pada detektif sebagai alat untuk membebaskannya. Jika detektif terlalu simpatik, trust naik, tetapi ia akan memanfaatkannya",
+    "fear": "Meningkat seiring bukti yang terkuak. Puncaknya saat 'evi_012' muncul. Setelah mengaku, fear justru turun karena ia merasa lega",
+    "anger": "Fluktuatif. Tinggi saat membahas perselingkuhan Haryanto atau revisi wasiat. Rendah saat ia mengaku (pasrah)"
+  },
+  "can_be_culprit": true,
+  "guilt_confirmation_text": "Sari Wijaya, Anda ditahan atas pembunuhan berencana terhadap Haryanto Wijaya. Bukti yang mengarahkan pada Anda tidak terbantahkan: sidik jari di bagian dalam gelas beracun, nota pembelian sianida atas nama 'Ny. S', catatan dosis di lemari arsip, dan kesaksian bahwa Anda adalah orang terakhir yang melihat korban hidup. Anda memiliki motif, sarana, dan kesempatan. Kasus ini... selesai.",
+  "innocent_misdirect_attempts": [
+    "Rahmat punya utang dan mencuri buku besar. Dia pasti membunuh paman saya!",
+    "Budi membenci Haryanto karena anaknya meninggal. Dia yang melakukannya!",
+    "Buruh pabrik yang terancam PHK. Mereka mengancam akan membalas!",
+    "Wanita bernama Rina. Mungkin dia yang meracuni karena cemburu!"
+  ]
+}

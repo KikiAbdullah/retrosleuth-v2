@@ -1,0 +1,623 @@
+{
+  "id": "case_001",
+  "meta": {
+    "title": "Malam di Wisma Angker",
+    "author": "Tim RetroSleuth",
+    "version": "3.0",
+    "difficulty": "Expert",
+    "estimated_playtime_minutes": 90,
+    "estimated_playtime_max_minutes": 120,
+    "year": 1979,
+    "description": "Haryanto Wijaya, raja tekstil yang ditakuti, ditemukan tewas di ruang kerjanya yang terkunci. Tiga orang terdekatnya memiliki motif, tapi hanya satu yang berani membunuh. Selidiki TKP, interogasi dengan cerdas, dan buktikan siapa dalang di balik kematian ini."
+  },
+  "victim": {
+    "name": "Haryanto Wijaya",
+    "age": 62,
+    "occupation": "Pengusaha Tekstil, pemilik Wisma Angker",
+    "cause_of_death": "Keracunan Kalium Sianida (KCN) yang dicampur ke dalam brandy",
+    "time_of_death": "Antara pukul 22.30 dan 23.30 WIB",
+    "location": "Ruang Kerja Pribadi, Lantai 2, Wisma Angker"
+  },
+  "assets": {
+    "briefing_file": "briefing.md",
+    "evidence_directory": "evidence",
+    "character_directory": "characters",
+    "images_directory": "images"
+  },
+  "evidence_registry": [
+    {
+      "id": "evi_001",
+      "title": "Laporan Otopsi Resmi",
+      "file": "evi_001.md",
+      "icon": "📄",
+      "description_short": "Hasil forensik lengkap korban, termasuk kadar racun dan luka sekunder."
+    },
+    {
+      "id": "evi_002",
+      "title": "Buku Besar Keuangan Rahasia",
+      "file": "evi_002.md",
+      "icon": "📒",
+      "description_short": "Catatan keuangan gelap, mencatat utang Rahmat dan aliran dana mencurigakan."
+    },
+    {
+      "id": "evi_003",
+      "title": "Log Keamanan Gerbang",
+      "file": "evi_003.md",
+      "icon": "🛡️",
+      "description_short": "Catatan keluar masuk kendaraan dan patroli malam."
+    },
+    {
+      "id": "evi_004",
+      "title": "Surat Ancaman Anonim",
+      "file": "evi_004.md",
+      "icon": "✉️",
+      "description_short": "Surat tanpa pengirim yang mengancam akan membunuh Haryanto sebelum revisi wasiat."
+    },
+    {
+      "id": "evi_005",
+      "title": "Laporan Saksi Marni",
+      "file": "evi_005.md",
+      "icon": "👥",
+      "description_short": "Kesaksian pembantu dapur yang mendengar pertengkaran."
+    },
+    {
+      "id": "evi_006",
+      "title": "Resep & Catatan Sianida",
+      "file": "evi_006.md",
+      "icon": "🧪",
+      "description_short": "Catatan tangan berisi dosis mematikan dan sumber pembelian gelap."
+    },
+    {
+      "id": "evi_007",
+      "title": "Buku Tamu Wisma",
+      "file": "evi_007.md",
+      "icon": "📖",
+      "description_short": "Daftar tamu yang datang dan pergi pada malam kejadian."
+    },
+    {
+      "id": "evi_008",
+      "title": "Kliping Koran Lama",
+      "file": "evi_008.md",
+      "icon": "📰",
+      "description_short": "Artikel tentang kebangkrutan pabrik dan ancaman PHK massal."
+    },
+    {
+      "id": "evi_009",
+      "title": "Kunci Cadangan Ruang Kerja",
+      "file": "evi_009.md",
+      "icon": "🔑",
+      "description_short": "Anak kunci duplikat yang disembunyikan di laci tersembunyi."
+    },
+    {
+      "id": "evi_010",
+      "title": "Nota Pembelian Apotek",
+      "file": "evi_010.md",
+      "icon": "🧾",
+      "description_short": "Struk pembelian bahan kimia mencurigakan sehari sebelum kematian."
+    },
+    {
+      "id": "evi_011",
+      "title": "Draf Surat Wasiat",
+      "file": "evi_011.md",
+      "icon": "📜",
+      "description_short": "Salinan wasiat yang belum ditandatangani, menguntungkan Sari."
+    },
+    {
+      "id": "evi_012",
+      "title": "Serpihan Gelas Brandy",
+      "file": "evi_012.md",
+      "icon": "💠",
+      "description_short": "Pecahan gelas dengan residu sianida dan sidik jari."
+    }
+  ],
+  "evidence_structure": {
+    "Dokumen Resmi": ["evi_001", "evi_005", "evi_003"],
+    "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008"],
+    "Bukti Fisik": ["evi_002", "evi_009", "evi_010", "evi_012"],
+    "Log Kunjungan": ["evi_007"]
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Rahmat",
+      "role": "Keponakan / Akuntan Pribadi",
+      "file": "char_001.json",
+      "photo": "images/char_001.png"
+    },
+    {
+      "id": "char_002",
+      "name": "Sari",
+      "role": "Istri Korban (Pernikahan kedua)",
+      "file": "char_002.json",
+      "photo": "images/char_002.png"
+    },
+    {
+      "id": "char_003",
+      "name": "Budi",
+      "role": "Kepala Pelayan Senior",
+      "file": "char_003.json",
+      "photo": "images/char_003.png"
+    }
+  ],
+  "solution_matrix": {
+    "culprit_id": "char_002",
+    "motive": "Balas dendam karena perselingkuhan dan upaya Haryanto mengubah wasiat demi wanita lain.",
+    "primary_evidence": "evi_001",
+    "secondary_evidence": [
+      "evi_006",
+      "evi_010",
+      "evi_011",
+      "evi_004",
+      "evi_012",
+      "evi_003"
+    ],
+    "explanation_file": "solution.md",
+    "alternative_suspect_misdirects": {
+      "char_001": "Rahmat mencuri buku besar untuk menutupi utangnya, tetapi ia bukan pembunuh.",
+      "char_003": "Budi melihat kejadian namun sengaja terlambat karena dendam lama."
+    }
+  },
+  "initial_evidence": ["evi_001"],
+  "timeline": [
+    {
+      "time": "20.00",
+      "description": "Haryanto dan Sari makan malam bersama, terlihat tegang."
+    },
+    {
+      "time": "21.15",
+      "description": "Rahmat tiba di Wisma dan langsung menuju ruang kerja, meminta tanda tangan cek."
+    },
+    {
+      "time": "21.50",
+      "description": "Budi mengantarkan kopi ke ruang kerja; melihat Sari dan Haryanto bertengkar hebat."
+    },
+    {
+      "time": "22.00",
+      "description": "Sari keluar dengan marah, mengatakan 'Kau akan menyesal!'."
+    },
+    {
+      "time": "22.30",
+      "description": "Saksi mendengar suara gelas pecah dari dalam ruang kerja."
+    },
+    {
+      "time": "22.45",
+      "description": "Rahmat terlihat oleh satpam berjalan cepat ke arah taman belakang."
+    },
+    {
+      "time": "23.00",
+      "description": "Lampu ruang kerja padam, tidak ada yang masuk atau keluar via pintu depan."
+    },
+    {
+      "time": "23.15",
+      "description": "Mobil Sari tercatat keluar oleh pos satpam, kembali pukul 23.45."
+    },
+    {
+      "time": "00.15",
+      "description": "Budi menemukan tubuh Haryanto saat ronda rutin dan segera melapor."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "task_001",
+      "text": "Baca laporan briefing dan otopsi awal",
+      "hint": "Buka Case Files dari desktop, lalu baca briefing. Laporan otopsi akan muncul di File Manager."
+    },
+    {
+      "id": "task_002",
+      "text": "Temukan Buku Besar Keuangan di TKP",
+      "hint": "Periksa laci meja kerja atau cari di lemari arsip."
+    },
+    {
+      "id": "task_003",
+      "text": "Kumpulkan bukti dari Jendela dan Pintu",
+      "hint": "Jendela memiliki bekas lumpur, dan pintu mungkin menyimpan jejak kunci cadangan."
+    },
+    {
+      "id": "task_004",
+      "text": "Interogasi Rahmat tentang utang dan buku besar",
+      "hint": "Tanyakan secara spesifik tentang 'buku besar' dan 'uang 500 juta'."
+    },
+    {
+      "id": "task_005",
+      "text": "Interogasi Sari tentang ancaman dan resep racun",
+      "hint": "Konfrontasi dengan bukti resep racun atau surat ancaman saat interogasi."
+    },
+    {
+      "id": "task_006",
+      "text": "Interogasi Budi tentang apa yang sebenarnya ia lihat",
+      "hint": "Budi mungkin menyembunyikan fakta tentang malam itu; gunakan bukti serpihan kaca."
+    },
+    {
+      "id": "task_007",
+      "text": "Hubungkan nota apotek dengan tersangka",
+      "hint": "Nota apotek bisa mengarah pada pembeli sianida."
+    },
+    {
+      "id": "task_008",
+      "text": "Temukan dan baca draf surat wasiat",
+      "hint": "Cari di lemari arsip atau laci tersembunyi."
+    },
+    {
+      "id": "task_009",
+      "text": "Ajukan tuduhan lengkap dengan bukti yang kuat",
+      "hint": "Minimal 6 bukti harus ditemukan, termasuk bukti primer."
+    }
+  ],
+  "crime_scene": {
+    "description": "Ruang Kerja Haryanto Wijaya, 14 Juni 1979, pukul 02.15 dini hari. Ruangan seluas 6x5 meter dengan perabot antik, berbau tembakau dan alkohol. Meja besar dengan berkas berserakan, gelas pecah di lantai, jendela terbuka ke taman belakang, dan lemari arsip yang tampak dibongkar.",
+    "map_type": "terminal_grid",
+    "image_placeholder": "Ruang Kerja – Wisma Angker, 14 Juni 1979",
+    "grid_size": { "cols": 50, "rows": 18 },
+    "areas": [
+      {
+        "id": "area_001",
+        "name": "Meja Kerja",
+        "short_desc": "Meja kayu jati besar dengan laci acak-acakan. Gelas brandy pecah di dekat kaki meja.",
+        "objects": [
+          {
+            "id": "obj_001",
+            "label": "🔓 Buka laci utama",
+            "type": "evidence",
+            "evidence_unlock": "evi_002",
+            "narrative": "Di dalam laci, terselip sebuah buku besar tebal. Catatan menunjukkan Rahmat berutang 500 juta dan Haryanto berencana melaporkannya ke polisi."
+          },
+          {
+            "id": "obj_002",
+            "label": "💠 Periksa gelas brandy yang pecah",
+            "type": "clue",
+            "narrative": "Gelas pecah dengan residu cairan berbau almond pahit. Di salah satu pecahan terdapat sidik jari yang tidak cocok dengan Haryanto. (Butuh analisis lebih lanjut.)"
+          },
+          {
+            "id": "obj_003",
+            "label": "📁 Buka map kuning 'Proyek Delta'",
+            "type": "red_herring",
+            "narrative": "Map berisi proposal bisnis yang sudah kadaluarsa. Tidak ada kaitan dengan kematian."
+          },
+          {
+            "id": "obj_004",
+            "label": "✉️ Buka amplop tersembunyi di bawah tumpukan kertas",
+            "type": "clue",
+            "narrative": "Amplop berisi foto Haryanto dengan seorang wanita misterius, di belakangnya tertulis 'Rina, 12 Juni'. Sari tidak tahu tentang ini."
+          },
+          {
+            "id": "obj_005",
+            "label": "🔓 Buka laci tersembunyi (perlu kunci)",
+            "type": "locked",
+            "required_item": "evi_009",
+            "narrative": "Laci kecil di belakang meja, terkunci. Menggunakan kunci cadangan, Anda menemukan draf surat wasiat yang belum ditandatangani, di mana Sari mendapat 80% harta."
+          },
+          {
+            "id": "obj_006",
+            "label": "☎️ Periksa pesawat telepon",
+            "type": "clue",
+            "narrative": "Telepon terangkat sebagian, ada bekas jari di tombol. Panggilan terakhir adalah ke apotek pukul 21.30. Nomor ini belum dilacak."
+          }
+        ]
+      },
+      {
+        "id": "area_002",
+        "name": "Jendela",
+        "short_desc": "Jendela kayu besar dengan kaca buram, sedikit terbuka. Angin malam masuk, membawa bau tanah basah.",
+        "objects": [
+          {
+            "id": "obj_007",
+            "label": "👣 Periksa bekas lumpur di ambang",
+            "type": "clue",
+            "narrative": "Bekas sepatu ukuran 42, mirip dengan sepatu Rahmat. Tanah di luar basah — ada jejak menuju pagar belakang."
+          },
+          {
+            "id": "obj_008",
+            "label": "📄 Ambil sobekan kertas di dekat kusen",
+            "type": "evidence",
+            "evidence_unlock": "evi_003",
+            "narrative": "Sobekan halaman log satpam yang hilang. Tercatat: '22.45 - Rahmat keluar melalui taman belakang, tidak lewat gerbang.'"
+          },
+          {
+            "id": "obj_009",
+            "label": "🔍 Periksa kaca retak di sudut bawah",
+            "type": "clue",
+            "narrative": "Retakan dengan bercak merah muda — mungkin lipstik? Sari memakai lipstik serupa."
+          },
+          {
+            "id": "obj_010",
+            "label": "🧵 Ambil serat kain biru",
+            "type": "clue",
+            "narrative": "Serat dari seragam satpam. Apakah satpam melihat sesuatu tetapi tidak melapor?"
+          }
+        ]
+      },
+      {
+        "id": "area_003",
+        "name": "Lemari Arsip",
+        "short_desc": "Lemari besi tua empat laci. Sebagian terbuka paksa, ada goresan obeng di sekitar kunci.",
+        "objects": [
+          {
+            "id": "obj_011",
+            "label": "🔓 Periksa laci yang sudah terbuka",
+            "type": "evidence",
+            "evidence_unlock": "evi_004",
+            "narrative": "Di dalam laci yang terbuka paksa, ada surat ancaman: 'Hentikan revisi wasiat, atau nyawamu taruhannya.' Tanpa tanda tangan."
+          },
+          {
+            "id": "obj_012",
+            "label": "🔒 Buka laci terkunci (perlu kunci cadangan)",
+            "type": "locked",
+            "required_item": "evi_009",
+            "narrative": "Setelah dibuka, Anda menemukan catatan tangan Sari tentang dosis sianida yang dicampur alkohol. Tertulis: 'Cukup untuk 70 kg.'"
+          },
+          {
+            "id": "obj_013",
+            "label": "📩 Buka amplop coklat di atas lemari",
+            "type": "clue",
+            "narrative": "Amplop berisi foto Rahmat bertemu seseorang di parkiran pukul 22.50. Wajah orang itu mirip dengan satpam."
+          },
+          {
+            "id": "obj_014",
+            "label": "🪛 Periksa obeng tergeletak",
+            "type": "clue",
+            "narrative": "Obeng dengan gagang patah, cocok dengan goresan di lemari. Ada sidik jari yang tertinggal — belum dianalisis."
+          }
+        ]
+      },
+      {
+        "id": "area_004",
+        "name": "Pintu Masuk",
+        "short_desc": "Pintu kayu jati tebal, terkunci dari dalam saat jasad ditemukan. Ada bekas congkelan kecil di lubang kunci.",
+        "objects": [
+          {
+            "id": "obj_015",
+            "label": "🔑 Periksa lubang kunci",
+            "type": "clue",
+            "narrative": "Lubang kunci menunjukkan bekas penggunaan kunci duplikat. Kunci asli ada di saku Haryanto, tapi ada serpihan logam asing di dalam."
+          },
+          {
+            "id": "obj_016",
+            "label": "👩‍🍳 Bicara dengan Marni (pembantu dapur) di koridor",
+            "type": "evidence",
+            "evidence_unlock": "evi_005",
+            "narrative": "Marni berkata, 'Saya dengar Ibu Sari berteriak, lalu suara pecahan kaca. Setelah itu, saya melihat Pak Rahmat lari ke taman.'"
+          },
+          {
+            "id": "obj_017",
+            "label": "📰 Ambil koran yang terlipat",
+            "type": "evidence",
+            "evidence_unlock": "evi_008",
+            "narrative": "Koran lokal edisi 13 Juni menampilkan berita PHK massal di pabrik Haryanto. Disebutkan ada ancaman dari mantan pekerja."
+          }
+        ]
+      },
+      {
+        "id": "area_005",
+        "name": "Sudut Baca (Rak Buku)",
+        "short_desc": "Rak buku tinggi penuh dengan literatur bisnis dan beberapa buku kimia. Sebuah kursi malas di depan.",
+        "objects": [
+          {
+            "id": "obj_018",
+            "label": "📚 Buka buku 'Kimia Industri'",
+            "type": "clue",
+            "narrative": "Halaman tentang sianida dilipat dan diberi stabilo merah. Ada tulisan tangan: 'Efektif dalam alkohol.'"
+          },
+          {
+            "id": "obj_019",
+            "label": "📕 Ambil buku catatan harian",
+            "type": "evidence",
+            "evidence_unlock": "evi_006",
+            "narrative": "Buku harian Haryanto terakhir ditulis pada 13 Juni: 'Sari tahu tentang Rina. Dia mengancam akan menghancurkanku. Aku harus mengubah wasiat besok.'"
+          },
+          {
+            "id": "obj_020",
+            "label": "🗿 Periksa patung perunggu",
+            "type": "red_herring",
+            "narrative": "Patung kuda perunggu, tidak ada yang aneh."
+          }
+        ]
+      },
+      {
+        "id": "area_006",
+        "name": "Lantai & Karpet",
+        "short_desc": "Karpet Persia merah dengan noda-noda samar. Beberapa benda kecil mungkin tersembunyi di antara serat.",
+        "objects": [
+          {
+            "id": "obj_021",
+            "label": "🔍 Periksa noda di karpet",
+            "type": "clue",
+            "narrative": "Noda basah tak jauh dari meja. Tercium bau alkohol. Mungkin tumpahan dari gelas? Di sekitarnya ada serpihan kaca kecil."
+          },
+          {
+            "id": "obj_022",
+            "label": "💠 Kumpulkan serpihan kaca",
+            "type": "evidence",
+            "evidence_unlock": "evi_012",
+            "narrative": "Serpihan kaca dengan sidik jari dan bekas lipstik. Residu diuji positif mengandung sianida."
+          },
+          {
+            "id": "obj_023",
+            "label": "🔑 Temukan kunci di bawah karpet",
+            "type": "evidence",
+            "evidence_unlock": "evi_009",
+            "narrative": "Kunci kecil tersangkut di lipatan karpet. Cocok untuk laci meja dan lemari arsip. Ini kunci cadangan yang hilang."
+          },
+          {
+            "id": "obj_024",
+            "label": "🧾 Ambil secarik kertas di pojok",
+            "type": "evidence",
+            "evidence_unlock": "evi_010",
+            "narrative": "Nota pembelian dari Apotek Sumber Waras, tertanggal 13 Juni pukul 21.30. Pembeli: 'Ny. S'. Item: Kalium Sianida 10 gram."
+          }
+        ]
+      }
+    ]
+  },
+  "real_time_events": [
+    {
+      "id": "rte_001",
+      "trigger": {
+        "type": "relative",
+        "minutes": 0,
+        "description": "Segera setelah kasus dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_001",
+        "message": "📨 Amplop coklat mendarat di meja Anda. Laporan Otopsi Resmi baru saja dikirim dari lab forensik.",
+        "play_sound": "unlock",
+        "show_notification": true,
+        "add_to_journal": true
+      }
+    },
+    {
+      "id": "rte_002",
+      "trigger": {
+        "type": "relative",
+        "minutes": 10,
+        "description": "10 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_005",
+        "message": "📞 Telepon dari Marni, pembantu dapur. Dia bersedia memberikan keterangan. Laporan saksi telah dicatat.",
+        "play_sound": "ring",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_003",
+      "trigger": {
+        "type": "relative",
+        "minutes": 20,
+        "description": "20 menit setelah dimulai"
+      },
+      "action": "update_objective",
+      "payload": {
+        "objective_id": "obj_003",
+        "new_text": "Kumpulkan bukti dari TKP (TKP sekarang bisa diakses)",
+        "unlock_crime_scene": true
+      }
+    },
+    {
+      "id": "rte_004",
+      "trigger": {
+        "type": "relative",
+        "minutes": 30,
+        "description": "30 menit setelah dimulai"
+      },
+      "action": "send_message_from_character",
+      "payload": {
+        "character_id": "char_003",
+        "message": "Budi: 'Pak Detektif, saya ingat sesuatu tentang malam itu. Tolong temui saya di dapur.'",
+        "auto_open_chat": true
+      }
+    },
+    {
+      "id": "rte_005",
+      "trigger": {
+        "type": "relative",
+        "minutes": 40,
+        "description": "40 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_003",
+        "message": "📄 Satpam Tio menemukan halaman log yang sobek dan mengirimkannya ke meja Anda.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_006",
+      "trigger": {
+        "type": "relative",
+        "minutes": 50,
+        "description": "50 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_007",
+        "message": "📖 Buku tamu Wisma Angker sudah difotokopi. Salinannya kini tersedia di File Manager.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_007",
+      "trigger": {
+        "type": "relative",
+        "minutes": 60,
+        "description": "1 jam setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_008",
+        "message": "📰 Kliping koran lama dari arsip kepolisian telah dikirim. Ada artikel tentang kebangkrutan pabrik.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_008",
+      "trigger": {
+        "type": "relative",
+        "minutes": 65,
+        "description": "1 jam 5 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_010",
+        "message": "🧾 Apotek Sumber Waras menyerahkan salinan nota. Pembelian sianida oleh 'Ny. S' terkonfirmasi.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_009",
+      "trigger": {
+        "type": "relative",
+        "minutes": 75,
+        "description": "1 jam 15 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_004",
+        "message": "✉️ Analisis forensik surat ancaman selesai. Tidak ditemukan sidik jari, tapi isinya sesuai dengan kasus.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_010",
+      "trigger": {
+        "type": "relative",
+        "minutes": 85,
+        "description": "1 jam 25 menit setelah dimulai"
+      },
+      "action": "send_message_from_character",
+      "payload": {
+        "character_id": "char_001",
+        "message": "Rahmat: 'Saya tidak tahan lagi. Saya ingin bicara jujur. Datanglah ke Wisma sekarang juga.'",
+        "auto_open_chat": true
+      }
+    },
+    {
+      "id": "rte_011",
+      "trigger": {
+        "type": "relative",
+        "minutes": 100,
+        "description": "1 jam 40 menit setelah dimulai"
+      },
+      "action": "notification",
+      "payload": {
+        "message": "⏰ PERINGATAN: Batas waktu investigasi tinggal 20 menit lagi!",
+        "play_sound": "alarm",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_012",
+      "trigger": {
+        "type": "relative",
+        "minutes": 120,
+        "description": "2 jam setelah dimulai"
+      },
+      "action": "deadline_reached",
+      "payload": {
+        "message": "⛔ WAKTU HABIS! Kasus ditutup paksa. Tersangka lolos.",
+        "game_over": true
+      }
+    }
+  ]
+}

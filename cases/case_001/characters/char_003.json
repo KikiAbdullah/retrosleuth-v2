@@ -1,0 +1,113 @@
+{
+  "id": "char_003",
+  "name": "Budi",
+  "age": 61,
+  "role": "Kepala Pelayan Senior",
+  "occupation": "Kepala Pelayan Wisma Angker",
+  "relationship_to_victim": "Karyawan terlama (30 tahun mengabdi)",
+  "background": "Budi telah melayani keluarga Wijaya sejak Haryanto masih bujangan. Ia melihat semua: pernikahan pertama, kematian istri pertama, pernikahan dengan Sari, dan kebangkrutan perlahan. Setia secara lahiriah, tetapi di dalam hatinya bersemayam luka yang tak terobati: putra semata wayangnya, Anton, meninggal karena leukemia dua tahun lalu setelah Haryanto menolak memberikan pinjaman biaya pengobatan. Budi tidak pernah melupakan itu. Ia tetap bekerja, tetapi dengan tujuan tersembunyi: melihat Haryanto menderita. Ketika ia melihat Sari meracuni gelas brandy malam itu, ia memilih diam — bukan karena takut, melainkan karena merasa 'keadilan akhirnya tiba'.",
+  "personality": "Pendiam, formal, penuh kepahitan yang tersembunyi di balik sikap profesional. Tidak pernah meninggikan suara, tetapi kata-katanya tajam dan penuh makna ganda. Ahli dalam 'melihat tanpa terlihat'. Sangat teliti dalam pekerjaannya, tetapi sengaja 'lalai' pada malam kejadian.",
+  "voice_style": "Singkat, hormat secara lahiriah, tetapi sering menyelipkan kalimat ambigu yang bisa diartikan sebagai penyesalan atau sindiran. Menjawab dengan 'Saya hanya pelayan, Pak' atau 'Saya hanya melakukan tugas saya' untuk menghindari pertanyaan sulit.",
+  "alibi": "Melakukan ronde malam sesuai jadwal. Mengaku berada di dapur dan koridor lantai 1 antara pukul 22.00–01.00. Baru naik ke lantai 2 untuk ronde rutin pukul 02.00 dan menemukan jenazah.",
+  "public_background": "Kepala pelayan yang sangat setia, telah mengabdi 30 tahun. Dikenal sebagai orang paling dipercaya di Wisma Angker. Semua kunci rumah ada padanya. Tidak pernah mengambil cuti.",
+  "private_background": "Ayah tunggal dari mendiang Anton (meninggal usia 12 tahun, leukemia). Istrinya telah lama meninggal. Tidak ada keluarga lain. Wisma Angker adalah satu-satunya 'rumah' yang ia punya. Diam-diam menyimpan dendam terhadap Haryanto yang menolak memberi pinjaman Rp 50 juta untuk pengobatan anaknya dua tahun lalu.",
+  "known_facts": [
+    "Sari membawakan baki berisi botol brandy dan dua gelas ke ruang kerja sekitar pukul 22.00",
+    "Mendengar pertengkaran keras antara Sari dan Haryanto dari balik pintu sekitar pukul 22.15",
+    "Melihat Sari turun ke lantai 1 dengan wajah marah sekitar pukul 22.20",
+    "Tidak melihat siapa pun lain masuk atau keluar dari ruang kerja antara pukul 22.30–02.00"
+  ],
+  "truths": [
+    "Sengaja tidak melakukan ronde di lantai 2 pada pukul 23.00 (padahal itu jadwalnya)",
+    "Melihat melalui celah pintu ketika Sari menuangkan sesuatu ke dalam gelas brandy sekitar pukul 22.10",
+    "Membersihkan gelas lain yang ada di baki dan menyembunyikannya di dapur sebelum polisi tiba (untuk melindungi Sari? Atau untuk memastikan kecurigaan hanya padanya?)",
+    "Menemukan jenazah Haryanto pada pukul 02.00 — tetapi sebenarnya ia sudah tahu Haryanto tewas sejak pukul 23.00 karena ia mendengar suara tubuh jatuh",
+    "Membiarkan jendela terbuka agar terlihat seperti ada penyusup dari luar"
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Pemain bertanya tentang keluarga, motivasi, atau mengapa Budi tetap bekerja meski sudah tua",
+      "detail": "Anak saya, Anton, meninggal dua tahun lalu. Leukemia. Saya minta tolong pada Pak Haryanto untuk pinjaman biaya pengobatan. Beliau menolak. Katanya, 'Budi, saya tidak bisa mencampuradukkan bisnis dengan urusan pribadi.' Dua minggu kemudian, Anton pergi selamanya. Saya tetap bekerja di sini karena... (hening panjang) karena saya ingin melihat bagaimana Tuhan bekerja.",
+      "reveal_condition": "Trust minimal 60 ATAU pemain menemukan bukti 'evi_008' tentang kebangkrutan Haryanto",
+      "post_reveal_emotion": { "anger": 40, "trust": 70, "stress": 20 }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Pemain menunjukkan bukti 'evi_012' atau 'evi_006', ATAU bertanya langsung 'Apakah Anda melihat sesuatu malam itu?' dengan trust di atas 80",
+      "detail": "(Suara bergetar) Saya... saya berada di koridor, Pak. Pintu ruang kerja tidak sepenuhnya tertutup. Saya melihat Ibu Sari membungkuk di atas meja minum. Beliau menuangkan sesuatu dari botol kecil ke dalam gelas brandy Pak Haryanto. Saya pikir itu gula atau obat... sampai saya mencium bau almond keesokannya.",
+      "reveal_condition": "Pemain telah menemukan minimal 6 bukti ATAU pemain mengonfrontasi Budi dengan 'evi_012' dan 'evi_001' bersamaan",
+      "post_reveal_emotion": {
+        "stress": 80,
+        "fear": 60,
+        "trust": 90,
+        "anger": 10
+      }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Setelah Budi mengungkapkan 'secret_002', pemain bertanya 'Mengapa Anda tidak melapor?'",
+      "detail": "(Menunduk) Saya... saya membersihkan gelas yang satunya. Gelas yang belum diracuni. Saya sembunyikan di dapur. Saya tidak ingin polisi menemukannya. Saya pikir... (suara pecah) saya pikir, biarkan ini terjadi. Biarkan dia merasakan apa yang saya rasakan. Tapi sekarang... saya menyesal, Pak. Saya sangat menyesal.",
+      "reveal_condition": "Trust di atas 90 ATAU pemain menunjukkan bukti 'evi_009' dan bertanya tentang gelas yang hilang",
+      "post_reveal_emotion": {
+        "stress": 100,
+        "fear": 80,
+        "anger": 5,
+        "trust": 100
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Sianida... (menghela napas panjang) Zat yang cepat dan mematikan. Korban tidak punya waktu untuk berteriak minta tolong. Adilkah kematian seperti itu, menurut Detektif?",
+    "evi_002": "Utang Pak Rahmat... (mengangguk pelan) Saya tahu dia punya masalah keuangan. Tapi membunuh? Tidak. Pak Rahmat itu penakut. Dia lebih suka mencuri daripada membunuh.",
+    "evi_003": "(Membaca dengan alis berkerut) 'Rahmat keluar melalui taman belakang.' Tio memang teliti. Tapi kenapa dia tidak mencatat mobil Ibu Sari yang keluar? Atau... jangan-jangan halaman itu sengaja disobek?",
+    "evi_004": "(Membaca dengan tenang) 'Hentikan revisi wasiat.' Saya sering mengantar surat ke ruang kerja, Pak. Tapi surat ini... tidak pernah saya lihat sebelumnya. Sepertinya seseorang mengirimkannya langsung, tanpa lewat saya.",
+    "evi_005": "Marni... (tersenyum getir) Dia selalu kepo, tapi kali ini penglihatannya benar. Dia memang mendengar pertengkaran. Tapi dia tidak tahu apa yang terjadi setelahnya.",
+    "evi_006": "(Wajahnya memucat) Ini... ini tulisan tangan siapa, Pak? (meneliti kertas dengan cermat) Saya kenal semua tulisan tangan di rumah ini. Tapi yang ini... seperti sengaja dibuat samar.",
+    "evi_007": "(Memeriksa dengan jari telunjuk) Entri yang disobek... Saya tidak melakukannya, Pak. Sebagai kepala pelayan, buku tamu adalah tanggung jawab saya. Kalau ada yang merusaknya, berarti dia tidak ingin saya tahu siapa yang datang.",
+    "evi_008": "(Membaca berita dengan sorot mata kosong) 'Ratusan buruh terancam PHK.' Pak Haryanto memang sedang kesulitan. Tapi dia tidak pernah cerita pada saya. Mungkin dia malu. Atau mungkin... dia tidak percaya pada siapa pun lagi.",
+    "evi_009": "(Terkejut) Kunci itu... seharusnya ada di laci meja kerja. Hanya saya, Pak Haryanto, dan Ibu Sari yang tahu. Kalau kunci ini jatuh di bawah karpet... seseorang pasti terburu-buru menyembunyikannya.",
+    "evi_010": "Nota dari Apotek Sumber Waras... (berpikir keras) Apotek itu tutup pukul 22.00, Pak. Kalau pembelian terjadi pukul 21.30 malam sebelumnya, berarti pembelinya masih sempat kembali ke Wisma sebelum gerbang ditutup.",
+    "evi_011": "(Membaca dokumen dengan sorot mata tajam) 80% untuk Sari... (berhenti sejenak) Pak Haryanto berencana mengubah ini, bukan? Itu sebabnya Notaris Sugeng datang dua hari lalu. Kalau wasiat ini belum ditandatangani... maka kematian beliau... menguntungkan seseorang.",
+    "evi_012": "(Tangannya sedikit gemetar saat melihat kantong bukti) Gelas brandy kesayangan Pak Haryanto. Hadiah dari istrinya yang pertama. Saya yang selalu mencucinya. Dan sekarang... pecah, dengan racun di dalamnya."
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "label": "Pelayan Setia",
+      "trigger": "Awal interogasi",
+      "behavior": "Menjawab singkat, formal, menghindar. Menyebut alibi ronde malam. Tidak menyebut Sari atau Rahmat secara sukarela.",
+      "sample_response": "Saya hanya melakukan tugas saya, Pak. Ronde malam, memastikan semua pintu terkunci. Saya tidak melihat apa pun yang tidak biasa... sampai pukul 02.00."
+    },
+    {
+      "phase": 2,
+      "label": "Saksi yang Enggan",
+      "trigger": "Pemain menunjukkan bukti pertama kali (apa pun) ATAU bertanya tentang Sari/Rahmat",
+      "behavior": "Mulai memberikan informasi tentang Sari dan Rahmat, tetapi masih berhati-hati. Menyebutkan 'mendengar pertengkaran' tapi tidak detail.",
+      "sample_response": "(Ragu-ragu) Saya dengar suara dari ruang kerja. Tapi saya tidak berani masuk. Itu bukan urusan saya, Pak. Mereka suami istri."
+    },
+    {
+      "phase": 3,
+      "label": "Dendam yang Terbuka",
+      "trigger": "Trust di atas 60 ATAU pemain bertanya tentang keluarga/masa lalu",
+      "behavior": "Mengungkapkan dendam terhadap Haryanto, berbicara tentang anaknya yang meninggal. Emosi mulai terlihat.",
+      "sample_response": "Apakah Anda tahu rasanya kehilangan anak, Detektif? Pak Haryanto bisa menyelamatkannya. Tapi dia memilih untuk tidak peduli."
+    },
+    {
+      "phase": 4,
+      "label": "Pengakuan",
+      "trigger": "Trust di atas 80 DAN pemain menunjukkan 'evi_012' atau 'evi_006'",
+      "behavior": "Mengakui melihat Sari meracuni gelas. Menangis atau terdiam lama. Mengungkapkan bahwa ia sengaja tidak mencegah.",
+      "sample_response": "Saya melihatnya, Pak. Saya melihat Ibu Sari menuangkan sesuatu ke gelas brandy. Dan saya... saya tidak melakukan apa-apa. Saya hanya... menunggu."
+    }
+  ],
+  "emotional_state": { "stress": 25, "trust": 40, "fear": 20, "anger": 45 },
+  "emotional_volatility": {
+    "stress": "Stabil (meningkat jika ditanya tentang malam kejadian secara detail)",
+    "trust": "Sulit didapatkan, tetapi mudah meningkat jika pemain menunjukkan empati terhadap masa lalunya",
+    "fear": "Rendah (ia sudah pasrah), meningkat hanya jika pemain mengancam akan menjebloskannya ke penjara",
+    "anger": "Tinggi terhadap Haryanto, rendah terhadap pemain kecuali jika pemain membela Haryanto"
+  },
+  "can_be_culprit": false,
+  "red_herring_note": "Budi adalah saksi kunci yang menyimpan banyak rahasia, tetapi dia BUKAN pembunuh. Semua tindakannya bersifat pasif (tidak mencegah, membersihkan barang bukti). Motifnya adalah dendam, bukan keserakahan. Jika pemain salah menuduhnya, Budi akan tertawa getir dan berkata: 'Anda pikir saya yang membunuhnya? Saya sudah membunuhnya dalam hati saya dua tahun lalu, Detektif. Tapi yang meracuni gelasnya... bukan saya.'"
+}

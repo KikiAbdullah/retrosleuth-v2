@@ -1,0 +1,27 @@
+{
+  "engine_version": "3.0.0",
+  "total_cases": 1,
+  "cases_list": [
+    {
+      "id": "case_001",
+      "folder": "case_001",
+      "title": "Malam di Wisma Angker",
+      "year": 1979,
+      "difficulty": "EXPERT",
+      "estimated_playtime_minutes": 90,
+      "estimated_playtime_max_minutes": 120,
+      "is_active": true,
+      "description_short": "Haryanto Wijaya, raja tekstil yang ditakuti, ditemukan tewas di ruang kerjanya yang terkunci. Tiga orang terdekatnya memiliki motif, tapi hanya satu yang berani membunuh.",
+      "meta": {
+        "suspect_count": 3,
+        "evidence_count": 12,
+        "crime_scene_areas": 6,
+        "objectives_count": 9,
+        "has_real_time_events": true,
+        "tags": ["pembunuhan", "racun", "ruang-terkunci", "warisan", "dendam"],
+        "author": "Tim RetroSleuth",
+        "version": "3.0"
+      }
+    }
+  ]
+}
