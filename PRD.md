@@ -856,7 +856,7 @@ Setiap aksi pemain memicu perubahan state yang di-broadcast melalui `EventBus`. 
 | `interrogation:response`     | AI balas                | `{ suspectId, reply }`         | InterrogationRoom (typewriter), Taskbar (update status)   |
 | `interrogation:stateChanged` | TrustSystem update      | `{ suspectId, deltas }`        | InterrogationRoom (emotion bars)                          |
 | `case:solved`                | SolutionEngine valid    | `{ culpritId }`                | WindowManager (buka epilog), AudioManager (sukses)        |
-| `real-time-event:trigger`    | RealTimeManager         | `{ eventId, action, payload }` | EvidenceEngine, NotificationToast                         |
+| `real-time-event:trigger`    | RealTimeManager         | `{ eventId, action, payload }` | EvidenceEngine, Toast                                    |
 | `window:opened`              | WindowManager.open()    | `{ windowId }`                 | Taskbar (tambah tombol)                                   |
 | `window:closed`              | WindowManager.close()   | `{ windowId }`                 | Taskbar (hapus tombol)                                    |
 | `accusation:submit`          | AccusationForm submit   | `{ culprit, motive, ... }`     | SolutionEngine                                            |
@@ -951,7 +951,7 @@ RetroSleuth mengadopsi arsitektur **Event-Driven Modular Frontend**. Aplikasi te
 
 | Komponen             | Spesifikasi                                                                                               | Justifikasi                                                                                              |
 | -------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Frontend Core**    | HTML5 Semantik, CSS3 (Custom Properties), JavaScript ES Modules (`import`/`export`). Tidak ada framework. | Memaksimalkan kompatibilitas browser, meminimalkan ukuran, dan menghilangkan ketergantungan build step.  |
+| **Frontend Core**    | HTML5 Semantik, CSS3 (Custom Properties), JavaScript ES Modules (`import`/`export`). Tidak ada framework. **Entry point tunggal**: `index.html` hanya memuat `main.js` via `<script type="module">`; semua 28 modul JS lainnya di-import secara dinamis oleh `main.js`. | Memaksimalkan kompatibilitas browser, meminimalkan ukuran, dan menghilangkan ketergantungan build step.  |
 | **Markdown Parser**  | `marked.js` v4+ dimuat dinamis dari CDN (`cdn.jsdelivr.net`).                                             | Ukuran kecil, rendering cepat. Fallback: teks mentah dengan penggantian `\n` → `<br>` jika gagal memuat. |
 | **AI Communication** | Native `fetch` API ke endpoint `http://localhost:20128/v1/chat/completions` (format OpenAI-compatible).   | Memungkinkan integrasi dengan berbagai LLM lokal (`gemini-cli`, Ollama, llama.cpp server).               |
 | **State Management** | `Store.js` (singleton) + `EventBus.js` (pub/sub).                                                         | Memisahkan data dari tampilan. Semua perubahan state di-broadcast agar UI reaktif tanpa framework.       |
@@ -1107,7 +1107,7 @@ class EventBus {
 | ID Secret          | `secret_` + 3 digit (per karakter)  | `secret_001`                       |
 | CSS Class          | BEM-like                            | `.window__titlebar--active`        |
 | Custom Event       | namespace:event                     | `case:loaded`, `evidence:unlocked` |
-| File JS/Modul      | kebab-case                          | `window-manager.js`                |
+| File JS/Modul      | PascalCase                          | `WindowManager.js`                 |
 | Class JS           | PascalCase                          | `WindowManager`                    |
 | Method/Fungsi      | camelCase                           | `unlockEvidence()`                 |
 
@@ -1275,7 +1275,7 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 | `settings.css`      | Settings Window: 4 tab (AI/Audio/Display/Danger), input styling, toggle switch.                                                                                                                                                               |
 | `accusation.css`    | Accusation Form: form styling, dropdown, checkbox, result window, epilog display.                                                                                                                                                              |
 
-#### `assets/js/` — JavaScript (28 file)
+#### `assets/js/` — JavaScript (28 file implemented + 4 planned)
 
 | File      | Fungsi                                                                                                                                                                                                                      |
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1315,19 +1315,20 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 | `DesktopManager.js` | Ikon desktop (7 ikon: Case Files, Evidence, Crime Scene, Dossier, Notes, Accusation, Settings). Method: `init()` (render ikon), double-click membuka window via `WindowManager`.                                                                                      |
 | `Taskbar.js`        | Taskbar bawah. Method: `init()`, `addWindowButton(windowId, title, icon)`, `removeWindowButton(windowId)`, `setActive(windowId)`. Menampilkan jam digital (update setiap detik).                                                                                      |
 
-**`modules/` — Modul Fitur (10 file)**
+**`modules/` — Modul Fitur (9 file implemented + 1 planned)**
 
-| File                     | Fungsi                                                                                                                                                                                                                                                        |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CaseHub.js`             | Hub pemilihan kasus. Fetch `index.json` via CaseLoader, render kartu kasus dengan difficulty badges, select→load flow.                                                                                                                     |
-| `CaseBriefing.js`        | Menampilkan `briefing.md` dalam window retro dengan rendering Markdown via Markdown.js. Menampilkan victim photo/info. Otomatis unlock `initial_evidence` setelah briefing dibaca.                                                                                                                           |
-| `EvidenceViewer.js`      | File Manager bergaya explorer. Sidebar kiri: folder sesuai `evidence_structure`. Panel kanan: file bukti yang sudah ditemukan dengan tab navigation. Klik file → buka detail window dengan rendering Markdown. Address bar dan breadcrumb.                                                                           |
-| `InterrogationRoom.js`   | Chat AI untuk interogasi. Menampilkan chat history (bubble user/AI), emotion bars 4 warna (trust/stress/fear/anger), input teks, tombol send, evidence strip (chip bukti yang bisa disodorkan). Efek typewriter untuk respons AI. Loading spinner saat menunggu.                      |
-| `AccusationForm.js`      | Formulir tuduhan. Dropdown pelaku (dari karakter), textarea motif, dropdown bukti primer, checkbox bukti sekunder. Submit → panggil `SolutionEngine.checkAccusation()`. Tampilkan verdict (sukses/gagal) dengan progressive hints.                                                     |
-| `NotesApp.js`            | Notepad detektif. Textarea kuning dengan lined background, auto-save ke `GameState.notes` dengan debounce 1 detik, word count, Ctrl+S shortcut.                                                                                                                                                                    |
-| `TimelineViewer.js`      | Timeline kronologis dengan filter berdasarkan tipe, partisipan, bukti, dan rentang waktu. Color-coded events, evidence links.                                                                                                      |
-| `CharacterDossier.js`    | Kartu profil karakter. List view dengan cards (photo, name, role, status dot). Detail window dengan personal data/alibi/facts. Tombol "INTEROGASI" → emit `interrogation:start`.                                                                                                      |
-| `SettingsWindow.js`      | Jendela pengaturan dengan 4 tab: AI (endpoint/key/model/temperature/test connection), Audio (master/sfx/ambient/mute), Display (CRT toggle), Danger (reset save/settings).                                                                                                     |
+| File                     | Fungsi                                                                                                                                                                                                                                                        | Status |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| `CaseHub.js`             | Hub pemilihan kasus. Fetch `index.json` via CaseLoader, render kartu kasus dengan difficulty badges, select→load flow.                                                                                                                     | ✅ |
+| `CaseBriefing.js`        | Menampilkan `briefing.md` dalam window retro dengan rendering Markdown via Markdown.js. Menampilkan victim photo/info. Otomatis unlock `initial_evidence` setelah briefing dibaca.                                                                                                                           | ✅ |
+| `EvidenceViewer.js`      | File Manager bergaya explorer. Sidebar kiri: folder sesuai `evidence_structure`. Panel kanan: file bukti yang sudah ditemukan dengan tab navigation. Klik file → buka detail window dengan rendering Markdown. Address bar dan breadcrumb.                                                                           | ✅ |
+| `InterrogationRoom.js`   | Chat AI untuk interogasi. Menampilkan chat history (bubble user/AI), emotion bars 4 warna (trust/stress/fear/anger), input teks, tombol send, evidence strip (chip bukti yang bisa disodorkan). Efek typewriter untuk respons AI. Loading spinner saat menunggu.                      | ✅ |
+| `AccusationForm.js`      | Formulir tuduhan. Dropdown pelaku (dari karakter), textarea motif, dropdown bukti primer, checkbox bukti sekunder. Submit → panggil `SolutionEngine.checkAccusation()`. Tampilkan verdict (sukses/gagal) dengan progressive hints.                                                     | ✅ |
+| `NotesApp.js`            | Notepad detektif. Textarea kuning dengan lined background, auto-save ke `GameState.notes` dengan debounce 1 detik, word count, Ctrl+S shortcut.                                                                                                                                                                    | ✅ |
+| `TimelineViewer.js`      | Timeline kronologis dengan filter berdasarkan tipe, partisipan, bukti, dan rentang waktu. Color-coded events, evidence links.                                                                                                      | ✅ |
+| `CharacterDossier.js`    | Kartu profil karakter. List view dengan cards (photo, name, role, status dot). Detail window dengan personal data/alibi/facts. Tombol "INTEROGASI" → emit `interrogation:start`.                                                                                                      | ✅ |
+| `SettingsWindow.js`      | Jendela pengaturan dengan 4 tab: AI (endpoint/key/model/temperature/test connection), Audio (master/sfx/ambient/mute), Display (CRT toggle), Danger (reset save/settings).                                                                                                     | ✅ |
+| `ObjectivesTracker.js`   | Checklist objective. Render dari `case.json`, checkbox untuk toggle. Hint di bawah setiap objective.                                                                                                                                                          | 🔲 Planned |
 
 **`utils/` — Utilitas (5 file)**
 
@@ -1651,7 +1652,7 @@ Ikon tersusun dalam kolom dari kiri ke kanan. Setiap ikon adalah unit yang dapat
 | Ikon | ID                   | Window Target | Label       |
 | ---- | -------------------- | ------------- | ----------- |
 | 📁   | `desktop_casefiles`  | `casehub`     | Case Files  |
-| 🔍   | `desktop_evidence`   | `evidencefm`  | Evidence    |
+| 🔍   | `desktop_evidence`   | `evidenceviewer` | Evidence    |
 | 🏚️   | `desktop_crimescene` | `crimescene`  | Crime Scene |
 | 👤   | `desktop_dossier`    | `dossier`     | Dossier     |
 | 📝   | `desktop_notes`      | `notes`       | Notes       |
@@ -1665,7 +1666,7 @@ Ikon tersusun dalam kolom dari kiri ke kanan. Setiap ikon adalah unit yang dapat
 #### 7.5.1 Struktur DOM
 
 ```html
-<div class="retro-window" id="window_evidencefm">
+<div class="retro-window" id="window_evidenceviewer">
   <div class="window-header">
     <span class="window-title">Evidence File Manager</span>
     <div class="window-controls">
@@ -2121,7 +2122,7 @@ Membuat elemen DOM jendela dan menyimpannya dalam map. Tidak menampilkan jendela
 
 **Parameters:**
 
-- `id` (string): Unik, misalnya `"evidencefm"` atau `"interrogation_char_001"`.
+- `id` (string): Unik, misalnya `"evidenceviewer"` atau `"interrogation_char_001"`.
 - `options` (object):
   - `title` (string): Judul jendela.
   - `icon` (string, opsional): Emoji atau karakter untuk taskbar.
