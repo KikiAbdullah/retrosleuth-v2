@@ -5,9 +5,9 @@ Anda adalah detektif di era 1970-an, duduk di depan terminal komputer hijau berp
 
 Alih-alih memilih dialog dari daftar, Anda **mengetik pertanyaan sendiri**. Setiap tersangka memiliki ingatan, kepribadian, dan rahasia—yang bisa berbohong, marah, atau akhirnya mengaku jika dihadapkan pada bukti yang tepat.
 
-> 🎮 **Live Demo**: [https://USERNAME.github.io/retrosleuth](https://USERNAME.github.io/retrosleuth)
+> 🎮 **Live Demo**: [https://kikiabdullah.github.io/retrosleuth-v2/](https://kikiabdullah.github.io/retrosleuth-v2/)
 >
-> 📄 **Dokumentasi Lengkap**: [PRD.md](docs/PRD.md)
+> 📄 **Dokumentasi Lengkap**: [PRD.md](PRD.md)
 
 ---
 
@@ -18,7 +18,7 @@ Alih-alih memilih dialog dari daftar, Anda **mengetik pertanyaan sendiri**. Seti
 | 🕵️ **Interogasi AI Open-Ended**    | Bukan pohon dialog. Anda mengetik pertanyaan bebas ke tersangka, dan AI merespons secara dinamis sesuai kepribadian karakter.    |
 | 🖥️ **Estetika CRT Autentik**       | Monitor hijau retro dengan efek _scanline_, _flicker_, _glow_, dan font monospace `VT323`. Bisa dimatikan jika mengganggu.       |
 | 📝 **Data-Driven & Modding-First** | Semua konten (kasus, karakter, bukti) disimpan dalam file JSON dan Markdown. Buat kasus sendiri tanpa menyentuh kode!            |
-| ⏱️ **Investigasi Real-Time**       | Bukti, laporan lab, dan panggilan telepon muncul sesuai waktu nyata. Deadline 2 jam memberi tekanan psikologis yang menegangkan. |
+| ⏱️ **Investigasi Real-Time**       | Bukti, laporan lab, dan panggilan telepon muncul sesuai waktu nyata. Deadline 2 jam memberi tekanan psikologis. *(planned)* |
 | 💾 **Persistent Progression**      | Progres otomatis tersimpan ke IndexedDB. Tutup browser, lanjutkan nanti dari titik terakhir.                                     |
 | 🎹 **Audio Prosedural**            | Semua suara (ketikan, notifikasi, alarm, melodi kemenangan) dihasilkan via Web Audio API. **Zero byte** file audio eksternal.    |
 | 📦 **Zero Dependencies**           | Murni Vanilla JS, HTML, dan CSS. Tidak ada framework, tidak ada _build step_. Buka `index.html` dan mainkan!                     |
@@ -51,8 +51,8 @@ Game tetap 100% bisa dimainkan tanpa AI. Fitur interogasi akan menampilkan respo
 
 ```bash
 # Clone repository
-git clone https://github.com/KikiAbdullah/retrosleuth-v2.git.git
-cd retrosleuth
+git clone https://github.com/KikiAbdullah/retrosleuth-v2.git
+cd retrosleuth-v2
 
 # Jalankan dengan static server (misal: Live Server VS Code, atau npx serve)
 npx serve .
@@ -60,6 +60,8 @@ npx serve .
 ```
 
 Atau cukup **double-click** `index.html` di file explorer (beberapa browser mungkin memblokir CORS file lokal, gunakan static server untuk pengalaman terbaik).
+
+> **Catatan**: Game ini menggunakan ES Modules, sehingga **wajib** dijalankan melalui static server (bukan `file://`). Gunakan ekstensi Live Server di VS Code atau `npx serve .`.
 
 ### 3. Menjalankan dengan Server AI (Interogasi)
 
@@ -87,16 +89,21 @@ Klik **Test Connection** untuk memastikan koneksi berhasil.
 
 ## 🎮 Panduan Bermain Singkat
 
-1. **📁 Case Files** — Pilih kasus yang ingin diselidiki.
-2. **📋 Briefing** — Baca laporan polisi pembuka untuk memahami konteks.
-3. **🔍 Evidence** — Kumpulkan dan baca bukti. Klik bukti untuk melihat detail.
-4. **🗣️ Interrogation** — Tanya tersangka. Ketik pertanyaan bebas, AI akan merespons.
-   - _Tips_: Sodorkan bukti fisik untuk mendapatkan pengakuan.
+1. **🖥️ Boot Sequence** — Animasi terminal DOS-style muncul saat game dimulai. Tunggu atau klik untuk melanjutkan.
+2. **👋 Welcome Window** — Panduan fitur muncul otomatis. Baca dan tutup untuk memulai.
+3. **📁 Case Files** — Pilih kasus yang ingin diselidiki.
+4. **📋 Briefing** — Baca laporan polisi pembuka untuk memahami konteks dan korban.
+5. **🔍 Evidence** — Baca bukti yang tersedia. Klik bukti untuk melihat detail lengkap.
+6. **👤 Dossier** — Lihat profil tersangka. Klik **INTEROGASI** untuk mulai bertanya.
+7. **🗣️ Interrogation** — Ketik pertanyaan bebas, AI akan merespons sesuai karakter.
+   - _Tips_: Sodorkan bukti fisik via **Evidence Strip** untuk mendapatkan pengakuan.
    - Perhatikan **Emotion Bars** (Trust, Stress, Fear, Anger) sebagai indikator kejujuran.
-5. **⏱️ Timeline** — Lihat kronologi kejadian. Klik peristiwa untuk membuka bukti terkait.
-6. **📝 Notes** — Catat teori dan kontradiksi Anda (auto-save).
-7. **⚖️ Accusation** — Jika sudah yakin, ajukan tuduhan dengan pelaku, motif, dan bukti yang cukup.
-8. **🎉 Solved!** — Jika tuduhan benar, kasus selesai dan epilog akan muncul.
+8. **⏱️ Timeline** — Lihat kronologi kejadian dengan filter berdasarkan tipe, partisipan, dan bukti.
+9. **📝 Notes** — Catat teori dan kontradiksi Anda (auto-save, Ctrl+S).
+10. **⚖️ Accusation** — Jika sudah yakin, ajukan tuduhan dengan pelaku, motif, dan bukti yang cukup.
+11. **🎉 Solved!** — Jika tuduhan benar, kasus selesai dan epilog akan muncul.
+
+**Fitur yang belum tersedia**: Crime Scene interaktif, Real-Time Events, Objectives Tracker *(sedang dikembangkan)*.
 
 ---
 
@@ -140,8 +147,7 @@ cases/
 3. Tambahkan file karakter (`char_XXX.json`) dan bukti (`evi_XXX.md`).
 4. Daftarkan kasus di `cases/index.json`.
 
-📖 **Panduan Lengkap**: [MODDING_GUIDE.md](docs/MODDING_GUIDE.md)  
-✍️ **Tips Menulis Konten**: [CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md)
+📖 **Panduan Lengkap**: Lihat [PRD.md](PRD.md) bagian Data Model & Content Authoring untuk skema JSON/Markdown.
 
 ---
 
@@ -164,8 +170,10 @@ retrosleuth/
 │   │   ├── interrogation.css       # UI interogasi
 │   │   ├── evidence.css            # UI bukti
 │   │   ├── notes.css               # UI notepad
+│   │   ├── briefing.css            # UI briefing
+│   │   ├── dossier.css             # UI dossier karakter
 │   │   ├── settings.css            # UI pengaturan
-│   │   └── responsive.css          # Media queries
+│   │   └── accusation.css          # UI formulir tuduhan
 │   │
 │   ├── js/
 │   │   ├── main.js                 # Bootstrapper aplikasi
@@ -177,21 +185,24 @@ retrosleuth/
 │   │   │   ├── EvidenceEngine.js   # Manajemen bukti
 │   │   │   ├── SolutionEngine.js   # Validasi tuduhan
 │   │   │   └── TimelineEngine.js   # Manajemen timeline
+│   │   │
+│   │   │   # Planned (belum diimplementasikan):
+│   │   │   # └── RealTimeManager.js # Event real-time
 │   │   ├── ai/                     # Kecerdasan Buatan
 │   │   │   ├── AIClient.js         # HTTP client ke LLM
 │   │   │   ├── PromptBuilder.js    # System prompt builder
 │   │   │   ├── TrustSystem.js      # Kalkulasi emosi
 │   │   │   └── FallbackMode.js     # Respons offline
-│   │   ├── modules/                # Modul UI spesifik
-│   │   │   ├── CaseHub.js
-│   │   │   ├── CaseBriefing.js
-│   │   │   ├── EvidenceViewer.js
-│   │   │   ├── CharacterDossier.js
-│   │   │   ├── InterrogationRoom.js
-│   │   │   ├── AccusationForm.js
-│   │   │   ├── NotesApp.js
-│   │   │   ├── TimelineViewer.js
-│   │   │   └── SettingsWindow.js
+│   │   ├── modules/                # Modul UI spesifik (9 file)
+│   │   │   ├── CaseHub.js          # Hub pemilihan kasus
+│   │   │   ├── CaseBriefing.js     # Tampilan briefing.md
+│   │   │   ├── EvidenceViewer.js   # File explorer bukti
+│   │   │   ├── CharacterDossier.js # Profil tersangka
+│   │   │   ├── InterrogationRoom.js# Chat AI interogasi
+│   │   │   ├── AccusationForm.js   # Formulir tuduhan
+│   │   │   ├── NotesApp.js         # Notepad detektif
+│   │   │   ├── TimelineViewer.js   # Timeline kronologis
+│   │   │   └── SettingsWindow.js   # Pengaturan AI/audio/CRT
 │   │   ├── ui/                     # UI Foundation
 │   │   │   ├── WindowManager.js    # Sistem windowing
 │   │   │   ├── DesktopManager.js   # Ikon desktop
@@ -214,11 +225,28 @@ retrosleuth/
 │       ├── characters/
 │       └── evidence/
 │
-└── docs/                           # Dokumentasi
-    ├── PRD.md                      # Product Requirements Document
-    ├── MODDING_GUIDE.md            # Panduan modding
-    └── CONTENT_GUIDE.md            # Panduan konten naratif
+└── PRD.md                         # Product Requirements Document
 ```
+
+---
+
+## 📊 Status Pengembangan
+
+| Fase | Komponen | Status |
+|------|----------|--------|
+| Fase 1 | Desktop, Window, Taskbar, CRT, Boot Sequence | ✅ Selesai |
+| Fase 2 | Case Loader, Evidence Engine, Briefing, Dossier | ✅ Selesai |
+| Fase 3 | AI Client, Prompt Builder, Interrogation Room, Trust System | ✅ Selesai |
+| Fase 4 | Solution Engine, Accusation Form, Notes, Timeline, Save/Load | ✅ Selesai |
+| Fase 5 | Konten kasus lengkap ("Malam di Wisma Angker") | 🔲 Direncanakan |
+| Fase 6 | Audio, CRT Toggle, Settings, Polish | ✅ Selesai |
+| Fase 7 | Modding Toolkit, Voice Input, Multiplayer | 🔲 Direncanakan |
+
+**Komponen tambahan yang belum diimplementasikan:**
+- `RealTimeManager` — Event real-time (data model sudah dimuat)
+- `CrimeSceneViewer` — TKP interaktif (data model sudah dimuat)
+- `ObjectivesTracker` — Checklist objective (method di GameState sudah ada)
+- `Toast` — Notifikasi pop-up
 
 ---
 
@@ -228,9 +256,10 @@ retrosleuth/
 | :------------------------------------ | :---------------------------------------------------------------------------------------------------------- |
 | **Game tidak termuat (blank)**        | Pastikan Anda menggunakan static server (Live Server, `npx serve`). Jangan buka langsung `file://`.         |
 | **CORS error saat interogasi**        | Jalankan server AI dengan flag `--cors`. Atau akses game via `localhost`, bukan IP.                         |
-| **`EventBus.once is not a function`** | Pastikan `EventBus.js` sudah memiliki method `once`. Update ke versi terbaru.                               |
+| **404 saat load module JS**           | Pastikan nama file modul sesuai casing yang benar (contoh: `AIClient.js`, bukan `AiClient.js`).             |
 | **Suara tidak keluar**                | Klik di mana saja pada halaman untuk mengaktifkan AudioContext (kebijakan browser). Cek volume di Settings. |
 | **Save tidak pulih**                  | Pastikan IndexedDB tidak dibersihkan (jangan hapus data situs di DevTools).                                 |
+| **AI tidak merespons**                | Cek Settings → Test Connection. Pastikan server AI berjalan di endpoint yang benar. Fallback mode aktif otomatis jika AI offline. |
 
 ---
 
@@ -253,5 +282,7 @@ Distribusikan di bawah lisensi **MIT**. Bebas digunakan, dimodifikasi, dan didis
 ---
 
 <div align="center">
-  <sub>Dibuat dengan 🕵️ dan ☕ oleh Tim RetroSleuth</sub>
+  <sub>Dibuat dengan 🕵️ dan ☕ oleh <a href="https://github.com/KikiAbdullah">KikiAbdullah</a></sub>
+  <br>
+  <sub>Versi 4.1.0 — Core Complete (25/30 components)</sub>
 </div>
