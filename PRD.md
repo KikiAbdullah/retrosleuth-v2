@@ -11,7 +11,7 @@
 **Platform:** Static Web – GitHub Pages Native  
 **Tech Stack:** Vanilla HTML5, CSS3 (Retro-Compliant), JavaScript ES6+ Modules, Local LLM API (`gemini-cli` – OpenAI-compatible)  
 **License:** MIT (open source, modding-friendly)  
-**Repository:** https://github.com/USERNAME/retrosleuth (example)  
+**Repository:** https://github.com/KikiAbdullah/retrosleuth-v2.git (example)  
 **Live Demo:** https://USERNAME.github.io/retrosleuth (example)
 
 ### About This Document
@@ -6192,7 +6192,7 @@ GitHub Pages adalah platform hosting statis gratis yang cocok untuk RetroSleuth.
    git init
    git add .
    git commit -m "Initial commit"
-   git remote add origin https://github.com/USERNAME/retrosleuth.git
+   git remote add origin https://github.com/KikiAbdullah/retrosleuth-v2.git.git
    git push -u origin main
    ```
 3. **Aktifkan GitHub Pages:**
@@ -7419,7 +7419,7 @@ Untuk meningkatkan efisiensi pengujian, beberapa tes dapat diotomatisasi:
 | **ID**                  | `char_003`                                                                                                                                   |
 | **Latar Belakang**      | Kepala pelayan 30 tahun. Anak semata wayangnya (Anton) meninggal karena leukemia setelah Haryanto menolak memberi pinjaman biaya pengobatan. |
 | **Kepribadian**         | Pendiam, formal, penuh kepahitan tersembunyi. Ahli "melihat tanpa terlihat".                                                                 |
-| **Alibi**               | Ronde malam. Faktanya, sengaja tidak ronde ke lantai 2, melihat Sari meracuni, diam saja.                                                    |
+| **Alibi**               | Ronda malam. Faktanya, sengaja tidak ronda ke lantai 2, melihat Sari meracuni, diam saja.                                                    |
 | **Rahasia Bertingkat**  | 1. Dendam anak → 2. Melihat Sari meracuni → 3. Membersihkan gelas lain.                                                                      |
 | **Fase Interogasi**     | 1. Pelayan Setia → 2. Saksi Enggan → 3. Dendam Terbuka → 4. Pengakuan.                                                                       |
 | **Emosi Awal**          | Stress: 25, Trust: 40, Fear: 20, Anger: 45                                                                                                   |

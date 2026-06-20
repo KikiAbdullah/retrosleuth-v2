@@ -1,0 +1,140 @@
+{
+  "id": "victim_001",
+  "name": "Haryanto Wijaya",
+  "age": 62,
+  "occupation": "Pengusaha Tekstil, Pemilik Wisma Angker",
+  "cause_of_death": "Keracunan Kalium Sianida (KCN) yang dicampur ke dalam brandy",
+  "time_of_death": "Antara pukul 22.30 dan 23.30 WIB, 13 Juni 1979",
+  "location": "Ruang Kerja Pribadi, Lantai 2, Wisma Angker",
+  "background": "Haryanto Wijaya adalah raja tekstil yang ditakuti di kawasan Puncak. Lahir dari keluarga sederhana di Blitar pada 1917, ia merantau ke Jakarta dan membangun kerajaan bisnisnya dari nol melalui kerja keras dan kelicikan. Namun, di balik kesuksesannya, ia dikenal sebagai bos yang otoriter, suami yang posesif, dan paman yang kejam. Pernikahan pertamanya dengan Sri Lestari (1950-1972) berakhir dengan kematian istrinya karena kanker; tidak ada anak dari pernikahan tersebut. Pada 1976, ia menikahi Sari, mantan aktris teater yang 33 tahun lebih muda. Meskipun pernikahan itu memberinya status dan kebahagiaan sesaat, hubungan mereka tidak harmonis. Haryanto sering merendahkan Sari di depan pelayan dan berselingkuh dengan seorang wanita bernama Rina, mantan sekretarisnya. Bisnisnya mulai goyah akibat krisis minyak 1979, dan ia terlilit utang bank sebesar Rp 2,3 miliar. Di tengah tekanan itu, ia berencana merevisi surat wasiatnya untuk mengurangi bagian Sari secara drastis. Malam sebelum kematiannya, ia bertemu dengan notaris untuk finalisasi perubahan wasiat. Rencana itu tidak pernah terwujud—seseorang menghentikannya dengan racun.",
+  "personality": "Otoriter, sombong, dan kasar, namun sangat cerdas dalam bisnis. Haryanto memperlakukan orang-orang di sekitarnya sebagai alat untuk mencapai tujuannya. Ia tidak segan menghancurkan siapa pun yang menghalanginya, termasuk keluarganya sendiri. Di balik kekejamannya, ia menyimpan rasa takut akan kehilangan kendali dan diam-diam mengonsumsi obat jantung yang dirahasiakannya. Ia memiliki kebiasaan minum brandy setiap malam sebelum tidur—sebuah rutinitas yang akhirnya menjadi bumerang baginya.",
+  "physical_description": "Tinggi 168 cm, berat 70 kg. Rambut putih di pelipis, kumis tebal terawat. Selalu mengenakan jas mahal dan jam saku emas warisan ayahnya. Di malam kematiannya, ia mengenakan kemeja putih lengan panjang yang kemudian terkena noda brandy. Mata cokelat tajam yang sering membuat orang lain merasa tidak nyaman.",
+  "financial_status": {
+    "kekayaan_pribadi": "Ditaksir mencapai miliaran rupiah, termasuk properti Wisma Angker, dua pabrik tekstil di Bandung dan Surabaya, serta lahan di Puncak dan Jakarta Selatan. Total aset sekitar Rp 4,5 miliar.",
+    "utang_bank": "Rp 2,3 miliar (tercatat di Bank Dagang Negara dan Bank Bumi Daya, dengan bunga 18% per tahun)",
+    "utang_rentenir": "Rp 300 juta (kepada Bos Guntur, rentenir yang sama dengan Rahmat)",
+    "catatan_keuangan_rahasia": "Tersimpan dalam buku besar (evi_002) yang mencatat utang Rahmat, penggelapan Sari, aliran dana mencurigakan ke rekening Sari, dan transfer ke rekening Rina. Juga mencatat pembayaran suap kepada pejabat pemerintah sebesar Rp 250 juta.",
+    "surat_wasiat": "Draft wasiat (evi_011) menyatakan 80% untuk Sari, 10% untuk yayasan, 10% untuk karyawan. Namun Haryanto berencana merevisinya menjadi 20% untuk Sari, 40% untuk yayasan, 40% untuk Rina—sebuah perubahan yang memicu pembunuhan."
+  },
+  "relationships": {
+    "char_002": {
+      "status": "Istri kedua (menikah 1976)",
+      "detail": "Hubungan penuh konflik. Haryanto menikahi Sari karena kecantikannya, tetapi tidak pernah menghormatinya sebagai pasangan setara. Ia sering merendahkan Sari di depan pelayan dan memotong uang belanjanya. Mengetahui perselingkuhan Sari dengan Rendy, ia mengancam akan menceraikannya dan mencoretnya dari wasiat. Pada malam 12 Juni, mereka bertengkar hebat setelah Sari menemukan foto Rina di sakunya. Haryanto berkata: 'Kau tidak akan dapat apa-apa lagi, Sari. Kau akan kembali ke kehidupan kumuhmu.' Sari membencinya dan akhirnya memilih membunuhnya."
+    },
+    "char_001": {
+      "status": "Keponakan satu-satunya (putra kakak kandung, almarhum)",
+      "detail": "Haryanto membesarkan Rahmat seperti anak sendiri setelah kakaknya meninggal pada 1958. Ia membiayai kuliah Rahmat di Universitas Indonesia dan memberinya posisi sebagai akuntan pribadi. Namun, Haryanto kesal karena Rahmat terjerumus judi dan menggelapkan uang perusahaan. Ia memberi ultimatum: lunasi utang Rp 497 juta atau dilaporkan ke polisi. Rahmat datang malam itu untuk memohon, tetapi Haryanto menolak dengan kasar: 'Kau tidak lebih baik dari ayahmu yang pecundang.'"
+    },
+    "char_003": {
+      "status": "Kepala pelayan (30 tahun mengabdi)",
+      "detail": "Haryanto menghargai dedikasi Budi sebagai pelayan, tetapi tidak peduli dengan kehidupan pribadinya. Ketika Budi memohon pinjaman Rp 50 juta untuk biaya pengobatan anaknya yang sekarat, Haryanto menolak dengan dingin: 'Budi, saya tidak bisa mencampuradukkan bisnis dengan urusan pribadi.' Anak Budi, Anton, meninggal dua minggu kemudian. Budi menyimpan dendam yang tidak akan pernah hilang dan diam-diam berharap Haryanto merasakan kehilangan yang sama."
+    },
+    "char_004": {
+      "status": "Selingkuhan (mantan sekretaris pribadi)",
+      "detail": "Rina adalah mantan sekretaris Haryanto yang di-PHK pada 1978. Hubungan mereka dimulai di kantor dan berlanjut setelah Rina keluar. Haryanto mentransfer uang Rp 5 juta per bulan ke rekening Rina dan sering mengunjunginya di apartemen di Jakarta Selatan. Sari menemukan foto mereka pada 12 Juni 1979, memicu pertengkaran besar yang menjadi katalis pembunuhan. Rina hadir di Wisma pada sore hari 13 Juni, tetapi keluar sebelum malam."
+    },
+    "char_005": {
+      "status": "Notaris pribadi",
+      "detail": "Sugeng Notosudirdjo adalah notaris yang telah menangani urusan hukum Haryanto sejak 1970. Ia membantu Haryanto menyusun revisi wasiat yang akan mengurangi bagian Sari. Terakhir berkunjung pada 12 Juni 1979 untuk finalisasi draft. Dokumen wasiat yang belum ditandatangani (evi_011) adalah bukti kunci motif pembunuhan. Sugeng dijadwalkan kembali pada 14 Juni untuk penandatanganan—sehari setelah kematian."
+    }
+  },
+  "secrets": [
+    {
+      "id": "secret_v001",
+      "detail": "Haryanto berencana merevisi wasiatnya pada 14 Juni 1979, mengurangi bagian Sari dari 80% menjadi hanya 20%, memberikan 40% kepada Rina (selingkuhannya) dan 40% ke yayasan. Ia telah bertemu dengan notaris Sugeng untuk memfinalisasi perubahan ini. Draft ditemukan di laci tersembunyi mejanya."
+    },
+    {
+      "id": "secret_v002",
+      "detail": "Buku besar keuangan rahasia (evi_002) yang ia simpan di laci meja kerja mencatat semua transaksi gelap: utang Rahmat Rp 497 juta, penggelapan Sari Rp 200 juta, aliran dana ke Sari Rp 75 juta, transfer ke Rina Rp 5 juta/bulan, dan suap ke pejabat Rp 250 juta. Buku ini adalah bom waktu yang bisa menghancurkan banyak orang jika ditemukan polisi."
+    },
+    {
+      "id": "secret_v003",
+      "detail": "Haryanto menderita penyakit jantung koroner yang dirahasiakannya dari semua orang, termasuk Sari. Obat-obatan (Isosorbide Dinitrate 10mg) ditemukan di laci mejanya. Kondisi kesehatannya membuatnya lebih rentan terhadap racun—sianida bekerja lebih cepat pada jantung yang lemah. Autopsi mengungkapkan plak arteri yang signifikan."
+    },
+    {
+      "id": "secret_v004",
+      "detail": "Haryanto memiliki kebiasaan minum brandy setiap malam pukul 22.00. Ia selalu menuang sendiri dan tidak pernah berbagi dengan orang lain. Rutinitas inilah yang menjadi celah bagi pembunuh—Sari tahu bahwa Haryanto akan minum brandy pada jam itu, sehingga ia bisa meracuninya tanpa harus memaksanya minum."
+    }
+  ],
+  "timeline": [
+    "13 Juni 1979, 17.00: Rina datang ke Wisma. Budi mencatat di buku tamu (evi_007). Rina berada di ruang kerja Haryanto selama 45 menit.",
+    "13 Juni 1979, 17.45: Rina keluar melalui pintu belakang. Budi melihatnya pergi dengan ekspresi marah.",
+    "13 Juni 1979, 19.00: Makan malam dengan Sari. Suasana tegang. Haryanto memberi isyarat bahwa ia akan mengambil keputusan besar keesokan harinya: 'Besok, semuanya akan berubah, Sari.'",
+    "13 Juni 1979, 20.30: Haryanto masuk ke ruang kerja dan mengunci pintu. Ini adalah rutinitasnya untuk membaca laporan keuangan.",
+    "13 Juni 1979, 21.15: Rahmat datang memohon keringanan utang. Haryanto membukakan pintu dan mereka bertengkar. Rahmat keluar dengan marah pada 21.30.",
+    "13 Juni 1979, 21.45: Sari masuk ke ruang kerja tanpa mengetuk. Haryanto terkejut. Terjadi pertengkaran hebat selama 15 menit.",
+    "13 Juni 1979, 22.00: Sari keluar dengan marah dan mengancam: 'Kau akan menyesal, Haryanto! Kau akan menyesal!'",
+    "13 Juni 1979, 22.05: Sari kembali dengan baki berisi botol brandy dan dua gelas. Ia menuangkan brandy untuk Haryanto—dan tanpa sepengetahuannya, sianida ke dalam gelasnya.",
+    "13 Juni 1979, 22.10: Sari keluar dari ruang kerja, meninggalkan Haryanto dengan gelas brandy di tangannya.",
+    "13 Juni 1979, 22.15: Budi, yang sedang melintas di koridor, mendengar Haryanto batuk-batuk dan suara gelas terjatuh.",
+    "13 Juni 1979, 22.25: Haryanto minum brandy beracun. Dalam 1-2 menit, ia jatuh kejang-kejang. Gelas pecah di lantai.",
+    "13 Juni 1979, 22.30-23.00: Haryanto meninggal karena keracunan akut sianida. Jantungnya gagal total.",
+    "13 Juni 1979, 22.45: Rahmat kembali ke Wisma melalui jendela taman. Ia melihat tubuh Haryanto di lantai, panik, mengambil buku besar, dan kabur.",
+    "13 Juni 1979, 23.15: Mobil Sari keluar Wisma (tercatat di log keamanan evi_003). Ia pergi mencari Rendy tetapi ditolak.",
+    "13 Juni 1979, 23.45: Sari kembali ke Wisma.",
+    "14 Juni 1979, 00.15: Budi berjalan melewati ruang kerja dan mencium bau amis. Ia melihat ke dalam melalui celah pintu dan melihat tubuh Haryanto. Ia tidak melapor sampai pukul 02.00 untuk memberi Sari waktu (atau untuk memastikan Haryanto benar-benar mati).",
+    "14 Juni 1979, 02.00: Budi 'menemukan' tubuh dan melapor ke polisi."
+  ],
+  "evidence_linked": [
+    {
+      "id": "evi_001",
+      "name": "Laporan Otopsi Resmi",
+      "role": "Mengonfirmasi penyebab kematian: keracunan sianida. Waktu kematian: 22.30-23.30. Kondisi jantung: lemah."
+    },
+    {
+      "id": "evi_002",
+      "name": "Buku Besar Keuangan Rahasia",
+      "role": "Menunjukkan utang Rahmat Rp 497 juta, penggelapan, aliran dana mencurigakan ke Sari dan Rina, serta suap."
+    },
+    {
+      "id": "evi_003",
+      "name": "Log Keamanan Gerbang",
+      "role": "Mencatat kendaraan keluar-masuk pada malam kejadian: mobil Sari keluar pukul 23.15, kembali 23.45."
+    },
+    {
+      "id": "evi_004",
+      "name": "Surat Ancaman Anonim",
+      "role": "'Hentikan revisi wasiat atau celaka.' Mengarah ke motif wasiat."
+    },
+    {
+      "id": "evi_005",
+      "name": "Laporan Saksi Marni",
+      "role": "Kesaksian tentang pertengkaran Haryanto dan Sari pukul 21.45, serta melihat Rahmat lari ke taman."
+    },
+    {
+      "id": "evi_006",
+      "name": "Resep & Catatan Sianida",
+      "role": "Catatan tentang dosis sianida untuk berat 70 kg—berat badan Haryanto. Tulisan tangan Sari."
+    },
+    {
+      "id": "evi_007",
+      "name": "Buku Tamu Wisma",
+      "role": "Mencatat kunjungan Rina S. pada 13 Juni pukul 17.00."
+    },
+    {
+      "id": "evi_008",
+      "name": "Kliping Koran Lama",
+      "role": "PHK massal, ancaman buruh—red herring."
+    },
+    {
+      "id": "evi_009",
+      "name": "Kunci Cadangan",
+      "role": "Kunci yang ditemukan di bawah karpet, digunakan untuk membuka laci tersembunyi dan laci terkunci. Sidik jari Sari."
+    },
+    {
+      "id": "evi_010",
+      "name": "Nota Pembelian Apotek",
+      "role": "Pembelian sianida 10 gram oleh 'Ny. S' pada 13 Juni pukul 21.30."
+    },
+    {
+      "id": "evi_011",
+      "name": "Draf Surat Wasiat",
+      "role": "80% untuk Sari, akan direvisi menjadi 20%—motif kuat."
+    },
+    {
+      "id": "evi_012",
+      "name": "Serpihan Gelas Brandy",
+      "role": "Bukti terkuat: sidik jari Sari di bagian dalam gelas, residu sianida, bekas lipstik."
+    }
+  ]
+}

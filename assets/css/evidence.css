@@ -1,154 +1,438 @@
 /* ============================================================
-   EVIDENCE.CSS — Styling untuk Evidence Viewer & Detail
+   EVIDENCE.CSS — Dokumen Bukti Resmi Kepolisian RetroSleuth
+   Estetika: File manager detektif jadul yang keren
    ============================================================ */
 
-/* --- Evidence Grid Items --- */
+/* ============================================================
+   EVIDENCE LIST WINDOW
+   ============================================================ */
+
+.window-body.evidence-body {
+  padding: 0;
+  background: #f0ece0;
+  font-family: var(--font-mono, "VT323", monospace);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Top Bar --- */
+.evidence-topbar {
+  background: #1a3a6a;
+  color: #fff;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 2px solid #0d1f3c;
+}
+
+.evidence-topbar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.evidence-topbar-title {
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.evidence-topbar-subtitle {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.evidence-topbar-stats {
+  font-size: 12px;
+  background: rgba(255,255,255,0.15);
+  padding: 3px 10px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* --- Toolbar --- */
+.evidence-toolbar {
+  background: #d8d0c0;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #b0a898;
+  flex-wrap: wrap;
+}
+
+.evi-tab {
+  padding: 4px 14px;
+  border: none;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.1s;
+  background: #b8b0a0;
+  color: #333;
+  box-shadow: inset -1px -1px 0 #888, inset 1px 1px 0 #d0d0d0;
+}
+
+.evi-tab:hover {
+  background: #c8c0b0;
+}
+
+.evi-tab.active {
+  background: #1a3a6a;
+  color: #fff;
+  box-shadow: inset -1px -1px 0 #0d1f3c, inset 1px 1px 0 #2a5a9a;
+}
+
+/* --- Grid Area --- */
+.evidence-grid-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+}
+
+#evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+/* --- Grid Item --- */
 .evidence-item {
-  transition: all 0.15s ease;
+  border: 1px solid #b0a898;
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.evidence-item.found {
+  background: #f5f0e8;
+  border: 2px solid #1a3a6a;
 }
 
 .evidence-item.found:hover {
-  border-color: #0000c0 !important;
+  box-shadow: 0 0 0 2px #1a3a6a, 0 2px 8px rgba(0,0,0,0.15);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.evidence-item.found:active {
+  transform: translateY(0);
 }
 
 .evidence-item.locked {
-  filter: grayscale(0.3);
+  background: #e0d8c8;
+  border: 1px solid #c0b8a8;
+  cursor: default;
+  opacity: 0.55;
 }
 
-.evidence-item.locked:hover {
-  opacity: 0.7 !important;
+.evidence-item-icon {
+  font-size: 36px;
+  line-height: 1;
 }
 
-/* --- Evidence Detail Window --- */
-.evidence-detail-body {
-  padding: 16px;
+.evidence-item-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #1a3a6a;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+.evidence-item.locked .evidence-item-title {
+  color: #888;
+}
+
+.evidence-item-desc {
+  font-size: 11px;
+  color: #888;
+  line-height: 1.3;
+}
+
+.evidence-item-badge {
+  font-size: 10px;
+  color: #1a3a6a;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* --- Legend --- */
+.evidence-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  padding: 10px 16px;
+  border-top: 1px solid #d0c8b8;
+  background: #e8e0d0;
+  flex-shrink: 0;
+}
+
+/* --- Empty State --- */
+.evidence-empty {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.evidence-empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.evidence-empty-text {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.evidence-empty-hint {
+  font-size: 13px;
+  color: #999;
+}
+
+/* --- Scrollbar --- */
+.evidence-grid-container::-webkit-scrollbar {
+  width: 10px;
+}
+.evidence-grid-container::-webkit-scrollbar-track {
+  background: #d8d0c0;
+}
+.evidence-grid-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border: 1px solid #d8d0c0;
+}
+.evidence-grid-container::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* ============================================================
+   EVIDENCE DETAIL WINDOW
+   ============================================================ */
+
+.window-body.evidence-detail-body {
+  padding: 0;
+  background: #f0ece0;
+  font-family: var(--font-mono, "VT323", monospace);
+  overflow-y: auto;
+}
+
+/* Detail Header */
+.evidence-detail-header {
+  background: #1a3a6a;
+  color: #fff;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #0d1f3c;
+}
+
+.evidence-detail-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.evidence-detail-icon {
+  font-size: 32px;
+}
+
+.evidence-detail-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.evidence-detail-id {
+  font-size: 11px;
+  opacity: 0.6;
+  letter-spacing: 1px;
+}
+
+.evidence-detail-badge {
+  font-size: 11px;
+  background: rgba(74,154,74,0.4);
+  padding: 2px 10px;
+  border: 1px solid rgba(100,200,100,0.4);
+  letter-spacing: 1px;
+}
+
+/* Detail Content */
+.evidence-detail-content {
+  padding: 18px 22px;
   font-size: 14px;
   line-height: 1.7;
   color: #222;
 }
 
-.evidence-detail-body h1 {
-  font-size: 22px;
-  color: #000080;
-  border-bottom: 2px solid #000080;
-  padding-bottom: 8px;
-  margin-bottom: 16px;
+.evidence-detail-content h1 {
+  font-size: 20px;
+  color: #1a3a6a;
+  border-bottom: 2px solid #1a3a6a;
+  padding-bottom: 6px;
+  margin: 0 0 12px 0;
 }
 
-.evidence-detail-body h2 {
-  font-size: 18px;
-  color: #000080;
-  margin-top: 16px;
-  margin-bottom: 8px;
+.evidence-detail-content h2 {
+  font-size: 17px;
+  color: #1a3a6a;
+  margin: 14px 0 6px 0;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #d0c8b8;
 }
 
-.evidence-detail-body h3 {
-  font-size: 16px;
+.evidence-detail-content h3 {
+  font-size: 15px;
   color: #333;
-  margin-top: 12px;
-  margin-bottom: 6px;
+  margin: 10px 0 4px 0;
 }
 
-.evidence-detail-body table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 12px 0;
-  font-size: 13px;
+.evidence-detail-content p {
+  margin: 6px 0;
 }
 
-.evidence-detail-body th,
-.evidence-detail-body td {
-  border: 1px solid #ccc;
-  padding: 6px 10px;
-  text-align: left;
+.evidence-detail-content strong {
+  color: #1a3a6a;
 }
 
-.evidence-detail-body th {
-  background: #f0f0f0;
-  font-weight: bold;
+.evidence-detail-content ul,
+.evidence-detail-content ol {
+  margin: 6px 0;
+  padding-left: 22px;
 }
 
-.evidence-detail-body blockquote {
-  margin: 12px 0;
-  padding: 8px 16px;
-  border-left: 4px solid #000080;
-  background: #f5f5f5;
+.evidence-detail-content li {
+  margin: 3px 0;
+}
+
+.evidence-detail-content blockquote {
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-left: 3px solid #1a3a6a;
+  background: #e8e0d0;
   font-style: italic;
   color: #444;
 }
 
-.evidence-detail-body hr {
+.evidence-detail-content hr {
   border: none;
-  border-top: 2px dashed #ccc;
-  margin: 16px 0;
+  border-top: 1px dashed #c0b8a8;
+  margin: 12px 0;
 }
 
-.evidence-detail-body ul,
-.evidence-detail-body ol {
-  margin: 8px 0 8px 24px;
-}
-
-.evidence-detail-body code {
-  background: #f0f0f0;
-  padding: 1px 6px;
-  font-family: var(--font-mono, monospace);
+.evidence-detail-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
   font-size: 13px;
 }
 
-/* --- Dossier Cards --- */
-.dossier-card {
-  transition: all 0.15s ease;
+.evidence-detail-content th,
+.evidence-detail-content td {
+  border: 1px solid #c0b8a8;
+  padding: 5px 10px;
+  text-align: left;
 }
 
-.dossier-card:hover {
-  transform: translateX(4px);
+.evidence-detail-content th {
+  background: #d8d0c0;
+  font-weight: bold;
+  color: #1a3a6a;
 }
 
-/* --- Case Hub Cards --- */
-.casehub-card {
-  transition: all 0.15s ease;
+.evidence-detail-content code {
+  font-family: "Courier New", monospace;
+  background: #e8e0d0;
+  padding: 1px 5px;
+  font-size: 12px;
 }
 
-.casehub-card:hover {
-  border-color: #000080 !important;
-  background: #f8f8ff !important;
+.evidence-detail-content pre {
+  background: #e8e0d0;
+  border: 1px solid #c0b8a8;
+  padding: 10px;
+  overflow-x: auto;
+  font-size: 12px;
 }
 
-.casehub-card.selected {
-  border-color: #000080 !important;
-  background: #f0f0ff !important;
+/* Detail Footer */
+.evidence-detail-footer {
+  padding: 10px 22px;
+  border-top: 1px solid #d0c8b8;
+  background: #e8e0d0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #888;
 }
 
-/* --- Evidence Tabs --- */
-.evi-tab {
-  transition: all 0.15s ease;
+.evidence-btn {
+  background: #1a3a6a;
+  color: #fff;
+  border: none;
+  padding: 6px 20px;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: inset -1px -1px 0 #0d1f3c, inset 1px 1px 0 #2a5a9a;
 }
 
-.evi-tab:hover {
-  opacity: 0.8;
+.evidence-btn:hover {
+  background: #2a5a9a;
 }
 
-.evi-tab.active {
-  background: #000080 !important;
-  color: #fff !important;
+.evidence-btn:active {
+  box-shadow: inset 1px 1px 0 #0d1f3c, inset -1px -1px 0 #2a5a9a;
 }
 
-/* --- Scrollbar styling untuk evidence grid --- */
-#evidence-grid::-webkit-scrollbar {
-  width: 6px;
+/* --- Loading --- */
+.evidence-loading {
+  padding: 60px 40px;
+  text-align: center;
 }
 
-#evidence-grid::-webkit-scrollbar-track {
-  background: #f0f0f0;
+.evidence-loading-text {
+  font-size: 15px;
+  color: #666;
 }
 
-#evidence-grid::-webkit-scrollbar-thumb {
+/* --- Error --- */
+.evidence-error {
+  padding: 40px;
+  text-align: center;
+}
+
+.evidence-error-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: #8b0000;
+  margin-bottom: 8px;
+}
+
+.evidence-error-msg {
+  font-size: 13px;
+  color: #666;
+}
+
+/* --- Scrollbar --- */
+.window-body.evidence-detail-body::-webkit-scrollbar {
+  width: 10px;
+}
+.window-body.evidence-detail-body::-webkit-scrollbar-track {
+  background: #d8d0c0;
+}
+.window-body.evidence-detail-body::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 0;
+  border: 1px solid #d8d0c0;
 }
-
-#evidence-grid::-webkit-scrollbar-thumb:hover {
+.window-body.evidence-detail-body::-webkit-scrollbar-thumb:hover {
   background: #666;
 }

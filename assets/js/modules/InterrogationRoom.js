@@ -49,16 +49,18 @@ export class InterrogationRoom {
       return;
     }
 
+    const charImage = caseLoader.getCharacterImage(suspectId);
+
     const winEl = this.wm.register(this.windowId, {
       title: `🗣️ Interogasi — ${charData.name}`,
-      width: 640,
-      height: 500,
+      width: 700,
+      height: 560,
       resizable: true,
       maximizable: true,
     });
 
     this.wm.open(this.windowId);
-    this._buildUI(winEl, charData);
+    this._buildUI(winEl, charData, charImage);
     this._renderChatHistory();
     this._updateEmotionBars();
   }
@@ -67,22 +69,19 @@ export class InterrogationRoom {
    * Membangun UI di dalam window.
    * @param {HTMLElement} winEl
    * @param {Object} charData
+   * @param {string|null} charImage
    */
-  _buildUI(winEl, charData) {
+  _buildUI(winEl, charData, charImage) {
     const body = winEl.querySelector(".window-body");
     body.className = "window-body";
     body.innerHTML = `
       <div class="interrogation-container">
-        <!-- Header: Nama & Status -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 2px solid #000080;">
-          <div>
-            <strong style="font-size: 18px;">${charData.name}</strong>
-            <span style="font-size: 13px; color: #666; margin-left: 8px;">${
-              charData.role || ""
-            }</span>
-          </div>
-          <div style="font-size: 12px; color: #888;">
-            ${charData.can_be_culprit ? "⚖️ Tersangka" : "👤 Saksi"}
+        <!-- Header: Foto, Nama & Status -->
+        <div class="interrogation-header">
+          <img class="interrogation-photo" src="${charImage || ""}" alt="${charData.name}" onerror="this.style.display='none'">
+          <div class="interrogation-header-info">
+            <span class="interrogation-name">${charData.name}</span>
+            <span class="interrogation-role">${charData.role || ""}</span>
           </div>
         </div>
 
@@ -206,13 +205,25 @@ export class InterrogationRoom {
     // Tampilkan pesan user di chat
     this._addChatMessage("user", message);
 
+    // Tampilkan indikator "mengetik..." di chat
+    const chatArea = document.querySelector(`#chat-area-${this.suspectId}`);
+    const typingDiv = document.createElement("div");
+    typingDiv.className = "chat-message assistant typing-indicator";
+    typingDiv.id = `typing-${this.suspectId}`;
+    const charData = caseLoader.getCharacterData(this.suspectId);
+    const charName = charData?.name || this.suspectId;
+    typingDiv.innerHTML = `<span class="message-role">🤖 ${charName}</span><span class="message-content"><span class="loading-spinner" style="vertical-align:middle;"></span> <em>Sedang berpikir...</em></span>`;
+    chatArea.appendChild(typingDiv);
+    chatArea.scrollTop = chatArea.scrollHeight;
+
     try {
       const result = await aiClient.sendMessage(this.suspectId, message);
+      // Hapus indikator typing
+      typingDiv.remove();
       // Tampilkan respons AI dengan typewriter
-      const chatArea = document.querySelector(`#chat-area-${this.suspectId}`);
       const msgDiv = document.createElement("div");
       msgDiv.className = "chat-message assistant";
-      msgDiv.innerHTML = `<span class="message-role">🤖 ${this.suspectId}</span><span class="message-content"></span>`;
+      msgDiv.innerHTML = `<span class="message-role">🤖 ${charName}</span><span class="message-content"></span>`;
       chatArea.appendChild(msgDiv);
       chatArea.scrollTop = chatArea.scrollHeight;
 
@@ -225,6 +236,8 @@ export class InterrogationRoom {
       }
     } catch (error) {
       console.error("[InterrogationRoom] Error:", error);
+      const typingEl = document.querySelector(`#typing-${this.suspectId}`);
+      if (typingEl) typingEl.remove();
       this._addChatMessage(
         "assistant",
         "[ERROR] Gagal mendapatkan respons dari AI."
@@ -250,7 +263,14 @@ export class InterrogationRoom {
 
     const msgDiv = document.createElement("div");
     msgDiv.className = `chat-message ${role}`;
-    const label = role === "user" ? "🧑 Detektif" : `🤖 ${this.suspectId}`;
+    let label;
+    if (role === "user") {
+      label = "🧑 Detektif";
+    } else {
+      const charData = caseLoader.getCharacterData(this.suspectId);
+      const name = charData?.name || this.suspectId;
+      label = `🤖 ${name}`;
+    }
     msgDiv.innerHTML = `
       <span class="message-role">${label}</span>
       <span class="message-content">${content}</span>
@@ -275,7 +295,8 @@ export class InterrogationRoom {
   }
 
   /**
-   * Memperbarui emotion bars dari GameState.
+   * Memperbarui emotion bars dari GameState secara realtime.
+   * Dipanggil setiap kali AI memberikan response.
    */
   _updateEmotionBars() {
     const emotion = GameState.getInterrogationState(this.suspectId);
@@ -295,13 +316,20 @@ export class InterrogationRoom {
     };
 
     for (const key of ["trust", "stress", "fear", "anger"]) {
+      const val = emotion[key] || 0;
       if (bars[key]) {
-        bars[key].style.width = `${emotion[key]}%`;
+        bars[key].style.width = `${val}%`;
       }
       if (vals[key]) {
-        vals[key].textContent = `${emotion[key]}%`;
+        vals[key].textContent = `${val}%`;
       }
     }
+
+    // Emit event agar dossier list juga update status dot
+    EventBus.emit("interrogation:stateChanged", {
+      suspectId: this.suspectId,
+      emotion,
+    });
   }
 
   /**

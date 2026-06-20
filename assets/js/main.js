@@ -125,28 +125,54 @@ function runBootSequence() {
     terminal.id = "boot-terminal";
 
     // ============================================================
-    // 3. HEADER
+    // 3. LOGO — RetroSleuth Badge
     // ============================================================
+    const logoContainer = document.createElement("div");
+    logoContainer.style.cssText = `
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    `;
+    logoContainer.innerHTML = `
+      <img src="assets/images/logo.png" alt="RETROSLEUTH" style="
+        max-width: 120px;
+        max-height: 80px;
+        object-fit: contain;
+        filter: sepia(0.3) hue-rotate(90deg) brightness(1.1) drop-shadow(0 0 8px rgba(51,255,51,0.15));
+        image-rendering: auto;
+      ">
+      <div style="
+        font-size: 11px;
+        color: #1a8c1a;
+        letter-spacing: 3px;
+        margin-top: 2px;
+        text-shadow: 0 0 4px rgba(51,255,51,0.08);
+      ">DETECTIVE AGENCY</div>
+    `;
+    terminal.appendChild(logoContainer);
+
     // ============================================================
-    // HEADER — Minimalis DOS (Opsi 1)
+    // 4. HEADER
     // ============================================================
     const header = document.createElement("div");
     header.style.cssText = `
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  border-bottom: 1px solid #1a4d1a;
-  padding-bottom: 4px;
-  margin-bottom: 10px;
-  color: #55ff55;
-  font-size: 16px;
-  flex-shrink: 0;
-  text-shadow: 0 0 6px rgba(51,255,51,0.12);
-`;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid #1a4d1a;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      color: #55ff55;
+      font-size: 16px;
+      flex-shrink: 0;
+      text-shadow: 0 0 6px rgba(51,255,51,0.12);
+    `;
     header.innerHTML = `
-  <span style="font-weight: bold; letter-spacing: 1px;">RETROSLEUTH</span>
-  <span style="font-size: 12px; color: #1a8c1a;">1973</span>
-`;
+      <span style="font-weight: bold; letter-spacing: 1px;">RETROSLEUTH</span>
+      <span style="font-size: 12px; color: #1a8c1a;">1973</span>
+    `;
     terminal.appendChild(header);
 
     // (Hapus subHeader dan headerBottom — tidak digunakan lagi)
@@ -785,22 +811,7 @@ async function initializeApp() {
     this.wm.open(id);
   };
 
-  // --- 7.9 Update Ikon Desktop (Fase 4) ---
-  desktop.icons = [
-    { id: "casehub", label: "📁 Case Files", windowId: "casehub" },
-    { id: "evidence", label: "🔍 Evidence", windowId: "evidence" },
-    { id: "dossier", label: "👤 Dossier", windowId: "dossier" },
-    {
-      id: "interrogation",
-      label: "🗣️ Interrogation",
-      windowId: "interrogation",
-    },
-    { id: "timeline", label: "⏱️ Timeline", windowId: "timeline" },
-    { id: "notes", label: "📝 Notes", windowId: "notes" },
-    { id: "accusation", label: "⚖️ Accusation", windowId: "accusation" },
-    { id: "settings", label: "⚙️ Settings", windowId: "settings" },
-  ];
-  desktop.render();
+
 
   // --- 7.10 Expose ke global untuk debugging ---
   window.__RETROSLEUTH = {

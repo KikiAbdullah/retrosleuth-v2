@@ -35,10 +35,35 @@ export class DesktopManager {
 
   render() {
     const desktop = document.getElementById("desktop");
+    if (!desktop) return;
 
     // Hapus container ikon lama jika ada
     const oldContainer = document.getElementById("desktop-icons");
     if (oldContainer) oldContainer.remove();
+
+    // Hapus wallpaper lama jika ada
+    const oldWallpaper = document.getElementById("desktop-wallpaper");
+    if (oldWallpaper) oldWallpaper.remove();
+
+    // --- Wallpaper Logo ---
+    const wallpaper = document.createElement("div");
+    wallpaper.id = "desktop-wallpaper";
+    wallpaper.style.cssText = `
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 360px;
+      height: 360px;
+      background-image: url('assets/images/logo.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
+    `;
+    desktop.appendChild(wallpaper);
 
     const container = document.createElement("div");
     container.id = "desktop-icons";
@@ -48,17 +73,38 @@ export class DesktopManager {
       el.className = "desktop-icon";
       el.dataset.windowId = icon.windowId;
 
-      // Gunakan icon.icon, fallback ke karakter pertama label jika undefined
-      const iconChar = icon.icon || icon.label.charAt(0) || "📄";
+      // === Tentukan emoji dan teks label ===
+      let iconEmoji = "";
+      let labelText = "";
 
+      if (icon.icon) {
+        // Format terpisah (seperti di constructor)
+        iconEmoji = icon.icon;
+        labelText = icon.label || "";
+      } else if (icon.label) {
+        // Format gabungan "📁 Case Files" (dari main.js)
+        const spaceIndex = icon.label.indexOf(" ");
+        if (spaceIndex > 0) {
+          iconEmoji = icon.label.substring(0, spaceIndex);
+          labelText = icon.label.substring(spaceIndex + 1).trim();
+        } else {
+          iconEmoji = icon.label; // fallback: seluruh teks jadi ikon
+          labelText = "";
+        }
+      } else {
+        iconEmoji = "📄";
+        labelText = "Unknown";
+      }
+
+      // === Bangun elemen dengan dua span terpisah ===
       el.innerHTML = `
-        <span class="icon-emoji">${iconChar}</span>
-        <span class="icon-label">${icon.label}</span>
+        <span class="icon-emoji">${iconEmoji}</span>
+        <span class="icon-label">${labelText}</span>
       `;
 
       // Double Click → Buka Window
       el.addEventListener("dblclick", () => {
-        this._openWindow(icon.windowId, icon.label);
+        this._openWindow(icon.windowId, labelText || icon.label);
       });
 
       // Single Click → Toggle selected

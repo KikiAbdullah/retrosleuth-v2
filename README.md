@@ -51,7 +51,7 @@ Game tetap 100% bisa dimainkan tanpa AI. Fitur interogasi akan menampilkan respo
 
 ```bash
 # Clone repository
-git clone https://github.com/USERNAME/retrosleuth.git
+git clone https://github.com/KikiAbdullah/retrosleuth-v2.git.git
 cd retrosleuth
 
 # Jalankan dengan static server (misal: Live Server VS Code, atau npx serve)

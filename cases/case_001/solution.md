@@ -70,7 +70,7 @@
 
 ### 14 Juni 1979 (Dini Hari)
 
-- **00.15:** Budi (yang sengaja menunda ronde) akhirnya "menemukan" jenazah Haryanto.
+- **00.15:** Budi (yang sengaja menunda ronda) akhirnya "menemukan" jenazah Haryanto.
 - **02.00:** Budi melapor ke polisi.
 
 ---
@@ -84,7 +84,7 @@
 
 ### Budi (Kepala Pelayan)
 
-- **Yang membuatnya mencurigakan:** Dendam karena kematian anaknya, sengaja tidak melakukan ronde, membersihkan gelas lain.
+- **Yang membuatnya mencurigakan:** Dendam karena kematian anaknya, sengaja tidak melakukan ronda, membersihkan gelas lain.
 - **Yang membebaskannya:** Ia hanya pasif — tidak mencegah, bukan membunuh. Tidak ada bukti ia membeli atau memiliki sianida. Ia tidak memiliki akses ke Apotek Sumber Waras. Ia terlalu tua dan lemah untuk melakukan pembunuhan berencana.
 
 ---

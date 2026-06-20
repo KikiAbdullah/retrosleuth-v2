@@ -16,7 +16,8 @@
     "occupation": "Pengusaha Tekstil, pemilik Wisma Angker",
     "cause_of_death": "Keracunan Kalium Sianida (KCN) yang dicampur ke dalam brandy",
     "time_of_death": "Antara pukul 22.30 dan 23.30 WIB",
-    "location": "Ruang Kerja Pribadi, Lantai 2, Wisma Angker"
+    "location": "Ruang Kerja Pribadi, Lantai 2, Wisma Angker",
+    "photo": "images/victim.png"
   },
   "assets": {
     "briefing_file": "briefing.md",

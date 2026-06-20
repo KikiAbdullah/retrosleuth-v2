@@ -23,14 +23,18 @@ export class SettingsWindow {
     this.settings = this._loadSettings();
     this.activeTab = "ai";
 
-    // Set default jika belum ada
-    if (!this.settings.endpoint) {
+    // Set default jika belum ada atau masih pakai localhost lama
+    const needsReset =
+      !this.settings.endpoint ||
+      this.settings.endpoint.includes("localhost") ||
+      this.settings.endpoint.includes("20128");
+
+    if (needsReset) {
       this.settings = {
-        endpoint: "http://localhost:20128/v1/chat/completions",
-        apiKey: "sk-dummy",
-        model: "gemini-cli",
+        endpoint: "https://openrouter.ai/api/v1/chat/completions",
+        apiKey: "",
+        model: "openrouter/free",
         temperature: 0.8,
-        maxTokens: 300,
         masterVolume: 0.7,
         sfxVolume: 1.0,
         ambientVolume: 0.3,
@@ -47,7 +51,6 @@ export class SettingsWindow {
         apiKey: this.settings.apiKey,
         model: this.settings.model,
         temperature: this.settings.temperature,
-        maxTokens: this.settings.maxTokens,
       });
     }
 
@@ -479,9 +482,9 @@ export class SettingsWindow {
         )
       ) {
         this.settings = {
-          endpoint: "http://localhost:20128/v1/chat/completions",
-          apiKey: "sk-d9da44a505179175-7im48b-73d30919",
-          model: "gemini-cli",
+          endpoint: "https://openrouter.ai/api/v1/chat/completions",
+          apiKey: "",
+          model: "openrouter/free",
           temperature: 0.8,
           masterVolume: 0.7,
           sfxVolume: 1.0,

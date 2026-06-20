@@ -20,9 +20,9 @@ export class AIClient {
    * @param {string} model - Nama model (default: gemini-2.5)
    */
   constructor(
-    endpoint = "http://localhost:20128/v1/chat/completions",
-    apiKey = "sk-d9da44a505179175-7im48b-73d30919",
-    model = "gemini-2.5"
+    endpoint = "https://openrouter.ai/api/v1/chat/completions",
+    apiKey = "",
+    model = "openrouter/free"
   ) {
     this.endpoint = endpoint;
     this.apiKey = apiKey;
@@ -62,6 +62,8 @@ export class AIClient {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.apiKey}`,
+          "HTTP-Referer": window.location.origin,
+          "X-OpenRouter-Title": "RetroSleuth",
         },
         body: JSON.stringify({
           model: this.model,
@@ -124,15 +126,14 @@ export class AIClient {
    */
   async checkHealth() {
     try {
-      const healthUrl = this.endpoint.replace(
-        "/v1/chat/completions",
-        "/health"
+      const response = await fetch(
+        "https://openrouter.ai/api/v1/models",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${this.apiKey}` },
+          signal: AbortSignal.timeout(5000),
+        }
       );
-      const response = await fetch(healthUrl, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${this.apiKey}` },
-        signal: AbortSignal.timeout(5000),
-      });
       return response.ok;
     } catch (error) {
       console.warn("[AIClient] Health check gagal:", error);
@@ -149,6 +150,7 @@ export class AIClient {
     if (config.apiKey) this.apiKey = config.apiKey;
     if (config.model) this.model = config.model;
     if (config.temperature !== undefined) this.temperature = config.temperature;
+    if (config.maxTokens !== undefined) this.maxTokens = config.maxTokens;
   }
 }
 

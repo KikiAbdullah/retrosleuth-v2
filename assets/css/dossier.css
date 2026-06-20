@@ -1,0 +1,472 @@
+/* ============================================================
+   DOSSIER.CSS — Aplikasi Database Polisi RetroSleuth
+   Estetika: Sistem berkas detektif resmi jadul
+   ============================================================ */
+
+/* --- Window Body Override --- */
+.window-body.dossier-body {
+  padding: 0;
+  background: #f0ece0;
+  font-family: var(--font-mono, "VT323", monospace);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Top Bar (Blue Header) --- */
+.dossier-topbar {
+  background: #1a3a6a;
+  color: #fff;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 2px solid #0d1f3c;
+}
+
+.dossier-topbar-title {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dossier-topbar-subtitle {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.dossier-topbar-count {
+  font-size: 12px;
+  background: rgba(255,255,255,0.15);
+  padding: 2px 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* --- Toolbar --- */
+.dossier-toolbar {
+  background: #d8d0c0;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #b0a898;
+  font-size: 13px;
+}
+
+.dossier-toolbar-label {
+  color: #555;
+  font-size: 12px;
+}
+
+.dossier-search-input {
+  flex: 1;
+  max-width: 200px;
+  padding: 2px 8px;
+  background: #fff;
+  border: 1px solid #888;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.15);
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 13px;
+  color: #000;
+  outline: none;
+}
+
+.dossier-search-input:focus {
+  border-color: #1a3a6a;
+}
+
+/* --- Hint Bar --- */
+.dossier-hint {
+  background: #e8e0d0;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: #666;
+  border-bottom: 1px solid #c8c0b0;
+  flex-shrink: 0;
+}
+
+/* --- Character List --- */
+.dossier-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 10px;
+}
+
+/* --- Character Card --- */
+.dossier-card {
+  background: #fff;
+  border: 1px solid #b0a898;
+  margin-bottom: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  transition: all 0.1s;
+}
+
+.dossier-card:hover {
+  border-color: #1a3a6a;
+  box-shadow: 0 0 0 1px #1a3a6a;
+  transform: translateX(4px);
+}
+
+.dossier-card:active {
+  transform: translateX(2px);
+}
+
+/* Card Photo Column */
+.dossier-card-photo-wrap {
+  width: 80px;
+  min-height: 80px;
+  background: #d0c8b8;
+  border-right: 1px solid #b0a898;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.dossier-card-photo {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 1px solid #888;
+}
+
+.dossier-card-photo-placeholder {
+  width: 64px;
+  height: 64px;
+  border: 1px solid #888;
+  background: #c0b8a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+/* Card Info */
+.dossier-card-info {
+  flex: 1;
+  padding: 10px 14px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.dossier-card-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.dossier-card-name {
+  font-size: 19px;
+  font-weight: bold;
+  color: #1a3a6a;
+}
+
+.dossier-card-role {
+  font-size: 13px;
+  color: #777;
+}
+
+.dossier-card-meta {
+  font-size: 13px;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dossier-card-rel {
+  font-size: 12px;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card Status Badge */
+.dossier-card-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  gap: 4px;
+  border-left: 1px solid #e0d8c8;
+  flex-shrink: 0;
+  min-width: 60px;
+}
+
+.dossier-card-view-btn {
+  background: #1a3a6a;
+  color: #fff;
+  border: none;
+  padding: 3px 12px;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: inset -1px -1px 0 #0d1f3c, inset 1px 1px 0 #2a5a9a;
+  white-space: nowrap;
+}
+
+.dossier-card-view-btn:hover {
+  background: #2a5a9a;
+}
+
+.dossier-card-view-btn:active {
+  box-shadow: inset 1px 1px 0 #0d1f3c, inset -1px -1px 0 #2a5a9a;
+}
+
+/* --- Status Dot --- */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.unknown { background: #888; }
+.status-dot.pending { background: #e6a817; }
+.status-dot.cleared { background: #4a9a4a; }
+.status-dot.suspect { background: #c0392b; }
+
+/* ============================================================
+   DETAIL WINDOW
+   ============================================================ */
+
+.window-body.dossier-detail-body {
+  padding: 0;
+  background: #f0ece0;
+  font-family: var(--font-mono, "VT323", monospace);
+  overflow-y: auto;
+}
+
+/* Detail Header */
+.dossier-detail-header {
+  background: #1a3a6a;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 2px solid #0d1f3c;
+}
+
+.dossier-detail-photo-wrap {
+  width: 100px;
+  height: 100px;
+  background: #d0c8b8;
+  border: 2px solid #0d1f3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.dossier-detail-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dossier-detail-photo-placeholder {
+  font-size: 48px;
+}
+
+.dossier-detail-header-info {
+  flex: 1;
+}
+
+.dossier-detail-name {
+  font-size: 26px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.dossier-detail-role {
+  font-size: 14px;
+  opacity: 0.75;
+  margin-top: 3px;
+}
+
+.dossier-detail-id {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-top: 5px;
+  letter-spacing: 1px;
+}
+
+/* Detail Body */
+.dossier-detail-content {
+  padding: 0;
+}
+
+/* Section */
+.dossier-section {
+  border-bottom: 1px solid #d0c8b8;
+}
+
+.dossier-section-header {
+  background: #d8d0c0;
+  padding: 7px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #b0a898;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dossier-section-body {
+  padding: 12px 18px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #222;
+  background: #f5f0e8;
+}
+
+.dossier-section-body p {
+  margin: 3px 0;
+}
+
+.dossier-section-body strong {
+  color: #1a3a6a;
+}
+
+/* Info Grid */
+.dossier-info-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 20px;
+}
+
+.dossier-info-label {
+  color: #666;
+  font-size: 13px;
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+.dossier-info-value {
+  font-size: 14px;
+  color: #222;
+}
+
+/* Emotion Bars */
+.dossier-emotions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 0;
+}
+
+.dossier-emotion-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dossier-emotion-label {
+  font-size: 12px;
+  width: 48px;
+  color: #555;
+}
+
+.dossier-emotion-track {
+  flex: 1;
+  height: 8px;
+  background: #d0c8b8;
+  border: 1px solid #a09888;
+  overflow: hidden;
+}
+
+.dossier-emotion-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.dossier-emotion-fill.trust { background: #4a9a4a; }
+.dossier-emotion-fill.stress { background: #e6a817; }
+.dossier-emotion-fill.fear { background: #3a7aca; }
+.dossier-emotion-fill.anger { background: #c0392b; }
+
+.dossier-emotion-pct {
+  font-size: 11px;
+  width: 30px;
+  text-align: right;
+  color: #666;
+}
+
+/* Warning Box */
+.dossier-warning-box {
+  margin: 10px 14px;
+  padding: 8px 12px;
+  background: #fff8e0;
+  border: 1px solid #d4a84a;
+  font-size: 12px;
+  color: #7a5a10;
+}
+
+/* Action Bar */
+.dossier-actions {
+  padding: 14px 18px;
+  display: flex;
+  gap: 10px;
+  border-top: 2px solid #d0c8b8;
+  background: #e0d8c8;
+  margin-top: 0;
+}
+
+.dossier-btn {
+  background: #1a3a6a;
+  color: #fff;
+  border: none;
+  padding: 8px 22px;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: inset -1px -1px 0 #0d1f3c, inset 1px 1px 0 #2a5a9a;
+}
+
+.dossier-btn:hover {
+  background: #2a5a9a;
+}
+
+.dossier-btn:active {
+  box-shadow: inset 1px 1px 0 #0d1f3c, inset -1px -1px 0 #2a5a9a;
+}
+
+.dossier-btn-secondary {
+  background: #888;
+  box-shadow: inset -1px -1px 0 #555, inset 1px 1px 0 #aaa;
+}
+
+.dossier-btn-secondary:hover {
+  background: #777;
+}
+
+/* --- Scrollbar --- */
+.dossier-list::-webkit-scrollbar {
+  width: 10px;
+}
+.dossier-list::-webkit-scrollbar-track {
+  background: #d8d0c0;
+}
+.dossier-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border: 1px solid #d8d0c0;
+}
+.dossier-list::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}

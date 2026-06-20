@@ -8,7 +8,7 @@
   "background": "Budi telah melayani keluarga Wijaya sejak Haryanto masih bujangan. Ia melihat semua: pernikahan pertama, kematian istri pertama, pernikahan dengan Sari, dan kebangkrutan perlahan. Setia secara lahiriah, tetapi di dalam hatinya bersemayam luka yang tak terobati: putra semata wayangnya, Anton, meninggal karena leukemia dua tahun lalu setelah Haryanto menolak memberikan pinjaman biaya pengobatan. Budi tidak pernah melupakan itu. Ia tetap bekerja, tetapi dengan tujuan tersembunyi: melihat Haryanto menderita. Ketika ia melihat Sari meracuni gelas brandy malam itu, ia memilih diam — bukan karena takut, melainkan karena merasa 'keadilan akhirnya tiba'.",
   "personality": "Pendiam, formal, penuh kepahitan yang tersembunyi di balik sikap profesional. Tidak pernah meninggikan suara, tetapi kata-katanya tajam dan penuh makna ganda. Ahli dalam 'melihat tanpa terlihat'. Sangat teliti dalam pekerjaannya, tetapi sengaja 'lalai' pada malam kejadian.",
   "voice_style": "Singkat, hormat secara lahiriah, tetapi sering menyelipkan kalimat ambigu yang bisa diartikan sebagai penyesalan atau sindiran. Menjawab dengan 'Saya hanya pelayan, Pak' atau 'Saya hanya melakukan tugas saya' untuk menghindari pertanyaan sulit.",
-  "alibi": "Melakukan ronde malam sesuai jadwal. Mengaku berada di dapur dan koridor lantai 1 antara pukul 22.00–01.00. Baru naik ke lantai 2 untuk ronde rutin pukul 02.00 dan menemukan jenazah.",
+  "alibi": "Melakukan ronda malam sesuai jadwal. Mengaku berada di dapur dan koridor lantai 1 antara pukul 22.00–01.00. Baru naik ke lantai 2 untuk ronda rutin pukul 02.00 dan menemukan jenazah.",
   "public_background": "Kepala pelayan yang sangat setia, telah mengabdi 30 tahun. Dikenal sebagai orang paling dipercaya di Wisma Angker. Semua kunci rumah ada padanya. Tidak pernah mengambil cuti.",
   "private_background": "Ayah tunggal dari mendiang Anton (meninggal usia 12 tahun, leukemia). Istrinya telah lama meninggal. Tidak ada keluarga lain. Wisma Angker adalah satu-satunya 'rumah' yang ia punya. Diam-diam menyimpan dendam terhadap Haryanto yang menolak memberi pinjaman Rp 50 juta untuk pengobatan anaknya dua tahun lalu.",
   "known_facts": [
@@ -18,7 +18,7 @@
     "Tidak melihat siapa pun lain masuk atau keluar dari ruang kerja antara pukul 22.30–02.00"
   ],
   "truths": [
-    "Sengaja tidak melakukan ronde di lantai 2 pada pukul 23.00 (padahal itu jadwalnya)",
+    "Sengaja tidak melakukan ronda di lantai 2 pada pukul 23.00 (padahal itu jadwalnya)",
     "Melihat melalui celah pintu ketika Sari menuangkan sesuatu ke dalam gelas brandy sekitar pukul 22.10",
     "Membersihkan gelas lain yang ada di baki dan menyembunyikannya di dapur sebelum polisi tiba (untuk melindungi Sari? Atau untuk memastikan kecurigaan hanya padanya?)",
     "Menemukan jenazah Haryanto pada pukul 02.00 — tetapi sebenarnya ia sudah tahu Haryanto tewas sejak pukul 23.00 karena ia mendengar suara tubuh jatuh",
@@ -76,8 +76,8 @@
       "phase": 1,
       "label": "Pelayan Setia",
       "trigger": "Awal interogasi",
-      "behavior": "Menjawab singkat, formal, menghindar. Menyebut alibi ronde malam. Tidak menyebut Sari atau Rahmat secara sukarela.",
-      "sample_response": "Saya hanya melakukan tugas saya, Pak. Ronde malam, memastikan semua pintu terkunci. Saya tidak melihat apa pun yang tidak biasa... sampai pukul 02.00."
+      "behavior": "Menjawab singkat, formal, menghindar. Menyebut alibi ronda malam. Tidak menyebut Sari atau Rahmat secara sukarela.",
+      "sample_response": "Saya hanya melakukan tugas saya, Pak. Ronda malam, memastikan semua pintu terkunci. Saya tidak melihat apa pun yang tidak biasa... sampai pukul 02.00."
     },
     {
       "phase": 2,

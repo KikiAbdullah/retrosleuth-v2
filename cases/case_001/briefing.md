@@ -35,7 +35,7 @@
 
 ## III. DESKRIPSI KEJADIAN
 
-Pada pukul 02.00 WIB, saksi Budi (Kepala Pelayan) melakukan ronde malam rutin. Saksi mencium bau menyengat dari arah ruang kerja korban. Pintu ruangan dalam keadaan terkunci dari dalam. Saksi memanggil satpam dan bersama-sama mendobrak pintu.
+Pada pukul 02.00 WIB, saksi Budi (Kepala Pelayan) melakukan ronda malam rutin. Saksi mencium bau menyengat dari arah ruang kerja korban. Pintu ruangan dalam keadaan terkunci dari dalam. Saksi memanggil satpam dan bersama-sama mendobrak pintu.
 
 Korban ditemukan tergeletak di lantai dengan tanda-tanda keracunan akut (wajah membiru). Di dekat tubuh korban ditemukan gelas brandy pecah dengan residu cairan beraroma amandel pahit — indikasi zat sianida. Tim forensik telah mengambil sampel untuk pengujian laboratorium.
 
@@ -51,7 +51,7 @@ Tiga orang tercatat berada di Wisma Angker pada rentang waktu kematian:
 | ----------- | ---- | -------------------------- | ---------------------------------------------- |
 | Sari Wijaya | 29   | Istri                      | Berada di lantai 1 menurut keterangan pembantu |
 | Rahmat      | 34   | Keponakan, Akuntan Pribadi | Terakhir terlihat di ruang kerja pukul 21.15   |
-| Budi        | 61   | Kepala Pelayan             | Melakukan ronde malam dan menemukan jenazah    |
+| Budi        | 61   | Kepala Pelayan             | Melakukan ronda malam dan menemukan jenazah    |
 
 Ketiganya telah dimintai keterangan awal dan tidak diperkenankan meninggalkan lokasi sebelum penyelidikan selesai.
 

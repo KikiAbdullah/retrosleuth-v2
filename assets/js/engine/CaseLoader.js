@@ -303,6 +303,35 @@ export class CaseLoader {
   }
 
   /**
+   * Mendapatkan URL gambar karakter.
+   * @param {string} charId
+   * @returns {string|null}
+   */
+  getCharacterImage(charId) {
+    const charData = this.getCharacterData(charId);
+    if (!charData?.photo) return null;
+    const folder = this.globalIndex.cases_list.find(
+      (c) => c.id === this.activeCase.id
+    )?.folder;
+    if (!folder) return null;
+    return `${this.basePath}/${folder}/${charData.photo}`;
+  }
+
+  /**
+   * Mendapatkan URL gambar korban.
+   * @param {string} victimPhoto - Path relatif foto korban (contoh: "images/victim.png")
+   * @returns {string|null}
+   */
+  getVictimImage(victimPhoto) {
+    if (!victimPhoto) return null;
+    const folder = this.globalIndex.cases_list.find(
+      (c) => c.id === this.activeCase.id
+    )?.folder;
+    if (!folder) return null;
+    return `${this.basePath}/${folder}/${victimPhoto}`;
+  }
+
+  /**
    * Mendapatkan data bukti berdasarkan ID.
    * @param {string} eviId
    * @returns {Object|null}

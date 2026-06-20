@@ -1,7 +1,7 @@
 /**
  * ============================================================
- *  EVIDENCEVIEWER.JS — Viewer Bukti
- *  Menampilkan grid bukti yang sudah ditemukan.
+ *  EVIDENCEVIEWER.JS — File Manager Bukti Resmi
+ *  Estetika: Dokumen kepolisian jadul yang keren
  * ============================================================
  */
 
@@ -12,31 +12,22 @@ import { Markdown } from "../utils/Markdown.js";
 import { caseLoader } from "../engine/CaseLoader.js";
 
 export class EvidenceViewer {
-  /**
-   * @param {WindowManager} windowManager
-   */
   constructor(windowManager) {
     this.wm = windowManager;
     this.windowId = "evidence";
     this.detailWindowId = "evidence_detail";
-    this.isOpen = false;
 
-    // Update saat bukti baru ditemukan
     EventBus.on("evidence:unlocked", () => {
       if (this.wm.isOpen(this.windowId)) {
-        this.renderContent();
+        this._renderGrid();
       }
     });
 
-    // Event untuk membuka viewer dari luar
     EventBus.on("evidence:view", () => {
       this.open();
     });
   }
 
-  /**
-   * Membuka Evidence Viewer.
-   */
   open() {
     if (this.wm.isOpen(this.windowId)) {
       this.wm.bringToFront(this.windowId);
@@ -44,189 +35,115 @@ export class EvidenceViewer {
     }
 
     const winEl = this.wm.register(this.windowId, {
-      title: "🔍 Evidence File Manager",
-      width: 580,
-      height: 420,
+      title: "Evidence File Manager",
+      width: 720,
+      height: 520,
       resizable: true,
       maximizable: true,
     });
 
+    const body = winEl.querySelector(".window-body");
+    body.className = "window-body evidence-body";
+
     this.wm.open(this.windowId);
-    this.renderContent();
-    this.isOpen = true;
+    this._renderGrid();
   }
 
-  /**
-   * Merender konten viewer.
-   */
-  renderContent() {
+  _renderGrid() {
     const winEl = document.getElementById(`window_${this.windowId}`);
     if (!winEl) return;
-
     const body = winEl.querySelector(".window-body");
     if (!body) return;
+
+    if (!caseLoader.activeCase) {
+      body.innerHTML = `
+        <div class="evidence-empty">
+          <div class="evidence-empty-icon">📂</div>
+          <div class="evidence-empty-text">Tidak ada kasus aktif</div>
+          <div class="evidence-empty-hint">Pilih kasus dari Case Files terlebih dahulu.</div>
+        </div>`;
+      return;
+    }
 
     const discovered = evidenceEngine.getDiscoveredEvidence();
     const allEvidence = evidenceEngine.getAllEvidence();
 
-    // Cek apakah ada kasus aktif
-    if (!caseLoader.activeCase) {
-      body.innerHTML = `
-        <div style="padding: 30px; text-align: center; font-family: var(--font-mono, monospace);">
-          <p style="font-size: 18px; color: #666;">📂 Tidak ada kasus aktif</p>
-          <p style="font-size: 14px; color: #999;">Pilih kasus dari Case Files terlebih dahulu.</p>
-        </div>
-      `;
-      return;
-    }
-
-    // Cek apakah ada bukti
     if (allEvidence.length === 0) {
       body.innerHTML = `
-        <div style="padding: 30px; text-align: center; font-family: var(--font-mono, monospace);">
-          <p style="font-size: 18px; color: #666;">📄 Tidak ada bukti</p>
-          <p style="font-size: 14px; color: #999;">Kasus ini belum memiliki bukti yang terdaftar.</p>
-        </div>
-      `;
+        <div class="evidence-empty">
+          <div class="evidence-empty-icon">📄</div>
+          <div class="evidence-empty-text">Tidak ada bukti</div>
+          <div class="evidence-empty-hint">Kasus ini belum memiliki bukti terdaftar.</div>
+        </div>`;
       return;
     }
 
-    // Statistik
     const total = allEvidence.length;
     const found = discovered.length;
-
-    let html = `
-      <div style="padding: 12px; font-family: var(--font-mono, monospace);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-          <h2 style="color: #000080; font-size: 18px; margin: 0;">📄 Bukti</h2>
-          <span style="font-size: 14px; color: #666;">
-            Ditemukan: <strong style="color: #000080;">${found}</strong> / ${total}
-          </span>
-        </div>
-
-        <!-- Folder Tabs -->
-        <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
-          <button class="evi-tab active" data-folder="all" style="
-            padding: 4px 12px;
-            background: #000080;
-            color: #fff;
-            border: none;
-            font-family: var(--font-mono, monospace);
-            cursor: pointer;
-            font-size: 13px;
-          ">Semua</button>
-    `;
-
     const folders = evidenceEngine.getFolders();
+
+    let tabsHtml = `<button class="evi-tab active" data-folder="all">Semua</button>`;
     for (const folder of folders) {
-      html += `
-        <button class="evi-tab" data-folder="${folder}" style="
-          padding: 4px 12px;
-          background: #ddd;
-          color: #000;
-          border: none;
-          font-family: var(--font-mono, monospace);
-          cursor: pointer;
-          font-size: 13px;
-        ">${folder}</button>
-      `;
+      tabsHtml += `<button class="evi-tab" data-folder="${folder}">${folder}</button>`;
     }
 
-    html += `
-        </div>
-
-        <!-- Grid Bukti -->
-        <div id="evidence-grid" style="
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-          gap: 12px;
-          max-height: 280px;
-          overflow-y: auto;
-          padding: 4px;
-        ">
-    `;
-
-    // Tampilkan semua bukti (tapi yang belum ditemukan di-lock)
+    let gridHtml = "";
     for (const evi of allEvidence) {
       const isFound = discovered.some((d) => d.id === evi.id);
-      const icon = isFound ? evi.icon || "📄" : "🔒";
+      const icon = isFound ? (evi.icon || "📄") : "🔒";
       const title = isFound ? evi.title : "???";
-      const desc = isFound ? evi.description_short : "Belum ditemukan";
-      const opacity = isFound ? "1" : "0.5";
-      const cursor = isFound ? "pointer" : "default";
+      const desc = isFound ? (evi.description_short || "") : "Belum ditemukan";
 
-      html += `
-        <div class="evidence-item ${isFound ? "found" : "locked"}" 
-             data-evi-id="${evi.id}"
-             style="
-               border: 2px solid ${isFound ? "#000080" : "#ccc"};
-               padding: 12px 8px;
-               text-align: center;
-               background: ${isFound ? "#f8f8ff" : "#f5f5f5"};
-               cursor: ${cursor};
-               opacity: ${opacity};
-               transition: all 0.15s;
-               ${isFound ? "hover: border-color: #0000c0;" : ""}
-             "
-        >
-          <div style="font-size: 32px;">${icon}</div>
-          <div style="font-size: 13px; font-weight: bold; margin-top: 4px; word-break: break-word;">
-            ${title}
-          </div>
-          <div style="font-size: 11px; color: #888; margin-top: 2px;">
-            ${isFound ? desc : "🔒 Terkunci"}
-          </div>
-          ${
-            isFound
-              ? `<div style="font-size: 10px; color: #000080; margin-top: 4px;">✅ Ditemukan</div>`
-              : ""
-          }
-        </div>
-      `;
+      gridHtml += `
+        <div class="evidence-item ${isFound ? "found" : "locked"}" data-evi-id="${evi.id}">
+          <div class="evidence-item-icon">${icon}</div>
+          <div class="evidence-item-title">${title}</div>
+          ${isFound ? `<div class="evidence-item-desc">${desc}</div>` : ""}
+          ${isFound ? `<div class="evidence-item-badge">✅ DITEMUKAN</div>` : ""}
+        </div>`;
     }
 
-    html += `
+    body.innerHTML = `
+      <div class="evidence-topbar">
+        <div class="evidence-topbar-left">
+          <div class="evidence-topbar-title">📄 EVIDENCE FILE</div>
+          <div class="evidence-topbar-subtitle">Berkas Bukti Kasus — ${caseLoader.activeCase.meta?.title || ""}</div>
         </div>
+        <div class="evidence-topbar-stats">${found} / ${total} DITEMUKAN</div>
+      </div>
 
-        <!-- Legend -->
-        <div style="margin-top: 12px; display: flex; gap: 16px; font-size: 12px; color: #666; border-top: 1px solid #eee; padding-top: 8px;">
-          <span>📄 = Ditemukan</span>
-          <span>🔒 = Belum ditemukan</span>
+      <div class="evidence-toolbar">
+        ${tabsHtml}
+      </div>
+
+      <div class="evidence-grid-container">
+        <div id="evidence-grid">
+          ${gridHtml}
         </div>
       </div>
-    `;
 
-    body.innerHTML = html;
+      <div class="evidence-legend">
+        <span>📄 = Ditemukan</span>
+        <span>🔒 = Belum ditemukan</span>
+      </div>`;
 
-    // --- Event: Tab switching ---
+    // Tab switching
     body.querySelectorAll(".evi-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
-        // Update active tab style
-        body.querySelectorAll(".evi-tab").forEach((t) => {
-          t.style.background = "#ddd";
-          t.style.color = "#000";
-        });
-        tab.style.background = "#000080";
-        tab.style.color = "#fff";
-
-        const folder = tab.dataset.folder;
-        this._filterEvidence(folder);
+        body.querySelectorAll(".evi-tab").forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        this._filterEvidence(tab.dataset.folder);
       });
     });
 
-    // --- Event: Klik bukti untuk lihat detail ---
+    // Click bukti
     body.querySelectorAll(".evidence-item.found").forEach((item) => {
       item.addEventListener("click", () => {
-        const eviId = item.dataset.eviId;
-        this._showEvidenceDetail(eviId);
+        this._showEvidenceDetail(item.dataset.eviId);
       });
     });
   }
 
-  /**
-   * Filter bukti berdasarkan folder.
-   * @param {string} folder - Nama folder atau 'all'
-   */
   _filterEvidence(folder) {
     const grid = document.querySelector("#evidence-grid");
     if (!grid) return;
@@ -252,15 +169,10 @@ export class EvidenceViewer {
     }
   }
 
-  /**
-   * Menampilkan detail bukti di jendela terpisah.
-   * @param {string} eviId
-   */
   async _showEvidenceDetail(eviId) {
     const evi = evidenceEngine.getEvidenceMeta(eviId);
     if (!evi) return;
 
-    // Cek jika sudah terbuka
     const detailId = `${this.detailWindowId}_${eviId}`;
     if (this.wm.isOpen(detailId)) {
       this.wm.bringToFront(detailId);
@@ -268,47 +180,56 @@ export class EvidenceViewer {
     }
 
     const winEl = this.wm.register(detailId, {
-      title: `📄 ${evi.title}`,
-      width: 540,
-      height: 400,
+      title: `Bukti — ${evi.title}`,
+      width: 640,
+      height: 500,
       resizable: true,
       maximizable: true,
     });
 
     const body = winEl.querySelector(".window-body");
-    body.className = "window-body"; // Putih untuk readability
+    body.className = "window-body evidence-detail-body";
 
-    // Tampilkan loading
     body.innerHTML = `
-      <div style="padding: 20px; text-align: center; font-family: var(--font-mono, monospace);">
-        <p>⏳ Memuat detail bukti...</p>
+      <div class="evidence-detail-header">
+        <div class="evidence-detail-header-left">
+          <div class="evidence-detail-icon">${evi.icon || "📄"}</div>
+          <div>
+            <div class="evidence-detail-title">${evi.title}</div>
+            <div class="evidence-detail-id">ID: ${eviId.toUpperCase()}</div>
+          </div>
+        </div>
+        <div class="evidence-detail-badge">BUKTI</div>
       </div>
-    `;
+      <div class="evidence-loading">
+        <div class="evidence-loading-text">⏳ Memuat dokumen bukti...</div>
+      </div>`;
 
     this.wm.open(detailId);
 
-    // Muat konten
     try {
       const content = await evidenceEngine.getEvidenceContent(eviId);
       await Markdown.load();
       const html = Markdown.render(content);
 
       body.innerHTML = `
-        <div style="padding: 16px; max-width: 100%; overflow-wrap: break-word; font-size: 14px; line-height: 1.6;">
+        <div class="evidence-detail-header">
+          <div class="evidence-detail-header-left">
+            <div class="evidence-detail-icon">${evi.icon || "📄"}</div>
+            <div>
+              <div class="evidence-detail-title">${evi.title}</div>
+              <div class="evidence-detail-id">ID: ${eviId.toUpperCase()}</div>
+            </div>
+          </div>
+          <div class="evidence-detail-badge">BUKTI</div>
+        </div>
+        <div class="evidence-detail-content">
           ${html}
         </div>
-        <div style="padding: 8px 16px; border-top: 1px solid #eee; background: #f8f8f8; display: flex; justify-content: space-between; font-size: 12px; color: #888;">
-          <span>ID: ${eviId}</span>
-          <button id="btn-close-detail" style="
-            background: none;
-            border: none;
-            color: #000080;
-            font-family: var(--font-mono, monospace);
-            cursor: pointer;
-            font-size: 13px;
-          ">✕ Tutup</button>
-        </div>
-      `;
+        <div class="evidence-detail-footer">
+          <span>ID: ${eviId.toUpperCase()}</span>
+          <button class="evidence-btn" id="btn-close-detail">✕ TUTUP</button>
+        </div>`;
 
       body.querySelector("#btn-close-detail")?.addEventListener("click", () => {
         this.wm.close(detailId);
@@ -316,11 +237,18 @@ export class EvidenceViewer {
     } catch (error) {
       console.error("[EvidenceViewer] Gagal memuat detail bukti:", error);
       body.innerHTML = `
-        <div style="padding: 20px; color: #ff4444; font-family: var(--font-mono, monospace);">
-          <p>❌ Gagal memuat konten</p>
-          <p style="font-size: 14px; color: #ff8888;">${error.message}</p>
+        <div class="evidence-detail-header" style="background:#5a1a1a;">
+          <div class="evidence-detail-header-left">
+            <div class="evidence-detail-icon">❌</div>
+            <div>
+              <div class="evidence-detail-title">Error</div>
+            </div>
+          </div>
         </div>
-      `;
+        <div class="evidence-error">
+          <div class="evidence-error-title">Gagal Memuat Konten</div>
+          <div class="evidence-error-msg">${error.message}</div>
+        </div>`;
     }
   }
 }

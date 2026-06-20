@@ -14,6 +14,8 @@
   z-index: var(--z-desktop, 0);
 }
 
+
+
 /* --- Container Ikon (Flex Column Wrap) --- */
 #desktop-icons {
   display: flex;
@@ -23,6 +25,8 @@
   gap: 12px;
   height: 100%;
   padding: 4px;
+  position: relative;
+  z-index: 1;
 }
 
 /* --- Setiap Ikon --- */
@@ -53,6 +57,7 @@
 
 /* --- Emoji / Ikon --- */
 .desktop-icon .icon-emoji {
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", system-ui, sans-serif;
   font-size: 32px;
   display: block;
   text-align: center;

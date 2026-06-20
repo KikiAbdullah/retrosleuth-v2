@@ -1,0 +1,345 @@
+/* ============================================================
+   BRIEFING.CSS — Dokumen Resmi Kepolisian RetroSleuth
+   Estetika: Surat resmi detektif jadul yang keren
+   ============================================================ */
+
+.window-body.briefing {
+  padding: 0;
+  background: #f0ece0;
+  font-family: var(--font-mono, "VT323", monospace);
+  overflow-y: auto;
+}
+
+/* --- Top Bar (Blue Header) --- */
+.briefing-topbar {
+  background: #1a3a6a;
+  color: #fff;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 2px solid #0d1f3c;
+}
+
+.briefing-topbar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.briefing-topbar-title {
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.briefing-topbar-case {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.briefing-topbar-badge {
+  font-size: 11px;
+  background: rgba(255,255,255,0.15);
+  padding: 2px 10px;
+  border: 1px solid rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+}
+
+/* --- Document Body --- */
+.briefing-doc {
+  padding: 24px 32px 20px;
+}
+
+/* --- Header Section --- */
+.briefing-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.briefing-header-icon {
+  font-size: 32px;
+  margin-bottom: 4px;
+}
+
+.briefing-header h1 {
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 24px;
+  font-weight: bold;
+  color: #1a3a6a;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0 0 4px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #1a3a6a;
+}
+
+.briefing-header h2 {
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 16px;
+  font-weight: normal;
+  color: #555;
+  margin: 6px 0 0 0;
+  letter-spacing: 1px;
+}
+
+/* --- Divider --- */
+.briefing-divider {
+  border: none;
+  border-top: 1px solid #c0b8a8;
+  margin: 14px 0;
+}
+
+.briefing-divider-thick {
+  border: none;
+  border-top: 2px solid #1a3a6a;
+  margin: 14px 0;
+}
+
+/* --- Victim Photo Section --- */
+.briefing-victim-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 14px 0;
+  padding: 14px 18px;
+  background: #e8e0d0;
+  border: 1px solid #c0b8a8;
+}
+
+.briefing-victim-photo-wrap {
+  width: 80px;
+  height: 80px;
+  background: #d0c8b8;
+  border: 2px solid #1a3a6a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.briefing-victim-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.briefing-victim-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.briefing-victim-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.briefing-victim-name {
+  font-size: 19px;
+  font-weight: bold;
+  color: #1a3a6a;
+  margin-bottom: 2px;
+}
+
+.briefing-victim-detail {
+  font-size: 13px;
+  color: #555;
+}
+
+/* --- Content Sections --- */
+.briefing-section {
+  margin: 12px 0;
+}
+
+.briefing-section-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #1a3a6a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 8px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #d0c8b8;
+}
+
+.briefing-section-body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.briefing-section-body p {
+  margin: 6px 0;
+}
+
+.briefing-section-body strong {
+  color: #1a3a6a;
+}
+
+.briefing-section-body ul,
+.briefing-section-body ol {
+  margin: 4px 0;
+  padding-left: 20px;
+}
+
+.briefing-section-body li {
+  margin: 2px 0;
+}
+
+.briefing-section-body blockquote {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-left: 3px solid #1a3a6a;
+  background: #e8e0d0;
+  font-style: italic;
+  color: #444;
+}
+
+.briefing-section-body hr {
+  border: none;
+  border-top: 1px dashed #c0b8a8;
+  margin: 10px 0;
+}
+
+.briefing-section-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.briefing-section-body th,
+.briefing-section-body td {
+  border: 1px solid #c0b8a8;
+  padding: 5px 10px;
+  text-align: left;
+}
+
+.briefing-section-body th {
+  background: #d8d0c0;
+  font-weight: bold;
+  color: #1a3a6a;
+}
+
+/* --- Info Grid --- */
+.briefing-info-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 18px;
+  font-size: 14px;
+}
+
+.briefing-info-label {
+  color: #888;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.briefing-info-value {
+  color: #222;
+  font-size: 14px;
+}
+
+/* --- Action Bar --- */
+.briefing-actions {
+  padding: 14px 32px;
+  display: flex;
+  gap: 10px;
+  border-top: 2px solid #c0b8a8;
+  background: #e0d8c8;
+  margin-top: 4px;
+}
+
+.briefing-btn {
+  background: #1a3a6a;
+  color: #fff;
+  border: none;
+  padding: 8px 24px;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: inset -1px -1px 0 #0d1f3c, inset 1px 1px 0 #2a5a9a;
+  letter-spacing: 0.5px;
+}
+
+.briefing-btn:hover {
+  background: #2a5a9a;
+}
+
+.briefing-btn:active {
+  box-shadow: inset 1px 1px 0 #0d1f3c, inset -1px -1px 0 #2a5a9a;
+}
+
+.briefing-btn-secondary {
+  background: #888;
+  box-shadow: inset -1px -1px 0 #555, inset 1px 1px 0 #aaa;
+}
+
+.briefing-btn-secondary:hover {
+  background: #777;
+}
+
+.briefing-btn-danger {
+  background: #8b0000;
+  box-shadow: inset -1px -1px 0 #4a0000, inset 1px 1px 0 #aa2222;
+}
+
+.briefing-btn-danger:hover {
+  background: #aa0000;
+}
+
+/* --- Error State --- */
+.briefing-error {
+  padding: 40px;
+  text-align: center;
+}
+
+.briefing-error-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.briefing-error-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #8b0000;
+  margin-bottom: 8px;
+}
+
+.briefing-error-msg {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+/* --- Loading State --- */
+.briefing-loading {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.briefing-loading-text {
+  font-size: 16px;
+  color: #666;
+}
+
+/* --- Scrollbar --- */
+.window-body.briefing::-webkit-scrollbar {
+  width: 10px;
+}
+.window-body.briefing::-webkit-scrollbar-track {
+  background: #d8d0c0;
+}
+.window-body.briefing::-webkit-scrollbar-thumb {
+  background: #888;
+  border: 1px solid #d8d0c0;
+}
+.window-body.briefing::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
