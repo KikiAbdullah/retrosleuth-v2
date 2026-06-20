@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RetroSleuth: Case Files Detective</title>
+
+    <!-- Google Font: VT323 (Wajib untuk tampilan retro) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/crt.css" />
+    <link rel="stylesheet" href="assets/css/desktop.css" />
+    <link rel="stylesheet" href="assets/css/windows.css" />
+    <link rel="stylesheet" href="assets/css/taskbar.css" />
+    <link rel="stylesheet" href="assets/css/evidence.css" />
+    <link rel="stylesheet" href="assets/css/interrogation.css" />
+  </head>
+  <body>
+    <!-- 1. LAPISAN CRT (Scanline + Flicker) -->
+    <div id="crt-overlay"></div>
+
+    <!-- 2. DESKTOP (Area Kerja) -->
+    <main id="desktop"></main>
+
+    <!-- 3. TASKBAR (Bawah) -->
+    <footer id="taskbar"></footer>
+
+    <!-- ===== MAIN JAVASCRIPT (ES Module) ===== -->
+    <script type="module" src="assets/js/main.js"></script>
+  </body>
+</html>

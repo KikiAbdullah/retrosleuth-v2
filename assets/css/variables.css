@@ -1,0 +1,60 @@
+/* ============================================================
+   VARIABLES.CSS — Design Tokens RetroSleuth
+   ============================================================ */
+
+:root {
+  /* === PALET CRT (Terminal Hijau) === */
+  --crt-bg: #030a02;
+  --crt-text: #33ff33;
+  --crt-text-dim: #1a8c1a;
+  --crt-text-bright: #88ff88;
+  --crt-border: #1a4d1a;
+  --crt-scanline: rgba(0, 0, 0, 0.12);
+
+  /* === PALET DESKTOP === */
+  --desktop-bg: #808080;
+  --desktop-icon-text: #ffffff;
+
+  /* === PALET WINDOW (Windows 1.0) === */
+  --window-bg: #ffffff;
+  --window-border-outer: #000000;
+  --window-border-inner-light: #ffffff;
+  --window-border-inner-dark: #808080;
+  --window-titlebar-bg: #000080;
+  --window-titlebar-text: #ffffff;
+  --window-titlebar-inactive: #808080;
+
+  /* === PALET TASKBAR === */
+  --taskbar-bg: #c0c0c0;
+  --taskbar-button-bg: #c0c0c0;
+  --taskbar-button-active: #ffffff;
+  --taskbar-button-text: #000000;
+  --taskbar-divider: #808080;
+
+  /* === PALET BUTTON === */
+  --btn-face: #c0c0c0;
+  --btn-highlight: #ffffff;
+  --btn-shadow: #808080;
+  --btn-dark-shadow: #000000;
+
+  /* === TIPOGRAFI === */
+  --font-mono: "VT323", "Courier New", "Consolas", monospace;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-title: 14px;
+  --font-size-taskbar: 13px;
+
+  /* === UKURAN === */
+  --taskbar-height: 36px;
+  --window-titlebar-height: 28px;
+  --icon-size: 48px;
+  --icon-label-width: 80px;
+  --desktop-padding: 16px;
+
+  /* === Z-INDEX === */
+  --z-desktop: 0;
+  --z-window-base: 100;
+  --z-window-active: 200;
+  --z-taskbar: 600;
+  --z-crt-overlay: 999;
+}

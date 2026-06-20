@@ -1,0 +1,146 @@
+/* ============================================================
+   WINDOWS.CSS — Styling Jendela (Windows 1.0 Style)
+   ============================================================ */
+
+/* --- Kontainer Jendela --- */
+.retro-window {
+  position: absolute;
+  top: 80px;
+  left: 80px;
+  min-width: 320px;
+  min-height: 160px;
+  background: var(--window-bg, #ffffff);
+  border: 2px solid var(--window-border-outer, #000000);
+  box-shadow: inset -1px -1px 0 var(--window-border-inner-dark, #808080),
+    inset 1px 1px 0 var(--window-border-inner-light, #ffffff);
+  display: none;
+  /* Default tersembunyi */
+  z-index: var(--z-window-base, 100);
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: var(--font-size-base, 16px);
+  color: #000000;
+  user-select: none;
+  /* Mencegah teks terblok saat drag */
+  flex-direction: column;
+  /* Biar header & body proper */
+}
+
+/* --- Window Active State (dikelola JS, tapi kita kasih style dasar) --- */
+.retro-window.active {
+  /* z-index diatur oleh JavaScript */
+  box-shadow: inset -1px -1px 0 var(--window-border-inner-dark, #808080),
+    inset 1px 1px 0 var(--window-border-inner-light, #ffffff),
+    4px 4px 8px rgba(0, 0, 0, 0.3);
+  /* Bayangan ekstra untuk window aktif */
+}
+
+/* --- Window Inactive (Titlebar abu-abu) --- */
+.retro-window.inactive .window-header {
+  background: var(--window-titlebar-inactive, #808080);
+}
+
+/* --- Titlebar --- */
+.window-header {
+  background: var(--window-titlebar-bg, #000080);
+  color: var(--window-titlebar-text, #ffffff);
+  height: var(--window-titlebar-height, 28px);
+  min-height: var(--window-titlebar-height, 28px);
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: default;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--window-border-outer, #000);
+}
+
+.window-title {
+  font-size: var(--font-size-title, 14px);
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 4px;
+  flex: 1;
+  font-family: var(--font-mono, "VT323", monospace);
+}
+
+/* --- Tombol Kontrol (Minimize, Maximize, Close) --- */
+.window-controls {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.window-controls button {
+  width: 20px;
+  height: 20px;
+  background: var(--btn-face, #c0c0c0);
+  border: 1px solid var(--btn-dark-shadow, #000000);
+  box-shadow: inset -1px -1px 0 var(--btn-shadow, #808080),
+    inset 1px 1px 0 var(--btn-highlight, #ffffff);
+  cursor: pointer;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  color: #000;
+  transition: none;
+}
+
+/* Efek "ditekan" (sunken) */
+.window-controls button:active {
+  box-shadow: inset 1px 1px 0 var(--btn-shadow, #808080),
+    inset -1px -1px 0 var(--btn-highlight, #ffffff);
+}
+
+/* Tombol Close hover (merah) */
+.window-controls .btn-close:hover {
+  background: #ff0000;
+  color: #ffffff;
+}
+
+/* --- Body Window (Area Konten) --- */
+.window-body {
+  padding: 12px;
+  background: var(--window-bg, #ffffff);
+  overflow: auto;
+  flex: 1;
+  /* Mengisi sisa ruang */
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1.5;
+  color: #000;
+  user-select: text;
+  /* Biarkan teks di dalam bisa di-copy */
+}
+
+/* --- Terminal Style (untuk efek CRT di dalam window) --- */
+.window-body.terminal {
+  background: var(--crt-bg, #030a02);
+  color: var(--crt-text, #33ff33);
+  font-family: var(--font-mono, "VT323", monospace);
+  padding: 16px;
+  text-shadow: 0 0 4px rgba(51, 255, 51, 0.3);
+}
+
+/* --- Resize Handle (Sudut kanan bawah) --- */
+.window-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(
+    135deg,
+    transparent 50%,
+    var(--btn-shadow, #808080) 50%,
+    var(--btn-highlight, #ffffff) 100%
+  );
+  border-left: 1px solid var(--window-border-outer, #000);
+  border-top: 1px solid var(--window-border-outer, #000);
+}

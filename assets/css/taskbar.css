@@ -1,0 +1,111 @@
+/* ============================================================
+   TASKBAR.CSS — Taskbar Bawah & Jam
+   ============================================================ */
+
+#taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--taskbar-height, 36px);
+  background: var(--taskbar-bg, #c0c0c0);
+  border-top: 2px solid var(--btn-highlight, #ffffff);
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  z-index: var(--z-taskbar, 600);
+  gap: 4px;
+  box-shadow: inset 0 1px 0 var(--btn-highlight, #ffffff);
+  /* Pantulan tipis */
+}
+
+/* --- Kiri: Tombol START --- */
+.taskbar-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.taskbar-start-btn {
+  background: var(--btn-face, #c0c0c0);
+  border: 1px solid var(--btn-dark-shadow, #000);
+  box-shadow: inset -1px -1px 0 var(--btn-shadow, #808080),
+    inset 1px 1px 0 var(--btn-highlight, #ffffff);
+  padding: 2px 14px;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: var(--font-size-taskbar, 13px);
+  font-weight: bold;
+  cursor: pointer;
+  height: 28px;
+  color: #000;
+}
+
+.taskbar-start-btn:active {
+  box-shadow: inset 1px 1px 0 var(--btn-shadow, #808080),
+    inset -1px -1px 0 var(--btn-highlight, #ffffff);
+}
+
+/* --- Tengah: Tombol-tombol Window --- */
+.taskbar-windows {
+  display: flex;
+  flex: 1;
+  gap: 2px;
+  overflow-x: auto;
+  height: 28px;
+  align-items: center;
+  padding: 0 2px;
+}
+
+/* Scrollbar styling minimal (agar tidak mengganggu retro) */
+.taskbar-windows::-webkit-scrollbar {
+  height: 4px;
+}
+.taskbar-windows::-webkit-scrollbar-thumb {
+  background: var(--btn-shadow, #808080);
+}
+
+.taskbar-button {
+  background: var(--taskbar-button-bg, #c0c0c0);
+  border: 1px solid var(--btn-dark-shadow, #000);
+  box-shadow: inset -1px -1px 0 var(--btn-shadow, #808080),
+    inset 1px 1px 0 var(--btn-highlight, #ffffff);
+  padding: 0 12px;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: var(--font-size-taskbar, 13px);
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 24px;
+  color: var(--taskbar-button-text, #000);
+  line-height: 1;
+}
+
+/* Tombol aktif (window sedang fokus) -> efek "tertekan" */
+.taskbar-button.active {
+  background: var(--taskbar-button-active, #ffffff);
+  box-shadow: inset 1px 1px 0 var(--btn-shadow, #808080),
+    inset -1px -1px 0 var(--btn-highlight, #ffffff);
+  font-weight: bold;
+}
+
+/* --- Kanan: Tray (Jam) --- */
+.taskbar-tray {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border-left: 1px solid var(--taskbar-divider, #808080);
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.taskbar-clock {
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: var(--font-size-taskbar, 13px);
+  color: #000;
+  background: #c0c0c0;
+  padding: 0 4px;
+  letter-spacing: 1px;
+}

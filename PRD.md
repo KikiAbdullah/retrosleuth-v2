@@ -26,7 +26,7 @@ Dokumen ini adalah **Product Requirements Document (PRD)** lengkap untuk game in
 - ⏱️ **Real-Time Investigation** – Bukti tiba sesuai waktu nyata, deadline 2 jam.
 - 💾 **Persistent Progression** – Auto-save ke IndexedDB, pemain bisa lanjut kapan saja.
 - 🎹 **Procedural Audio** – Semua suara dihasilkan via Web Audio API, tanpa file eksternal.
-- 📦 **Zero Dependencies** – Murni vanilla JS, HTML, CSS; tanpa framework, tanpa build step.
+- 📦 **Zero Build Dependencies** – Murni vanilla JS, HTML, CSS; tanpa framework, tanpa build step. Library eksternal (marked.js untuk Markdown, idb untuk IndexedDB) dimuat langsung dari CDN saat runtime.
 - 🌐 **GitHub Pages Ready** – Langsung live dengan push ke repository.
 
 ### Document Structure
@@ -729,8 +729,9 @@ State pemain dikelola oleh `Store.js` (singleton `GameState`). State ini di-pers
     "char_003": []
   },
 
-  // === STATUS EMOSI PER KARAKTER ===
+    // === STATUS EMOSI PER KARAKTER ===
   // Key: character ID. Value: objek dengan nilai 0-100.
+  // Akan diisi secara otomatis dari char_*.json -> emotional_state saat case:loaded.
   interrogationStates: {
     "char_001": { "stress": 45, "trust": 15, "fear": 70, "anger": 10 },
     "char_002": { "stress": 15, "trust": 25, "fear": 30, "anger": 15 },
@@ -766,6 +767,8 @@ State pemain dikelola oleh `Store.js` (singleton `GameState`). State ini di-pers
   }
 }
 ```
+
+Catatan: Contoh nilai interrogationStates di atas hanya ilustrasi. Saat case:loaded, state ini diisi dari field emotional*state masing-masing karakter di file char*\*.json. Jika file karakter tidak memiliki emotional_state, default-nya adalah { stress: 30, trust: 30, fear: 30, anger: 30 }.
 
 ### 4.3 Interrogation Sub-Loop (Detail Teknis)
 
@@ -1088,20 +1091,19 @@ class EventBus {
 | File JS/Modul      | kebab-case                          | `window-manager.js`                |
 | Class JS           | PascalCase                          | `WindowManager`                    |
 | Method/Fungsi      | camelCase                           | `unlockEvidence()`                 |
-| Konstanta          | UPPER_SNAKE_CASE                    | `MAX_TOKENS`                       |
 
 ### 5.8 Batasan Teknis (Technical Constraints)
 
-| #   | Constraint               | Detail                                                                                                                                                           |
-| --- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Zero Node Dependency** | Tidak boleh ada `node_modules/`, `package.json`, atau build step (webpack/vite). Semua library dimuat dari CDN.                                                  |
-| 2   | **Path Relatif**         | Semua `fetch()` menggunakan path relatif (`./cases/...`) agar berfungsi di subfolder GitHub Pages (`username.github.io/repo/`).                                  |
-| 3   | **Mixed Content**        | Halaman GitHub Pages (HTTPS) memblokir permintaan ke `http://localhost:20128`. Solusi: izinkan insecure content di browser, atau gunakan tunnel HTTPS (`ngrok`). |
-| 4   | **Ukuran Bundle**        | Total semua aset (HTML, CSS, JS, font, gambar) ≤ 500 KB. Font VT323 (sekitar 40 KB) dimuat dari Google Fonts.                                                    |
-| 5   | **Offline Capability**   | Jika AI offline, seluruh fitur selain interogasi tetap berfungsi. Interogasi menampilkan respons fallback.                                                       |
-| 6   | **Browser Support**      | Chrome/Edge 90+, Firefox 90+, Safari 15+. Harus mendukung ES Modules, `fetch`, `localStorage`, IndexedDB, Web Audio API.                                         |
-| 7   | **Keamanan Input**       | Semua input pemain disanitasi (maks 500 karakter, hapus tag HTML, cegah prompt injection dengan regex).                                                          |
-| 8   | **Concurrency**          | `CaseLoader.loadFullCase()` menggunakan `Promise.all` untuk memuat paralel semua evidence dan karakter.                                                          |
+| #   | Constraint               | Detail                                                                                                                                                                      |
+| --- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Zero Node Dependency** | Tidak boleh ada `node_modules/`, `package.json`, atau build step (webpack/vite). Semua library dimuat dari CDN.                                                             |
+| 2   | **Path Relatif**         | Semua `fetch()` menggunakan path relatif (`./cases/...`) agar berfungsi di subfolder GitHub Pages (`username.github.io/repo/`).                                             |
+| 3   | **Mixed Content**        | Halaman GitHub Pages (HTTPS) memblokir permintaan ke http://localhost:20128 (HTTP). Karena itu, saat deployment di GitHub Pages, AI tidak akan bisa diakses secara default. |
+| 4   | **Ukuran Bundle**        | Total semua aset (HTML, CSS, JS, font, gambar) ≤ 500 KB. Font VT323 (sekitar 40 KB) dimuat dari Google Fonts.                                                               |
+| 5   | **Offline Capability**   | Jika AI offline, seluruh fitur selain interogasi tetap berfungsi. Interogasi menampilkan respons fallback.                                                                  |
+| 6   | **Browser Support**      | Chrome/Edge 90+, Firefox 90+, Safari 15+. Harus mendukung ES Modules, `fetch`, `localStorage`, IndexedDB, Web Audio API.                                                    |
+| 7   | **Keamanan Input**       | Semua input pemain disanitasi (maks 500 karakter, hapus tag HTML, cegah prompt injection dengan regex).                                                                     |
+| 8   | **Concurrency**          | `CaseLoader.loadFullCase()` menggunakan `Promise.all` untuk memuat paralel semua evidence dan karakter.                                                                     |
 
 ### 5.9 Keamanan & Penanganan Error
 
@@ -1524,23 +1526,7 @@ Efek CRT adalah lapisan visual paling atas yang memberikan kesan monitor tabung.
 
 Flicker membuat monitor terasa "hidup" dengan perubahan kecerahan acak.
 
-```css
-@keyframes crt-flicker {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.97;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-#crt-overlay.flickering {
-  animation: crt-flicker 0.05s infinite alternate ease-in-out;
-}
-```
+Implementasi Flicker: Efek kedipan (flicker) dikendalikan sepenuhnya oleh JavaScript di atas menggunakan setInterval untuk mengubah opacity secara acak. Pendekatan ini memberi kontrol presisi terhadap interval dan intensitas, serta memudahkan toggle efek. Tidak ada CSS @keyframes yang digunakan untuk flicker; semua animasi dikendalikan oleh logika JS.
 
 Kontrol flicker lebih baik dilakukan via JavaScript:
 
@@ -2609,6 +2595,16 @@ Emosi juga digunakan untuk membuka (atau mengunci) rahasia bertingkat:
 - **Trust > 80** dan **Fear > 70** → Rahasia tingkat 3 bisa terpicu.
 - **Trust > 85** dan **Fear > 80** dan **bukti kunci hadir** → Rahasia tingkat 4 (pengakuan) bisa terpicu.
 
+Catatan Penting — Hirarki Trigger Pengakuan (Tingkat 4):
+
+Pengakuan penuh (Tingkat 4 / Rahasia terakhir) hanya terjadi jika DUA lapis kondisi terpenuhi secara bersamaan:
+
+Lapis Sistem (Numerik): Trust > 85 DAN Fear > 80. Ini adalah "pintu gerbang" sistem yang mengizinkan AI untuk mempertimbangkan pengakuan. Tanpa ini, AI akan tetap bertahan meskipun pemain menunjukkan bukti.
+
+Lapis Naratif (Aksi Pemain): Pemain WAJIB menyebutkan detail spesifik dari bukti kunci dalam pertanyaannya (misal: menyebut "sidik jari di bagian dalam gelas" untuk evi_012). Ini adalah pemicu aktual yang membuat AI menjalankan skrip pengakuan di secrets tingkat 4.
+
+Jika hanya kondisi numerik yang terpenuhi tetapi pemain tidak menyebutkan detail spesifik, AI akan merespons dengan defensif ("Saya tidak tahu apa yang Anda maksud") meskipun emosinya sudah sangat tinggi.
+
 ---
 
 ### 9.4 AIClient (`AIClient.js`)
@@ -2623,7 +2619,6 @@ Emosi juga digunakan untuk membuka (atau mengunci) rahasia bertingkat:
 | `apiKey`      | `sk-d9da44a505179175-...`                    | API key (disimpan di Settings)                       |
 | `model`       | `gemini-cli`                                 | Nama model yang digunakan                            |
 | `temperature` | `0.8`                                        | Kreativitas respons (0 = deterministik, 1 = kreatif) |
-| `maxTokens`   | `300`                                        | Batas panjang respons AI                             |
 | `timeout`     | `30000` ms                                   | Waktu tunggu maksimal sebelum error                  |
 
 #### 9.4.2 Method `sendMessage(suspectId, userMessage)`
@@ -2960,14 +2955,14 @@ Array referensi karakter. Setiap elemen:
 
 Mendefinisikan solusi yang benar untuk validasi tuduhan.
 
-| Field                            | Tipe            | Deskripsi                                                                |
-| -------------------------------- | --------------- | ------------------------------------------------------------------------ |
-| `culprit_id`                     | string          | ID karakter pelaku (contoh: `"char_002"`).                               |
-| `motive`                         | string          | Deskripsi motif pembunuhan.                                              |
-| `primary_evidence`               | string          | ID bukti primer yang wajib dipilih pemain.                               |
-| `secondary_evidence`             | array of string | ID bukti sekunder yang harus dipilih pemain. Minimal 6 item.             |
-| `explanation_file`               | string          | Nama file solusi lengkap (biasanya `"solution.md"`).                     |
-| `alternative_suspect_misdirects` | object          | Key-value: ID karakter → penjelasan singkat mengapa mereka bukan pelaku. |
+| Field                            | Tipe            | Deskripsi                                                                                                                                                                                                       |
+| -------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `culprit_id`                     | string          | ID karakter pelaku (contoh: `"char_002"`).                                                                                                                                                                      |
+| `motive`                         | string          | Deskripsi motif pembunuhan.                                                                                                                                                                                     |
+| `primary_evidence`               | string          | ID bukti primer yang wajib dipilih pemain.                                                                                                                                                                      |
+| `secondary_evidence`             | array of string | ID bukti sekunder yang harus dipilih pemain untuk memenangkan kasus. Minimal 4 item. Untuk tingkat kesulitan "Expert", sangat direkomendasikan 5–7 item guna memperkuat rantai pembuktian dan mencegah tebakan. |
+| `explanation_file`               | string          | Nama file solusi lengkap (biasanya `"solution.md"`).                                                                                                                                                            |
+| `alternative_suspect_misdirects` | object          | Key-value: ID karakter → penjelasan singkat mengapa mereka bukan pelaku.                                                                                                                                        |
 
 **Contoh:**
 
@@ -3052,8 +3047,6 @@ Setiap file karakter mendefinisikan kepribadian, pengetahuan, rahasia, dan peril
   "personality": "Deskripsi kepribadian...",
   "voice_style": "Deskripsi gaya bicara...",
   "alibi": "Alibi yang diklaim...",
-  "public_background": "Informasi publik...",
-  "private_background": "Informasi pribadi tersembunyi...",
   "known_facts": ["Fakta yang diakui...", "..."],
   "truths": ["Kebenaran yang tidak diakui sukarela...", "..."],
   "secrets": [ ... ],
@@ -3367,6 +3360,24 @@ Event terpicu pada jam dinding tertentu. Berguna jika ingin event terkait waktu 
   "description": "Pukul 14.00 waktu setempat"
 }
 ```
+
+// Contoh Clock Trigger dengan days_offset
+{
+"id": "rte_013",
+"trigger": {
+"type": "clock",
+"time": "14.00",
+"days_offset": 1,
+"description": "Pukul 14.00 pada hari berikutnya setelah kasus dimulai"
+},
+"action": "notification",
+"payload": {
+"message": "📞 Panggilan dari saksi baru...",
+"play_sound": "ring"
+}
+}
+
+Penjelasan days_offset: Field ini digunakan jika event harus terpicu pada hari yang berbeda dari hari dimulainya kasus. Nilai 0 (default) berarti hari yang sama. Nilai 1 berarti hari berikutnya, 2 berarti dua hari setelahnya, dst. Berguna untuk simulasi investigasi multi-hari.
 
 **Perhitungan:**
 
@@ -6235,7 +6246,6 @@ Content-Type: application/json
     {"role": "user", "content": "Apa yang kamu lakukan malam itu?"}
   ],
   "temperature": 0.8,
-  "max_tokens": 300,
   "stream": false
 }
 ```
@@ -6245,7 +6255,6 @@ Content-Type: application/json
 - `model`: Nama model (default: `"gemini-cli"`, bisa diubah di Settings).
 - `messages`: Array pesan dengan role `system` (prompt), `user` (pertanyaan), `assistant` (respons AI sebelumnya).
 - `temperature`: Kreativitas (0.0 – 1.0). Default: `0.8`.
-- `max_tokens`: Batas panjang respons. Default: `300`.
 - `stream`: **`false`** (game tidak menggunakan streaming, menunggu respons lengkap).
 
 **Response Format (diharapkan):**
@@ -6305,7 +6314,6 @@ Pemain dapat mengkonfigurasi koneksi AI melalui jendela Settings yang bisa dibuk
 | **API Key**         | Input password      | `sk-d9da44a505179175-...`                    | API key untuk autentikasi.                  |
 | **Model Name**      | Input teks          | `gemini-cli`                                 | Nama model yang digunakan.                  |
 | **Temperature**     | Slider (0.0–1.0)    | `0.8`                                        | Tingkat kreativitas respons AI.             |
-| **Max Tokens**      | Input number        | `300`                                        | Batas panjang respons AI.                   |
 | **Test Connection** | Button              | —                                            | Klik untuk mengirim health check ke server. |
 | **Master Volume**   | Slider              | `70%`                                        | Volume keseluruhan.                         |
 | **SFX Volume**      | Slider              | `100%`                                       | Volume efek suara.                          |

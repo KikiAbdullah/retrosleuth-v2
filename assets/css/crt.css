@@ -1,0 +1,102 @@
+/* ============================================================
+   CRT.CSS — Efek Scanline & Flicker
+   ============================================================ */
+
+#crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* PENTING: Biarkan klik menembus ke desktop/window */
+  z-index: var(--z-crt-overlay, 999);
+  transition: opacity 0.3s ease;
+}
+
+/* --- Scanline (Garis horizontal) --- */
+#crt-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    var(--crt-scanline, rgba(0, 0, 0, 0.12)) 2px,
+    var(--crt-scanline, rgba(0, 0, 0, 0.12)) 4px
+  );
+  pointer-events: none;
+}
+
+/* --- Vignette (Efek gelap di tepi) --- */
+#crt-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+  pointer-events: none;
+}
+
+/* --- Animasi Flicker (Kedipan acak) --- */
+@keyframes crt-flicker {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.97;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.96;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.98;
+  }
+  60% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.965;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.99;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#crt-overlay {
+  animation: crt-flicker 4s infinite alternate ease-in-out;
+}
+
+/* --- Toggle CRT (Off) --- */
+body.crt-off #crt-overlay {
+  display: none;
+}
+
+/* Jika CRT dimatikan, background terminal tetap hijau tapi tanpa efek overlay */
+body.crt-off .window-body.terminal {
+  background: #0a0a0a;
+  color: #33ff33;
+  text-shadow: none;
+}

@@ -1,0 +1,154 @@
+/* ============================================================
+   EVIDENCE.CSS — Styling untuk Evidence Viewer & Detail
+   ============================================================ */
+
+/* --- Evidence Grid Items --- */
+.evidence-item {
+  transition: all 0.15s ease;
+}
+
+.evidence-item.found:hover {
+  border-color: #0000c0 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.evidence-item.locked {
+  filter: grayscale(0.3);
+}
+
+.evidence-item.locked:hover {
+  opacity: 0.7 !important;
+}
+
+/* --- Evidence Detail Window --- */
+.evidence-detail-body {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.evidence-detail-body h1 {
+  font-size: 22px;
+  color: #000080;
+  border-bottom: 2px solid #000080;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.evidence-detail-body h2 {
+  font-size: 18px;
+  color: #000080;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.evidence-detail-body h3 {
+  font-size: 16px;
+  color: #333;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+.evidence-detail-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.evidence-detail-body th,
+.evidence-detail-body td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.evidence-detail-body th {
+  background: #f0f0f0;
+  font-weight: bold;
+}
+
+.evidence-detail-body blockquote {
+  margin: 12px 0;
+  padding: 8px 16px;
+  border-left: 4px solid #000080;
+  background: #f5f5f5;
+  font-style: italic;
+  color: #444;
+}
+
+.evidence-detail-body hr {
+  border: none;
+  border-top: 2px dashed #ccc;
+  margin: 16px 0;
+}
+
+.evidence-detail-body ul,
+.evidence-detail-body ol {
+  margin: 8px 0 8px 24px;
+}
+
+.evidence-detail-body code {
+  background: #f0f0f0;
+  padding: 1px 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+}
+
+/* --- Dossier Cards --- */
+.dossier-card {
+  transition: all 0.15s ease;
+}
+
+.dossier-card:hover {
+  transform: translateX(4px);
+}
+
+/* --- Case Hub Cards --- */
+.casehub-card {
+  transition: all 0.15s ease;
+}
+
+.casehub-card:hover {
+  border-color: #000080 !important;
+  background: #f8f8ff !important;
+}
+
+.casehub-card.selected {
+  border-color: #000080 !important;
+  background: #f0f0ff !important;
+}
+
+/* --- Evidence Tabs --- */
+.evi-tab {
+  transition: all 0.15s ease;
+}
+
+.evi-tab:hover {
+  opacity: 0.8;
+}
+
+.evi-tab.active {
+  background: #000080 !important;
+  color: #fff !important;
+}
+
+/* --- Scrollbar styling untuk evidence grid --- */
+#evidence-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+#evidence-grid::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+#evidence-grid::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 0;
+}
+
+#evidence-grid::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}

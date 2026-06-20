@@ -1,0 +1,50 @@
+/* ============================================================
+   NOTES.CSS — Styling Notepad Detektif
+   ============================================================ */
+
+/* Notepad container */
+#window_notes .window-body {
+  background: #f5f0e8 !important;
+  padding: 0 !important;
+}
+
+/* Textarea dengan efek kertas */
+#notes-textarea {
+  background: #f5f0e8 !important;
+  background-image: repeating-linear-gradient(
+    transparent 0px,
+    transparent 27px,
+    #d4c8b0 27px,
+    #d4c8b0 28px
+  ) !important;
+  background-size: 100% 28px !important;
+  background-attachment: local !important;
+  font-family: "Courier New", "VT323", monospace !important;
+  font-size: 16px !important;
+  line-height: 28px !important;
+  padding: 16px !important;
+  color: #2a2a2a !important;
+  border: none !important;
+  outline: none !important;
+  resize: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 300px !important;
+}
+
+#notes-textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Notes header */
+#notes-wordcount {
+  font-size: 11px;
+  color: #888;
+}
+
+#notes-save-status {
+  font-size: 11px;
+  color: #888;
+  transition: color 0.3s;
+}
