@@ -109,13 +109,28 @@
       "file": "evi_012.md",
       "icon": "💠",
       "description_short": "Pecahan gelas dengan residu sianida dan sidik jari."
+    },
+    {
+      "id": "evi_013",
+      "title": "Laporan Penyidik — Catatan Internal",
+      "file": "evi_013.md",
+      "icon": "📋",
+      "description_short": "Catatan internal penyidik tentang kasus, termasuk daftar tersangka dan pertanyaan kunci."
+    },
+    {
+      "id": "evi_014",
+      "title": "Foto TKP — Ruang Kerja",
+      "file": "evi_014.md",
+      "icon": "📸",
+      "description_short": "Dokumentasi foto crime scene lengkap dengan analisis posisi jenazah dan barang bukti."
     }
   ],
   "evidence_structure": {
-    "Dokumen Resmi": ["evi_001", "evi_005", "evi_003"],
+    "Dokumen Resmi": ["evi_001", "evi_005", "evi_003", "evi_013"],
     "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008"],
     "Bukti Fisik": ["evi_002", "evi_009", "evi_010", "evi_012"],
-    "Log Kunjungan": ["evi_007"]
+    "Log Kunjungan": ["evi_007"],
+    "Dokumentasi TKP": ["evi_014"]
   },
   "characters": [
     {
@@ -162,38 +177,57 @@
   "timeline": [
     {
       "time": "20.00",
+      "type": "interaction",
       "description": "Haryanto dan Sari makan malam bersama, terlihat tegang."
     },
     {
       "time": "21.15",
+      "type": "movement",
       "description": "Rahmat tiba di Wisma dan langsung menuju ruang kerja, meminta tanda tangan cek."
     },
     {
       "time": "21.50",
+      "type": "interaction",
       "description": "Budi mengantarkan kopi ke ruang kerja; melihat Sari dan Haryanto bertengkar hebat."
     },
     {
       "time": "22.00",
+      "type": "interaction",
       "description": "Sari keluar dengan marah, mengatakan 'Kau akan menyesal!'."
     },
     {
+      "time": "22.05",
+      "type": "crime",
+      "description": "Sari menuangkan sianida ke dalam gelas brandy Haryanto."
+    },
+    {
+      "time": "22.25",
+      "type": "crime",
+      "description": "Haryanto meminum brandy beracun dan mulai kejang-kejang."
+    },
+    {
       "time": "22.30",
+      "type": "discovery",
       "description": "Saksi mendengar suara gelas pecah dari dalam ruang kerja."
     },
     {
       "time": "22.45",
+      "type": "movement",
       "description": "Rahmat terlihat oleh satpam berjalan cepat ke arah taman belakang."
     },
     {
       "time": "23.00",
+      "type": "movement",
       "description": "Lampu ruang kerja padam, tidak ada yang masuk atau keluar via pintu depan."
     },
     {
       "time": "23.15",
+      "type": "movement",
       "description": "Mobil Sari tercatat keluar oleh pos satpam, kembali pukul 23.45."
     },
     {
       "time": "00.15",
+      "type": "discovery",
       "description": "Budi menemukan tubuh Haryanto saat ronda rutin dan segera melapor."
     }
   ],
@@ -242,6 +276,16 @@
       "id": "task_009",
       "text": "Ajukan tuduhan lengkap dengan bukti yang kuat",
       "hint": "Minimal 6 bukti harus ditemukan, termasuk bukti primer."
+    },
+    {
+      "id": "task_010",
+      "text": "Baca laporan penyidik dan temukan pertanyaan kunci",
+      "hint": "Laporan internal penyidik berisi clue penting tentang siapa yang terakhir melihat korban."
+    },
+    {
+      "id": "task_011",
+      "text": "Pelajari foto TKP dan temukan jejak kunci",
+      "hint": "Foto crime scene menunjukkan jejak sepatu, sidik jari, dan posisi jenazah yang mengungkap kebenaran."
     }
   ],
   "crime_scene": {
@@ -609,6 +653,34 @@
     },
     {
       "id": "rte_012",
+      "trigger": {
+        "type": "relative",
+        "minutes": 110,
+        "description": "1 jam 50 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_013",
+        "message": "📋 Laporan internal penyidik diterima. Catatan tentang tersangka dan pertanyaan kunci tersedia.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_013",
+      "trigger": {
+        "type": "relative",
+        "minutes": 115,
+        "description": "1 jam 55 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_014",
+        "message": "📸 Foto TKP telah dicetak dan dikirim ke meja Anda. Dokumentasi lengkap ruang kerja korban.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_014",
       "trigger": {
         "type": "relative",
         "minutes": 120,

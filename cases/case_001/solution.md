@@ -45,6 +45,8 @@
 | `surat_wasiat`   | Draf Surat Wasiat       | Menunjukkan bahwa Sari adalah penerima 80% harta, tetapi revisi yang akan ditandatangani 14 Juni akan memotongnya drastis. Memberikan motif kuat                                                                             |
 | `log_keamanan`   | Log Keamanan Gerbang    | Mencatat mobil Sari keluar Wisma pukul 23.15 dan kembali 23.45 — bertentangan dengan alibinya yang mengaku tidur. Juga mencatat pergerakan Rahmat yang (meski mencurigakan) justru membantunya sebagai saksi, bukan pembunuh |
 | `surat_ancaman`  | Surat Ancaman Anonim    | Meski tidak bertanda tangan, isinya "Hentikan revisi wasiat" selaras dengan motif Sari. Surat ini memperkuat bahwa revisi wasiat adalah isu sentral                                                                          |
+| `laporan_penyidik` | Laporan Penyidik     | Catatan internal penyidik berisi pertanyaan kunci: siapa terakhir melihat korban, mengapa jendela terbuka, ke mana mobil Sari. Membantu pemain fokus pada bukti penting                                                         |
+| `foto_tkp`       | Foto TKP Ruang Kerja    | Dokumentasi lengkap crime scene: posisi jenazah, gelas pecah, jejak sepatu ukuran 38-39 (Sari), serat kain biru di jendela, sidik jari di kunci cadangan. Analisis foto mengungkap urutan kejadian yang sebenarnya          |
 
 ---
 
