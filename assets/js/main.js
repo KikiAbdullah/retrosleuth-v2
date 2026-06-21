@@ -46,6 +46,9 @@ import { DatabaseManager } from "./utils/DatabaseManager.js";
 // --- Real-Time Events (Fase 4 Extensi) ---
 import { initRealTimeManager } from "./engine/RealTimeManager.js";
 
+// --- Notification System ---
+import { initNotificationSystem } from "./ui/NotificationSystem.js";
+
 // ============================================================
 //  2. KONFIGURASI
 // ============================================================
@@ -673,6 +676,9 @@ async function initializeApp() {
   // RealTimeManager
   const realTimeManager = initRealTimeManager();
 
+  // Notification System
+  const notificationSystem = initNotificationSystem();
+
   // --- 7.3 Fase 2: Modules UI ---
   const caseHub = new CaseHub(wm);
   const caseBriefing = new CaseBriefing(wm);
@@ -850,6 +856,7 @@ async function initializeApp() {
     solutionEngine: SolutionEngine,
     timelineEngine: TimelineEngine,
     realTimeManager,
+    notificationSystem,
     databaseManager: DatabaseManager,
     GameState,
     EventBus,

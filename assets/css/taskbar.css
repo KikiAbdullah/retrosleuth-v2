@@ -90,13 +90,13 @@
   font-weight: bold;
 }
 
-/* --- Kanan: Tray (Jam) --- */
+/* --- Kanan: Tray (Notifikasi + Jam) --- */
 .taskbar-tray {
   margin-left: auto;
   display: flex;
   align-items: center;
   padding: 0 8px;
-  border-left: 1px solid var(--taskbar-divider, #808080);
+  gap: 6px;
   height: 100%;
   flex-shrink: 0;
 }
@@ -105,7 +105,200 @@
   font-family: var(--font-mono, "VT323", monospace);
   font-size: var(--font-size-taskbar, 13px);
   color: #000;
-  background: #c0c0c0;
-  padding: 0 4px;
+  background: transparent;
+  padding: 2px 6px;
   letter-spacing: 1px;
+  border-left: 1px solid var(--taskbar-divider, #808080);
+}
+
+/* ============================================================
+   NOTIFICATION ICON (Taskbar)
+   ============================================================ */
+.notify-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 24px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.notify-icon-container:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.notify-icon-container:active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.notify-bell {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Badge counter */
+.notify-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 14px;
+  height: 14px;
+  background: #ff0000;
+  color: #fff;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 14px;
+  text-align: center;
+  border-radius: 7px;
+  border: 1px solid #fff;
+  padding: 0 2px;
+  display: none;
+  pointer-events: none;
+}
+
+/* Flash animation untuk notifikasi baru */
+.notify-flash .notify-bell {
+  animation: bellRing 0.3s ease-in-out 3;
+}
+
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+}
+
+/* ============================================================
+   NOTIFICATION PANEL (Dropdown)
+   ============================================================ */
+.notify-panel {
+  width: 340px;
+  max-height: 320px;
+  background: #c0c0c0;
+  border: 2px solid #000;
+  box-shadow: inset -1px -1px 0 #808080,
+    inset 1px 1px 0 #ffffff,
+    2px 2px 0 rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  font-family: var(--font-mono, "VT323", monospace);
+}
+
+/* Panel Header */
+.notify-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: linear-gradient(90deg, #000080, #0000a0);
+  color: #fff;
+  flex-shrink: 0;
+  border-bottom: 1px solid #000;
+}
+
+.notify-panel-title {
+  font-size: 13px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.notify-clear-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.notify-clear-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.notify-clear-btn:active {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Panel List */
+.notify-panel-list {
+  overflow-y: auto;
+  max-height: 280px;
+}
+
+.notify-panel-list::-webkit-scrollbar {
+  width: 8px;
+}
+.notify-panel-list::-webkit-scrollbar-track {
+  background: #a0a0a0;
+}
+.notify-panel-list::-webkit-scrollbar-thumb {
+  background: #808080;
+  border: 1px solid #c0c0c0;
+}
+
+/* Empty state */
+.notify-empty {
+  padding: 20px;
+  text-align: center;
+  color: #808080;
+  font-size: 14px;
+}
+
+/* Notifikasi Item */
+.notify-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #a0a0a0;
+  cursor: default;
+  transition: background 0.1s;
+}
+
+.notify-item:last-child {
+  border-bottom: none;
+}
+
+.notify-item:hover {
+  background: #d0d0d0;
+}
+
+.notify-item.unread {
+  background: #e8e0c0;
+  border-left: 3px solid #000080;
+}
+
+.notify-item.unread:hover {
+  background: #f0e8c8;
+}
+
+.notify-item.read {
+  opacity: 0.7;
+}
+
+.notify-item-message {
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #000;
+  word-wrap: break-word;
+}
+
+.notify-item-time {
+  flex-shrink: 0;
+  font-size: 10px;
+  color: #666;
+  padding-top: 1px;
 }
