@@ -95,176 +95,205 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  padding: 0 8px;
-  gap: 6px;
+  padding: 0 6px 0 8px;
+  gap: 4px;
   height: 100%;
   flex-shrink: 0;
+  border-left: 1px solid var(--btn-shadow, #808080);
+  box-shadow: inset 1px 0 0 var(--btn-highlight, #ffffff);
 }
 
 .taskbar-clock {
   font-family: var(--font-mono, "VT323", monospace);
-  font-size: var(--font-size-taskbar, 13px);
+  font-size: 14px;
   color: #000;
   background: transparent;
-  padding: 2px 6px;
+  padding: 0 6px;
   letter-spacing: 1px;
-  border-left: 1px solid var(--taskbar-divider, #808080);
 }
 
 /* ============================================================
-   NOTIFICATION ICON (Taskbar)
+   NOTIFICATION ICON (Taskbar Tray)
    ============================================================ */
 .notify-icon-container {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 24px;
+  width: 30px;
+  height: 26px;
   cursor: pointer;
   border: 1px solid transparent;
-  border-radius: 2px;
-  padding: 0 2px;
+  padding: 0 4px;
   flex-shrink: 0;
   user-select: none;
 }
 
 .notify-icon-container:hover {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.1);
+  background: var(--btn-highlight, #ffffff);
+  border-color: var(--btn-shadow, #808080);
+  box-shadow: inset -1px -1px 0 var(--btn-dark-shadow, #000),
+    inset 1px 1px 0 var(--btn-highlight, #ffffff);
 }
 
-.notify-icon-container:active {
-  background: rgba(0, 0, 0, 0.1);
+.notify-icon-container:active,
+.notify-icon-container.active {
+  background: #a0a0a0;
+  border-color: var(--btn-dark-shadow, #000);
+  box-shadow: inset 1px 1px 0 var(--btn-shadow, #808080),
+    inset -1px -1px 0 var(--btn-highlight, #ffffff);
 }
 
 .notify-bell {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
+  filter: sepia(0.3) hue-rotate(90deg) brightness(0.9);
 }
 
-/* Badge counter */
+/* Badge counter — merah menyala di pojok kanan atas icon */
 .notify-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
-  min-width: 14px;
+  top: 0px;
+  right: 0px;
+  min-width: 16px;
   height: 14px;
   background: #ff0000;
   color: #fff;
   font-family: var(--font-mono, "VT323", monospace);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
   line-height: 14px;
   text-align: center;
-  border-radius: 7px;
   border: 1px solid #fff;
-  padding: 0 2px;
+  padding: 0 3px;
   display: none;
   pointer-events: none;
+  box-shadow: 0 0 4px rgba(255, 0, 0, 0.6);
 }
 
-/* Flash animation untuk notifikasi baru */
+/* Animasi bell ring saat notifikasi baru */
 .notify-flash .notify-bell {
-  animation: bellRing 0.3s ease-in-out 3;
+  animation: bellRing 0.4s ease-in-out 4;
 }
 
 @keyframes bellRing {
   0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-15deg); }
-  75% { transform: rotate(15deg); }
+  15% { transform: rotate(-20deg); }
+  45% { transform: rotate(20deg); }
+  70% { transform: rotate(-10deg); }
 }
 
 /* ============================================================
-   NOTIFICATION PANEL (Dropdown)
+   NOTIFICATION PANEL (Dropdown di atas taskbar)
    ============================================================ */
 .notify-panel {
-  width: 340px;
-  max-height: 320px;
-  background: #c0c0c0;
-  border: 2px solid #000;
-  box-shadow: inset -1px -1px 0 #808080,
-    inset 1px 1px 0 #ffffff,
-    2px 2px 0 rgba(0, 0, 0, 0.3);
+  position: fixed;
+  bottom: 36px;
+  right: 8px;
+  width: 360px;
+  max-height: 380px;
+  background: var(--taskbar-bg, #c0c0c0);
+  border: 2px solid var(--btn-dark-shadow, #000);
+  box-shadow: inset -1px -1px 0 var(--btn-shadow, #808080),
+    inset 1px 1px 0 var(--btn-highlight, #ffffff),
+    3px 3px 0 rgba(0, 0, 0, 0.4);
   z-index: 9999;
   display: none;
   flex-direction: column;
   font-family: var(--font-mono, "VT323", monospace);
 }
 
-/* Panel Header */
+/* --- Panel Header --- */
 .notify-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 8px;
-  background: linear-gradient(90deg, #000080, #0000a0);
-  color: #fff;
+  padding: 6px 10px;
+  background: var(--window-titlebar-bg, #000080);
+  color: var(--window-titlebar-text, #ffffff);
   flex-shrink: 0;
-  border-bottom: 1px solid #000;
+  border-bottom: 2px solid var(--btn-dark-shadow, #000);
 }
 
 .notify-panel-title {
-  font-size: 13px;
-  letter-spacing: 1px;
+  font-size: 14px;
+  letter-spacing: 2px;
   font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .notify-clear-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
   font-family: var(--font-mono, "VT323", monospace);
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
-  padding: 1px 6px;
-  border-radius: 2px;
+  padding: 2px 8px;
+  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.3),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .notify-clear-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.5);
 }
 
 .notify-clear-btn:active {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.4);
 }
 
-/* Panel List */
+/* --- Panel List (scrollable) --- */
 .notify-panel-list {
   overflow-y: auto;
-  max-height: 280px;
+  max-height: 340px;
+  background: #ffffff;
+  border: inset 2px;
+  border-color: var(--btn-shadow, #808080) var(--btn-highlight, #ffffff)
+    var(--btn-highlight, #ffffff) var(--btn-shadow, #808080);
+  margin: 4px;
 }
 
 .notify-panel-list::-webkit-scrollbar {
-  width: 8px;
+  width: 16px;
 }
 .notify-panel-list::-webkit-scrollbar-track {
-  background: #a0a0a0;
+  background: #c0c0c0;
+  border-left: 1px solid #808080;
 }
 .notify-panel-list::-webkit-scrollbar-thumb {
-  background: #808080;
-  border: 1px solid #c0c0c0;
+  background: #c0c0c0;
+  border: 1px solid #000;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+}
+.notify-panel-list::-webkit-scrollbar-button {
+  background: #c0c0c0;
+  border: 1px solid #000;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+  height: 16px;
 }
 
-/* Empty state */
+/* --- Empty state --- */
 .notify-empty {
-  padding: 20px;
+  padding: 30px 20px;
   text-align: center;
   color: #808080;
-  font-size: 14px;
+  font-size: 16px;
+  font-style: italic;
+  background: #ffffff;
 }
 
-/* Notifikasi Item */
+/* --- Notifikasi Item --- */
 .notify-item {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
-  padding: 6px 8px;
-  border-bottom: 1px solid #a0a0a0;
+  padding: 8px 10px;
+  border-bottom: 1px solid #d0d0d0;
   cursor: default;
-  transition: background 0.1s;
+  background: #ffffff;
 }
 
 .notify-item:last-child {
@@ -272,33 +301,49 @@
 }
 
 .notify-item:hover {
-  background: #d0d0d0;
+  background: #f0f0e8;
 }
 
+/* Belum dibaca — highlight kuning pucat + accent kiri */
 .notify-item.unread {
-  background: #e8e0c0;
-  border-left: 3px solid #000080;
+  background: #fffde0;
+  border-left: 4px solid var(--window-titlebar-bg, #000080);
+  padding-left: 6px;
 }
 
 .notify-item.unread:hover {
-  background: #f0e8c8;
+  background: #fff8c8;
 }
 
+.notify-item.unread .notify-item-message {
+  font-weight: bold;
+}
+
+/* Sudah dibaca — lebih pudar */
 .notify-item.read {
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
+.notify-item.read:hover {
+  opacity: 0.85;
+}
+
+/* Pesan notifikasi */
 .notify-item-message {
   flex: 1;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.5;
   color: #000;
   word-wrap: break-word;
+  font-family: var(--font-mono, "VT323", monospace);
 }
 
+/* Timestamp */
 .notify-item-time {
   flex-shrink: 0;
-  font-size: 10px;
-  color: #666;
-  padding-top: 1px;
+  font-size: 12px;
+  color: #808080;
+  padding-top: 2px;
+  font-family: var(--font-mono, "VT323", monospace);
+  white-space: nowrap;
 }

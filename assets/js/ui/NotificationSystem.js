@@ -46,7 +46,6 @@ export class NotificationSystem {
     const panel = document.createElement("div");
     panel.className = "notify-panel";
     panel.id = "notify-panel";
-    panel.style.display = "none";
     panel.innerHTML = `
       <div class="notify-panel-header">
         <span class="notify-panel-title">📋 NOTIFIKASI</span>
@@ -56,11 +55,6 @@ export class NotificationSystem {
         <div class="notify-empty">Belum ada notifikasi</div>
       </div>
     `;
-
-    // Posisi panel tepat di atas taskbar, di sebelah kanan
-    panel.style.position = "fixed";
-    panel.style.bottom = "36px";
-    panel.style.right = "8px";
 
     document.body.appendChild(panel);
 
@@ -131,8 +125,16 @@ export class NotificationSystem {
   togglePanel() {
     this.panelOpen = !this.panelOpen;
     const panel = document.getElementById("notify-panel");
+    const icon = document.getElementById("notify-icon");
     if (panel) {
-      panel.style.display = this.panelOpen ? "block" : "none";
+      panel.style.display = this.panelOpen ? "flex" : "none";
+    }
+    if (icon) {
+      if (this.panelOpen) {
+        icon.classList.add("active");
+      } else {
+        icon.classList.remove("active");
+      }
     }
     if (this.panelOpen) {
       this._markAllRead();
@@ -145,7 +147,9 @@ export class NotificationSystem {
   closePanel() {
     this.panelOpen = false;
     const panel = document.getElementById("notify-panel");
+    const icon = document.getElementById("notify-icon");
     if (panel) panel.style.display = "none";
+    if (icon) icon.classList.remove("active");
   }
 
   /**
