@@ -8,6 +8,7 @@
 import { EventBus } from "../core/EventBus.js";
 import { GameState } from "../core/Store.js";
 import { caseLoader } from "../engine/CaseLoader.js";
+import { SearchEngine } from "../utils/SearchEngine.js";
 
 export class NotesApp {
   /**
@@ -72,9 +73,27 @@ export class NotesApp {
 
     body.innerHTML = `
       <div style="display: flex; flex-direction: column; height: 100%;">
-        <div style="padding: 8px 16px; background: #e8dcc8; border-bottom: 2px solid #c4b59b; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
-          <span style="font-size: 13px; color: #5a4a3a;">📓 Buku Catatan Detektif</span>
-          <span style="font-size: 11px; color: #888;" id="notes-wordcount">0 karakter</span>
+        <div style="padding: 6px 12px; background: #e8dcc8; border-bottom: 2px solid #c4b59b; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
+          <span style="font-size: 14px; color: #5a4a3a;">📓 Buku Catatan Detektif</span>
+          <span style="font-size: 12px; color: #888;" id="notes-wordcount">0 karakter</span>
+        </div>
+        <!-- Search Bar -->
+        <div style="padding: 6px 12px; background: #d8d0c0; border-bottom: 1px solid #b0a898; display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+          <input type="text" id="notes-search" placeholder="🔍 Cari di catatan..." style="
+            flex: 1;
+            padding: 4px 8px;
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            border: 2px solid #888;
+            border-right-color: #fff;
+            border-bottom-color: #fff;
+            border-left-color: #888;
+            border-top-color: #888;
+            background: #fff;
+            color: #000;
+            outline: none;
+          " />
+          <span id="notes-search-result" style="font-size: 12px; color: #000080; white-space: nowrap;"></span>
         </div>
         <textarea id="notes-textarea" style="
           flex: 1;
@@ -160,6 +179,61 @@ export class NotesApp {
         saveNotes();
       }
     });
+
+    // --- Search in Notes ---
+    const searchInput = body.querySelector("#notes-search");
+    const searchResult = body.querySelector("#notes-search-result");
+    if (searchInput) {
+      let searchTimeout = null;
+      searchInput.addEventListener("input", () => {
+        if (searchTimeout) clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          const query = searchInput.value.trim();
+          if (query.length === 0) {
+            searchResult.textContent = "";
+            textarea.style.background = "#f5f0e8";
+            return;
+          }
+          const notesContent = textarea.value;
+          const lowerContent = notesContent.toLowerCase();
+          const lowerQuery = query.toLowerCase();
+          let count = 0;
+          let pos = 0;
+          while ((pos = lowerContent.indexOf(lowerQuery, pos)) !== -1) {
+            count++;
+            pos += lowerQuery.length;
+          }
+          if (count > 0) {
+            searchResult.textContent = `${count} ditemukan`;
+            searchResult.style.color = "#000080";
+            textarea.focus();
+            // Highlight first occurrence
+            const idx = lowerContent.indexOf(lowerQuery);
+            if (idx !== -1) {
+              textarea.setSelectionRange(idx, idx + query.length);
+            }
+          } else {
+            searchResult.textContent = "Tidak ditemukan";
+            searchResult.style.color = "#ff4444";
+          }
+        }, 300);
+      });
+
+      // Enter untuk cari berikutnya
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const query = searchInput.value.trim().toLowerCase();
+          if (!query) return;
+          const lowerContent = textarea.value.toLowerCase();
+          const currentPos = textarea.selectionStart;
+          const nextPos = lowerContent.indexOf(query, currentPos + 1);
+          if (nextPos !== -1) {
+            textarea.setSelectionRange(nextPos, nextPos + query.length);
+            textarea.focus();
+          }
+        }
+      });
+    }
 
     // Initial load
     updateWordCount();

@@ -11,6 +11,7 @@ import { caseLoader } from "../engine/CaseLoader.js";
 import { evidenceEngine } from "../engine/EvidenceEngine.js";
 import { aiClient } from "../ai/AIClient.js";
 import { typewrite } from "../utils/Typewriter.js";
+import { Security } from "../utils/Security.js";
 
 export class InterrogationRoom {
   /**
@@ -202,8 +203,11 @@ export class InterrogationRoom {
     sendBtn.disabled = true;
     loadingEl.style.display = "inline-block";
 
+    // Sanitasi pesan user sebelum tampilkan
+    const safeMessage = Security.sanitizeInput(message, 500);
+
     // Tampilkan pesan user di chat
-    this._addChatMessage("user", message);
+    this._addChatMessage("user", Security.escapeHtml(safeMessage));
 
     // Tampilkan indikator "mengetik..." di chat
     const chatArea = document.querySelector(`#chat-area-${this.suspectId}`);
@@ -217,7 +221,9 @@ export class InterrogationRoom {
     chatArea.scrollTop = chatArea.scrollHeight;
 
     try {
-      const result = await aiClient.sendMessage(this.suspectId, message);
+      // Sanitasi untuk AI (cegah prompt injection)
+      const aiSafeMessage = Security.sanitizeForAI(safeMessage);
+      const result = await aiClient.sendMessage(this.suspectId, aiSafeMessage);
       // Hapus indikator typing
       typingDiv.remove();
       // Tampilkan respons AI dengan typewriter

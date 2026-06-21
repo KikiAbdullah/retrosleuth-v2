@@ -10,6 +10,9 @@ import { GameState } from "../core/Store.js";
 import { evidenceEngine } from "../engine/EvidenceEngine.js";
 import { Markdown } from "../utils/Markdown.js";
 import { caseLoader } from "../engine/CaseLoader.js";
+import { SearchEngine } from "../utils/SearchEngine.js";
+import { Security } from "../utils/Security.js";
+// Note: SearchEngine and Security use .js extension for ES module compatibility
 
 export class EvidenceViewer {
   constructor(windowManager) {
@@ -116,6 +119,12 @@ export class EvidenceViewer {
         ${tabsHtml}
       </div>
 
+      <!-- Search Box -->
+      <div class="evidence-search-container">
+        <input type="text" class="evidence-search-input" id="evi-search" placeholder="🔍 Cari bukti..." />
+        <span class="evidence-search-hint" id="evi-search-hint"></span>
+      </div>
+
       <div class="evidence-grid-container">
         <div id="evidence-grid">
           ${gridHtml}
@@ -142,6 +151,43 @@ export class EvidenceViewer {
         this._showEvidenceDetail(item.dataset.eviId);
       });
     });
+
+    // --- Search ---
+    const searchInput = body.querySelector("#evi-search");
+    const searchHint = body.querySelector("#evi-search-hint");
+    if (searchInput) {
+      // Build search index dari bukti yang ada
+      const allEvidence = evidenceEngine.getAllEvidence();
+      const docs = allEvidence.map((e) => ({
+        id: e.id,
+        title: e.title || "",
+        content: e.description_short || e.title || "",
+        type: "evidence",
+      }));
+      SearchEngine.buildIndex(docs);
+
+      let searchTimeout = null;
+      searchInput.addEventListener("input", () => {
+        if (searchTimeout) clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          const query = searchInput.value.trim();
+          if (query.length === 0) {
+            searchHint.textContent = "";
+            // Reset: tampilkan semua
+            body.querySelectorAll(".evidence-item").forEach((item) => {
+              item.style.display = "";
+            });
+            return;
+          }
+          const results = SearchEngine.search(query, { maxResults: 20 });
+          const resultIds = new Set(results.map((r) => r.id));
+          body.querySelectorAll(".evidence-item").forEach((item) => {
+            item.style.display = resultIds.has(item.dataset.eviId) ? "" : "none";
+          });
+          searchHint.textContent = `${results.length} hasil ditemukan`;
+        }, 300);
+      });
+    }
   }
 
   _filterEvidence(folder) {

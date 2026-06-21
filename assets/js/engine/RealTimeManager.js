@@ -13,13 +13,14 @@ import { EventBus } from "../core/EventBus.js";
 import { GameState } from "../core/Store.js";
 import { caseLoader } from "./CaseLoader.js";
 import { evidenceEngine } from "./EvidenceEngine.js";
-
+import { Effects } from "../utils/Effects.js";
 export class RealTimeManager {
-  constructor() {
+  constructor(notificationSystem) {
     this.events = [];
     this.timerId = null;
     this.isRunning = false;
     this.executedEvents = new Set();
+    this._notificationSystem = notificationSystem || null;
 
     /**
      * Interval tick dalam ms.
@@ -123,6 +124,8 @@ export class RealTimeManager {
           if (payload.play_sound) {
             this._playSound(payload.play_sound);
           }
+          // Efek visual bukti ditemukan
+          Effects.evidenceFound();
         }
         break;
 
@@ -132,6 +135,10 @@ export class RealTimeManager {
         }
         if (payload.play_sound) {
           this._playSound(payload.play_sound);
+        }
+        // Efek warning jika message mengandung kata kunci deadline
+        if (payload.message && (payload.message.includes("PERINGATAN") || payload.message.includes("deadline"))) {
+          Effects.warning();
         }
         break;
 
@@ -164,32 +171,28 @@ export class RealTimeManager {
   }
 
   /**
-   * Menampilkan notifikasi di pojok kanan atas
+   * Menampilkan notifikasi via NotificationSystem
    */
   _showNotification(message) {
-    // Gunakan container tetap yang sudah adi di DOM
-    let container = document.getElementById("realtime-notify");
-    if (!container) {
-      container = document.createElement("div");
-      container.id = "realtime-notify";
-      document.body.appendChild(container);
+    if (this._notificationSystem) {
+      this._notificationSystem.add(message, `rte-${Date.now()}`);
+    } else {
+      // Fallback: gunakan container sederhana
+      let container = document.getElementById("realtime-notify");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "realtime-notify";
+        container.className = "notify-container";
+        document.body.appendChild(container);
+      }
+      container.textContent = message;
+      container.style.display = "block";
+      if (this._notifyTimeout) clearTimeout(this._notifyTimeout);
+      this._notifyTimeout = setTimeout(() => {
+        container.style.display = "none";
+      }, 5000);
     }
-
-    // Reset animasi
-    container.className = "";
-    void container.offsetWidth; // force reflow
-
-    container.textContent = message;
-    container.style.display = "block";
-    container.className = "notify-container notification-fade";
-
     console.log(`[RealTimeManager] 🔔 Notifikasi: ${message}`);
-
-    // Sembunyikan setelah 5 detik
-    if (this._notifyTimeout) clearTimeout(this._notifyTimeout);
-    this._notifyTimeout = setTimeout(() => {
-      container.style.display = "none";
-    }, 5000);
   }
 
   /**
@@ -262,7 +265,7 @@ export class RealTimeManager {
 // Instance singleton
 export let realTimeManager = null;
 
-export function initRealTimeManager() {
-  realTimeManager = new RealTimeManager();
+export function initRealTimeManager(notificationSystem) {
+  realTimeManager = new RealTimeManager(notificationSystem);
   return realTimeManager;
 }

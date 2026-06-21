@@ -49,6 +49,12 @@ import { initRealTimeManager } from "./engine/RealTimeManager.js";
 // --- Notification System ---
 import { initNotificationSystem } from "./ui/NotificationSystem.js";
 
+// --- Plugins ---
+import { Security } from "./utils/Security.js";
+import { Effects } from "./utils/Effects.js";
+import { SearchEngine } from "./utils/SearchEngine.js";
+import { FileHelper } from "./utils/FileHelper.js";
+
 // ============================================================
 //  2. KONFIGURASI
 // ============================================================
@@ -673,11 +679,17 @@ async function initializeApp() {
   // EvidenceEngine
   const eviEngine = initEvidenceEngine();
 
-  // RealTimeManager
-  const realTimeManager = initRealTimeManager();
-
-  // Notification System
+  // Notification System (harus dibuat sebelum RealTimeManager)
   const notificationSystem = initNotificationSystem();
+
+  // RealTimeManager
+  const realTimeManager = initRealTimeManager(notificationSystem);
+
+  // --- Load Plugins (CDN) ---
+  await Security.load();
+  await Effects.load();
+  await SearchEngine.load();
+  await FileHelper.load();
 
   // --- 7.3 Fase 2: Modules UI ---
   const caseHub = new CaseHub(wm);
@@ -857,6 +869,9 @@ async function initializeApp() {
     timelineEngine: TimelineEngine,
     realTimeManager,
     notificationSystem,
+    effects: Effects,
+    searchEngine: SearchEngine,
+    security: Security,
     databaseManager: DatabaseManager,
     GameState,
     EventBus,

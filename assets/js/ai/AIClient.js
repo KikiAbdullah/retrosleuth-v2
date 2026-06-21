@@ -8,6 +8,7 @@
 import { GameState } from "../core/Store.js";
 import { PromptBuilder } from "./PromptBuilder.js";
 import { TrustSystem } from "./TrustSystem.js";
+import { Security } from "../utils/Security.js";
 import {
   getFallbackResponse,
   getFallbackResponseWithError,
@@ -83,11 +84,14 @@ export class AIClient {
       }
 
       const data = await response.json();
-      const reply = data.choices?.[0]?.message?.content || "";
+      const rawReply = data.choices?.[0]?.message?.content || "";
 
-      if (!reply || reply.trim() === "") {
+      if (!rawReply || rawReply.trim() === "") {
         throw new Error("Respons AI kosong");
       }
+
+      // Sanitasi response AI dari karakter berbahaya
+      const reply = Security.sanitizeInput(rawReply, 2000);
 
       // 6. Simpan chat history
       GameState.addChatMessage(suspectId, "user", userMessage);

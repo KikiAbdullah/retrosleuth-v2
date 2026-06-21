@@ -1,9 +1,12 @@
 /**
  * ============================================================
- *  MARKDOWN.JS — Renderer Markdown via marked.js
+ *  MARKDOWN.JS — Renderer Markdown via marked.js + DOMPurify
  *  Memuat library dari CDN secara dinamis.
+ *  Output di-sanitasi untuk mencegah XSS.
  * ============================================================
  */
+
+import { Security } from "./Security.js";
 
 export class Markdown {
   static #loaded = false;
@@ -15,6 +18,9 @@ export class Markdown {
    */
   static async load() {
     if (this.#loaded) return;
+
+    // Load DOMPurify juga
+    await Security.load();
 
     return new Promise((resolve, reject) => {
       try {
@@ -56,41 +62,46 @@ export class Markdown {
   }
 
   /**
-   * Merender Markdown ke HTML.
+   * Merender Markdown ke HTML yang aman (di-sanitasi).
    * @param {string} mdText - Teks Markdown.
    * @param {Object} options - Opsi rendering.
-   * @returns {string} HTML string.
+   * @returns {string} HTML string yang aman.
    */
   static render(mdText, options = {}) {
     if (!mdText || typeof mdText !== "string") {
       return "<p><em>Konten kosong</em></p>";
     }
 
+    let html;
+
     // Jika marked.js belum dimuat, gunakan fallback sederhana
     if (!this.#loaded || !this.#marked) {
-      return this._fallbackRender(mdText);
+      html = this._fallbackRender(mdText);
+    } else {
+      try {
+        // Konfigurasi marked
+        const renderer = new this.#marked.Renderer();
+        // Tambahkan target="_blank" ke link
+        renderer.link = (href, title, text) => {
+          return `<a href="${href}" target="_blank" rel="noopener noreferrer"${
+            title ? ` title="${title}"` : ""
+          }>${text}</a>`;
+        };
+
+        html = this.#marked.parse(mdText, {
+          renderer,
+          breaks: true,
+          gfm: true,
+          ...options,
+        });
+      } catch (error) {
+        console.warn("[Markdown] Error rendering:", error);
+        html = this._fallbackRender(mdText);
+      }
     }
 
-    try {
-      // Konfigurasi marked
-      const renderer = new this.#marked.Renderer();
-      // Tambahkan target="_blank" ke link
-      renderer.link = (href, title, text) => {
-        return `<a href="${href}" target="_blank" rel="noopener noreferrer"${
-          title ? ` title="${title}"` : ""
-        }>${text}</a>`;
-      };
-
-      return this.#marked.parse(mdText, {
-        renderer,
-        breaks: true,
-        gfm: true,
-        ...options,
-      });
-    } catch (error) {
-      console.warn("[Markdown] Error rendering:", error);
-      return this._fallbackRender(mdText);
-    }
+    // Sanitasi output HTML untuk mencegah XSS
+    return Security.sanitize(html);
   }
 
   /**

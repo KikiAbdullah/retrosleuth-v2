@@ -3,6 +3,12 @@
    Estetika: File manager detektif jadul yang keren
    ============================================================ */
 
+/* --- Timeline Pulse Animation --- */
+@keyframes timelinePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 /* ============================================================
    EVIDENCE LIST WINDOW
    ============================================================ */
@@ -84,6 +90,51 @@
   background: #1a3a6a;
   color: #fff;
   box-shadow: inset -1px -1px 0 #0d1f3c, inset 1px 1px 0 #2a5a9a;
+}
+
+/* --- Search Box --- */
+.evidence-search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #e8e0d0;
+  border-bottom: 1px solid #b0a898;
+  flex-shrink: 0;
+}
+
+.evidence-search-input {
+  flex: 1;
+  padding: 6px 10px;
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 14px;
+  border: 2px solid #888;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  border-left-color: #888;
+  border-top-color: #888;
+  background: #fff;
+  color: #000;
+  outline: none;
+  box-shadow: inset 1px 1px 0 #ccc, inset -1px -1px 0 #fff;
+}
+
+.evidence-search-input:focus {
+  border-color: #000080;
+  box-shadow: inset 1px 1px 0 #000080, inset -1px -1px 0 #000080;
+}
+
+.evidence-search-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.evidence-search-hint {
+  font-size: 12px;
+  color: #000080;
+  white-space: nowrap;
+  min-width: 100px;
+  text-align: right;
 }
 
 /* --- Grid Area --- */

@@ -8,6 +8,7 @@
 import { EventBus } from "../core/EventBus.js";
 import { GameState } from "../core/Store.js";
 import { caseLoader } from "./CaseLoader.js";
+import { Effects } from "../utils/Effects.js";
 
 export class SolutionEngine {
   /**
@@ -122,6 +123,9 @@ export class SolutionEngine {
     // Tuduhan benar!
     GameState.caseStatus = "solved";
     GameState.save();
+
+    // Efek visual kemenangan
+    Effects.caseSolved();
 
     EventBus.emit("case:solved", {
       culpritId: culpritId,
