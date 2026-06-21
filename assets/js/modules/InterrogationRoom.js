@@ -324,12 +324,6 @@ export class InterrogationRoom {
         vals[key].textContent = `${val}%`;
       }
     }
-
-    // Emit event agar dossier list juga update status dot
-    EventBus.emit("interrogation:stateChanged", {
-      suspectId: this.suspectId,
-      emotion,
-    });
   }
 
   /**
