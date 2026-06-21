@@ -75,7 +75,8 @@ export class FileHelper {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        // Revoke URL setelah delay untuk memastikan download selesai
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
       }
 
       console.log(`[FileHelper] File "${filename}" berhasil di-download.`);

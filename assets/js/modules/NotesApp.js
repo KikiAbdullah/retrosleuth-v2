@@ -191,7 +191,6 @@ export class NotesApp {
           const query = searchInput.value.trim();
           if (query.length === 0) {
             searchResult.textContent = "";
-            textarea.style.background = "#f5f0e8";
             return;
           }
           const notesContent = textarea.value;
@@ -207,7 +206,6 @@ export class NotesApp {
             searchResult.textContent = `${count} ditemukan`;
             searchResult.style.color = "#000080";
             textarea.focus();
-            // Highlight first occurrence
             const idx = lowerContent.indexOf(lowerQuery);
             if (idx !== -1) {
               textarea.setSelectionRange(idx, idx + query.length);

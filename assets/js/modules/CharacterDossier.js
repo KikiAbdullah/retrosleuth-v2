@@ -122,7 +122,7 @@ export class CharacterDossier {
       </div>
       <div class="dossier-toolbar">
         <span class="dossier-toolbar-label">Filter:</span>
-        <input class="dossier-search-input" type="text" placeholder="Cari nama..." disabled>
+        <input class="dossier-search-input" type="text" id="dossier-search" placeholder="Cari nama..." />
         <span style="flex:1"></span>
         <span style="font-size:11px;color:#888;">Klik kartu untuk buka profil →</span>
       </div>
@@ -142,6 +142,20 @@ export class CharacterDossier {
         this._showCharacterDetail(btn.dataset.charId);
       });
     });
+
+    // Search filter
+    const searchInput = body.querySelector("#dossier-search");
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim().toLowerCase();
+        body.querySelectorAll(".dossier-card").forEach((card) => {
+          const name = (card.querySelector(".dossier-card-name")?.textContent || "").toLowerCase();
+          const role = (card.querySelector(".dossier-card-meta")?.textContent || "").toLowerCase();
+          const match = !query || name.includes(query) || role.includes(query);
+          card.style.display = match ? "" : "none";
+        });
+      });
+    }
   }
 
   _showCharacterDetail(charId) {

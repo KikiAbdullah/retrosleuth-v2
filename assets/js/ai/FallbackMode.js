@@ -30,5 +30,6 @@ export function getFallbackResponse() {
  */
 export function getFallbackResponseWithError(errorMessage) {
   const base = getFallbackResponse();
-  return `[ERROR: ${errorMessage}] ${base}`;
+  // Jangan tampilkan prefix [ERROR] di chat — hanya tampilkan respons karakter
+  return base;
 }

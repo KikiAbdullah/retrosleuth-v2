@@ -440,10 +440,13 @@ export class SettingsWindow {
           status.style.color = "#f44336";
           return;
         }
+        // Restore state dan reload halaman untuk refresh semua UI
         GameState.restoreState(data);
         await GameState.save();
-        status.textContent = `✅ Import berhasil! Progres dimuat. Refresh halaman untuk melihat perubahan.`;
+        status.textContent = `✅ Import berhasil! Memuat ulang...`;
         status.style.color = "#4CAF50";
+        // Reload halaman setelah 1 detik
+        setTimeout(() => location.reload(), 1000);
       } catch (error) {
         status.textContent = `❌ Import gagal: ${error.message}`;
         status.style.color = "#f44336";

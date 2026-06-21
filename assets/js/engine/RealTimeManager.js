@@ -144,11 +144,13 @@ export class RealTimeManager {
 
       case "send_message_from_character":
         if (payload.character_id && payload.message) {
-          EventBus.emit("real-time:message", {
-            characterId: payload.character_id,
-            message: payload.message,
-            auto_open_chat: payload.auto_open_chat
-          });
+          // Auto-buka InterrogationRoom jika diminta
+          if (payload.auto_open_chat) {
+            // Delay sedikit agar notifikasi muncul dulu
+            setTimeout(() => {
+              EventBus.emit("interrogation:start", { characterId: payload.character_id });
+            }, 1500);
+          }
           this._showNotification(`💬 Pesan dari ${payload.character_id}`);
         }
         break;

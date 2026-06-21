@@ -773,6 +773,50 @@ async function initializeApp() {
     }
   });
 
+  // --- 7.7 Handle case:failed (game over) ---
+  EventBus.on("case:failed", ({ reason }) => {
+    console.log(`[RetroSleuth] ❌ Kasus gagal: ${reason}`);
+    // Tampilkan game over window
+    const gameOverId = "gameover";
+    if (wm.isOpen(gameOverId)) wm.close(gameOverId);
+    const winEl = wm.register(gameOverId, {
+      title: "⛔ Game Over",
+      width: 480,
+      height: 320,
+      resizable: false,
+      maximizable: false,
+    });
+    const body = winEl.querySelector(".window-body");
+    body.style.cssText = "padding:24px;text-align:center;font-family:var(--font-mono,monospace);background:#1a0000;color:#ff4444;";
+    body.innerHTML = `
+      <div style="font-size:48px;margin-bottom:16px;">⛔</div>
+      <h2 style="color:#ff4444;margin-bottom:12px;font-size:22px;">WAKTU HABIS</h2>
+      <p style="color:#cc6666;font-size:15px;line-height:1.6;margin-bottom:20px;">
+        Batas waktu investigasi telah tercapai.<br>
+        Tersangka lolos. Kasus ditutup tanpa terpecahkan.
+      </p>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button id="btn-restart-case" style="background:#000080;color:#fff;border:none;padding:8px 20px;font-family:var(--font-mono,monospace);cursor:pointer;font-size:14px;">
+          🔄 Mulai Ulang
+        </button>
+        <button id="btn-back-to-hub" style="background:#444;color:#fff;border:none;padding:8px 20px;font-family:var(--font-mono,monospace);cursor:pointer;font-size:14px;">
+          📁 Case Hub
+        </button>
+      </div>
+    `;
+    wm.open(gameOverId);
+    body.querySelector("#btn-restart-case")?.addEventListener("click", () => {
+      wm.close(gameOverId);
+      GameState.reset();
+      caseLoader.unloadCase();
+      caseHub.open();
+    });
+    body.querySelector("#btn-back-to-hub")?.addEventListener("click", () => {
+      wm.close(gameOverId);
+      caseHub.open();
+    });
+  });
+
   // --- 7.7 Auto-save sebelum close/tab ditutup ---
   window.addEventListener("beforeunload", () => {
     const caseId = GameState.currentCaseId;

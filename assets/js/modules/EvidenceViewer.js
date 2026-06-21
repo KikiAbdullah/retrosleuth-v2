@@ -156,15 +156,18 @@ export class EvidenceViewer {
     const searchInput = body.querySelector("#evi-search");
     const searchHint = body.querySelector("#evi-search-hint");
     if (searchInput) {
-      // Build search index dari bukti yang ada
-      const allEvidence = evidenceEngine.getAllEvidence();
-      const docs = allEvidence.map((e) => ({
-        id: e.id,
-        title: e.title || "",
-        content: e.description_short || e.title || "",
-        type: "evidence",
-      }));
-      SearchEngine.buildIndex(docs);
+      // Build search index dari bukti yang ada (hanya yang sudah ditemukan)
+      const buildIndex = () => {
+        const discovered = evidenceEngine.getDiscoveredEvidence();
+        const docs = discovered.map((e) => ({
+          id: e.id,
+          title: e.title || "",
+          content: e.description_short || e.title || "",
+          type: "evidence",
+        }));
+        SearchEngine.buildIndex(docs);
+      };
+      buildIndex();
 
       let searchTimeout = null;
       searchInput.addEventListener("input", () => {

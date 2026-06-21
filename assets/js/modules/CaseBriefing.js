@@ -122,6 +122,7 @@ export class CaseBriefing {
 
         <div class="briefing-actions">
           <button class="briefing-btn" id="btn-evidence-briefing">🔍 LIHAT BUKTI</button>
+          <button class="briefing-btn briefing-btn-secondary" id="btn-starts-investigation">🚀 MULAI INVESTIGASI</button>
           <button class="briefing-btn briefing-btn-secondary" id="btn-close-briefing">✕ TUTUP</button>
         </div>`;
 
@@ -130,6 +131,12 @@ export class CaseBriefing {
       });
 
       body.querySelector("#btn-evidence-briefing")?.addEventListener("click", () => {
+        EventBus.emit("evidence:view", {});
+      });
+
+      body.querySelector("#btn-starts-investigation")?.addEventListener("click", () => {
+        this.wm.close(this.windowId);
+        // Buka Evidence Viewer sebagai langkah pertama investigasi
         EventBus.emit("evidence:view", {});
       });
 

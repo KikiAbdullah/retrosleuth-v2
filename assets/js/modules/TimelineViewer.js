@@ -276,13 +276,25 @@ export class TimelineViewer {
     body.querySelectorAll(".timeline-event").forEach((el) => {
       el.addEventListener("click", () => {
         const index = parseInt(el.dataset.eventIndex);
-        const event = TimelineEngine.getEvents()[index];
+        const events = TimelineEngine.getEnhancedEvents();
+        const event = events[index];
         if (event && event.evidence_links && event.evidence_links.length > 0) {
           // Buka bukti pertama yang terkait
           const eviId = event.evidence_links[0];
-          EventBus.emit("evidence:view", { evidenceId: eviId });
+          // Cek apakah bukti sudah ditemukan
+          const discovered = GameState.getDiscoveredEvidence();
+          if (discovered.includes(eviId)) {
+            EventBus.emit("evidence:view", { evidenceId: eviId });
+          } else {
+            // Bukti belum ditemukan, beri tahu user
+            if (window.__RETROSLEUTH?.notificationSystem) {
+              window.__RETROSLEUTH.notificationSystem.add(
+                `🔒 Bukti "${eviId}" belum ditemukan. Lanjutkan investigasi!`,
+                `locked-${eviId}`
+              );
+            }
+          }
         } else if (event) {
-          // Tidak ada bukti terkait, tampilkan tooltip
           console.log("[Timeline] Event:", event.description);
         }
       });
