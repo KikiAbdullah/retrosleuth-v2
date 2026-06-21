@@ -47,6 +47,7 @@
 | `surat_ancaman`  | Surat Ancaman Anonim    | Meski tidak bertanda tangan, isinya "Hentikan revisi wasiat" selaras dengan motif Sari. Surat ini memperkuat bahwa revisi wasiat adalah isu sentral                                                                          |
 | `laporan_penyidik` | Laporan Penyidik     | Catatan internal penyidik berisi pertanyaan kunci: siapa terakhir melihat korban, mengapa jendela terbuka, ke mana mobil Sari. Membantu pemain fokus pada bukti penting                                                         |
 | `foto_tkp`       | Foto TKP Ruang Kerja    | Dokumentasi lengkap crime scene: posisi jenazah, gelas pecah, jejak sepatu ukuran 38-39 (Sari), serat kain biru di jendela, sidik jari di kunci cadangan. Analisis foto mengungkap urutan kejadian yang sebenarnya          |
+| `rekaman_telepon` | Rekaman Telepon PABX | Menangkap 3 panggilan: Haryanto→Rina (22:07), Sari→Haryanto (22:33), Haryanto→Budi (22:58). Ancaman Sari "Kau akan menyesal" terjadi SEBELUM estimasi kematian. Panggilan ke Rina menunjukkan hubungan rahasia yang memicu kemarahan Sari |
 
 ---
 

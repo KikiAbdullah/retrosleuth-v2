@@ -123,6 +123,13 @@
       "file": "evi_014.md",
       "icon": "📸",
       "description_short": "Dokumentasi foto crime scene lengkap dengan analisis posisi jenazah dan barang bukti."
+    },
+    {
+      "id": "evi_015",
+      "title": "Rekaman Telepon — Ruang Kerja",
+      "file": "evi_015.md",
+      "icon": "📞",
+      "description_short": "Rekaman otomatis PABX yang menangkap percakapan terakhir Haryanto sebelum kematian."
     }
   ],
   "evidence_structure": {
@@ -130,7 +137,8 @@
     "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008"],
     "Bukti Fisik": ["evi_002", "evi_009", "evi_010", "evi_012"],
     "Log Kunjungan": ["evi_007"],
-    "Dokumentasi TKP": ["evi_014"]
+    "Dokumentasi TKP": ["evi_014"],
+    "Rekaman Audio": ["evi_015"]
   },
   "characters": [
     {
@@ -286,6 +294,11 @@
       "id": "task_011",
       "text": "Pelajari foto TKP dan temukan jejak kunci",
       "hint": "Foto crime scene menunjukkan jejak sepatu, sidik jari, dan posisi jenazah yang mengungkap kebenaran."
+    },
+    {
+      "id": "task_012",
+      "text": "Dengarkan rekaman telepon dan identifikasi pembicara",
+      "hint": "Rekaman PABX menangkap percakaran terakhir Haryanto. Siapa yang dia hubungi? Siapa yang meneleponnya?"
     }
   ],
   "crime_scene": {
@@ -685,6 +698,20 @@
         "type": "relative",
         "minutes": 120,
         "description": "2 jam setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_015",
+        "message": "📞 Rekaman telepon PABX ditemukan! Percakapan terakhir Haryanto sebelum kematian terungkap.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_015",
+      "trigger": {
+        "type": "relative",
+        "minutes": 130,
+        "description": "2 jam 10 menit setelah dimulai"
       },
       "action": "deadline_reached",
       "payload": {
