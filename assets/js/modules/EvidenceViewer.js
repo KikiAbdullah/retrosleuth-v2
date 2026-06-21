@@ -26,8 +26,26 @@ export class EvidenceViewer {
       }
     });
 
-    EventBus.on("evidence:view", () => {
+    EventBus.on("evidence:view", (payload = {}) => {
+      const { evidenceId } = payload;
       this.open();
+      // Jika ada evidenceId, scroll ke bukti tersebut setelah render
+      if (evidenceId) {
+        setTimeout(() => {
+          const item = document.querySelector(`.evidence-item[data-evi-id="${evidenceId}"]`);
+          if (item) {
+            item.scrollIntoView({ behavior: "smooth", block: "center" });
+            // Tambah highlight sementara
+            const originalBorder = item.style.border;
+            item.style.border = "2px solid #ffff00";
+            item.style.boxShadow = "0 0 15px rgba(255,255,0,0.5)";
+            setTimeout(() => {
+              item.style.border = originalBorder;
+              item.style.boxShadow = "";
+            }, 3000);
+          }
+        }, 500);
+      }
     });
   }
 
