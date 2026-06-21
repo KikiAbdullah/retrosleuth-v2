@@ -690,7 +690,7 @@ async function initializeApp() {
     }
     
     // Init RealTimeManager untuk kasus ini
-    realTimeManager.init(caseData.id);
+    realTimeManager.init();
     realTimeManager.start();
   });
 

@@ -2,7 +2,10 @@
  * ============================================================
  *  REALTIME MANAGER.JS — Event Real-Time Kasus
  *  Memicu bukti baru berdasarkan waktu sejak kasus dimulai.
- *  Deadline dihitung dari startedAt di GameState.
+ *  Format event di case.json:
+ *    { id, trigger: { type, minutes, description }, action, payload }
+ *  Action: unlock_evidence | notification | send_message_from_character |
+ *           update_objective | deadline_reached
  * ============================================================
  */
 
@@ -13,45 +16,47 @@ import { evidenceEngine } from "./EvidenceEngine.js";
 
 export class RealTimeManager {
   constructor() {
-    /** @type {Array<Object>} */
     this.events = [];
-    /** @type {number|null} */
     this.timerId = null;
     this.isRunning = false;
     this.executedEvents = new Set();
+
+    /**
+     * Interval tick dalam ms.
+     * Produksi: 60000 (1 menit)
+     * Testing: 30000 (30 detik) — jadi 1 menit game = 30 detik nyata
+     */
+    this.TICK_INTERVAL = 30000;
   }
 
   /**
    * Menginisialisasi dengan data real_time_events dari case.json
-   * @param {string} caseFolder
    */
-  async init(caseFolder) {
+  init() {
     const events = caseLoader.activeCase?.real_time_events || [];
     this.events = events;
-    
+
+    // Load executed state dari save
+    const savedEvents = GameState.getState().executedEvents || [];
+    savedEvents.forEach(id => this.executedEvents.add(id));
+
     console.log(`[RealTimeManager] ${this.events.length} event terdaftar.`);
-    
-    // Load executed state dari save (jika ada)
-    const caseId = GameState.currentCaseId;
-    if (caseId) {
-      const savedEvents = GameState.getState().executedEvents || [];
-      savedEvents.forEach(id => this.executedEvents.add(id));
-    }
   }
 
   /**
-   * Memulai timer (dipanggil setelah case:loaded)
+   * Memulai timer
    */
   start() {
     if (this.isRunning) return;
-    
     this.isRunning = true;
-    this.timerId = setInterval(() => this._tick(), 60000); // Cek tiap menit
-    
-    // Cek segera untuk event yang sudah melewati deadline
+
+    // Cek segera (untuk event dengan minutes: 0)
     this._tick();
-    
-    console.log("[RealTimeManager] Timer dimulai.");
+
+    // Interval timer
+    this.timerId = setInterval(() => this._tick(), this.TICK_INTERVAL);
+
+    console.log(`[RealTimeManager] Timer dimulai (tick setiap ${this.TICK_INTERVAL / 1000}s).`);
   }
 
   /**
@@ -67,74 +72,90 @@ export class RealTimeManager {
   }
 
   /**
-   * Tick setiap menit - cek apakah ada event yang harus dipicu
+   * Tick — cek semua event
+   * 30 detik nyata = 1 menit game time
    */
   _tick() {
     if (GameState.caseStatus !== "active") return;
-    
-    const elapsedMs = Date.now() - GameState.startedAt;
-    const elapsedMinutes = Math.floor(elapsedMs / 60000);
-    
+
+    // Hitung elapsed game-menit: setiap 30 detik nyata = 1 menit game
+    const elapsedRealMs = Date.now() - GameState.startedAt;
+    const elapsedGameMinutes = Math.floor(elapsedRealMs / this.TICK_INTERVAL);
+
     for (const event of this.events) {
-      // Skip jika sudah dieksekusi
       if (this.executedEvents.has(event.id)) continue;
-      
-      // Cek trigger menit
-      if (event.trigger?.minutes !== undefined && elapsedMinutes >= event.trigger.minutes) {
-        this._executeEvent(event, elapsedMinutes);
-      }
-      // Cek relative_time (alternatif format)
-      else if (event.trigger?.type === "relative" && event.trigger.minutes !== undefined) {
-        if (elapsedMinutes >= event.trigger.minutes) {
-          this._executeEvent(event, elapsedMinutes);
-        }
+
+      const triggerMinutes = event.trigger?.minutes;
+      if (triggerMinutes !== undefined && elapsedGameMinutes >= triggerMinutes) {
+        this._executeEvent(event, elapsedGameMinutes);
       }
     }
   }
 
   /**
    * Mengeksekusi event satu kali
-   * @param {Object} event
-   * @param {number} elapsedMinutes
    */
-  _executeEvent(event, elapsedMinutes) {
+  _executeEvent(event, elapsedGameMinutes) {
     const action = event.action;
-    
-    console.log(`[RealTimeManager] Event '${event.id}' terpicu (menit ${elapsedMinutes}).`);
-    
+    const payload = event.payload || {};
+
+    console.log(`[RealTimeManager] ⚡ Event '${event.id}' terpicu (game menit ${elapsedGameMinutes}). Action: ${action}`);
+
     // Tandai sudah dieksekusi
     this.executedEvents.add(event.id);
     GameState.markEventExecuted(event.id);
-    
-    // Emit event untuk subscriber lain
+
+    // Emit event global
     EventBus.emit("real-time-event:trigger", {
       eventId: event.id,
-      action: action,
-      elapsedMinutes,
-      payload: event
+      action,
+      elapsedGameMinutes,
+      payload
     });
-    
+
     switch (action) {
       case "unlock_evidence":
-        if (event.evidence_id) {
-          evidenceEngine.unlockEvidence(event.evidence_id);
-          this._showNotification(`📄 Bukti baru ditemukan: ${event.evidence_id}`);
+        if (payload.evidence_id) {
+          evidenceEngine.unlockEvidence(payload.evidence_id);
+          if (payload.message) {
+            this._showNotification(payload.message);
+          }
+          if (payload.play_sound) {
+            this._playSound(payload.play_sound);
+          }
         }
         break;
-        
-      case "send_message":
-        // Buka InterrogationRoom dengan pesan otomatis
-        EventBus.emit("real-time:message", {
-          characterId: event.character_id,
-          message: event.message
+
+      case "notification":
+        if (payload.message) {
+          this._showNotification(payload.message);
+        }
+        if (payload.play_sound) {
+          this._playSound(payload.play_sound);
+        }
+        break;
+
+      case "send_message_from_character":
+        if (payload.character_id && payload.message) {
+          EventBus.emit("real-time:message", {
+            characterId: payload.character_id,
+            message: payload.message,
+            auto_open_chat: payload.auto_open_chat
+          });
+          this._showNotification(`💬 Pesan dari ${payload.character_id}`);
+        }
+        break;
+
+      case "update_objective":
+        EventBus.emit("real-time:objective-update", {
+          objective_id: payload.objective_id,
+          new_text: payload.new_text,
+          unlock_crime_scene: payload.unlock_crime_scene
         });
         break;
-        
-      case "notification":
-        this._showNotification(event.message || "Notifikasi baru");
-        break;
-        
+
       case "deadline_reached":
+        this._showNotification(payload.message || "⏰ WAKTU HABIS!");
         GameState.finishCase("failed");
         EventBus.emit("case:failed", { reason: "deadline" });
         this.stop();
@@ -142,58 +163,99 @@ export class RealTimeManager {
     }
   }
 
-/**
-   * Menampilkan notifikasi sederhana
-   * @param {string} message
+  /**
+   * Menampilkan notifikasi di pojok kanan atas
    */
   _showNotification(message) {
-    const container = document.getElementById("realtime-notify");
-    if (!container) return;
-    
+    // Gunakan container tetap yang sudah adi di DOM
+    let container = document.getElementById("realtime-notify");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "realtime-notify";
+      document.body.appendChild(container);
+    }
+
+    // Reset animasi
+    container.className = "";
+    void container.offsetWidth; // force reflow
+
     container.textContent = message;
     container.style.display = "block";
-    
+    container.className = "notify-container notification-fade";
+
+    console.log(`[RealTimeManager] 🔔 Notifikasi: ${message}`);
+
     // Sembunyikan setelah 5 detik
-    setTimeout(() => {
+    if (this._notifyTimeout) clearTimeout(this._notifyTimeout);
+    this._notifyTimeout = setTimeout(() => {
       container.style.display = "none";
     }, 5000);
   }
 
   /**
-   * Override: Paksa eksekusi event (untuk testing)
-   * @param {string} eventId
+   * Play sound via AudioManager jika tersedia
    */
-  forceExecute(eventId) {
-    const event = this.events.find(e => e.id === eventId);
-    if (event && !this.executedEvents.has(eventId)) {
-      const elapsedMinutes = Math.floor((Date.now() - GameState.startedAt) / 60000);
-      this._executeEvent(event, elapsedMinutes);
+  _playSound(soundName) {
+    if (window.__RETROSLEUTH?.audioManager) {
+      try {
+        window.__RETROSLEUTH.audioManager.play(soundName);
+      } catch (e) {
+        // ignore sound errors
+      }
     }
   }
 
   /**
-   * Mendapatkan status remaining time sampai deadline
+   * Paksa eksekusi event (untuk testing via console)
+   * Usage: window.__RETROSLEUTH.realTimeManager.forceExecute('rte_001')
    */
-  getRemainingMinutes() {
-    if (!GameState.startedAt || !caseLoader.activeCase?.real_time_events) return null;
-    
-    const deadlineEvent = caseLoader.activeCase.real_time_events.find(
-      e => e.action === "deadline_reached"
-    );
-    
-    if (!deadlineEvent?.trigger?.minutes) return null;
-    
-    const elapsedMinutes = Math.floor((Date.now() - GameState.startedAt) / 60000);
-    return deadlineEvent.trigger.minutes - elapsedMinutes;
+  forceExecute(eventId) {
+    const event = this.events.find(e => e.id === eventId);
+    if (event && !this.executedEvents.has(eventId)) {
+      const elapsedGameMinutes = Math.floor(
+        (Date.now() - GameState.startedAt) / this.TICK_INTERVAL
+      );
+      this._executeEvent(event, elapsedGameMinutes);
+    } else {
+      console.warn(`[RealTimeManager] Event '${eventId}' tidak ditemukan atau sudah dieksekusi.`);
+    }
   }
 
   /**
-   * Mereset state (saat case:unloaded)
+   * Daftar event yang belum dieksekusi (untuk debugging)
+   */
+  getPendingEvents() {
+    return this.events.filter(e => !this.executedEvents.has(e.id));
+  }
+
+  /**
+   * Info elapsed time
+   */
+  getTimeInfo() {
+    const elapsedRealMs = Date.now() - GameState.startedAt;
+    const elapsedGameMinutes = Math.floor(elapsedRealMs / this.TICK_INTERVAL);
+
+    const deadlineEvent = this.events.find(e => e.action === "deadline_reached");
+    const deadlineMinutes = deadlineEvent?.trigger?.minutes || 120;
+
+    return {
+      elapsedRealMs,
+      elapsedGameMinutes,
+      deadlineMinutes,
+      remainingGameMinutes: Math.max(0, deadlineMinutes - elapsedGameMinutes)
+    };
+  }
+
+  /**
+   * Reset state (saat case di-unload)
    */
   reset() {
     this.stop();
     this.events = [];
     this.executedEvents = new Set();
+    if (this._notifyTimeout) clearTimeout(this._notifyTimeout);
+    const container = document.getElementById("realtime-notify");
+    if (container) container.style.display = "none";
   }
 }
 
