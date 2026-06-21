@@ -43,6 +43,9 @@ import { NotesApp } from "./modules/NotesApp.js";
 import { TimelineViewer } from "./modules/TimelineViewer.js";
 import { DatabaseManager } from "./utils/DatabaseManager.js";
 
+// --- Real-Time Events (Fase 4 Extensi) ---
+import { initRealTimeManager } from "./engine/RealTimeManager.js";
+
 // ============================================================
 //  2. KONFIGURASI
 // ============================================================
@@ -236,6 +239,13 @@ function runBootSequence() {
 
     overlay.appendChild(terminal);
     document.body.appendChild(overlay);
+    
+    // Tambahkan container notifikasi
+    const notifyContainer = document.createElement("div");
+    notifyContainer.id = "realtime-notify";
+    notifyContainer.className = "notify-container";
+    notifyContainer.style.display = "none";
+    document.body.appendChild(notifyContainer);
 
     // ============================================================
     // 7. REFERENSI ELEMEN
@@ -660,6 +670,9 @@ async function initializeApp() {
   // EvidenceEngine
   const eviEngine = initEvidenceEngine();
 
+  // RealTimeManager
+  const realTimeManager = initRealTimeManager();
+
   // --- 7.3 Fase 2: Modules UI ---
   const caseHub = new CaseHub(wm);
   const caseBriefing = new CaseBriefing(wm);
@@ -675,6 +688,10 @@ async function initializeApp() {
     } else {
       console.warn("[RetroSleuth] ⚠️ Kasus tidak memiliki evidence_registry.");
     }
+    
+    // Init RealTimeManager untuk kasus ini
+    realTimeManager.init(caseData.id);
+    realTimeManager.start();
   });
 
   // --- 7.4 Fase 3: AI Core ---
@@ -832,6 +849,7 @@ async function initializeApp() {
     timelineViewer,
     solutionEngine: SolutionEngine,
     timelineEngine: TimelineEngine,
+    realTimeManager,
     databaseManager: DatabaseManager,
     GameState,
     EventBus,
