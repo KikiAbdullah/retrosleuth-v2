@@ -184,10 +184,11 @@ retrosleuth/
 │   │   │   ├── CaseLoader.js       # Muat data kasus
 │   │   │   ├── EvidenceEngine.js   # Manajemen bukti
 │   │   │   ├── SolutionEngine.js   # Validasi tuduhan
-│   │   │   └── TimelineEngine.js   # Manajemen timeline
+│   │   │   ├── TimelineEngine.js   # Manajemen timeline
+│   │   │   └── RealTimeManager.js  # Event real-time ✅ v4.2.0
 │   │   │
 │   │   │   # Planned (belum diimplementasikan):
-│   │   │   # └── RealTimeManager.js # Event real-time
+│   │   │   # (semua engine sudah diimplementasikan)
 │   │   ├── ai/                     # Kecerdasan Buatan
 │   │   │   ├── AIClient.js         # HTTP client ke LLM
 │   │   │   ├── PromptBuilder.js    # System prompt builder
@@ -243,7 +244,7 @@ retrosleuth/
 | Fase 7 | Modding Toolkit, Voice Input, Multiplayer | 🔲 Direncanakan |
 
 **Komponen tambahan yang belum diimplementasikan:**
-- `RealTimeManager` — Event real-time (data model sudah dimuat)
+- `RealTimeManager` — Event real-time (data model sudah dimuat, ✅ implemented v4.2.0)
 - `CrimeSceneViewer` — TKP interaktif (data model sudah dimuat)
 - `ObjectivesTracker` — Checklist objective (method di GameState sudah ada)
 - `Toast` — Notifikasi pop-up

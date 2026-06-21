@@ -4,9 +4,9 @@
 
 ## Product Requirements Document (Ultimate Edition)
 
-**Document Version:** 4.1.0  
-**Project Status:** Production Ready — Core Complete (25/30 components)  
-**Last Updated:** 2026-06-20  
+**Document Version:** 4.2.0  
+**Project Status:** Production Ready — Core Complete (26/30 components)  
+**Last Updated:** 2026-06-21  
 **Author:** Tim RetroSleuth  
 **Platform:** Static Web – GitHub Pages Native  
 **Tech Stack:** Vanilla HTML5, CSS3 (Retro-Compliant), JavaScript ES6+ Modules, Local LLM API (`gemini-cli` – OpenAI-compatible)  
@@ -440,7 +440,7 @@ Estetika retro tidak boleh mengorbankan aksesibilitas. Game harus menyenangkan b
 
 - **CRT Toggle:** Efek flicker dan scanlines dapat dimatikan sepenuhnya melalui class `.crt-off`.
 - **Typewriter Skip:** Animasi teks dapat di-skip dengan satu klik.
-- **Keyboard Navigation:** Seluruh UI dapat dinavigasi dengan keyboard (`Alt+Tab` untuk window, `Ctrl+S` untuk save).
+- **Keyboard Navigation:** Seluruh UI dapat dinavigasi dengan keyboard (`Ctrl+Tab` untuk cycle window, `Ctrl+S` untuk save).
 - **Ringan:** Tidak ada framework berat. Total ukuran semua aset (HTML, CSS, JS, font) dibatasi di bawah 500 KB untuk memastikan loading cepat bahkan pada jaringan 3G.
 
 **Aturan Emas:**
@@ -633,6 +633,8 @@ Gameplay RetroSleuth dirancang sebagai **loop investigasi non-linear**. Meskipun
 │    - Pemain bisa kapan saja menjelajahi TKP (langkah 5).            │
 │    **Status:** RealTimeManager belum diimplementasikan.              │
 │    Saat ini bukti hanya bisa ditemukan via initial_evidence.         │
+│    **UPDATE v4.2.0:** RealTimeManager sudah diimplementasikan.       │
+│    Bukti sekarang muncul otomatis berdasarkan waktu.                 │
 └─────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -992,7 +994,7 @@ Mengandung logika bisnis game. Tidak memiliki ketergantungan DOM.
 - **EvidenceEngine**: Registri bukti. Method: `register()`, `unlockEvidence(id)`, `getDiscovered()`.
 - **SolutionEngine**: Memvalidasi tuduhan terhadap `solution_matrix`. Method: `checkAccusation({ culprit, motive, primary, secondary })`.
 - **TimelineEngine**: Merender timeline dari array `timeline` di `case.json`.
-- **RealTimeManager** *(planned)*: Mengelola event real-time. Memonitor `GameState.startedAt` dan memicu aksi sesuai `real_time_events`. Data model sudah dimuat oleh CaseLoader, tetapi modul manager belum diimplementasikan.
+- **RealTimeManager** *(implemented)*: Mengelola event real-time. Memonitor `GameState.startedAt` dan memicu aksi sesuai `real_time_events` (unlock bukti, kirim pesan karakter, notifikasi, deadline). Menandai event yang sudah dieksekusi di `executedEvents`.
 
 #### 5.3.3 AI Layer
 
@@ -1174,7 +1176,8 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 │   │   │   ├── CaseLoader.js
 │   │   │   ├── EvidenceEngine.js
 │   │   │   ├── SolutionEngine.js
-│   │   │   └── TimelineEngine.js
+│   │   │   ├── TimelineEngine.js
+│   │   │   └── RealTimeManager.js
 │   │   ├── ai/
 │   │   │   ├── AIClient.js
 │   │   │   ├── PromptBuilder.js
@@ -1296,7 +1299,7 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 | `EvidenceEngine.js`  | Registri dan manajemen bukti. Method: `registerEvidence(list)`, `unlockEvidence(id)`, `isUnlocked(id)`, `getEvidence(id)`, `getDiscovered()`. Emit `evidence:unlocked`.                                                                              |
 | `SolutionEngine.js`  | Validasi tuduhan. Method: `checkAccusation({ culpritId, motive, primaryEvidence, secondaryEvidence })` — membandingkan dengan `solution_matrix`. Mengembalikan `{ correct, hints[] }`. Emit `case:solved` jika benar.                                |
 | `TimelineEngine.js`  | Merender timeline kronologis dari array `timeline` di `case.json`. Menampilkan marker waktu dan deskripsi dalam window retro.                                                                                                                        |
-| `RealTimeManager.js` *(planned)* | Mengelola event real-time. Memonitor `GameState.startedAt` dengan `setInterval` 1 detik. Memicu aksi sesuai `real_time_events` (unlock bukti, kirim pesan karakter, notifikasi, deadline). Menandai event yang sudah dieksekusi di `executedEvents`. **Belum diimplementasikan** — data model `real_time_events` sudah dimuat oleh CaseLoader, tetapi modul manager belum ada. |
+| `RealTimeManager.js` *(implemented v4.2.0)* | Mengelola event real-time. Memonitor `GameState.startedAt` dan memicu aksi sesuai `real_time_events` (unlock bukti, kirim pesan karakter, notifikasi, deadline). Menandai event yang sudah dieksekusi di `executedEvents`. Method: `init(caseFolder)`, `start()`, `stop()`, `forceExecute(eventId)`, `getRemainingMinutes()`. |
 
 **`ai/` — Kecerdasan Buatan (4 file)**
 
@@ -7171,7 +7174,7 @@ Fase 7: Future Enhancements 🔲 *(planned)*
 
 **Status Legend:** ✅ Implemented | 🔲 Planned/Not Yet Implemented
 
-**Note:** Core gameplay loop (Fase 1-4 + Fase 6) is fully implemented. Remaining work: Fase 5 (case content), Fase 7 (future features), and 5 secondary components (RealTimeManager, CrimeSceneViewer, ObjectivesTracker, Toast, full case content).
+**Note:** Core gameplay loop (Fase 1-4 + Fase 6) is fully implemented. RealTimeManager now implemented. Remaining work: Fase 5 (case content), Fase 7 (future features), and 4 secondary components (CrimeSceneViewer, ObjectivesTracker, Toast, full case content).
 ```
 
 ## Setiap fase dapat dikerjakan secara berurutan, dengan setiap prompt AI menghasilkan kode yang bisa langsung diintegrasikan. Pendekatan ini memungkinkan pengembangan game secara "vibe coding" — memberikan instruksi lengkap ke AI, lalu menguji dan menyempurnakan hasilnya.
@@ -8060,7 +8063,7 @@ Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesif
 | Istilah                         | Definisi                                                                                                |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | **Core Layer**                  | Lapisan inti aplikasi: `EventBus.js` dan `Store.js`.                                                    |
-| **Engine Layer**                | Lapisan logika bisnis: `CaseLoader.js`, `EvidenceEngine.js`, `SolutionEngine.js`, `TimelineEngine.js`. |
+| **Engine Layer**                | Lapisan logika bisnis: `CaseLoader.js`, `EvidenceEngine.js`, `SolutionEngine.js`, `TimelineEngine.js`, `RealTimeManager.js`. |
 | **AI Layer**                    | Lapisan kecerdasan buatan: `AIClient.js`, `PromptBuilder.js`, `TrustSystem.js`, `FallbackMode.js`.      |
 | **UI Layer**                    | Lapisan antarmuka: `WindowManager.js`, `DesktopManager.js`, `Taskbar.js`.                               |
 | **Modules**                     | Modul fitur: `InterrogationRoom.js`, `AccusationForm.js`, `EvidenceViewer.js`, `TimelineViewer.js`, dll. |
@@ -8391,6 +8394,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | Typewriter        | `/assets/js/utils/Typewriter.js`       | Efek animasi teks.          |
 | Timeline Engine   | `/assets/js/engine/TimelineEngine.js`  | Timeline kronologis.        |
 | Timeline Viewer   | `/assets/js/modules/TimelineViewer.js` | UI timeline dengan filter.  |
+| Real-Time Manager | `/assets/js/engine/RealTimeManager.js` | Event real-time. ✅ v4.2.0 |
 | CSS Variables     | `/assets/css/variables.css`            | Design tokens.              |
 | Case Index        | `/cases/index.json`                    | Registri kasus.             |
 | Case Manifest     | `/cases/case_XXX/case.json`            | Data kasus.                 |
