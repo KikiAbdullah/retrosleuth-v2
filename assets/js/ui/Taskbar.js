@@ -5,6 +5,8 @@
  */
 
 import { EventBus } from "../core/EventBus.js";
+import { GameState } from "../core/Store.js";
+import { realTimeManager } from "../engine/RealTimeManager.js";
 
 export class Taskbar {
   /**
@@ -14,9 +16,12 @@ export class Taskbar {
     this.wm = windowManager;
     /** @type {Map<string, HTMLElement>} */
     this.buttons = new Map();
+    this._timerInterval = null;
+    this._deadlineMinutes = 120;
 
     this.render();
     this.startClock();
+    this.startGameTimer();
     this.bindEvents();
   }
 
@@ -41,10 +46,13 @@ export class Taskbar {
     windows.id = "taskbar-windows";
     taskbar.appendChild(windows);
 
-    // Kanan: Tray + Jam
+    // Kanan: Tray + Game Timer + Jam
     const tray = document.createElement("div");
     tray.className = "taskbar-tray";
-    tray.innerHTML = `<span class="taskbar-clock" id="taskbar-clock">00:00:00</span>`;
+    tray.innerHTML = `
+      <span class="taskbar-game-timer" id="taskbar-game-timer" style="display:none;">--:--</span>
+      <span class="taskbar-clock" id="taskbar-clock">00:00:00</span>
+    `;
     taskbar.appendChild(tray);
   }
 
@@ -61,6 +69,72 @@ export class Taskbar {
     };
     update();
     setInterval(update, 1000);
+  }
+
+  /**
+   * Timer game — menampilkan waktu tersisa sampai deadline
+   * Update setiap detik, warna berubah saat mendekati game over
+   */
+  startGameTimer() {
+    const updateTimer = () => {
+      const timerEl = document.getElementById("taskbar-game-timer");
+      if (!timerEl) return;
+
+      // Jika tidak ada kasus aktif, tampilkan placeholder
+      if (!GameState.currentCaseId || GameState.caseStatus !== "active") {
+        timerEl.textContent = "--:--";
+        timerEl.style.color = "#808080";
+        timerEl.style.display = "none";
+        return;
+      }
+
+      timerEl.style.display = "inline";
+
+      // Hitung waktu tersisa
+      const timeInfo = realTimeManager
+        ? realTimeManager.getTimeInfo()
+        : null;
+
+      if (!timeInfo || !GameState.startedAt) {
+        timerEl.textContent = "--:--";
+        timerEl.style.color = "#808080";
+        return;
+      }
+
+      const remaining = timeInfo.remainingGameMinutes;
+
+      if (remaining <= 0) {
+        timerEl.textContent = "00:00";
+        timerEl.style.color = "#ff0000";
+        return;
+      }
+
+      const h = Math.floor(remaining / 60);
+      const m = remaining % 60;
+      timerEl.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+
+      // Warna berubah berdasarkan sisa waktu
+      if (remaining <= 10) {
+        // Merah berkurang — critical
+        timerEl.style.color = "#ff0000";
+        timerEl.style.animation = "timerBlink 1s infinite";
+      } else if (remaining <= 30) {
+        // Oranye — warning
+        timerEl.style.color = "#ff8800";
+        timerEl.style.animation = "none";
+      } else if (remaining <= 60) {
+        // Kuning — caution
+        timerEl.style.color = "#ffcc00";
+        timerEl.style.animation = "none";
+      } else {
+        // Hijau — aman
+        timerEl.style.color = "#33ff33";
+        timerEl.style.animation = "none";
+      }
+    };
+
+    updateTimer();
+    this._timerInterval = setInterval(updateTimer, 1000);
   }
 
   // ============================================================

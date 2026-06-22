@@ -112,6 +112,25 @@
   letter-spacing: 1px;
 }
 
+/* --- Game Timer (di sebelum jam) --- */
+.taskbar-game-timer {
+  font-family: var(--font-mono, "VT323", monospace);
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0 6px;
+  letter-spacing: 1px;
+  border-right: 1px solid var(--btn-shadow, #808080);
+  min-width: 55px;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+/* Animasi blink untuk timer critical */
+@keyframes timerBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 /* ============================================================
    NOTIFICATION ICON (Taskbar Tray)
    ============================================================ */
