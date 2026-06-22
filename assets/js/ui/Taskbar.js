@@ -113,22 +113,22 @@ export class Taskbar {
       const m = remaining % 60;
       timerEl.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 
-      // Warna berubah berdasarkan sisa waktu
+      // Warna merah berdasarkan sisa waktu — semakin mendekati deadline semakin terang
       if (remaining <= 10) {
-        // Merah berkurang — critical
+        // Merah terang + blink — critical
         timerEl.style.color = "#ff0000";
         timerEl.style.animation = "timerBlink 1s infinite";
       } else if (remaining <= 30) {
-        // Oranye — warning
-        timerEl.style.color = "#ff8800";
+        // Merah sedang — warning
+        timerEl.style.color = "#cc0000";
         timerEl.style.animation = "none";
       } else if (remaining <= 60) {
-        // Kuning — caution
-        timerEl.style.color = "#ffcc00";
+        // Merah gelap — caution
+        timerEl.style.color = "#880000";
         timerEl.style.animation = "none";
       } else {
-        // Hijau — aman
-        timerEl.style.color = "#33ff33";
+        // Merah sangat gelap — aman tapi tetap waspada
+        timerEl.style.color = "#440000";
         timerEl.style.animation = "none";
       }
     };
