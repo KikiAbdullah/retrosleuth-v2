@@ -7,6 +7,7 @@
  */
 
 import { EventBus } from "../core/EventBus.js";
+import { evidenceEngine } from "../engine/EvidenceEngine.js";
 
 export class NotificationSystem {
   constructor() {
@@ -14,6 +15,8 @@ export class NotificationSystem {
     this.notifications = [];
     this.maxNotifications = 50;
     this.panelOpen = false;
+    /** @type {Set<string>} Evidence IDs that were already notified via RTE */
+    this._notifiedEvidence = new Set();
 
     this._render();
     this._bindEvents();
@@ -75,16 +78,42 @@ export class NotificationSystem {
    * Bind events
    */
   _bindEvents() {
-    // Terima notifikasi dari RealTimeManager
-    EventBus.on("real-time-event:trigger", ({ eventId, action, elapsedGameMinutes, payload }) => {
-      const message = payload?.message || `Event: ${eventId}`;
-      this.add(message, eventId);
-    });
+     // Terima notifikasi dari RealTimeManager
+     EventBus.on("real-time-event:trigger", ({ eventId, action, elapsedGameMinutes, payload }) => {
+       // For unlock_evidence, the RTE message already contains the full notification text
+       if (action === "unlock_evidence") {
+         const message = payload?.message || `Event: ${eventId}`;
+         this.add(message, eventId);
+         // Mark this evidence as already notified
+         if (payload?.evidence_id) {
+           this._notifiedEvidence.add(payload.evidence_id);
+         }
+       } else if (action === "notification") {
+         const message = payload?.message || `Event: ${eventId}`;
+         this.add(message, eventId);
+       } else if (action === "send_message_from_character") {
+         // Show the actual message content (e.g., "Rahmat: 'Saya tidak tahan lagi...'")
+         const message = payload?.message || `Event: ${eventId}`;
+         this.add(message, eventId);
+       } else if (action === "deadline_reached") {
+         const message = payload?.message || `⏰ WAKTU HABIS!`;
+         this.add(message, eventId);
+       }
+     });
 
-    // Juga terima dari EvidenceEngine
-    EventBus.on("evidence:unlocked", ({ evidenceId }) => {
-      this.add(`📄 Bukti baru ditemukan: ${evidenceId}`, `evidence-${evidenceId}`);
-    });
+     // Juga terima dari EvidenceEngine (hanya untuk unlock yang BUKAN dari RTE)
+     // Misalnya: initial_evidence, crime_scene clicks, dll
+     EventBus.on("evidence:unlocked", ({ evidenceId }) => {
+       // Skip if this evidence was already notified via RTE
+       if (this._notifiedEvidence.has(evidenceId)) {
+         return;
+       }
+       // Get evidence title from engine
+       const eviMeta = evidenceEngine.getEvidenceMeta(evidenceId);
+       const eviTitle = eviMeta?.title || evidenceId;
+       const eviIcon = eviMeta?.icon || "📄";
+       this.add(`${eviIcon} Bukti baru ditemukan: ${eviTitle}`, `evidence-${evidenceId}`);
+     });
   }
 
   /**

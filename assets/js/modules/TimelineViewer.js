@@ -248,9 +248,11 @@ export class TimelineViewer {
 
         <div style="margin-top: 8px; font-size: 11px; color: #888; flex-shrink: 0; display: flex; gap: 16px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 8px;">
           <span>😡 Pertengkaran</span>
+          <span>🗣️ Interaksi</span>
           <span>🚶 Pergerakan</span>
           <span>⚡ Kejadian</span>
-          <span>💀 Penemuan</span>
+          <span>💀 Kejahatan</span>
+          <span>🔍 Penemuan</span>
           <span style="color: #666;">Klik peristiwa untuk lihat bukti terkait</span>
         </div>
       </div>

@@ -76,10 +76,10 @@ export class CaseHub {
     if (!this.cases || this.cases.length === 0) {
       body.innerHTML = `
         <div style="padding: 30px; text-align: center; font-family: var(--font-mono, monospace);">
-          <p style="font-size: 18px; color: #666;">📂 Tidak ada kasus tersedia</p>
+          <p style="font-size: 18px; color: #666;">📂 No cases available</p>
           <p style="font-size: 14px; color: #999; margin-top: 8px;">
-            Pastikan folder <strong>cases/</strong> memiliki <strong>index.json</strong>
-            dan setidaknya satu kasus.
+            Make sure <strong>cases/</strong> folder has <strong>index.json</strong>
+            and at least one case.
           </p>
         </div>
       `;
@@ -89,7 +89,7 @@ export class CaseHub {
     let html = `
       <div style="padding: 12px; font-family: var(--font-mono, monospace);">
         <h2 style="color: #000080; margin-bottom: 16px; font-size: 20px;">
-          📂 Daftar Kasus (${this.cases.length})
+          📂 Case List (${this.cases.length})
         </h2>
         <div style="display: flex; flex-direction: column; gap: 12px;">
     `;
@@ -137,9 +137,9 @@ export class CaseHub {
                 ⏱️ ${caseItem.estimated_playtime_minutes || "?"} min
               </span>
             </div>
-            <p style="margin-top: 6px; font-size: 14px; color: #444;">
-              ${caseItem.description_short || "Tidak ada deskripsi."}
-            </p>
+             <p style="margin-top: 6px; font-size: 14px; color: #444;">
+               ${caseItem.description_short || "No description."}
+             </p>
           </div>
           <div style="margin-left: 12px;">
             <button class="btn-load-case" data-case-folder="${caseItem.folder}" 

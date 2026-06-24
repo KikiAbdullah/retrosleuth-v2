@@ -114,20 +114,23 @@ export class RealTimeManager {
       payload
     });
 
-    switch (action) {
-      case "unlock_evidence":
-        if (payload.evidence_id) {
-          evidenceEngine.unlockEvidence(payload.evidence_id);
-          if (payload.message) {
-            this._showNotification(payload.message);
-          }
-          if (payload.play_sound) {
-            this._playSound(payload.play_sound);
-          }
-          // Efek visual bukti ditemukan
-          Effects.evidenceFound();
-        }
-        break;
+     switch (action) {
+       case "unlock_evidence":
+         if (payload.evidence_id) {
+           // Only unlock if not already unlocked (prevent duplicate notifications)
+           if (!evidenceEngine.isUnlocked(payload.evidence_id)) {
+             evidenceEngine.unlockEvidence(payload.evidence_id);
+             if (payload.message) {
+               this._showNotification(payload.message);
+             }
+             if (payload.play_sound) {
+               this._playSound(payload.play_sound);
+             }
+             // Efek visual bukti ditemukan
+             Effects.evidenceFound();
+           }
+         }
+         break;
 
       case "notification":
         if (payload.message) {
@@ -142,18 +145,19 @@ export class RealTimeManager {
         }
         break;
 
-      case "send_message_from_character":
-        if (payload.character_id && payload.message) {
-          // Auto-buka InterrogationRoom jika diminta
-          if (payload.auto_open_chat) {
-            // Delay sedikit agar notifikasi muncul dulu
-            setTimeout(() => {
-              EventBus.emit("interrogation:start", { characterId: payload.character_id });
-            }, 1500);
-          }
-          this._showNotification(`💬 Pesan dari ${payload.character_id}`);
-        }
-        break;
+       case "send_message_from_character":
+         if (payload.character_id && payload.message) {
+           // Auto-buka InterrogationRoom jika diminta
+           if (payload.auto_open_chat) {
+             // Delay sedikit agar notifikasi muncul dulu
+             setTimeout(() => {
+               EventBus.emit("interrogation:start", { characterId: payload.character_id });
+             }, 1500);
+           }
+           // Notification will be handled by NotificationSystem via real-time-event:trigger
+           // The payload.message already contains the formatted message (e.g., "Rahmat: '...'")
+         }
+         break;
 
       case "update_objective":
         EventBus.emit("real-time:objective-update", {
@@ -163,12 +167,12 @@ export class RealTimeManager {
         });
         break;
 
-      case "deadline_reached":
-        this._showNotification(payload.message || "⏰ WAKTU HABIS!");
-        GameState.finishCase("failed");
-        EventBus.emit("case:failed", { reason: "deadline" });
-        this.stop();
-        break;
+       case "deadline_reached":
+         // Notification handled by NotificationSystem via real-time-event:trigger
+         GameState.finishCase("failed");
+         EventBus.emit("case:failed", { reason: "deadline" });
+         this.stop();
+         break;
     }
   }
 

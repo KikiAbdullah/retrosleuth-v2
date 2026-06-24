@@ -164,6 +164,8 @@ export class TimelineEngine {
       meeting: "🤝",
       travel: "🚗",
       phone: "📞",
+      crime: "💀",
+      interaction: "🗣️",
     };
     return icons[type] || "⏱️";
   }
@@ -182,6 +184,8 @@ export class TimelineEngine {
       meeting: "#8844ff",
       travel: "#44bbff",
       phone: "#ff8844",
+      crime: "#ff0000",
+      interaction: "#ff8800",
     };
     return colors[type] || "#888888";
   }

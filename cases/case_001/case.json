@@ -155,12 +155,12 @@
   ],
   "evidence_structure": {
     "Dokumen Resmi": ["evi_001", "evi_005", "evi_003", "evi_013"],
-    "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008", "evi_017"],
+    "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008"],
     "Bukti Fisik": ["evi_002", "evi_009", "evi_010", "evi_012"],
     "Log Kunjungan": ["evi_007", "evi_016", "evi_018"],
     "Dokumentasi TKP": ["evi_014"],
     "Rekaman Audio": ["evi_015"],
-    "Laporan Tambahan": ["evi_016", "evi_017", "evi_018"]
+    "Laporan Tambahan": ["evi_017"]
   },
   "characters": [
     {
@@ -669,8 +669,8 @@
       "id": "rte_008",
       "trigger": {
         "type": "relative",
-        "minutes": 65,
-        "description": "1 jam 5 menit setelah dimulai"
+        "minutes": 55,
+        "description": "55 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -683,13 +683,27 @@
       "id": "rte_009",
       "trigger": {
         "type": "relative",
-        "minutes": 75,
-        "description": "1 jam 15 menit setelah dimulai"
+        "minutes": 70,
+        "description": "1 jam 10 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
         "evidence_id": "evi_004",
         "message": "✉️ Analisis forensik surat ancaman selesai. Tidak ditemukan sidik jari, tapi isinya sesuai dengan kasus.",
+        "show_notification": true
+      }
+    },
+    {
+      "id": "rte_009b",
+      "trigger": {
+        "type": "relative",
+        "minutes": 80,
+        "description": "1 jam 20 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_017",
+        "message": "💰 Surat utang Rahmat kepada Bos Guntur ditemukan di laci rahasia. Utang Rp 497 juta!",
         "show_notification": true
       }
     },
@@ -708,25 +722,25 @@
       }
     },
     {
-      "id": "rte_011",
+      "id": "rte_010b",
       "trigger": {
         "type": "relative",
-        "minutes": 100,
-        "description": "1 jam 40 menit setelah dimulai"
+        "minutes": 95,
+        "description": "1 jam 35 menit setelah dimulai"
       },
-      "action": "notification",
+      "action": "unlock_evidence",
       "payload": {
-        "message": "⏰ PERINGATAN: Batas waktu investigasi tinggal 20 menit lagi!",
-        "play_sound": "alarm",
+        "evidence_id": "evi_018",
+        "message": "📋 Log penerimaan telepon Rina Santoso di Wisma Angker pada 13 Juni 1979.",
         "show_notification": true
       }
     },
     {
-      "id": "rte_012",
+      "id": "rte_011",
       "trigger": {
         "type": "relative",
-        "minutes": 110,
-        "description": "1 jam 50 menit setelah dimulai"
+        "minutes": 90,
+        "description": "1 jam 30 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -736,11 +750,11 @@
       }
     },
     {
-      "id": "rte_013",
+      "id": "rte_012",
       "trigger": {
         "type": "relative",
-        "minutes": 115,
-        "description": "1 jam 55 menit setelah dimulai"
+        "minutes": 100,
+        "description": "1 jam 40 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -750,11 +764,11 @@
       }
     },
     {
-      "id": "rte_014",
+      "id": "rte_013",
       "trigger": {
         "type": "relative",
-        "minutes": 120,
-        "description": "2 jam setelah dimulai"
+        "minutes": 110,
+        "description": "1 jam 50 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -764,11 +778,25 @@
       }
     },
     {
+      "id": "rte_014",
+      "trigger": {
+        "type": "relative",
+        "minutes": 115,
+        "description": "1 jam 55 menit setelah dimulai"
+      },
+      "action": "unlock_evidence",
+      "payload": {
+        "evidence_id": "evi_016",
+        "message": "🐴 Catatan kedatangan Rendy Pratama ke Wisma Angker pada 12 Juni 1979.",
+        "show_notification": true
+      }
+    },
+    {
       "id": "rte_015",
       "trigger": {
         "type": "relative",
-        "minutes": 130,
-        "description": "2 jam 10 menit setelah dimulai"
+        "minutes": 120,
+        "description": "2 jam setelah dimulai"
       },
       "action": "deadline_reached",
       "payload": {

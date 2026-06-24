@@ -447,7 +447,7 @@ function openWelcomeWindow(wm) {
   }
 
   const winEl = wm.register(id, {
-    title: "📋 Selamat Datang, Detektif!",
+    title: "📋 Welcome, Detective!",
     width: 600,
     height: 460,
     resizable: true,
@@ -506,12 +506,12 @@ function openWelcomeWindow(wm) {
         color: #2a1a0a;
       ">
         <p style="font-size: 15px; margin-top: 0; line-height: 1.6;">
-          Selamat datang di <strong>RetroSleuth</strong> — game investigasi kriminal 
-          yang membawa Anda ke era 1970-an. Gunakan terminal ini untuk menyelidiki 
-          kasus-kasus rumit, menginterogasi tersangka, dan mengungkap kebenaran.
+          Welcome to <strong>RetroSleuth</strong> — a criminal investigation game 
+          that takes you back to the 1970s. Use this terminal to investigate 
+          complex cases, interrogate suspects, and uncover the truth.
         </p>
 
-        <!-- Grid fitur 2 kolom -->
+        <!-- Feature grid 2 columns -->
         <div style="
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -522,14 +522,14 @@ function openWelcomeWindow(wm) {
           border: 2px solid #d4c8b0;
           border-radius: 0;
         ">
-          <div><span style="color: #8b6b4a;">📁</span> <strong>Case Files</strong> — Pilih kasus</div>
-          <div><span style="color: #8b6b4a;">🔍</span> <strong>Evidence</strong> — Kumpulkan bukti</div>
-          <div><span style="color: #8b6b4a;">👤</span> <strong>Dossier</strong> — Profil tersangka</div>
-          <div><span style="color: #8b6b4a;">🗣️</span> <strong>Interrogation</strong> — Tanya tersangka</div>
-          <div><span style="color: #8b6b4a;">⏱️</span> <strong>Timeline</strong> — Kronologi</div>
-          <div><span style="color: #8b6b4a;">📝</span> <strong>Notes</strong> — Catatan</div>
-          <div><span style="color: #8b6b4a;">⚖️</span> <strong>Accusation</strong> — Ajukan tuduhan</div>
-          <div><span style="color: #8b6b4a;">⚙️</span> <strong>Settings</strong> — Konfigurasi</div>
+          <div><span style="color: #8b6b4a;">📁</span> <strong>Case Files</strong> — Select case</div>
+          <div><span style="color: #8b6b4a;">🔍</span> <strong>Evidence</strong> — Collect evidence</div>
+          <div><span style="color: #8b6b4a;">👤</span> <strong>Dossier</strong> — Suspect profiles</div>
+          <div><span style="color: #8b6b4a;">🗣️</span> <strong>Interrogation</strong> — Question suspects</div>
+          <div><span style="color: #8b6b4a;">⏱️</span> <strong>Timeline</strong> — Chronology</div>
+          <div><span style="color: #8b6b4a;">📝</span> <strong>Notes</strong> — Notes</div>
+          <div><span style="color: #8b6b4a;">⚖️</span> <strong>Accusation</strong> — File accusation</div>
+          <div><span style="color: #8b6b4a;">⚙️</span> <strong>Settings</strong> — Configuration</div>
         </div>
 
         <!-- Tip -->
@@ -541,11 +541,11 @@ function openWelcomeWindow(wm) {
           font-size: 14px;
         ">
           <strong style="color: #4a2a0a;">💡 Tip:</strong> 
-          Double-click ikon desktop untuk membuka jendela. 
-          Drag titlebar untuk memindahkan.
+          Double-click desktop icons to open windows. 
+          Drag titlebar to move.
         </div>
 
-        <!-- Shortcut keyboard -->
+        <!-- Keyboard shortcuts -->
         <div style="
           display: flex;
           justify-content: space-between;
@@ -557,8 +557,8 @@ function openWelcomeWindow(wm) {
           flex-wrap: wrap;
           gap: 4px;
         ">
-          <span>⌨️ <kbd style="background:#eee; padding:1px 6px; border:1px solid #ccc; border-radius:2px;">Ctrl+Tab</kbd> cycle window</span>
-          <span><kbd style="background:#eee; padding:1px 6px; border:1px solid #ccc; border-radius:2px;">Esc</kbd> tutup</span>
+          <span>⌨️ <kbd style="background:#eee; padding:1px 6px; border:1px solid #ccc; border-radius:2px;">Ctrl+Tab</kbd> cycle windows</span>
+          <span><kbd style="background:#eee; padding:1px 6px; border:1px solid #ccc; border-radius:2px;">Esc</kbd> close</span>
           <span><kbd style="background:#eee; padding:1px 6px; border:1px solid #ccc; border-radius:2px;">F1</kbd> help</span>
           <span><kbd style="background:#eee; padding:1px 6px; border:1px solid #ccc; border-radius:2px;">F12</kbd> CRT toggle</span>
         </div>
@@ -576,7 +576,7 @@ function openWelcomeWindow(wm) {
         border-top: 2px solid #4a2a0a;
         flex-shrink: 0;
       ">
-        <span>🕵️‍♂️ Selamat menyelidik, Detektif!</span>
+        <span>🕵️‍♂️ Happy investigating, Detective!</span>
       </div>
     </div>
   `;
@@ -775,8 +775,8 @@ async function initializeApp() {
 
   // --- 7.7 Handle case:failed (game over) ---
   EventBus.on("case:failed", ({ reason }) => {
-    console.log(`[RetroSleuth] ❌ Kasus gagal: ${reason}`);
-    // Tampilkan game over window
+    console.log(`[RetroSleuth] ❌ Case failed: ${reason}`);
+    // Show game over window
     const gameOverId = "gameover";
     if (wm.isOpen(gameOverId)) wm.close(gameOverId);
     const winEl = wm.register(gameOverId, {
@@ -790,14 +790,14 @@ async function initializeApp() {
     body.style.cssText = "padding:24px;text-align:center;font-family:var(--font-mono,monospace);background:#1a0000;color:#ff4444;";
     body.innerHTML = `
       <div style="font-size:48px;margin-bottom:16px;">⛔</div>
-      <h2 style="color:#ff4444;margin-bottom:12px;font-size:22px;">WAKTU HABIS</h2>
+      <h2 style="color:#ff4444;margin-bottom:12px;font-size:22px;">TIME'S UP</h2>
       <p style="color:#cc6666;font-size:15px;line-height:1.6;margin-bottom:20px;">
-        Batas waktu investigasi telah tercapai.<br>
-        Tersangka lolos. Kasus ditutup tanpa terpecahkan.
+        Investigation time limit reached.<br>
+        The suspect got away. Case closed unsolved.
       </p>
       <div style="display:flex;gap:8px;justify-content:center;">
         <button id="btn-restart-case" style="background:#000080;color:#fff;border:none;padding:8px 20px;font-family:var(--font-mono,monospace);cursor:pointer;font-size:14px;">
-          🔄 Mulai Ulang
+          🔄 Restart
         </button>
         <button id="btn-back-to-hub" style="background:#444;color:#fff;border:none;padding:8px 20px;font-family:var(--font-mono,monospace);cursor:pointer;font-size:14px;">
           📁 Case Hub
@@ -825,34 +825,34 @@ async function initializeApp() {
     }
   });
 
-  // --- 7.8 Patch DesktopManager._openWindow agar terhubung ke modul ---
+  // --- 7.8 Patch DesktopManager._openWindow to connect to modules ---
   desktop._openWindow = function (id, title) {
     const moduleMap = {
       casehub: () => caseHub.open(),
       evidence: () => evidenceViewer.open(),
       dossier: () => characterDossier.open(),
       interrogation: () => {
-        // Cek apakah ada kasus aktif
+        // Check if there's an active case
         if (!caseLoader.activeCase) {
-          // Jika tidak ada kasus, buka CaseHub dulu
+          // No active case, open CaseHub first
           caseHub.open();
           return;
         }
 
-        // Jika ada kasus aktif, buka daftar karakter untuk dipilih
+        // If active case, open character list for selection
         const chars = caseLoader.activeCase.characters || [];
         if (chars.length === 0) {
-          alert("⚠️ Tidak ada karakter untuk diinterogasi dalam kasus ini.");
+          alert("⚠️ No characters available for interrogation in this case.");
           return;
         }
 
-        // Jika hanya 1 karakter, langsung buka interogasi
+        // If only 1 character, open interrogation directly
         if (chars.length === 1) {
           EventBus.emit("interrogation:start", { characterId: chars[0].id });
           return;
         }
 
-        // Jika lebih dari 1, buka Dossier agar user memilih
+        // If more than 1, open Dossier for user to choose
         characterDossier.open();
       },
       timeline: () => timelineViewer.open(),
@@ -866,7 +866,7 @@ async function initializeApp() {
       return;
     }
 
-    // Fallback: jika modul belum siap, buka window kosong
+    // Fallback: if module not ready, open empty window
     if (this.wm.exists(id)) {
       this.wm.open(id);
       return;
@@ -883,7 +883,7 @@ async function initializeApp() {
       <div style="padding: 20px; font-family: var(--font-mono, monospace);">
         <h2 style="color: #000080;">📂 ${title}</h2>
         <p style="color: #666; margin-top: 8px;">
-          Modul ini belum diimplementasikan.
+          This module is not yet implemented.
         </p>
       </div>
     `;
@@ -997,7 +997,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           🔄 RELOAD
         </button>
         <p style="margin-top: 16px; font-size: 14px; color: #1a8c1a;">
-          Periksa Console (F12) untuk detail error.
+          Check Console (F12) for error details.
         </p>
       </div>
     `;
