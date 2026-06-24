@@ -12,7 +12,7 @@
   "financial_status": {
     "kekayaan_pribadi": "Ditaksir mencapai miliaran rupiah, termasuk properti Wisma Angker, dua pabrik tekstil di Bandung dan Surabaya, serta lahan di Puncak dan Jakarta Selatan. Total aset sekitar Rp 4,5 miliar.",
     "utang_bank": "Rp 2,3 miliar (tercatat di Bank Dagang Negara dan Bank Bumi Daya, dengan bunga 18% per tahun)",
-    "utang_rentenir": "Rp 300 juta (kepada Bos Guntur, rentenir yang sama dengan Rahmat)",
+    "utang_rentenir": "Rp 300 juta (kepada Bos Guntur, rentenir yang sama dengan Rahmat). Rahmat juga berutang Rp 497 juta ke Bos Guntur—total utang Rahmat ke Bos Guntur adalah Rp 797 juta.",
     "catatan_keuangan_rahasia": "Tersimpan dalam buku besar (evi_002) yang mencatat utang Rahmat, penggelapan Sari, aliran dana mencurigakan ke rekening Sari, dan transfer ke rekening Rina. Juga mencatat pembayaran suap kepada pejabat pemerintah sebesar Rp 250 juta.",
     "surat_wasiat": "Draft wasiat (evi_011) menyatakan 80% untuk Sari, 10% untuk yayasan, 10% untuk karyawan. Namun Haryanto berencana merevisinya menjadi 20% untuk Sari, 40% untuk yayasan, 40% untuk Rina—sebuah perubahan yang memicu pembunuhan."
   },
@@ -36,6 +36,14 @@
     "char_005": {
       "status": "Notaris pribadi",
       "detail": "Sugeng Notosudirdjo adalah notaris yang telah menangani urusan hukum Haryanto sejak 1970. Ia membantu Haryanto menyusun revisi wasiat yang akan mengurangi bagian Sari. Terakhir berkunjung pada 12 Juni 1979 untuk finalisasi draft. Dokumen wasiat yang belum ditandatangani (evi_011) adalah bukti kunci motif pembunuhan. Sugeng dijadwalkan kembali pada 14 Juni untuk penandatanganan—sehari setelah kematian."
+    },
+    "char_007": {
+      "status": "Selingkuhan Sari (tidak langsung)",
+      "detail": "Rendy Pratama adalah instruktur berkuda yang menjalin hubungan asmara rahasia dengan Sari sejak Januari 1979. Haryanto tidak tahu tentang hubungan ini, tetapi Sari menggunakan Rendy sebagai pelarian dari pernikahan yang tidak bahagia. Malam 13 Juni, Sari mencoba menghubungi Rendy setelah kejadian, tetapi Rendy menolak untuk datang. Hubungan ini menjadi bagian dari motif Sari—ia merasa terjebak dalam pernikahan yang tidak bahagia dan melihat Rendy sebagai jalan keluar."
+    },
+    "char_008": {
+      "status": "Pemberi utang Rahmat (tidak langsung)",
+      "detail": "Bos Guntur adalah rentenir yang memberi pinjaman Rp 497 juta kepada Rahmat. Ia mengancam akan menyakuti Rahmat jika utang tidak dilunasi pada 15 Juni 1979. Ancaman ini membuat Rahmat semakin desperate dan mungkin mendorongnya untuk mencuri buku besar, tetapi Bos Guntur tidak terlibat langsung dalam pembunuhan Haryanto."
     }
   },
   "secrets": [

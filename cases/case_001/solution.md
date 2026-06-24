@@ -20,7 +20,7 @@
    Pada 12 Juni 1979, Sari menemukan draf wasiat baru di laci Haryanto. Wasiat tersebut akan mengurangi bagiannya dari 80% menjadi hanya 20%, dengan sisanya disumbangkan ke yayasan. Haryanto berencana menandatanganinya pada 14 Juni — dua hari setelah penemuan Sari.
 
 2. **Perselingkuhan & Penghinaan**  
-   Sari mengetahui bahwa Haryanto berselingkuh dengan seorang wanita bernama Rina (foto ditemukan di amplop tersembunyi di meja kerja). Ia merasa dipermalukan dan dibuang setelah semua "pengorbanannya".
+   Sari mengetahui bahwa Haryanto berselingkuh dengan Rina (foto ditemukan di amplop tersembunyi di meja kerja). Ia merasa dipermalukan dan dibuang setelah semua "pengorbanannya".
 
 3. **Ketergantungan Finansial**  
    Sari tidak memiliki penghasilan sendiri. Karier aktingnya gagal. Tanpa warisan, ia akan kembali jatuh miskin — sesuatu yang sangat ia takuti.
@@ -31,23 +31,26 @@
 
 ### Bukti Primer:
 
-| ID               | Nama Bukti           | Peran dalam Pembuktian                                                                                    |
-| ---------------- | -------------------- | --------------------------------------------------------------------------------------------------------- |
-| `laporan_otopsi` | Laporan Otopsi Resmi | Mengonfirmasi kematian akibat sianida, waktu kematian 22.30–23.30, dan adanya residu dalam lambung korban |
+| ID | Nama Bukti | Peran dalam Pembuktian |
+|----|-----------|------------------------|
+| `evi_001` | Laporan Otopsi Resmi | Mengonfirmasi kematian akibat sianida, waktu kematian 22.30–23.30 |
 
 ### Bukti Sekunder (Rantai Pembuktian):
 
-| ID               | Nama Bukti              | Peran dalam Pembuktian                                                                                                                                                                                                       |
-| ---------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `catatan_apotek` | Nota Pembelian Apotek   | Menunjukkan pembelian 10 gram Kalium Sianida oleh "Ny. S" pada 13 Juni pukul 21.30 — malam sebelum pembunuhan                                                                                                                |
-| `resep_racun`    | Resep & Catatan Sianida | Tulisan tangan Sari tentang dosis mematikan untuk "70 kg" dan pencampuran dengan alkohol. Ditemukan di laci terkunci lemari arsip (dibuka dengan `kunci_cadangan`)                                                           |
-| `serpihan_kaca`  | Serpihan Gelas Brandy   | Mengandung **sidik jari Sari di bagian dalam gelas** — bukti forensik tak terbantahkan bahwa ia memegang gelas dari dalam (menuangkan sesuatu). Juga terdapat residu sianida dan bekas lipstik yang cocok dengan milik Sari  |
-| `surat_wasiat`   | Draf Surat Wasiat       | Menunjukkan bahwa Sari adalah penerima 80% harta, tetapi revisi yang akan ditandatangani 14 Juni akan memotongnya drastis. Memberikan motif kuat                                                                             |
-| `log_keamanan`   | Log Keamanan Gerbang    | Mencatat mobil Sari keluar Wisma pukul 23.15 dan kembali 23.45 — bertentangan dengan alibinya yang mengaku tidur. Juga mencatat pergerakan Rahmat yang (meski mencurigakan) justru membantunya sebagai saksi, bukan pembunuh |
-| `surat_ancaman`  | Surat Ancaman Anonim    | Meski tidak bertanda tangan, isinya "Hentikan revisi wasiat" selaras dengan motif Sari. Surat ini memperkuat bahwa revisi wasiat adalah isu sentral                                                                          |
-| `laporan_penyidik` | Laporan Penyidik     | Catatan internal penyidik berisi pertanyaan kunci: siapa terakhir melihat korban, mengapa jendela terbuka, ke mana mobil Sari. Membantu pemain fokus pada bukti penting                                                         |
-| `foto_tkp`       | Foto TKP Ruang Kerja    | Dokumentasi lengkap crime scene: posisi jenazah, gelas pecah, jejak sepatu ukuran 38-39 (Sari), serat kain biru di jendela, sidik jari di kunci cadangan. Analisis foto mengungkap urutan kejadian yang sebenarnya          |
-| `rekaman_telepon` | Rekaman Telepon PABX | Menangkap 3 panggilan: Haryanto→Rina (22:07), Sari→Haryanto (22:33), Haryanto→Budi (22:58). Ancaman Sari "Kau akan menyesal" terjadi SEBELUM estimasi kematian. Panggilan ke Rina menunjukkan hubungan rahasia yang memicu kemarahan Sari |
+| ID | Nama Bukti | Peran dalam Pembuktian |
+|----|-----------|------------------------|
+| `evi_010` | Nota Pembelian Apotek | Pembelian 10 gram Kalium Sianida oleh "Ny. S" pada 13 Juni pukul 21:30 |
+| `evi_006` | Resep & Catatan Sianida | Tulisan tangan Sari tentang dosis mematikan untuk "70 kg" (berat Haryanto) |
+| `evi_012` | Serpihan Gelas Brandy | **Sidik jari Sari di bagian dalam gelas** — bukti forensik tak terbantahkan |
+| `evi_011` | Draf Surat Wasiat | Sari mendapat 80%, akan direvisi menjadi 20% — motif kuat |
+| `evi_004` | Surat Ancaman Anonim | "Hentikan revisi wasiat" — selaras dengan motif Sari |
+| `evi_003` | Log Keamanan Gerbang | Mobil Sari keluar pukul 23:15 — bertentangan dengan alibinya |
+| `evi_013` | Laporan Penyidik | Kronologi sementara, daftar tersangka, pertanyaan kunci |
+| `evi_014` | Foto TKP | Dokumentasi forensik: posisi jenazah, gelas pecah, sidik jari di kunci |
+| `evi_015` | Rekaman Telepon | Haryanto→Rina (22:07), Sari→Haryanto (22:33), Haryanto→Budi (22:58) |
+| `evi_016` | Catatan Kedatangan Rendy | Rendy meninggalkan klub berkuda dalam keadaan marah pada 12 Juni |
+| `evi_017` | Surat Utang Rahmat | Utang Rahmat kepada Bos Guntur sebesar Rp 497 juta |
+| `evi_018` | Log Penerimaan Telepon Rina | Kedatangan Rina ke Wisma pada 13 Juni 1979 |
 
 ---
 
@@ -60,16 +63,19 @@
 
 ### 13 Juni 1979 (Hari Kejadian)
 
-- **21.30:** Sari pergi ke Apotek Sumber Waras. Menggunakan nama "Ny. S", ia membeli 10 gram Kalium Sianida, sarung tangan karet, dan kapas steril. Nota pembelian (`catatan_apotek`) menjadi bukti.
-- **22.00:** Sari membawakan baki berisi botol brandy dan dua gelas ke ruang kerja. Sambil menuangkan minuman, ia menuangkan seluruh 10 gram sianida ke dalam satu gelas — gelas Haryanto.
-- **22.05–22.20:** Haryanto meminum brandynya. Dalam 5–10 menit, ia mulai kejang-kejang. Sari menyaksikan. Ia panik, tetapi tidak memanggil bantuan.
-- **22.25:** Gelas brandy pecah saat Haryanto terjatuh. Serpihannya (`serpihan_kaca`) mengandung residu sianida dan sidik jari Sari di bagian dalam gelas.
-- **22.30:** Sari mengambil `kunci_cadangan` dari laci dan menyembunyikannya di bawah karpet. Ia keluar dari ruang kerja, meninggalkan Haryanto sekarat.
-- **22.45:** Sari turun ke lantai 1, terlihat oleh Marni (`laporan_saksi`) dengan wajah marah.
-- **22.50:** Rahmat (yang sebelumnya keluar dengan marah setelah ditolak pamannya) kembali melalui jendela untuk mencuri buku besar. Ia melihat Haryanto sudah tergeletak, panik, dan lari membawa buku.
-- **23.00:** Lampu ruang kerja padam. Tidak ada yang masuk atau keluar via pintu depan.
-- **23.15:** Sari mengemudi keluar Wisma (tercatat di `log_keamanan`). Ia mencari Rendy (selingkuhannya), tetapi ditolak.
-- **23.45:** Sari kembali ke Wisma. Ia pura-pura tidur.
+- **17:00:** Rina datang ke Wisma, bertemu Haryanto di ruang kerja.
+- **17:45:** Rina keluar dengan ekspresi marah.
+- **21:15:** Rahmat datang memohon keringanan utang. Haryanto menolak dengan kasar.
+- **21:30:** Sari membeli 10 gram Kalium Sianida dari Apotek Sumber Waras menggunakan nama "Ny. S".
+- **22:00:** Sari membawakan baki berisi botol brandy dan dua gelas ke ruang kerja. Ia menuangkan sianida ke gelas Haryanto.
+- **22:05–22:20:** Haryanto meminum brandynya. Dalam 5–10 menit, ia mulai kejang-kejang.
+- **22:25:** Gelas brandy pecah saat Haryanto terjatuh. Serpihannya mengandung residu sianida dan sidik jari Sari.
+- **22:30:** Sari mengambil kunci cadangan dari laci dan menyembunyikannya di bawah karpet.
+- **22:45:** Sari turun ke lantai 1, terlihat oleh Marni dengan wajah marah.
+- **22:50:** Rahmat kembali melalui jendela untuk mencuri buku besar. Ia melihat Haryanto sudah tergeletak, panik, dan lari.
+- **23:00:** Lampu ruang kerja padam.
+- **23:15:** Sari mengemudi keluar Wisma (tercatat di log keamanan). Ia mencari Rendy, tetapi ditolak.
+- **23:45:** Sari kembali ke Wisma. Ia pura-pura tidur.
 
 ### 14 Juni 1979 (Dini Hari)
 
@@ -81,14 +87,32 @@
 ## IV. MENGAPA BUKAN TERSANGKA LAIN?
 
 ### Rahmat (Keponakan)
-
-- **Yang membuatnya mencurigakan:** Utang Rp 497 juta, tercatat keluar lewat taman, mencuri buku besar.
-- **Yang membebaskannya:** Ia tidak pernah menyentuh gelas brandy (tidak ada sidik jarinya). Ia tidak memiliki pengetahuan kimia. Ia tidak membeli sianida. Ia masuk ke ruangan **setelah** Haryanto sekarat. Kesaksiannya justru mengonfirmasi bahwa ia melihat Sari keluar dengan botol kecil sekitar pukul 22.40.
+- **Mencurigakan:** Utang Rp 497 juta, tercatat keluar lewat taman, mencuri buku besar.
+- **Membebaskan:** Tidak pernah menyentuh gelas brandy. Tidak membeli sianida. Masuk ke ruangan **setelah** Haryanto sekarat.
 
 ### Budi (Kepala Pelayan)
+- **Mencurigakan:** Dendam karena kematian anaknya, sengaja tidak melakukan ronda, membersihkan gelas lain.
+- **Membebaskan:** Hanya pasif — tidak mencegah, bukan membunuh. Tidak membeli atau memiliki sianida.
 
-- **Yang membuatnya mencurigakan:** Dendam karena kematian anaknya, sengaja tidak melakukan ronda, membersihkan gelas lain.
-- **Yang membebaskannya:** Ia hanya pasif — tidak mencegah, bukan membunuh. Tidak ada bukti ia membeli atau memiliki sianida. Ia tidak memiliki akses ke Apotek Sumber Waras. Ia terlalu tua dan lemah untuk melakukan pembunuhan berencana.
+### Rina (Selingkuhan Haryanto)
+- **Mencurigakan:** Hubungan rahasia dengan Haryanto, tahu tentang perubahan wasiat, alibi lemah.
+- **Membebaskan:** Tidak ada bukti fisik. Tidak membeli sianida. Meninggalkan Wisma jauh sebelum pembunuhan.
+
+### Rendy (Selingkuhan Sari)
+- **Mencurigakan:** Hubungan rahasia dengan Sari, menolak permintaan Sari untuk datang malam itu.
+- **Membebaskan:** Tidak ada bukti fisik. Tidak memiliki motif untuk membunuh Haryanto.
+
+### Marni (Pembantu Dapur)
+- **Mencurigakan:** Melihat segalanya, menyembunyikan informasi karena takut.
+- **Membebaskan:** Hanya saksi yang takut, bukan pelaku.
+
+### Sugeng (Notaris)
+- **Mencurigakan:** Tahu tentang perubahan wasiat, memiliki akses ke dokumen hukum.
+- **Membebaskan:** Alibi kuat di Jakarta. Tidak memiliki motif.
+
+### Bos Guntur (Rentenir)
+- **Mencurigakan:** Ancaman kepada Rahmat, bisa memotivasi pembunuhan.
+- **Membebaskan:** Tidak ada bukti fisik. Tidak memiliki motif langsung untuk membunuh Haryanto.
 
 ---
 
@@ -96,18 +120,20 @@
 
 Untuk berhasil menuduh Sari, pemain harus:
 
-1. **Membaca** `laporan_otopsi` untuk mengetahui racun dan waktu kematian.
-2. **Menemukan** `catatan_apotek` yang menunjukkan pembelian sianida oleh "Ny. S".
-3. **Mengumpulkan** `serpihan_kaca` dari karpet dan mencocokkan sidik jarinya (via `kunci_cadangan` yang juga memiliki sidik jari Sari).
-4. **Membuka** laci terkunci di lemari arsip dengan `kunci_cadangan` untuk menemukan `resep_racun`.
-5. **Menemukan** `surat_wasiat` di laci tersembunyi meja kerja (dibuka dengan `kunci_cadangan`).
+1. **Membaca** `evi_001` (Laporan Otopsi) untuk mengetahui racun dan waktu kematian.
+2. **Menemukan** `evi_010` (Nota Apotek) yang menunjukkan pembelian sianida oleh "Ny. S".
+3. **Mengumpulkan** `evi_012` (Serpihan Kaca) dan mencocokkan sidik jarinya.
+4. **Membuka** laci terkunci di lemari arsip dengan `evi_009` (Kunci Cadangan) untuk menemukan `evi_006` (Resep Racun).
+5. **Menemukan** `evi_011` (Draf Wasiat) di laci tersembunyi meja kerja.
 6. **Menginterogasi** Rahmat hingga ia mengakui melihat Sari dengan botol kecil.
 7. **Menginterogasi** Budi hingga ia mengakui menyaksikan Sari menuangkan sesuatu ke gelas.
-8. **Mengajukan tuduhan** dengan:
-   - Pelaku: Sari
-   - Bukti Primer: `laporan_otopsi`
-   - Bukti Sekunder: Minimal 4 dari 6 bukti yang tersedia
-   - Motif: Revisi wasiat & perselingkuhan
+8. **Menginterogasi** Rina untuk mengungkap hubungan rahasia dengan Haryanto (memperkuat motif Sari).
+9. **Menginterogasi** Rendy untuk mengungkap hubungan rahasia dengan Sari.
+10. **Mengajukan tuduhan** dengan:
+    - Pelaku: Sari
+    - Bukti Primer: `evi_001`
+    - Bukti Sekunder: Minimal 4 dari 8 bukti yang tersedia
+    - Motif: Revisi wasiat & perselingkuhan
 
 ---
 
@@ -121,6 +147,12 @@ Dalam pengakuannya, ia berkata:
 
 Rahmat dijerat pasal pencurian dan penggelapan, tetapi dibebaskan dari tuduhan pembunuhan.  
 Budi pensiun dari Wisma Angker seminggu kemudian. Ia tidak pernah kembali.  
+Rina meninggalkan Wisma Angker dan tidak pernah kembali.  
+Rendy putus hubungan dengan Sari setelah kasus ini terungkap.  
+Sugeng melanjutkan praktik notarisnya.  
+Marni tetap bekerja di Wisma Angker sampai pensiun.  
+Bos Guntur tidak pernah ditangkap — ia menghilang dari Jakarta.
+
 Wisma Angker ditutup dan dijual oleh ahli waris yayasan pada 1980.
 
 **Kasus ditutup.**

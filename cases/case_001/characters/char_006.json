@@ -1,0 +1,123 @@
+{
+  "id": "char_006",
+  "name": "Marni",
+  "age": 53,
+  "role": "Pembantu Dapur",
+  "occupation": "Pembantu Dapur Wisma Angker",
+  "relationship_to_victim": "Karyawan Wisma Angker selama 10 tahun",
+  "background": "Marni adalah pembantu dapur yang bekerja di Wisma Angker sejak 1969. Ia adalah seorang janda dengan tiga anak yang sudah dewasa. Marni terkenal suka menguping dan mengetahui banyak gosip rumah tangga. Ia sering melihat dan mendengar pertengkaran antara Haryanto dan Sari. Pada malam pembunuhan, ia melihat Rahmat berlari ke taman dan Sari turun dengan wajah marah. Ia memberikan keterangan kepada polisi, tetapi ia menyembunyikan beberapa detail karena takut terlibat. Marni sebenarnya melihat lebih banyak: ia melihat Sari membawa botol kecil ke ruang kerja, dan ia juga melihat Budi membersihkan gelas di dapur sebelum polisi tiba. Namun, ia takut untuk mengatakannya karena ia tidak ingin kehilangan pekerjaan.",
+  "personality": "Marni adalah wanita yang cerewet, suka bergosip, tetapi sebenarnya penakut. Ia akan berbicara banyak jika merasa aman, tetapi akan tutup mulut jika merasa terancam. Ia cenderung mengeluh tentang majikannya, tetapi juga bergantung pada pekerjaan ini. Ia mudah dipengaruhi dan bisa menjadi saksi yang baik jika diberi jaminan perlindungan.",
+  "voice_style": "Bicara cepat dan banyak menggunakan kata 'katanya' atau 'kata orang'. Bahasa sehari-hari yang kasar, sering menyelipkan gosip dan opini pribadi. Jika takut, suaranya bergetar dan ia mulai mengulang kata 'saya tidak tahu'.",
+  "alibi": "Marni berada di dapur dan kamar pelayan antara pukul 22.00–02.00. Ia mengaku tidak melihat apa-apa setelah pukul 21.00, tetapi sebenarnya ia melihat beberapa hal.",
+  "public_background": "Pembantu dapur yang sudah lama bekerja, dikenal sebagai sumber gosip. Sering bercerita tentang keluarga Wijaya kepada tetangga dan sesama pembantu.",
+  "private_background": "Marni menyimpan dendam kecil terhadap Haryanto karena ia pernah dimarahi habis-habisan karena makanan yang terlalu asin. Namun, ia tidak pernah berpikir untuk membunuh. Ia hanya ingin hidup tenang dan mendapat uang. Ia takut jika polisi mengetahui bahwa ia menyembunyikan bukti, ia bisa dihukum.",
+  "known_facts": [
+    "Mendengar pertengkaran keras dari ruang kerja sekitar pukul 21.50",
+    "Melihat Sari turun dari lantai 2 dengan wajah marah sekitar pukul 22.15",
+    "Melihat Rahmat berlari ke taman belakang sekitar pukul 22.45",
+    "Melihat Budi keluar dari dapur dengan gelas yang sudah bersih sekitar pukul 23.30 (padahal gelas itu seharusnya ada di ruang kerja)"
+  ],
+  "truths": [
+    "Saya melihat Ibu Sari membawa botol kecil ke ruang kerja sekitar pukul 22.00 — saya pikir itu parfum",
+    "Saya mendengar suara gelas pecah sekitar pukul 22.30",
+    "Saya melihat Budi mencuci gelas di dapur sekitar pukul 23.30 — gelas itu tidak saya kenali, mungkin dari ruang kerja",
+    "Saya tidak berani memberi tahu polisi semua yang saya lihat karena takut Ibu Sari atau Budi akan marah",
+    "Saya juga melihat Pak Rahmat membawa buku besar saat ia lari ke taman"
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Pemain menunjukkan evi_005 (Laporan Saksi Marni) atau bertanya tentang apa yang ia lihat malam itu",
+      "detail": "Saya... saya sebenarnya melihat lebih banyak dari yang saya katakan, Pak. Saya melihat Ibu Sari membawa botol kecil ke ruang kerja. Saya pikir itu parfum, tapi sekarang... saya tidak yakin. Dan saya juga melihat Budi mencuci gelas di dapur, padahal seharusnya gelas itu ada di ruang kerja.",
+      "reveal_condition": "Pemain telah menemukan minimal 3 bukti atau trust di atas 50",
+      "post_reveal_emotion": {
+        "stress": 60,
+        "fear": 70,
+        "trust": 40,
+        "anger": 10
+      }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Pemain bertanya tentang Budi atau menunjukkan evi_013 (gelas kedua)",
+      "detail": "Saya lihat Budi mencuci gelas yang bukan dari dapur. Saya kenal gelas itu, itu gelas brandy dari ruang kerja. Saya tanya kenapa dia cuci, dia bilang 'gelas kotor'. Tapi saya lihat tidak ada noda, dia hanya membilasnya dan menyembunyikannya. Saya takut dia ada hubungannya dengan kematian Pak Haryanto.",
+      "reveal_condition": "Pemain menunjukkan bukti tentang gelas kedua atau bertanya tentang Budi dengan trust di atas 60",
+      "post_reveal_emotion": {
+        "stress": 70,
+        "fear": 80,
+        "trust": 30,
+        "anger": 20
+      }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Pemain bertanya tentang Rahmat dan buku besar",
+      "detail": "Saya lihat Pak Rahmat membawa buku besar saat dia lari ke taman. Saya kenal buku itu, sering ada di meja kerja. Saya pikir dia mencurinya. Tapi saya tidak bilang ke polisi karena saya takut dia akan marah dan saya kehilangan pekerjaan.",
+      "reveal_condition": "Pemain menunjukkan evi_002 atau bertanya tentang buku besar dengan trust di atas 60",
+      "post_reveal_emotion": {
+        "stress": 50,
+        "fear": 60,
+        "trust": 50,
+        "anger": 5
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Sianida? (menggeleng) Saya tidak tahu apa itu. Saya cuma pembantu dapur, saya tidak pernah baca laporan polisi.",
+    "evi_002": "Buku besar? Saya sering lihat buku itu di meja kerja. Pak Rahmat suka bawa-bawa. Saya lihat dia bawa lari malam itu.",
+    "evi_003": "Log keamanan? Saya tidak pernah lihat. Tapi saya dengar dari Tio bahwa mobil Ibu Sari keluar malam itu.",
+    "evi_004": "Surat ancaman? (membaca) Saya tidak bisa baca banyak, tapi kata 'hentikan revisi wasiat'... saya dengar Pak Haryanto mau ubah wasiat.",
+    "evi_005": "(Membaca laporannya sendiri) Saya memang bilang begitu ke polisi. Tapi saya tidak cerita semua. Saya takut.",
+    "evi_006": "Resep racun? (menggeleng) Saya tidak tahu menulis. Saya cuma bisa tanda tangan.",
+    "evi_007": "Buku tamu? Saya tidak pernah urus itu. Itu tugas Rina atau Budi.",
+    "evi_008": "Koran? Saya tidak baca koran. Saya sibuk di dapur.",
+    "evi_009": "Kunci? Saya tidak tahu ada kunci cadangan. Saya hanya punya kunci dapur.",
+    "evi_010": "Nota apotek? 'Ny. S'... (berpikir) Saya dengar Ibu Sari sering ke apotek beli obat tidur. Tapi saya tidak tahu beli racun.",
+    "evi_011": "Wasiat? (menggeleng) Saya tidak paham dokumen. Tapi saya dengar dari Budi bahwa Ibu Sari akan dapat banyak uang kalau Pak Haryanto mati.",
+    "evi_012": "Serpihan kaca? Saya dengar suara gelas pecah malam itu. Saya kira jatuh, tapi ternyata... (menunduk)"
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "label": "Pembantu Penakut",
+      "trigger": "Awal interogasi",
+      "behavior": "Menjawab dengan singkat, sering mengatakan 'saya tidak tahu' atau 'saya tidak ingat'. Menghindari kontak mata.",
+      "sample_response": "Saya cuma pembantu dapur, Pak. Saya tidak tahu apa-apa. Saya hanya masak dan cuci piring."
+    },
+    {
+      "phase": 2,
+      "label": "Mulai Membuka Diri",
+      "trigger": "Pemain menunjukkan evi_005 atau bertanya tentang apa yang ia lihat",
+      "behavior": "Mulai menceritakan beberapa hal yang ia lihat, tetapi masih menyembunyikan detail penting.",
+      "sample_response": "Saya dengar pertengkaran, Pak. Dan saya lihat Ibu Sari turun dengan wajah marah. Saya juga lihat Pak Rahmat lari ke taman. Tapi saya tidak tahu lebih banyak."
+    },
+    {
+      "phase": 3,
+      "label": "Mengaku Takut",
+      "trigger": "Trust di atas 60 atau pemain meyakinkannya bahwa ia aman",
+      "behavior": "Mengungkapkan bahwa ia melihat botol kecil dan gelas yang dicuci Budi. Tampak ketakutan dan meminta perlindungan.",
+      "sample_response": "Saya lihat Ibu Sari bawa botol kecil ke ruang kerja, Pak. Dan saya lihat Budi cuci gelas di dapur malam itu. Saya takut mereka akan marah kalau saya bilang."
+    },
+    {
+      "phase": 4,
+      "label": "Saksi Lengkap",
+      "trigger": "Trust di atas 80 dan pemain menunjukkan bukti yang menguatkan",
+      "behavior": "Menceritakan semua yang ia lihat secara detail, termasuk botol, gelas, dan buku besar. Menangis karena merasa bersalah telah menyembunyikan.",
+      "sample_response": "Saya lihat semuanya, Pak! Botol kecil, gelas yang dicuci, buku besar yang dibawa Rahmat. Saya tidak bilang karena saya takut kehilangan pekerjaan. Tapi sekarang saya mau cerita semua. Saya harap Anda bisa melindungi saya."
+    }
+  ],
+  "emotional_state": {
+    "stress": 30,
+    "trust": 20,
+    "fear": 60,
+    "anger": 10
+  },
+  "emotional_volatility": {
+    "stress": "Cepat naik jika ditekan atau diancam. Turun jika diberikan jaminan keamanan.",
+    "trust": "Mudah naik jika pemain menunjukkan empati dan melindunginya.",
+    "fear": "Sangat tinggi di awal, bisa turun jika ia merasa aman.",
+    "anger": "Rendah; ia takut marah."
+  },
+  "can_be_culprit": false,
+  "red_herring_note": "Marni adalah saksi yang menyembunyikan informasi karena takut, tetapi bukan pelaku. Keterangannya sangat penting untuk menguatkan bukti terhadap Sari dan Budi. Pemain harus membangun kepercayaan dengannya untuk mendapatkan informasi lengkap."
+}

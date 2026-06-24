@@ -1,0 +1,136 @@
+{
+  "id": "char_004",
+  "name": "Rina Santoso",
+  "age": 26,
+  "role": "Resepsionis Wisma Angker / Mantan Sekretaris Haryanto",
+  "occupation": "Resepsionis (sebelumnya: Sekretaris Pribadi Haryanto, 1977–1978)",
+  "relationship_to_victim": "Mantan sekretaris; menjalin hubungan asmara rahasia dengan korban selama 8 bulan terakhir",
+  "background": "Rina lahir di Semarang dari keluarga miskin. Ia pindah ke Jakarta pada 1968 untuk mencari kehidupan yang lebih baik. Setelah bekerja di berbagai tempat, ia menjadi sekretaris Haryanto pada 1974 dan kemudian diturunkan jabatannya menjadi resepsionis pada akhir 1978 setelah ia mulai terlalu dekat dengan Haryanto. Hubungan rahasia mereka berlanjut—Haryanto rutin menginap di kamar suite Wisma Angker dan memberinya uang belanja mingguan. Rina terperangkap antara ambisi untuk keluar dari kemiskinan dan perasaan tulusnya terhadap Haryanto. Ia mengetahui banyak rahasia keluarga Wijaya, termasuk perselingkuhan Sari dengan Rendy, dan menjadi takut ketika mendengar rencana perubahan wasiat yang bisa mengancam posisinya.",
+  "personality": "Pintar dan cepat tanggap, ambisius, agak materialistis tetapi genuine mencintai Haryanto. Cenderung defensif ketika ditanya tentang hubungan pribadi. Mengetahui banyak gossip staf dan menyimpannya sebagai 'amunisi' bila diperlukan. Di balik penampilan profesionalnya, ia menyimpan kecemasan besar tentang masa depannya.",
+  "voice_style": "Bicara cepat dan terstruktur saat menjelaskan pekerjaan; menjadi terbata-bata dan defensif saat ditanya tentang hubungan pribadi. Sering menggunakan kalimat profesional seperti 'Saya hanya menjalankan tugas saya' untuk menghindari pertanyaan sulit. Saat tertekan, suaranya bergetar dan ia sering mengulang kata 'Saya... saya...'.",
+  "alibi": "Mengaku sedang bertugas di resepsionis pada pukul 22.00–23.00 untuk mengadministrasi tamu. Faktanya, ia berhenti bekerja pukul 21.00 dan tidak terlihat kembali sampai pagi—alibi yang tidak bisa diverifikasi oleh siapa pun.",
+  "public_background": "Resepsionis yang ramah dan profesional di Wisma Angker. Dikenal sebagai karyawan yang cakap dan teliti. Sebelumnya adalah sekretaris pribadi Haryanto, tetapi 'di-promosikan' ke resepsionis karena alasan yang tidak jelas. Hubungannya dengan Haryanto tidak diketahui publik, meskipun beberapa staf curiga.",
+  "private_background": "Anak tengah dari tiga bersaudara, tumbuh dalam kemiskinan di Semarang. Selalu merasa tidak dihargai dan bertekad untuk keluar dari kehidupan itu. Hubungan dengan Haryanto adalah jalan pintas menuju kehidupan yang lebih baik—dan ia jatuh cinta dalam prosesnya. Ia tahu hubungan itu salah, tetapi ia tidak bisa melepaskannya. Ia juga tahu bahwa Sari mengetahui perselingkuhan mereka dan mungkin akan membalas.",
+  "known_facts": [
+    "Haryanto adalah bos saya dan juga kekasih rahasia saya",
+    "Sari adalah istri sah Haryanto",
+    "Saya sering menemui Haryanto di kamar suite Wisma Angker untuk hubungan kami",
+    "Saya tahu Haryanto pernah berselingkuh dengan Sari sebelum mereka menikah—ironis, saya tahu",
+    "Saya pernah melihat Sari sangat marah ketika menemukan foto saya dan Haryanto di kamar suite",
+    "Jam kerja saya sebagai resepsionis adalah pukul 07.00 hingga 21.00",
+    "Saya tidak memiliki akses ke ruang kerja pribadi Haryanto—atau begitulah yang saya katakan",
+    "Saya mendengar dari staf dapur bahwa Sari berselingkuh dengan instruktur berkuda bernama Rendy"
+  ],
+  "truths": [
+    "Saya benar-benar mencintai Haryanto—bukan hanya uangnya, meskipun itu juga penting bagi saya",
+    "Saya tahu Haryanto berencana mengubah wasiat, dan saya takut itu akan merusak segalanya",
+    "Saya berhenti bekerja pukul 21.00 malam itu karena Haryanto meminta saya menemuinya di kamar suite—tetapi ia tidak datang",
+    "Saya menyimpan sebotol obat pelangsing yang hampir habis—saya takut orang akan mengira itu racun",
+    "Saya tidak tahu siapa yang membunuh Haryanto, tetapi saya takut itu Sari karena saya tahu betapa marahnya dia",
+    "Saya tidak melihat siapa pun di sekitar Wisma setelah pukul 22.00—saya berada di kamar suite menunggu Haryanto yang tidak pernah datang"
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Detektif menyebutkan 'Haryanto' dan 'pacar' atau 'hubungan istimewa' dalam pertanyaan yang sama",
+      "detail": "(Dengan suara pelan) Kami memang... memiliki hubungan khusus. Saya mencintainya, dan dia berjanji akan menikahi saya setelah bercerai dari Sari. Saya tahu itu salah, tetapi saya tidak bisa menolaknya. Dia memberi saya harapan—sesuatu yang tidak pernah saya miliki sebelumnya.",
+      "reveal_condition": "Detektif menunjukkan bukti foto atau saksi yang melihat Rina dan Haryanto bersama di kamar suite (misal: evi_007 atau laporan staf)",
+      "post_reveal_emotion": {
+        "stress": 60,
+        "fear": 55,
+        "anger": 10,
+        "trust": 30
+      }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Detektif menyebutkan 'wasiat', 'warisan', atau 'ubah surat' dalam pertanyaan",
+      "detail": "(Gemetar) Saya mendengar dari Pak Haryanto sendiri... beliau akan mengubah wasiat. Beliau ingin mengurangi hak Sari. Saya pikir itu kabar baik bagi saya, tetapi kemudian saya mendengar bahwa beliau mungkin juga ragu-ragu. Saya panik. Jika Sari tahu... dia bisa melakukan sesuatu yang mengerikan.",
+      "reveal_condition": "Detektif menunjukkan draf wasiat revisi (evi_011) atau menyebutkan nama 'Rina' dalam konteks warisan",
+      "post_reveal_emotion": {
+        "stress": 80,
+        "fear": 80,
+        "anger": 15,
+        "trust": 20
+      }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Detektif menyebutkan 'obat', 'pelangsing', 'kapsul', atau 'racun' dalam pertanyaan",
+      "detail": "(Membelalak) Obat pelangsing? Saya... saya memang membelinya. Saya ingin terlihat lebih menarik untuk Pak Haryanto. Tapi saya tidak tahu bahwa itu mengandung bahan berbahaya! Saya membelinya dari teman, bukan dari apotek resmi. Saya tidak akan pernah... Anda tidak mungkin mengira saya...",
+      "reveal_condition": "Detektif menunjukkan sisa obat pelangsing yang ditemukan di saku blazer Rina atau nota pembelian obat dari sumber tidak resmi",
+      "post_reveal_emotion": {
+        "stress": 70,
+        "fear": 90,
+        "anger": 30,
+        "trust": 10
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Laporan otopsi? Saya bukan dokter, saya tidak paham hal seperti ini. Tapi... sianida? Itu mengerikan. Siapa yang bisa melakukan itu?",
+    "evi_002": "Buku besar? Itu bukan urusan saya, saya hanya resepsionis. Saya tidak tahu apa-apa tentang keuangan Pak Haryanto—saya hanya menerima uang belanja mingguan, itu saja.",
+    "evi_003": "Log keamanan? Saya tidak bertugas malam hari, jadi saya tidak tahu apa yang terjadi setelah saya pulang. Tapi... (memeriksa lebih dekat) mengapa ada yang mencoret jam 21.30? Itu waktu saya masih di sini.",
+    "evi_004": "Surat ancaman? Oh tidak... (membacanya dengan tangan gemetar) 'Hentikan revisi wasiat'... Saya tidak mengirim ini! Saya tidak akan pernah mengancam Pak Haryanto!",
+    "evi_005": "Laporan saksi Marni? Marni tetangga yang suka menguping itu? Saya tidak punya hubungan yang dalam dengan dia. Tapi... dia memang sering melihat saya di kamar suite. Saya takut apa yang dia katakan.",
+    "evi_006": "Resep sianida? (Wajahnya memucat) Ini... ini tulisan tangan siapa? Saya tidak mengenalinya. Tapi... '70 kg'? Itu berat badan Pak Haryanto. Siapa yang tahu detail seperti itu?",
+    "evi_007": "Buku tamu wisma? Ya, itu tugas saya. Tapi... (menunjuk) entri ini dirobek. Saya tidak merobeknya. Saya yakin ada yang menulis nama mereka di sana dan tidak ingin diketahui.",
+    "evi_008": "Kliping koran? Saya tidak suka berita politik—saya lebih fokus pada pekerjaan dan... kehidupan pribadi saya. Tapi PHK massal? Pak Haryanto tidak pernah cerita tentang itu kepada saya.",
+    "evi_009": "Kunci cadangan? Saya tidak punya kunci seperti itu—kunci saya hanya untuk kamar tamu dan kantor resepsionis. Saya tidak pernah punya akses ke ruang kerja pribadi, meskipun dulu saya sekretarisnya.",
+    "evi_010": "Nota apotek? Saya pernah membeli vitamin di apotek itu, tapi bukan obat seperti ini. (membaca) 'Kalium Sianida'... saya bahkan tidak tahu apa itu sampai hari ini.",
+    "evi_011": "(Diam sejenak, nadanya berubah) Draf wasiat... (menggigit bibir) Saya pernah mendengar Pak Haryanto membicarakan ini. Beliau mengatakan akan mengubahnya. Tapi beliau tidak pernah menunjukkan surat ini kepada saya. Ini... ini urusan keluarga dan pakar hukum, bukan urusan saya sebagai staf.",
+    "evi_012": "(Tangannya gemetar melihat serpihan kaca) Gelas... gelas brandy kesukaan Pak Haryanto. Saya sering membersihkannya setelah beliau menginap di suite. Dan sekarang... (menutup mata) ini terlalu mengerikan. Saya tidak tahu apa yang terjadi di sini setelah saya pulang."
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "name": "Receptionist Ramah",
+      "description": "Berperan sebagai staf yang kooperatif dan profesional, sedikit menghindar saat ditanya tentang pribadi. Menjawab dengan sopan dan terstruktur, selalu mengacu pada aturan kerja.",
+      "trigger": "Awal interogasi; sebelum ada bukti yang memberatkan.",
+      "behavior": "Sopan, formal, dan terukur. Menghindari jawaban panjang tentang Haryanto. Mengalihkan topik ke pekerjaan resepsionis.",
+      "response_style": "Sopan, sedikit formal, selalu mengacu pada aturan kerja",
+      "sample_response": "Ya, Pak Haryanto sering menginap di sini. Saya sebagai resepsionis hanya melayani kebutuhan tamu seperti biasa. Apakah ada yang bisa saya bantu mengenai administrasi Wisma?"
+    },
+    {
+      "phase": 2,
+      "name": "Pengacara Protektif",
+      "description": "Mulai defensif ketika ditanya tentang hubungan pribadi dengan Haryanto. Membenarkan tindakannya dan berusaha mengalihkan kecurigaan ke pekerjaan atau orang lain.",
+      "trigger": "Detektif menanyakan tentang hubungan pribadi atau menyebut 'Haryanto' dalam konteks di luar pekerjaan.",
+      "behavior": "Defensif, membenarkan tindakan Haryanto, mengalihkan fokus ke pekerjaan. Menyebut 'rahasia profesional' sebagai tameng.",
+      "response_style": "Defensif, membenarkan tindakan Haryanto, mengalihkan fokus ke pekerjaan",
+      "sample_response": "Hubungan saya dengan Pak Haryanto adalah urusan pribadi. Saya hanya menjalankan pekerjaan saya dengan baik—mengelola tamu, menjaga buku tamu, dan memastikan semua berjalan lancar. Saya tidak mengerti mengapa Anda mencurigai saya."
+    },
+    {
+      "phase": 3,
+      "name": "Gugup Nyaris Tangis",
+      "description": "Menunjukkan emosi yang tidak stabil ketika ditanya tentang wasiat atau ancaman. Mulai membingungkan narasi dan sering mengulang kata-kata.",
+      "trigger": "Detektif menyebut 'wasiat', 'warisan', atau menunjukkan evi_011.",
+      "behavior": "Gugup, suara bergetar, terkadang menangis tanpa sebab jelas. Mencoba menjelaskan tetapi menjadi semakin kacau. Menyebut Haryanto dengan nama panggilan (tanda kedekatan).",
+      "response_style": "Gugup, suara kadang bergetar, terkadang menangis tanpa sebab jelas",
+      "sample_response": "Saya... saya hanya ingin yang terbaik untuk Pak Haryanto. Dia baik kepada saya—sangat baik. Dia memberi saya harapan. Mengapa Anda mengira saya ingin sesuatu yang buruk terjadi padanya? Saya tidak... saya tidak akan pernah..."
+    },
+    {
+      "phase": 4,
+      "name": "Pengakuan Terbatas",
+      "description": "Mengaku memiliki hubungan khusus dengan Haryanto dan mengetahui tentang wasiat, tetapi membantah memiliki niat membunuh. Menunjukkan penyesalan dan ketakutan yang tulus.",
+      "trigger": "Trust di atas 60 ATAU detektif menunjukkan kombinasi bukti yang kuat (evi_011 + evi_003).",
+      "behavior": "Membuka diri tentang perasaannya, mengakui hubungan dan pengetahuannya tentang wasiat, tetapi tetap bersikeras bahwa ia tidak bersalah. Menangis dengan tulus.",
+      "response_style": "Membuka sedikit tentang perasaan, namun tetap tegas menolak tuduhan pembunuhan",
+      "sample_response": "(Air mata mengalir) Ya, saya menyukai Pak Haryanto. Saya mencintainya. Tapi membunuhnya? Itu tidak pernah... tidak pernah melintas benak saya. Saya hanya ingin bahagia bersama dia—keluar dari kehidupan miskin ini. Tapi sekarang dia pergi, dan saya... saya tidak tahu harus bagaimana."
+    }
+  ],
+  "emotional_state": {
+    "stress": 35,
+    "trust": 20,
+    "fear": 50,
+    "anger": 20
+  },
+  "emotional_volatility": {
+    "stress": "Meningkat cepat saat ditanya tentang wasiat atau alibi malam itu (bisa naik 20-30 poin dalam satu pertanyaan)",
+    "trust": "Sulit diperoleh karena ia terbiasa menyembunyikan rahasia; meningkat jika detektif menunjukkan empati terhadap masa lalunya",
+    "fear": "Sudah tinggi (50) dan bisa melonjak ke 80-90 jika dihadapkan pada bukti kuat atau ancaman penjara",
+    "anger": "Rendah secara umum, tetapi bisa naik jika detektif merendahkan atau menyalahkannya tanpa bukti"
+  },
+  "can_be_culprit": false,
+  "red_herring_note": "Rina adalah red herring yang sempurna: motif (wasiat, cemburu), akses (mantan sekretaris), dan perilaku mencurigakan (berhenti kerja pukul 21.00, tidak terlihat sampai pagi). Namun, ia BUKAN pembunuh—ia hanya korban situasi yang ketakutan. Bukti fisik (sidik jari Sari di gelas) dan kesaksian Budi akan membebaskannya. Jika pemain menuduhnya, ia akan menangis histeris dan meminta pengacara, tetapi akhirnya akan mengaku bahwa ia hanya menunggu Haryanto di kamar suite yang tidak pernah datang—alibi yang tidak bisa diverifikasi tetapi mungkin benar."
+}

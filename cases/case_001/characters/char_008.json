@@ -1,0 +1,123 @@
+{
+  "id": "char_008",
+  "name": "Bos Guntur",
+  "age": 45,
+  "role": "Rentenir / Pemberi Utang",
+  "occupation": "Bos Judi Gelap dan Rentenir",
+  "relationship_to_victim": "Tidak langsung; pemberi utang kepada Rahmat (keponakan korban)",
+  "background": "Bos Guntur adalah rentenir yang beroperasi di Jakarta dan sekitarnya. Ia meminjamkan uang dengan bunga tinggi kepada orang-orang yang terdesak, termasuk Rahmat. Ia dikenal sebagai pria kejam yang tidak segan-segan menyakiti orang yang tidak bisa membayar utangnya. Rahmat berutang kepadanya sebesar Rp 497 juta dengan batas pembayaran 15 Juni 1979. Jika tidak lunas, Rahmat tahu ia akan dibunuh atau disakiti. Bos Guntur tidak tahu tentang kematian Haryanto — ia hanya tahu Rahmat punya utang besar yang harus segera dibayar.",
+  "personality": "Kasar, dingin, dan mengancam. Bicara dengan nada rendah dan lambat, tetapi setiap kata terdengar seperti ancaman. Tidak punya empati. Melihat orang lain hanya sebagai sumber uang atau ancaman.",
+  "voice_style": "Bicara pelan dan rendah, sering jeda sebelum menjawab. Menggunakan ancaman terselubung seperti 'Kau tahu apa yang terjadi pada orang yang tidak membayar, kan?' atau 'Aku tidak suka orang yang ingkar janji.'",
+  "alibi": "Beroperasi di Jakarta. Tidak ada saksi yang bisa membuktikan kehadirannya di Puncak pada malam 13 Juni. Ia mengaku tidak pernah ke Wisma Angker.",
+  "public_background": "Dikenal di kalangan penjudi sebagai bos yang kejam. Beberapa orang menghubunginya untuk meminjam uang, tetapi sedikit yang berani karena reputasinya.",
+  "private_background": "Berasal dari keluarga miskin. Membangun 'bisnis'nya dari bawah dengan kekerasan dan ketakutan. Tidak punya keluarga yang diketahui. Hidupnya berpusat pada uang dan kekuasaan.",
+  "known_facts": [
+    "Pemberi utang dengan bunga tinggi",
+    "Rahmat berutang Rp 497 juta kepadanya",
+    "Batas pembayaran adalah 15 Juni 1979",
+    "Dikenal kejam dan tidak segan menyakiti orang yang tidak membayar",
+    "Tidak ada saksi yang membuktikan kehadirannya di Puncak malam itu"
+  ],
+  "truths": [
+    "Saya memang memberi pinjaman kepada Rahmat. Rp 497 juta. Batas pembayaran besok, 15 Juni.",
+    "Saya tidak tahu soal kematian Haryanto. Saya hanya tahu Rahmat harus membayar.",
+    "Saya tidak membunuh Haryanto. Dia bukan pelanggan saya.",
+    "Kalau Rahmat tidak membayar, saya yang akan menyelesaikan urusannya. Tapi bukan malam itu."
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Detektif menyebut nama 'Guntur' atau 'rentenir' atau 'Bos Guntur'",
+      "detail": "(Mengerutkan dahi) Siapa yang bilang nama saya? Saya tidak kenal Rahmat. Saya tidak tahu apa-apa soal utang.",
+      "reveal_condition": "Trust minimal 30 ATAU detektif menunjukkan bukti yang menghubungkan Bos Guntur dengan Rahmat",
+      "post_reveal_emotion": {
+        "stress": 40,
+        "fear": 20,
+        "anger": 30,
+        "trust": 20
+      }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Trust di atas 50 DAN detektif bertanya lebih detail tentang utang Rahmat",
+      "detail": "(Menghela napas) Baik, saya akui. Saya memberi pinjaman kepada Rahmat. Tapi itu bisnis, Pak. Saya tidak bunuh siapa pun. Saya hanya uang.",
+      "reveal_condition": "Trust di atas 50 DAN detektif bertanya 'Berapa utang Rahmat?'",
+      "post_reveal_emotion": {
+        "stress": 50,
+        "fear": 30,
+        "anger": 20,
+        "trust": 40
+      }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Trust di atas 70 DAN detektif bertanya tentang malam 13 Juni",
+      "detail": "(Diam sejenak) Malam itu? Saya di Jakarta. Saya tidak ke Puncak. Tapi kalau kau tanya soal Rahmat... dia memang harus membayar besok. Saya tidak tahu soal kematian Haryanto. Itu bukan urusan saya.",
+      "reveal_condition": "Trust di atas 70 DAN detektif menunjukkan bukti bahwa Rahmat melihat Sari dengan botol kecil",
+      "post_reveal_emotion": {
+        "stress": 60,
+        "fear": 40,
+        "anger": 10,
+        "trust": 60
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Sianida? Saya tidak tahu apa itu. Saya cuma orang bisnis.",
+    "evi_002": "Buku besar? Saya tidak pernah lihat. Tapi kalau Rahmat bilang dia utang... mungkin benar.",
+    "evi_003": "Log keamanan? Saya tidak tahu. Saya tidak pernah ke Wisma.",
+    "evi_004": "Surat ancaman? 'Hentikan revisi wasiat'? Saya tidak tahu soal wasiat.",
+    "evi_005": "Laporan saksi Marni? Saya tidak kenal dia.",
+    "evi_006": "Resep racun? Saya tidak kenal tulisan ini.",
+    "evi_007": "Buku tamu? Saya tidak pernah ke Wisma.",
+    "evi_008": "Kliping koran? Saya tidak baca koran.",
+    "evi_009": "Kunci cadangan? Saya tidak tahu.",
+    "evi_010": "Nota apotek? 'Ny. S'? Saya tidak tahu siapa itu.",
+    "evi_011": "Draf wasiat? Saya tidak tahu soal wasiat.",
+    "evi_012": "Serpihan kaca? Saya tidak pernah ke ruang kerja di Wisma."
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "label": "Pria Dingin",
+      "trigger": "Awal interogasi",
+      "behavior": "Bicara dengan nada dingin dan singkat. Menjawab dengan enggan. Tidak menunjukkan emosi.",
+      "sample_response": "Saya tidak tahu apa-apa soal kejadian di Wisma. Saya hanya orang bisnis."
+    },
+    {
+      "phase": 2,
+      "label": "Mulai Terancam",
+      "trigger": "Detektif menyebut nama Rahmat atau utang",
+      "behavior": "Mulai defensif, mengakui memberi pinjaman tetapi menyangkal terlibat dalam pembunuhan.",
+      "sample_response": "Baik, saya akui saya memberi pinjaman kepada Rahmat. Tapi itu bisnis, Pak. Saya tidak bunuh siapa pun."
+    },
+    {
+      "phase": 3,
+      "label": "Mengaku Memberi Pinjaman",
+      "trigger": "Trust di atas 60 ATAU detektif menunjukkan bukti utang Rahmat",
+      "behavior": "Mengaku memberi pinjaman dan jumlah utang, tetapi tetap menyangkal terlibat.",
+      "sample_response": "Baik, saya akui. Saya memberi pinjaman kepada Rahmat. Rp 497 juta. Tapi saya tidak bunuh Haryanto. Itu bukan urusan saya."
+    },
+    {
+      "phase": 4,
+      "label": "Mengungkap Tekanan",
+      "trigger": "Trust di atas 80 DAN detektif bertanya tentang tekanan kepada Rahmat",
+      "behavior": "Mengungkapkan bahwa ia memberi tekanan kepada Rahmat, tetapi tidak membunuh Haryanto.",
+      "sample_response": "(Menghela napas) Saya memang memberi tekanan kepada Rahmat. Itu bagian dari bisnis. Tapi saya tidak membunuh Haryanto. Saya tidak perlu membunuh dia. Cukup Rahmat yang akan sayaurus kalau dia tidak membayar."
+    }
+  ],
+  "emotional_state": {
+    "stress": 20,
+    "trust": 15,
+    "fear": 10,
+    "anger": 25
+  },
+  "emotional_volatility": {
+    "stress": "Stabil; tidak banyak berubah selama interogasi",
+    "trust": "Sangat rendah; sulit dipercaya",
+    "fear": "Rendah; ia tidak takut pada siapa pun",
+    "anger": "Tinggi jika dituduh membunuh; rendah jika hanya ditanya tentang utang"
+  },
+  "can_be_culprit": false,
+  "red_herring_note": "Bos Guntur adalah ancaman latar belakang yang membuat Rahmat semakin desperate. Ia bukan tersangka langsung, tetapi kehadirannya menambah tekanan pada Rahmat dan membuat pemain berpikir apakah Rahmat mungkin membunuh Haryanto untuk melunasi utang. Namun, bukti fisik tidak mengarah padanya."
+}

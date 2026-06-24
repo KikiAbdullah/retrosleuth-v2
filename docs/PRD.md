@@ -219,10 +219,12 @@ Dokumen ini terdiri dari 24 bagian utama, mulai dari visi produk hingga referens
       - Fase 2: Case Engine – Loader, Evidence, Briefing, Dossier
       - Fase 3: AI Core – Interrogation, Prompt Builder, Trust System
       - Fase 4: Deduction – Solution, Accusation, Notes, Timeline, Save/Load
+
 - Fase 5: Content – Full case content (planned, not yet implemented)
 - Fase 6: Polish & Docs – Audio, CRT Toggle, Settings, Docs (implemented)
 - Fase 7: Future – Modding Toolkit, Voice Input, Multiplayer (planned)
-    - 19.3 Alur Kerja Antar Fase
+  - 19.3 Alur Kerja Antar Fase
+
 20. [Testing Strategy & Acceptance Criteria](#20-testing-strategy--acceptance-criteria)
     - 20.1 Overview
     - 20.2 Test Environment Matrix
@@ -231,42 +233,30 @@ Dokumen ini terdiri dari 24 bagian utama, mulai dari visi produk hingga referens
     - 20.5 Regression Test Checklist
     - 20.6 Bug Severity Classification
     - 20.7 Automation (Opsional)
-21. [Example Full Case: "Malam di Wisma Angker"](#21-example-full-case-malam-di-wisma-angker)
-    - 21.1 Sinopsis
-    - 21.2 Karakter & Dinamika (Sari, Rahmat, Budi)
-    - 21.3 Bukti (12 Item)
-    - 21.4 Crime Scene (TKP Interaktif)
-    - 21.5 Real-Time Events (12 Event)
-    - 21.6 Objectives (9 Tugas)
-    - 21.7 Timeline Kronologis
-    - 21.8 Solusi & Cara Membuktikan
-    - 21.9 Alur Investigasi yang Diharapkan
-    - 21.10 Semua File Konten (Referensi)
-    - 21.11 Mengapa Kasus Ini Dirancang Seperti Ini?
-22. [Future Considerations & Expandability](#22-future-considerations--expandability)
+21. [Future Considerations & Expandability](#21-future-considerations--expandability)
+    - 21.1 Overview
+    - 21.2 Peta Jalan Ekspansi
+    - 21.3 Detail Fitur Masa Depan (PWA, Modding Toolkit, Case Editor, Voice, Multiplayer, AI Cases, Steam Workshop, Accessibility)
+    - 21.4 Dampak pada Arsitektur
+    - 21.5 Prinsip Pengembangan Berkelanjutan
+22. [Glossary](#22-glossary)
     - 22.1 Overview
-    - 22.2 Peta Jalan Ekspansi
-    - 22.3 Detail Fitur Masa Depan (PWA, Modding Toolkit, Case Editor, Voice, Multiplayer, AI Cases, Steam Workshop, Accessibility)
-    - 22.4 Dampak pada Arsitektur
-    - 22.5 Prinsip Pengembangan Berkelanjutan
-23. [Glossary](#23-glossary)
-    - 23.1 Overview
-    - 23.2 Istilah Teknis
-    - 23.3 Istilah Gameplay
-    - 23.4 Istilah Content Authoring
-    - 23.5 Istilah Arsitektur
-    - 23.6 Istilah UI/UX
-    - 23.7 Akronim
-    - 23.8 Konvensi Penamaan ID
-24. [Appendix: Developer Quick Reference](#24-appendix-developer-quick-reference)
-    - 24.1 Complete Event List
-    - 24.2 Keyboard Shortcuts Complete Reference
-    - 24.3 CSS Quick Guide
-    - 24.4 Important File Paths
-    - 24.5 Console Logging Conventions
-    - 24.6 Common Debugging Tips
-    - 24.7 Performance Checklist
-    - 24.8 Browser Compatibility Quick Reference
+    - 22.2 Istilah Teknis
+    - 22.3 Istilah Gameplay
+    - 22.4 Istilah Content Authoring
+    - 22.5 Istilah Arsitektur
+    - 22.6 Istilah UI/UX
+    - 22.7 Akronim
+    - 22.8 Konvensi Penamaan ID
+23. [Appendix: Developer Quick Reference](#23-appendix-developer-quick-reference)
+    - 23.1 Complete Event List
+    - 23.2 Keyboard Shortcuts Complete Reference
+    - 23.3 CSS Quick Guide
+    - 23.4 Important File Paths
+    - 23.5 Console Logging Conventions
+    - 23.6 Common Debugging Tips
+    - 23.7 Performance Checklist
+    - 23.8 Browser Compatibility Quick Reference
 
 ---
 
@@ -348,9 +338,6 @@ Kemenangan dalam RetroSleuth harus merupakan hasil dari penalaran logis yang men
 
 > _"Seorang pemain dengan semua bukti yang terkumpul HARUS bisa memecahkan kasus tanpa bantuan AI atau panduan eksternal."_
 
-**Contoh Konkret (Kasus 001):**
-Menuduh **Sari** dengan motif "warisan" tetapi hanya memiliki `evi_001` (Laporan Otopsi) akan gagal. Pemain membutuhkan `evi_010` (Nota Apotek), `evi_012` (Serpihan Kaca), dan `evi_011` (Wasiat) untuk membuktikan sarana, kesempatan, dan motif secara bersamaan.
-
 ---
 
 ### Pillar 2 — Evidence Is King (Bukti adalah Raja)
@@ -369,9 +356,6 @@ Interogasi adalah alat, tetapi **bukti adalah segalanya**. Dalam dunia hukum, pe
 **Aturan Emas:**
 
 > _"Jika sebuah bukti tidak ada di `GameState.discoveredEvidence`, bukti itu tidak ada di dunia game, meskipun pemain sudah membaca spoiler di internet."_
-
-**Contoh Konkret (Kasus 001):**
-`evi_012` (Serpihan Kaca) adalah bukti fisik paling kuat. Pemain harus menemukannya di area `area_006` (Lantai & Karpet) dengan mengklik `obj_022`. Tanpa ini, tuduhan terhadap Sari akan selalu ditolak meskipun Rahmat sudah bersaksi.
 
 ---
 
@@ -405,7 +389,7 @@ AI bukanlah dalang cerita. AI adalah aktor yang hanya tahu naskahnya sendiri. Ka
 
 - **Isolasi Prompt:** `PromptBuilder.build(characterId)` hanya menyuntikkan data milik karakter itu. Tidak ada akses ke `solution_matrix` atau data karakter lain.
 - **Known Facts Terbatas:** Properti `known_facts` hanya berisi informasi yang masuk akal diketahui oleh karakter tersebut. AI tidak akan pernah bisa menjawab pertanyaan di luar cakupan `known_facts`-nya.
-- **Penyaringan Pertanyaan:** Jika pemain bertanya sesuatu yang sangat meta ("Apakah kamu karakter di game?"), `FallbackMode` akan memberikan respons bingung. *(Catatan: Security.js belum diimplementasikan; sanitasi input dasar ditangani oleh FallbackMode dan prompt rules.)*
+- **Penyaringan Pertanyaan:** Jika pemain bertanya sesuatu yang sangat meta ("Apakah kamu karakter di game?"), `FallbackMode` akan memberikan respons bingung. _(Catatan: Security.js belum diimplementasikan; sanitasi input dasar ditangani oleh FallbackMode dan prompt rules.)_
 
 **Aturan Emas:**
 
@@ -468,7 +452,7 @@ Estetika retro tidak boleh mengorbankan aksesibilitas. Game harus menyenangkan b
 - **Solusi dalam RetroSleuth:**
   - **Deployment:** Cukup buka URL GitHub Pages. Tidak ada instalasi.
   - **Fallback Mode:** Jika AI mati, tersangka memberikan respons offline ("Tersangka menatap Anda dingin..."), dan pemain tetap bisa memecahkan kasus hanya dari bukti.
-  - **Objectives Tracker** *(planned)*: Panel `ObjectivesTracker` memberikan checklist tugas yang jelas (misal: "Temukan Buku Besar di TKP"). **Belum diimplementasikan** — method `markObjective`/`isObjectiveCompleted` sudah ada di GameState.
+  - **Objectives Tracker** _(planned)_: Panel `ObjectivesTracker` memberikan checklist tugas yang jelas (misal: "Temukan Buku Besar di TKP"). **Belum diimplementasikan** — method `markObjective`/`isObjectiveCompleted` sudah ada di GameState.
 
 #### Persona 2: Detektif Hardcore — Michael (41)
 
@@ -541,9 +525,9 @@ Estetika retro tidak boleh mengorbankan aksesibilitas. Game harus menyenangkan b
 - **Alur Utama:**
   1.  **Penerimaan Pasif:** Sistem `RealTimeManager` mendeteksi bahwa waktu telah mencapai `rte_002.trigger.minutes: 10`. Sistem memanggil `EvidenceEngine.unlockEvidence("evi_005")`.
   2.  **Notifikasi:** `Toast` muncul di desktop: "📞 Telepon dari Marni...".
-   3.  **Penerimaan Aktif:** Pemain membuka `EvidenceViewer` dan menavigasi folder "Bukti Fisik". Ia mengklik tab yang sesuai.
-   4.  **Unlock:** `EvidenceViewer` memanggil `EvidenceEngine.unlockEvidence("evi_002")`. Item bukti ditambahkan ke `discoveredEvidence`.
-   5.  **Penelaahan:** Pemain melihat folder "Bukti Fisik" sekarang memiliki entri "Buku Besar Keuangan Rahasia". Ia mengkliknya.
+  3.  **Penerimaan Aktif:** Pemain membuka `EvidenceViewer` dan menavigasi folder "Bukti Fisik". Ia mengklik tab yang sesuai.
+  4.  **Unlock:** `EvidenceViewer` memanggil `EvidenceEngine.unlockEvidence("evi_002")`. Item bukti ditambahkan ke `discoveredEvidence`.
+  5.  **Penelaahan:** Pemain melihat folder "Bukti Fisik" sekarang memiliki entri "Buku Besar Keuangan Rahasia". Ia mengkliknya.
   6.  **Detail:** `WindowManager` membuka jendela baru yang merender `evi_002.md` menggunakan `Markdown.js`.
 - **Alur Alternatif:**
   - **Bukti Duplikat:** Jika pemain mencoba membuka bukti yang sudah ditemukan, sistem tidak menambahkannya lagi.
@@ -641,7 +625,7 @@ Gameplay RetroSleuth dirancang sebagai **loop investigasi non-linear**. Meskipun
 ┌─────────────────────────────────────────────────────────────────────┐
 │ 5. CRIME SCENE — *Planned*                                           │
 │    - Pemain buka CrimeSceneViewer dari desktop.                      │
-│    - Menampilkan area_001 s/d area_006 dengan obj_001 s/d obj_024.  │
+│    - Menampilkan area_001 s/d area_006 dengan obj_001 s/d obj_023.  │
 │    - Klik objek:                                                     │
 │        - type="evidence": unlockEvidence(id) & tampilkan narrasi.   │
 │        - type="clue": tampilkan narrasi saja (tanpa unlock bukti).  │
@@ -687,7 +671,7 @@ Gameplay RetroSleuth dirancang sebagai **loop investigasi non-linear**. Meskipun
 │ 8. ACCUSATION                                                        │
 │    - Pemain buka AccusationForm dari desktop.                        │
 │    - Form berisi:                                                    │
-│        - Dropdown Pelaku (char_001, char_002, char_003).            │
+│        - Dropdown Pelaku (char_001, char_002, char_003, char_004).   │
 │        - Textarea Motif.                                             │
 │        - Dropdown Bukti Primer (dari discoveredEvidence).            │
 │        - Checkbox Bukti Sekunder (multi-select, max 6).              │
@@ -744,7 +728,8 @@ State pemain dikelola oleh `Store.js` (singleton `GameState`). State ini di-pers
       { "role": "assistant", "content": "Saya... saya hanya mencari udara segar." }
     ],
     "char_002": [],
-    "char_003": []
+    "char_003": [],
+    "char_004": [],
   },
 
     // === STATUS EMOSI PER KARAKTER ===
@@ -753,7 +738,8 @@ State pemain dikelola oleh `Store.js` (singleton `GameState`). State ini di-pers
   interrogationStates: {
     "char_001": { "stress": 45, "trust": 15, "fear": 70, "anger": 10 },
     "char_002": { "stress": 15, "trust": 25, "fear": 30, "anger": 15 },
-    "char_003": { "stress": 25, "trust": 40, "fear": 20, "anger": 45 }
+    "char_003": { "stress": 25, "trust": 40, "fear": 20, "anger": 45 },
+    "char_004": { "stress": 25, "trust": 40, "fear": 20, "anger": 45 },
   },
 
   // === CATATAN DETEKTIF ===
@@ -850,19 +836,19 @@ Ini adalah alur rinci dari langkah 6 (INTERROGATION) di atas, menunjukkan bagaim
 
 Setiap aksi pemain memicu perubahan state yang di-broadcast melalui `EventBus`. Berikut tabel event kunci yang menggerakkan game:
 
-| Event                        | Trigger                 | Data                           | Subscriber (Contoh)                                       |
-| ---------------------------- | ----------------------- | ------------------------------ | --------------------------------------------------------- |
+| Event                        | Trigger                 | Data                           | Subscriber (Contoh)                                                               |
+| ---------------------------- | ----------------------- | ------------------------------ | --------------------------------------------------------------------------------- |
 | `case:loaded`                | CaseLoader selesai      | `{ caseData }`                 | CaseBriefing, EvidenceViewer, CharacterDossier, TimelineViewer, InterrogationRoom |
-| `evidence:unlocked`          | EvidenceEngine.unlock() | `{ evidenceId }`               | EvidenceViewer, Taskbar (counter) |
-| `interrogation:send`         | Pemain kirim pertanyaan | `{ suspectId, message }`       | InterrogationRoom (spinner)                               |
-| `interrogation:response`     | AI balas                | `{ suspectId, reply }`         | InterrogationRoom (typewriter), Taskbar (update status)   |
-| `interrogation:stateChanged` | TrustSystem update      | `{ suspectId, deltas }`        | InterrogationRoom (emotion bars)                          |
-| `case:solved`                | SolutionEngine valid    | `{ culpritId }`                | WindowManager (buka epilog), AudioManager (sukses)        |
-| `real-time-event:trigger`    | RealTimeManager         | `{ eventId, action, payload }` | EvidenceEngine, Toast                                    |
-| `window:opened`              | WindowManager.open()    | `{ windowId }`                 | Taskbar (tambah tombol)                                   |
-| `window:closed`              | WindowManager.close()   | `{ windowId }`                 | Taskbar (hapus tombol)                                    |
-| `accusation:submit`          | AccusationForm submit   | `{ culprit, motive, ... }`     | SolutionEngine                                            |
-| `accusation:result`          | SolutionEngine selesai  | `{ correct, message }`         | AccusationForm (tampilkan verdict)                        |
+| `evidence:unlocked`          | EvidenceEngine.unlock() | `{ evidenceId }`               | EvidenceViewer, Taskbar (counter)                                                 |
+| `interrogation:send`         | Pemain kirim pertanyaan | `{ suspectId, message }`       | InterrogationRoom (spinner)                                                       |
+| `interrogation:response`     | AI balas                | `{ suspectId, reply }`         | InterrogationRoom (typewriter), Taskbar (update status)                           |
+| `interrogation:stateChanged` | TrustSystem update      | `{ suspectId, deltas }`        | InterrogationRoom (emotion bars)                                                  |
+| `case:solved`                | SolutionEngine valid    | `{ culpritId }`                | WindowManager (buka epilog), AudioManager (sukses)                                |
+| `real-time-event:trigger`    | RealTimeManager         | `{ eventId, action, payload }` | EvidenceEngine, Toast                                                             |
+| `window:opened`              | WindowManager.open()    | `{ windowId }`                 | Taskbar (tambah tombol)                                                           |
+| `window:closed`              | WindowManager.close()   | `{ windowId }`                 | Taskbar (hapus tombol)                                                            |
+| `accusation:submit`          | AccusationForm submit   | `{ culprit, motive, ... }`     | SolutionEngine                                                                    |
+| `accusation:result`          | SolutionEngine selesai  | `{ correct, message }`         | AccusationForm (tampilkan verdict)                                                |
 
 ### 4.5 Contoh Sesi Investigasi (Naratif)
 
@@ -877,7 +863,7 @@ Setiap aksi pemain memicu perubahan state yang di-broadcast melalui `EventBus`. 
 9.  **Menit 75:** Pemain kembali menginterogasi Sari dengan bukti tambahan. Sari panik, fear melonjak. Setelah desakan, Sari masuk ke Fase pengakuan.
 10. **Menit 80:** Pemain membuka AccusationForm. Tuduh Sari dengan motif wasiat, bukti primer `evi_001`, sekunder `evi_012`, `evi_011`, `evi_010`. **Kasus terpecahkan!** Epilog muncul. Musik sukses dimainkan.
 
-**Catatan:** Sesi di atas menggambarkan alur ideal. Fitur real-time events (rte_*), CrimeSceneViewer, dan ObjectivesTracker belum diimplementasikan, sehingga pengiriman bukti saat ini hanya melalui initial_evidence dan interogasi.
+**Catatan:** Sesi di atas menggambarkan alur ideal. Fitur real-time events (rte\_\*), CrimeSceneViewer, dan ObjectivesTracker belum diimplementasikan, sehingga pengiriman bukti saat ini hanya melalui initial_evidence dan interogasi.
 
 ---
 
@@ -951,15 +937,15 @@ RetroSleuth mengadopsi arsitektur **Event-Driven Modular Frontend**. Aplikasi te
 
 ### 5.2 Komponen Teknologi Utama
 
-| Komponen             | Spesifikasi                                                                                               | Justifikasi                                                                                              |
-| -------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Komponen             | Spesifikasi                                                                                                                                                                                                                                                             | Justifikasi                                                                                              |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | **Frontend Core**    | HTML5 Semantik, CSS3 (Custom Properties), JavaScript ES Modules (`import`/`export`). Tidak ada framework. **Entry point tunggal**: `index.html` hanya memuat `main.js` via `<script type="module">`; semua 28 modul JS lainnya di-import secara dinamis oleh `main.js`. | Memaksimalkan kompatibilitas browser, meminimalkan ukuran, dan menghilangkan ketergantungan build step.  |
-| **Markdown Parser**  | `marked.js` v4+ dimuat dinamis dari CDN (`cdn.jsdelivr.net`).                                             | Ukuran kecil, rendering cepat. Fallback: teks mentah dengan penggantian `\n` → `<br>` jika gagal memuat. |
-| **AI Communication** | Native `fetch` API ke endpoint `http://localhost:20128/v1/chat/completions` (format OpenAI-compatible).   | Memungkinkan integrasi dengan berbagai LLM lokal (`gemini-cli`, Ollama, llama.cpp server).               |
-| **State Management** | `Store.js` (singleton) + `EventBus.js` (pub/sub).                                                         | Memisahkan data dari tampilan. Semua perubahan state di-broadcast agar UI reaktif tanpa framework.       |
-| **Persistence**      | IndexedDB via library `idb` (CDN), dengan fallback ke `localStorage`.                                     | IndexedDB menangani data besar (chat history). `localStorage` sebagai cadangan untuk kompatibilitas.     |
-| **Audio**            | Web Audio API (oscillator-based). Tidak ada file audio eksternal.                                         | Zero network request untuk suara. Ukuran total aset suara 0 byte.                                        |
-| **Deployment**       | Static files hosting (GitHub Pages, Netlify, Vercel).                                                     | Tanpa server-side processing. Seluruh aplikasi berjalan di browser.                                      |
+| **Markdown Parser**  | `marked.js` v4+ dimuat dinamis dari CDN (`cdn.jsdelivr.net`).                                                                                                                                                                                                           | Ukuran kecil, rendering cepat. Fallback: teks mentah dengan penggantian `\n` → `<br>` jika gagal memuat. |
+| **AI Communication** | Native `fetch` API ke endpoint `http://localhost:20128/v1/chat/completions` (format OpenAI-compatible).                                                                                                                                                                 | Memungkinkan integrasi dengan berbagai LLM lokal (`gemini-cli`, Ollama, llama.cpp server).               |
+| **State Management** | `Store.js` (singleton) + `EventBus.js` (pub/sub).                                                                                                                                                                                                                       | Memisahkan data dari tampilan. Semua perubahan state di-broadcast agar UI reaktif tanpa framework.       |
+| **Persistence**      | IndexedDB via library `idb` (CDN), dengan fallback ke `localStorage`.                                                                                                                                                                                                   | IndexedDB menangani data besar (chat history). `localStorage` sebagai cadangan untuk kompatibilitas.     |
+| **Audio**            | Web Audio API (oscillator-based). Tidak ada file audio eksternal.                                                                                                                                                                                                       | Zero network request untuk suara. Ukuran total aset suara 0 byte.                                        |
+| **Deployment**       | Static files hosting (GitHub Pages, Netlify, Vercel).                                                                                                                                                                                                                   | Tanpa server-side processing. Seluruh aplikasi berjalan di browser.                                      |
 
 ### 5.3 Penjelasan Setiap Layer
 
@@ -994,7 +980,7 @@ Mengandung logika bisnis game. Tidak memiliki ketergantungan DOM.
 - **EvidenceEngine**: Registri bukti. Method: `register()`, `unlockEvidence(id)`, `getDiscovered()`.
 - **SolutionEngine**: Memvalidasi tuduhan terhadap `solution_matrix`. Method: `checkAccusation({ culprit, motive, primary, secondary })`.
 - **TimelineEngine**: Merender timeline dari array `timeline` di `case.json`.
-- **RealTimeManager** *(implemented)*: Mengelola event real-time. Memonitor `GameState.startedAt` dan memicu aksi sesuai `real_time_events` (unlock bukti, kirim pesan karakter, notifikasi, deadline). Menandai event yang sudah dieksekusi di `executedEvents`.
+- **RealTimeManager** _(implemented)_: Mengelola event real-time. Memonitor `GameState.startedAt` dan memicu aksi sesuai `real_time_events` (unlock bukti, kirim pesan karakter, notifikasi, deadline). Menandai event yang sudah dieksekusi di `executedEvents`.
 
 #### 5.3.3 AI Layer
 
@@ -1020,7 +1006,7 @@ Menangani komunikasi dengan LLM dan logika emosi karakter.
 
 ### 5.4 Alur Data & Event (Detail)
 
-**Contoh: Pemain menemukan bukti di TKP** *(planned — CrimeSceneViewer belum diimplementasikan)*
+**Contoh: Pemain menemukan bukti di TKP** _(planned — CrimeSceneViewer belum diimplementasikan)_
 
 ```
 1. Pemain klik obj_001 (Laci Utama) di CrimeSceneViewer. *(planned)*
@@ -1224,6 +1210,7 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 │       │   ├── char_001.json
 │       │   ├── char_002.json
 │       │   └── char_003.json
+│       │   └── char_004.json
 │       ├── evidence/
 │       │   ├── evi_001.md
 │       │   ├── evi_002.md
@@ -1241,6 +1228,7 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 │           ├── char_001.png
 │           ├── char_002.png
 │           └── char_003.png
+│           └── char_004.png
 │
 ├── docs/
 │   ├── PRD.md
@@ -1275,13 +1263,13 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 | `notes.css`         | Notepad: textarea bergaya kertas kuning dengan garis-garis, font monospace.                                                                                                                                                                    |
 | `briefing.css`      | Case Briefing: styling untuk rendering Markdown briefing, victim photo/info section.                                                                                                                                                           |
 | `dossier.css`       | Character Dossier: kartu profil karakter, status dot, detail window, tombol interogasi.                                                                                                                                                        |
-| `settings.css`      | Settings Window: 4 tab (AI/Audio/Display/Danger), input styling, toggle switch.                                                                                                                                                               |
+| `settings.css`      | Settings Window: 4 tab (AI/Audio/Display/Danger), input styling, toggle switch.                                                                                                                                                                |
 | `accusation.css`    | Accusation Form: form styling, dropdown, checkbox, result window, epilog display.                                                                                                                                                              |
 
 #### `assets/js/` — JavaScript (28 file implemented + 4 planned)
 
-| File      | Fungsi                                                                                                                                                                                                                      |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| File      | Fungsi                                                                                                                                                                                                                                                                                                                                                                                 |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `main.js` | Bootstrapper aplikasi. Menangani boot sequence (animasi terminal DOS-style dengan typewriter, progress bar, glitch, flicker), inisialisasi semua modul (WindowManager, DesktopManager, Taskbar, CaseHub, EvidenceViewer, InterrogationRoom, AccusationForm, NotesApp, TimelineViewer, CharacterDossier, SettingsWindow), keyboard shortcuts, welcome window, dan global error handler. |
 
 **`core/` — Inti Sistem**
@@ -1293,13 +1281,13 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 
 **`engine/` — Mesin Game (5 file)**
 
-| File                 | Fungsi                                                                                                                                                                                                                                               |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CaseLoader.js`      | Memuat data kasus. Method: `loadGlobalIndex()` (fetch `index.json`), `loadFullCase(caseId)` (paralel fetch `case.json`, semua karakter, semua bukti). Emit `case:loaded` setelah selesai.                                                            |
-| `EvidenceEngine.js`  | Registri dan manajemen bukti. Method: `registerEvidence(list)`, `unlockEvidence(id)`, `isUnlocked(id)`, `getEvidence(id)`, `getDiscovered()`. Emit `evidence:unlocked`.                                                                              |
-| `SolutionEngine.js`  | Validasi tuduhan. Method: `checkAccusation({ culpritId, motive, primaryEvidence, secondaryEvidence })` — membandingkan dengan `solution_matrix`. Mengembalikan `{ correct, hints[] }`. Emit `case:solved` jika benar.                                |
-| `TimelineEngine.js`  | Merender timeline kronologis dari array `timeline` di `case.json`. Menampilkan marker waktu dan deskripsi dalam window retro.                                                                                                                        |
-| `RealTimeManager.js` *(implemented v4.2.0)* | Mengelola event real-time. Memonitor `GameState.startedAt` dan memicu aksi sesuai `real_time_events` (unlock bukti, kirim pesan karakter, notifikasi, deadline). Menandai event yang sudah dieksekusi di `executedEvents`. Method: `init(caseFolder)`, `start()`, `stop()`, `forceExecute(eventId)`, `getRemainingMinutes()`. |
+| File                                        | Fungsi                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CaseLoader.js`                             | Memuat data kasus. Method: `loadGlobalIndex()` (fetch `index.json`), `loadFullCase(caseId)` (paralel fetch `case.json`, semua karakter, semua bukti). Emit `case:loaded` setelah selesai.                                                                                                                                     |
+| `EvidenceEngine.js`                         | Registri dan manajemen bukti. Method: `registerEvidence(list)`, `unlockEvidence(id)`, `isUnlocked(id)`, `getEvidence(id)`, `getDiscovered()`. Emit `evidence:unlocked`.                                                                                                                                                       |
+| `SolutionEngine.js`                         | Validasi tuduhan. Method: `checkAccusation({ culpritId, motive, primaryEvidence, secondaryEvidence })` — membandingkan dengan `solution_matrix`. Mengembalikan `{ correct, hints[] }`. Emit `case:solved` jika benar.                                                                                                         |
+| `TimelineEngine.js`                         | Merender timeline kronologis dari array `timeline` di `case.json`. Menampilkan marker waktu dan deskripsi dalam window retro.                                                                                                                                                                                                 |
+| `RealTimeManager.js` _(implemented v4.2.0)_ | Mengelola event real-time. Memonitor `GameState.startedAt` dan memicu aksi sesuai `real_time_events` (unlock bukti, kirim pesan karakter, notifikasi, deadline). Menandai event yang sudah dieksekusi di `executedEvents`. Method: `init(caseFolder)`, `start()`, `stop()`, `forceExecute(eventId)`, `getRemainingMinutes()`. |
 
 **`ai/` — Kecerdasan Buatan (4 file)**
 
@@ -1320,18 +1308,18 @@ Struktur direktori RetroSleuth dirancang untuk **modularitas maksimum** dan **ke
 
 **`modules/` — Modul Fitur (9 file implemented + 1 planned)**
 
-| File                     | Fungsi                                                                                                                                                                                                                                                        | Status |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| `CaseHub.js`             | Hub pemilihan kasus. Fetch `index.json` via CaseLoader, render kartu kasus dengan difficulty badges, select→load flow.                                                                                                                     | ✅ |
-| `CaseBriefing.js`        | Menampilkan `briefing.md` dalam window retro dengan rendering Markdown via Markdown.js. Menampilkan victim photo/info. Otomatis unlock `initial_evidence` setelah briefing dibaca.                                                                                                                           | ✅ |
-| `EvidenceViewer.js`      | File Manager bergaya explorer. Sidebar kiri: folder sesuai `evidence_structure`. Panel kanan: file bukti yang sudah ditemukan dengan tab navigation. Klik file → buka detail window dengan rendering Markdown. Address bar dan breadcrumb.                                                                           | ✅ |
-| `InterrogationRoom.js`   | Chat AI untuk interogasi. Menampilkan chat history (bubble user/AI), emotion bars 4 warna (trust/stress/fear/anger), input teks, tombol send, evidence strip (chip bukti yang bisa disodorkan). Efek typewriter untuk respons AI. Loading spinner saat menunggu.                      | ✅ |
-| `AccusationForm.js`      | Formulir tuduhan. Dropdown pelaku (dari karakter), textarea motif, dropdown bukti primer, checkbox bukti sekunder. Submit → panggil `SolutionEngine.checkAccusation()`. Tampilkan verdict (sukses/gagal) dengan progressive hints.                                                     | ✅ |
-| `NotesApp.js`            | Notepad detektif. Textarea kuning dengan lined background, auto-save ke `GameState.notes` dengan debounce 1 detik, word count, Ctrl+S shortcut.                                                                                                                                                                    | ✅ |
-| `TimelineViewer.js`      | Timeline kronologis dengan filter berdasarkan tipe, partisipan, bukti, dan rentang waktu. Color-coded events, evidence links.                                                                                                      | ✅ |
-| `CharacterDossier.js`    | Kartu profil karakter. List view dengan cards (photo, name, role, status dot). Detail window dengan personal data/alibi/facts. Tombol "INTEROGASI" → emit `interrogation:start`.                                                                                                      | ✅ |
-| `SettingsWindow.js`      | Jendela pengaturan dengan 4 tab: AI (endpoint/key/model/temperature/test connection), Audio (master/sfx/ambient/mute), Display (CRT toggle), Danger (reset save/settings).                                                                                                     | ✅ |
-| `ObjectivesTracker.js`   | Checklist objective. Render dari `case.json`, checkbox untuk toggle. Hint di bawah setiap objective.                                                                                                                                                          | 🔲 Planned |
+| File                   | Fungsi                                                                                                                                                                                                                                                           | Status     |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| `CaseHub.js`           | Hub pemilihan kasus. Fetch `index.json` via CaseLoader, render kartu kasus dengan difficulty badges, select→load flow.                                                                                                                                           | ✅         |
+| `CaseBriefing.js`      | Menampilkan `briefing.md` dalam window retro dengan rendering Markdown via Markdown.js. Menampilkan victim photo/info. Otomatis unlock `initial_evidence` setelah briefing dibaca.                                                                               | ✅         |
+| `EvidenceViewer.js`    | File Manager bergaya explorer. Sidebar kiri: folder sesuai `evidence_structure`. Panel kanan: file bukti yang sudah ditemukan dengan tab navigation. Klik file → buka detail window dengan rendering Markdown. Address bar dan breadcrumb.                       | ✅         |
+| `InterrogationRoom.js` | Chat AI untuk interogasi. Menampilkan chat history (bubble user/AI), emotion bars 4 warna (trust/stress/fear/anger), input teks, tombol send, evidence strip (chip bukti yang bisa disodorkan). Efek typewriter untuk respons AI. Loading spinner saat menunggu. | ✅         |
+| `AccusationForm.js`    | Formulir tuduhan. Dropdown pelaku (dari karakter), textarea motif, dropdown bukti primer, checkbox bukti sekunder. Submit → panggil `SolutionEngine.checkAccusation()`. Tampilkan verdict (sukses/gagal) dengan progressive hints.                               | ✅         |
+| `NotesApp.js`          | Notepad detektif. Textarea kuning dengan lined background, auto-save ke `GameState.notes` dengan debounce 1 detik, word count, Ctrl+S shortcut.                                                                                                                  | ✅         |
+| `TimelineViewer.js`    | Timeline kronologis dengan filter berdasarkan tipe, partisipan, bukti, dan rentang waktu. Color-coded events, evidence links.                                                                                                                                    | ✅         |
+| `CharacterDossier.js`  | Kartu profil karakter. List view dengan cards (photo, name, role, status dot). Detail window dengan personal data/alibi/facts. Tombol "INTEROGASI" → emit `interrogation:start`.                                                                                 | ✅         |
+| `SettingsWindow.js`    | Jendela pengaturan dengan 4 tab: AI (endpoint/key/model/temperature/test connection), Audio (master/sfx/ambient/mute), Display (CRT toggle), Danger (reset save/settings).                                                                                       | ✅         |
+| `ObjectivesTracker.js` | Checklist objective. Render dari `case.json`, checkbox untuk toggle. Hint di bawah setiap objective.                                                                                                                                                             | 🔲 Planned |
 
 **`utils/` — Utilitas (5 file)**
 
@@ -1652,15 +1640,15 @@ Ikon tersusun dalam kolom dari kiri ke kanan. Setiap ikon adalah unit yang dapat
 
 #### 7.4.3 Daftar Ikon
 
-| Ikon | ID                   | Window Target | Label       |
-| ---- | -------------------- | ------------- | ----------- |
-| 📁   | `desktop_casefiles`  | `casehub`     | Case Files  |
+| Ikon | ID                   | Window Target    | Label       |
+| ---- | -------------------- | ---------------- | ----------- |
+| 📁   | `desktop_casefiles`  | `casehub`        | Case Files  |
 | 🔍   | `desktop_evidence`   | `evidenceviewer` | Evidence    |
-| 🏚️   | `desktop_crimescene` | `crimescene`  | Crime Scene |
-| 👤   | `desktop_dossier`    | `dossier`     | Dossier     |
-| 📝   | `desktop_notes`      | `notes`       | Notes       |
-| ⚖️   | `desktop_accusation` | `accusation`  | Accusation  |
-| ⚙️   | `desktop_settings`   | `settings`    | Settings    |
+| 🏚️   | `desktop_crimescene` | `crimescene`     | Crime Scene |
+| 👤   | `desktop_dossier`    | `dossier`        | Dossier     |
+| 📝   | `desktop_notes`      | `notes`          | Notes       |
+| ⚖️   | `desktop_accusation` | `accusation`     | Accusation  |
+| ⚙️   | `desktop_settings`   | `settings`       | Settings    |
 
 ---
 
@@ -1986,17 +1974,17 @@ Breakpoint: **768px** (tablet/mobile). Semua jendela menjadi full-width dan bert
 
 ### 7.9 Keyboard Shortcuts
 
-| Shortcut   | Aksi                                                      |
-| ---------- | --------------------------------------------------------- |
-| `Ctrl+Tab` | Cycle jendela aktif (loop melalui semua window terbuka)    |
-| `Escape`   | Tutup jendela aktif (kecuali welcome window)              |
-| `Ctrl+S`   | Quick save (global + di NotesApp)                         |
-| `F1`       | Buka Welcome/Help window                                  |
-| `F12`      | Toggle efek CRT on/off                                    |
+| Shortcut   | Aksi                                                    |
+| ---------- | ------------------------------------------------------- |
+| `Ctrl+Tab` | Cycle jendela aktif (loop melalui semua window terbuka) |
+| `Escape`   | Tutup jendela aktif (kecuali welcome window)            |
+| `Ctrl+S`   | Quick save (global + di NotesApp)                       |
+| `F1`       | Buka Welcome/Help window                                |
+| `F12`      | Toggle efek CRT on/off                                  |
 
 ---
 
-### 7.10 Notifikasi (Toast) — *Planned, Not Yet Implemented*
+### 7.10 Notifikasi (Toast) — _Planned, Not Yet Implemented_
 
 Notifikasi muncul di pojok kanan atas desktop saat event real-time terpicu.
 
@@ -2425,9 +2413,9 @@ Tujuan: Memberikan garis pertahanan pertama. AI akan mempertahankan alibi ini sa
 
 > "Fakta yang Anda ketahui dan AKUI:
 >
-> - Anda membawakan brandy ke ruang kerja sekitar pukul 22.00.
+> - Anda membawakan brandy ke ruang kerja sekitar pukul 21.00.
 > - Anda dan Haryanto bertengkar hebat malam itu.
-> - Mobil Anda tercatat keluar Wisma pukul 23.15."
+> - Mobil Anda tercatat keluar Wisma pukul 22.15."
 
 Tujuan: Membatasi apa yang karakter "tahu" dan akui secara sukarela. AI tidak akan menyangkal fakta-fakta ini jika ditanya langsung.
 
@@ -2436,7 +2424,7 @@ Tujuan: Membatasi apa yang karakter "tahu" dan akui secara sukarela. AI tidak ak
 > "Kebenaran pribadi (HANYA diungkapkan jika Anda benar-benar terpojok oleh bukti):
 >
 > - Anda membeli Kalium Sianida 10 gram dari Apotek Sumber Waras pada 13 Juni pukul 21.30.
-> - Anda menuangkan racun itu ke gelas brandy Haryanto sekitar pukul 22.05.
+> - Anda menuangkan racun itu ke gelas brandy Haryanto sekitar pukul 21.05.
 > - Anda melihat Haryanto kejang-kejang, panik, dan meninggalkannya."
 >   "PENTING: Jangan pernah menyebutkan kebenaran ini secara sukarela. Hanya ungkapkan jika detektif MENUNJUKKAN bukti spesifik (Nota Apotek, Serpihan Kaca)."
 
@@ -2903,7 +2891,7 @@ Ini adalah file terpenting dalam setiap folder kasus. `CaseLoader` menggunakanny
 | `victim.age`            | integer | Usia korban.                                                      |
 | `victim.occupation`     | string  | Pekerjaan korban.                                                 |
 | `victim.cause_of_death` | string  | Penyebab kematian (contoh: "Keracunan Kalium Sianida").           |
-| `victim.time_of_death`  | string  | Estimasi waktu kematian (contoh: "Antara pukul 22.30 dan 23.30"). |
+| `victim.time_of_death`  | string  | Estimasi waktu kematian (contoh: "Antara pukul 21.30 dan 22.30"). |
 | `victim.location`       | string  | Lokasi penemuan mayat.                                            |
 
 #### 10.4.4 Field `assets`
@@ -2960,7 +2948,7 @@ Array referensi karakter. Setiap elemen:
 
 | Field   | Tipe   | Deskripsi                                                                                 |
 | ------- | ------ | ----------------------------------------------------------------------------------------- |
-| `id`    | string | ID karakter. Format: `char_` + 3 digit (`char_001` s/d `char_003`).                       |
+| `id`    | string | ID karakter. Format: `char_` + 3 digit (`char_001` s/d `char_004`).                       |
 | `name`  | string | Nama tampilan karakter.                                                                   |
 | `role`  | string | Peran singkat (contoh: "Keponakan / Akuntan Pribadi").                                    |
 | `file`  | string | Nama file JSON karakter (contoh: `"char_001.json"`). Path relatif dari folder characters. |
@@ -3019,7 +3007,7 @@ Array kronologi kejadian. Setiap item:
 
 ```json
 {
-  "time": "22.30",
+  "time": "21.30",
   "description": "Saksi mendengar suara gelas pecah dari dalam ruang kerja."
 }
 ```
@@ -3413,7 +3401,7 @@ if (now >= targetDate) {
 }
 ```
 
-### 11.5 `RealTimeManager.js` — Spesifikasi Modul *(Planned, Not Yet Implemented)*
+### 11.5 `RealTimeManager.js` — Spesifikasi Modul _(Planned, Not Yet Implemented)_
 
 `RealTimeManager` adalah modul engine yang memonitor waktu dan memicu event. Ia berjalan setelah `case:loaded` dan mati saat `case:solved` atau `deadline_reached`. **Catatan**: Spesifikasi ini bersifat desain. Modul belum diimplementasikan per v4.1.0. Data model `real_time_events` sudah dimuat oleh CaseLoader dan field `executedEvents` sudah ada di GameState.
 
@@ -3969,13 +3957,13 @@ unloadCase() {
 
 `CaseLoader` berkomunikasi dengan modul lain melalui event:
 
-| Event             | Emit Trigger               | Data             | Subscriber Utama                                                                          |
-| ----------------- | -------------------------- | ---------------- | ----------------------------------------------------------------------------------------- |
-| `index:loaded`    | `loadGlobalIndex()` sukses | `{ totalCases }` | CaseHub (render daftar)                                                                   |
-| `index:loadError` | `loadGlobalIndex()` gagal  | `{ error }`      | UI Error Handler                                                                          |
+| Event             | Emit Trigger               | Data             | Subscriber Utama                                                                  |
+| ----------------- | -------------------------- | ---------------- | --------------------------------------------------------------------------------- |
+| `index:loaded`    | `loadGlobalIndex()` sukses | `{ totalCases }` | CaseHub (render daftar)                                                           |
+| `index:loadError` | `loadGlobalIndex()` gagal  | `{ error }`      | UI Error Handler                                                                  |
 | `case:loaded`     | `loadFullCase()` sukses    | `{ caseData }`   | CaseBriefing, EvidenceViewer, InterrogationRoom, CharacterDossier, TimelineViewer |
-| `case:loadError`  | `loadFullCase()` gagal     | `{ error }`      | UI Error Handler                                                                          |
-| `case:unloaded`   | `unloadCase()`             | `{}`             | Semua modul (reset UI)                                                                    |
+| `case:loadError`  | `loadFullCase()` gagal     | `{ error }`      | UI Error Handler                                                                  |
+| `case:unloaded`   | `unloadCase()`             | `{}`             | Semua modul (reset UI)                                                            |
 
 ### 12.5 Integrasi dengan GameState
 
@@ -4360,11 +4348,11 @@ Opsional (untuk masa depan):
 
 Ada tiga cara bukti bisa masuk ke `discoveredEvidence`:
 
-| Metode              | Mekanisme                                                                                                                                                | Contoh                                                      |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| **Initial**         | `initial_evidence` di `case.json` di-unlock oleh `EvidenceEngine.unlockInitialEvidence()` saat `case:loaded`.                                            | `evi_001` (Laporan Otopsi) langsung tersedia.               |
-| **Crime Scene**     | *(planned)* Pemain mengklik objek di TKP dengan `type: "evidence"` dan `evidence_unlock: "evi_xxx"`. `CrimeSceneViewer` memanggil `EvidenceEngine.unlockEvidence()`. | Klik `obj_001` (Laci Utama) → unlock `evi_002`.             |
-| **Real-Time Event** | *(planned)* `RealTimeManager` mengeksekusi event dengan `action: "unlock_evidence"`.                                                                                 | `rte_002` pada menit 10 → unlock `evi_005` (Laporan Saksi). |
+| Metode              | Mekanisme                                                                                                                                                            | Contoh                                                      |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **Initial**         | `initial_evidence` di `case.json` di-unlock oleh `EvidenceEngine.unlockInitialEvidence()` saat `case:loaded`.                                                        | `evi_001` (Laporan Otopsi) langsung tersedia.               |
+| **Crime Scene**     | _(planned)_ Pemain mengklik objek di TKP dengan `type: "evidence"` dan `evidence_unlock: "evi_xxx"`. `CrimeSceneViewer` memanggil `EvidenceEngine.unlockEvidence()`. | Klik `obj_001` (Laci Utama) → unlock `evi_002`.             |
+| **Real-Time Event** | _(planned)_ `RealTimeManager` mengeksekusi event dengan `action: "unlock_evidence"`.                                                                                 | `rte_002` pada menit 10 → unlock `evi_005` (Laporan Saksi). |
 
 ### 13.7 Integrasi dengan GameState
 
@@ -4377,8 +4365,8 @@ discoveredEvidence: ["evi_001", "evi_002", "evi_005"];
 
 ### 13.8 Integrasi dengan EventBus
 
-| Event               | Emit Trigger                             | Data             | Subscriber                                                                                                         |
-| ------------------- | ---------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Event               | Emit Trigger                             | Data             | Subscriber                                                                  |
+| ------------------- | ---------------------------------------- | ---------------- | --------------------------------------------------------------------------- |
 | `evidence:unlocked` | `EvidenceEngine.unlockEvidence()` sukses | `{ evidenceId }` | EvidenceViewer (refresh), Taskbar (badge), AudioManager (play unlock sound) |
 
 ### 13.9 `EvidenceViewer.js` — UI Specification
@@ -4534,24 +4522,24 @@ Timeline didefinisikan sebagai array kronologis dalam `case.json`. Setiap perist
     "description": "Budi mengantarkan kopi ke ruang kerja; melihat Sari dan Haryanto bertengkar hebat."
   },
   {
-    "time": "22.00",
+    "time": "21.00",
     "description": "Sari keluar dengan marah, mengatakan 'Kau akan menyesal!'."
   },
   {
-    "time": "22.30",
+    "time": "21.30",
     "description": "Saksi mendengar suara gelas pecah dari dalam ruang kerja."
   },
   {
-    "time": "22.45",
+    "time": "21.45",
     "description": "Rahmat terlihat oleh satpam berjalan cepat ke arah taman belakang."
   },
   {
-    "time": "23.00",
+    "time": "22.00",
     "description": "Lampu ruang kerja padam, tidak ada yang masuk atau keluar via pintu depan."
   },
   {
-    "time": "23.15",
-    "description": "Mobil Sari tercatat keluar oleh pos satpam, kembali pukul 23.45."
+    "time": "22.15",
+    "description": "Mobil Sari tercatat keluar oleh pos satpam, kembali pukul 22.45."
   },
   {
     "time": "00.15",
@@ -4573,7 +4561,7 @@ Untuk versi mendatang, setiap peristiwa dapat diperkaya dengan:
 
 ```json
 {
-  "time": "22.30",
+  "time": "21.30",
   "description": "Saksi mendengar suara gelas pecah dari dalam ruang kerja.",
   "location": "Ruang Kerja",
   "participants": ["char_002", "victim"],
@@ -4699,15 +4687,15 @@ Timeline ditampilkan dalam jendela retro terpisah yang dibuka dari ikon desktop 
 │  21.50 ─┼─ ☕ Budi antar kopi, lihat Sari & Haryanto        │
 │         │     bertengkar hebat                               │
 │         │                                                    │
-│  22.00 ─┼─ 😡 Sari keluar marah: "Kau akan menyesal!"      │
+│  21.00 ─┼─ 😡 Sari keluar marah: "Kau akan menyesal!"      │
 │         │                                                    │
-│  22.30 ─┼─ 💠 Suara gelas pecah dari ruang kerja            │
+│  21.30 ─┼─ 💠 Suara gelas pecah dari ruang kerja            │
 │         │                                                    │
-│  22.45 ─┼─ 🏃 Rahmat terlihat lari ke taman belakang       │
+│  21.45 ─┼─ 🏃 Rahmat terlihat lari ke taman belakang       │
 │         │                                                    │
-│  23.00 ─┼─ 💡 Lampu ruang kerja padam                       │
+│  22.00 ─┼─ 💡 Lampu ruang kerja padam                       │
 │         │                                                    │
-│  23.15 ─┼─ 🚗 Mobil Sari keluar Wisma                       │
+│  22.15 ─┼─ 🚗 Mobil Sari keluar Wisma                       │
 │         │                                                    │
 │  00.15 ─┴─ 💀 Budi menemukan tubuh Haryanto                 │
 │                                                              │
@@ -5075,15 +5063,15 @@ Menggunakan HTML5 Canvas atau SVG untuk rendering. Fitur:
 │         │                                    │
 │  21.50  ●─── ☕ Pertengkaran terlihat         │
 │         │                                    │
-│  22.00  ●─── 😡 Sari keluar marah            │
+│  21.00  ●─── 😡 Sari keluar marah            │
 │         │                                    │
-│  22.30  ●─── 💠 Gelas pecah                  │
+│  21.30  ●─── 💠 Gelas pecah                  │
 │         │                                    │
-│  22.45  ●─── 🏃 Rahmat ke taman              │
+│  21.45  ●─── 🏃 Rahmat ke taman              │
 │         │                                    │
-│  23.00  ●─── 💡 Lampu padam                  │
+│  22.00  ●─── 💡 Lampu padam                  │
 │         │                                    │
-│  23.15  ●─── 🚗 Mobil Sari keluar            │
+│  22.15  ●─── 🚗 Mobil Sari keluar            │
 │         │                                    │
 │  00.15  ●─── 💀 Mayat ditemukan              │
 │                                              │
@@ -6172,7 +6160,6 @@ static async checkQuota() {
 - **Case‑sensitive file naming**: Ensure JavaScript module filenames match imports exactly (e.g., `AIClient.js`). On case‑insensitive OSes this is silent, but GitHub Pages (Linux) requires exact case.
 - **Favicon**: Adding a `favicon.ico` in the root improves UI; absence only causes a harmless 404.
 
-
 RetroSleuth dirancang untuk deployment tanpa server (static hosting) dan operasional yang minimal. Seluruh aplikasi dapat berjalan hanya dengan membuka `index.html` di browser, dengan atau tanpa server AI. Bagian ini menjelaskan cara menjalankan game di lingkungan lokal, deployment ke GitHub Pages, konfigurasi server AI, dan pengaturan dalam game.
 
 ### 17.2 Deployment Lokal (Development)
@@ -6312,8 +6299,8 @@ Saat game di-deploy ke GitHub Pages (HTTPS), browser akan memblokir permintaan k
    ```bash
    ngrok http 20128
    ```
-3. Dapatkan URL HTTPS (contoh: `https://abc123.ngrok.io`).
-4. Buka jendela Settings di game, ubah endpoint AI ke `https://abc123.ngrok.io/v1/chat/completions`.
+3. Dapatkan URL HTTPS (contoh: `https://abc122.ngrok.io`).
+4. Buka jendela Settings di game, ubah endpoint AI ke `https://abc122.ngrok.io/v1/chat/completions`.
 5. Semua permintaan sekarang melalui HTTPS, tidak ada mixed content.
 
 #### Solusi C: Jalankan AI Server dengan HTTPS (Lokal)
@@ -6474,7 +6461,7 @@ Semua input pemain (pertanyaan interogasi, catatan, isian formulir) harus disani
 
 #### 18.3.1 Sanitasi XSS
 
-*(Catatan: `Security.js` belum diimplementasikan. Sanitasi input saat ini ditangani oleh FallbackMode dan response rules di PromptBuilder.)*
+_(Catatan: `Security.js` belum diimplementasikan. Sanitasi input saat ini ditangani oleh FallbackMode dan response rules di PromptBuilder.)_
 
 ```javascript
 class Security {
@@ -6609,7 +6596,7 @@ Saat RetroSleuth di-deploy ke GitHub Pages (HTTPS), browser akan memblokir permi
 ngrok http 20128
 ```
 
-Dapatkan URL publik HTTPS (contoh: `https://abc123.ngrok.io`). Masukkan URL tersebut di Settings game. Sekarang semua komunikasi melalui HTTPS.
+Dapatkan URL publik HTTPS (contoh: `https://abc122.ngrok.io`). Masukkan URL tersebut di Settings game. Sekarang semua komunikasi melalui HTTPS.
 
 **3. Gunakan Proxy Lokal dengan HTTPS**
 Gunakan tool seperti `local-ssl-proxy` atau `Caddy` untuk menyediakan HTTPS di localhost.
@@ -6718,11 +6705,11 @@ Buat fondasi UI game detektif retro "RetroSleuth" dengan vanilla HTML5, CSS3, da
 
 Tech stack: HTML5, CSS3, JavaScript ES6+ Modules. Tidak ada framework. Path relatif.
 
-Tujuan: Desktop abu-abu (#808080), jendela bergaya Windows 1.0, taskbar bawah (36px), efek CRT (scanline + flicker), font monospace VT323.
+Tujuan: Desktop abu-abu (#808080), jendela bergaya Windows 1.0, taskbar bawah (36px), efek CRT (scanline + flicker), font monospace VT322.
 
 1. **index.html**:
    - Entry point. Muat semua CSS di `<head>` (variables.css, reset.css, crt.css, desktop.css, windows.css, taskbar.css).
-   - Google Font: VT323.
+   - Google Font: VT322.
    - `<div id="crt-overlay">` untuk efek CRT.
    - `<main id="desktop">` untuk area kerja.
    - `<footer id="taskbar">` untuk taskbar.
@@ -6752,9 +6739,9 @@ Tujuan: Desktop abu-abu (#808080), jendela bergaya Windows 1.0, taskbar bawah (3
 
 7. **assets/css/taskbar.css**:
    - `#taskbar` fixed bottom, left/right 0, height 36px, background #c0c0c0, border-top, flex, gap.
-   - `.taskbar-button` background #c0c0c0, border, padding, font VT323.
+   - `.taskbar-button` background #c0c0c0, border, padding, font VT322.
    - `.taskbar-button.active` inset shadow.
-   - `.taskbar-clock` font VT323.
+   - `.taskbar-clock` font VT322.
 
 8. **assets/js/core/EventBus.js**:
    - Class EventBus dengan static methods: on(event, callback), off(event, callback), emit(event, data).
@@ -7381,296 +7368,13 @@ Untuk meningkatkan efisiensi pengujian, beberapa tes dapat diotomatisasi:
 
 ---
 
-## 21. Example Full Case: "Malam di Wisma Angker"
+## 21. Future Considerations & Expandability
 
-### 21.1 Sinopsis
-
-**Malam di Wisma Angker** adalah kasus pembunuhan berlatar tahun 1979 di sebuah rumah besar bergaya kolonial di kawasan Puncak. Kasus ini dirancang sebagai pengalaman detektif imersif dengan tingkat kesulitan **Expert**, estimasi waktu bermain **90–120 menit**.
-
-**Korban:** Haryanto Wijaya (62), pengusaha tekstil kaya raya yang ditakuti.
-
-**TKP:** Ruang kerja pribadi di lantai 2 Wisma Angker, terkunci dari dalam, jendela sedikit terbuka.
-
-**Penyebab Kematian:** Keracunan Kalium Sianida (KCN) yang dicampur ke dalam gelas brandy.
-
-**Waktu Kematian:** Antara pukul 22.30–23.30 WIB, 13 Juni 1979.
-
-**Tersangka:**
-
-1. **Sari Wijaya (29)** — Istri korban, mantan aktris teater. Menikah demi uang, berselingkuh, terancam dicoret dari wasiat.
-2. **Rahmat (34)** — Keponakan dan akuntan pribadi. Terlilit utang judi Rp 497 juta, menggelapkan uang perusahaan.
-3. **Budi (61)** — Kepala pelayan senior. Setia secara lahiriah, tetapi menyimpan dendam karena Haryanto menolak biaya pengobatan anaknya yang meninggal.
-
-**Pelaku Sebenarnya:** **Sari Wijaya** — meracuni brandy Haryanto dengan sianida yang dibeli dari apotek sehari sebelumnya. Motif: balas dendam atas perselingkuhan Haryanto dan upayanya mengubah wasiat yang akan memiskinkan Sari.
-
----
-
-### 21.2 Karakter & Dinamika
-
-#### Sari Wijaya (`char_002.json`) — **PELAKU**
-
-| Aspek                      | Detail                                                                                                                                                                          |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ID**                     | `char_002`                                                                                                                                                                      |
-| **Latar Belakang**         | Mantan aktris teater yang menikah dengan Haryanto pada 1976. Pernikahan tidak bahagia. Haryanto posesif dan merendahkannya. Sari berselingkuh dengan Rendy, instruktur berkuda. |
-| **Kepribadian**            | Manipulator ulung, dramatis, narsis. Berganti-ganti topeng sesuai lawan bicara.                                                                                                 |
-| **Alibi**                  | Mengaku di kamar tidur, minum obat tidur, membaca novel.                                                                                                                        |
-| **Motif**                  | Haryanto akan merevisi wasiat, mengurangi bagiannya drastis. Juga perselingkuhan Haryanto dengan wanita bernama Rina.                                                           |
-| **Rahasia Bertingkat**     | 1. Perselingkuhan → 2. Tahu rencana wasiat → 3. Membeli sianida → 4. Mengaku meracuni brandy.                                                                                   |
-| **Fase Interogasi**        | 1. Janda Berduka → 2. Aktris Terpojok → 3. Rasionalisasi → 4. Pengakuan Dingin.                                                                                                 |
-| **Emosi Awal**             | Stress: 15, Trust: 25, Fear: 30, Anger: 15                                                                                                                                      |
-| **Bukti Kunci Melawannya** | `evi_012` (Serpihan Kaca — sidik jari di bagian dalam gelas), `evi_010` (Nota Apotek — pembelian oleh "Ny. S"), `evi_011` (Draf Wasiat — motif).                                |
-
-#### Rahmat (`char_001.json`) — **Red Herring**
-
-| Aspek                   | Detail                                                                                                                     |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| **ID**                  | `char_001`                                                                                                                 |
-| **Latar Belakang**      | Keponakan yang dibesarkan Haryanto. Terjerumus judi, menggelapkan uang perusahaan, terlilit utang Rp 497 juta ke rentenir. |
-| **Kepribadian**         | Gugup, defensif, mudah panik, tapi jujur dan naif. Tidak cukup berani membunuh.                                            |
-| **Alibi**               | Mengaku di kamar tamu. Faktanya, menyelinap melalui jendela untuk mencuri buku besar.                                      |
-| **Rahasia Bertingkat**  | 1. Utang judi → 2. Penggelapan uang → 3. Masuk melalui jendela → 4. Melihat Sari dengan botol kecil.                       |
-| **Fase Interogasi**     | 1. Penyangkalan Panik → 2. Setengah Mengaku → 3. Pencuri Ketakutan → 4. Saksi Kunci.                                       |
-| **Emosi Awal**          | Stress: 45, Trust: 15, Fear: 70, Anger: 10                                                                                 |
-| **Yang Membebaskannya** | Tidak ada sidik jari di gelas, tidak membeli sianida, tidak tahu tentang racun. Masuk setelah Haryanto sekarat.            |
-
-#### Budi (`char_003.json`) — **Saksi Berdendam**
-
-| Aspek                   | Detail                                                                                                                                       |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ID**                  | `char_003`                                                                                                                                   |
-| **Latar Belakang**      | Kepala pelayan 30 tahun. Anak semata wayangnya (Anton) meninggal karena leukemia setelah Haryanto menolak memberi pinjaman biaya pengobatan. |
-| **Kepribadian**         | Pendiam, formal, penuh kepahitan tersembunyi. Ahli "melihat tanpa terlihat".                                                                 |
-| **Alibi**               | Ronda malam. Faktanya, sengaja tidak ronda ke lantai 2, melihat Sari meracuni, diam saja.                                                    |
-| **Rahasia Bertingkat**  | 1. Dendam anak → 2. Melihat Sari meracuni → 3. Membersihkan gelas lain.                                                                      |
-| **Fase Interogasi**     | 1. Pelayan Setia → 2. Saksi Enggan → 3. Dendam Terbuka → 4. Pengakuan.                                                                       |
-| **Emosi Awal**          | Stress: 25, Trust: 40, Fear: 20, Anger: 45                                                                                                   |
-| **Yang Membebaskannya** | Hanya pasif (tidak mencegah). Tidak membeli atau memiliki sianida.                                                                           |
-
----
-
-### 21.3 Bukti (12 Item)
-
-| ID        | Nama                        | Folder          | Jenis     | Ditemukan Melalui                             | Peran Kunci                                                                              |
-| --------- | --------------------------- | --------------- | --------- | --------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `evi_001` | Laporan Otopsi Resmi        | Dokumen Resmi   | Forensik  | Initial (`initial_evidence`)                  | Konfirmasi racun sianida, waktu kematian.                                                |
-| `evi_002` | Buku Besar Keuangan Rahasia | Bukti Fisik     | Finansial | TKP `obj_001` (Laci Utama)                    | Menunjukkan utang Rahmat, aliran dana mencurigakan.                                      |
-| `evi_003` | Log Keamanan Gerbang        | Dokumen Resmi   | Log       | TKP `obj_008` (Sobekan Log) / `rte_005`       | Mencatat mobil Sari keluar, pergerakan Rahmat.                                           |
-| `evi_004` | Surat Ancaman Anonim        | Surat & Catatan | Surat     | TKP `obj_011` (Laci Terbuka) / `rte_009`      | Isinya "hentikan revisi wasiat", mengarah ke motif wasiat.                               |
-| `evi_005` | Laporan Saksi Marni         | Dokumen Resmi   | Saksi     | `rte_002` (10 menit) / TKP `obj_016`          | Mendengar pertengkaran Sari-Haryanto, melihat Rahmat lari.                               |
-| `evi_006` | Resep & Catatan Sianida     | Surat & Catatan | Catatan   | TKP `obj_019` (Buku Harian)                   | Tulisan tangan tentang dosis sianida, sumber pembelian.                                  |
-| `evi_007` | Buku Tamu Wisma             | Log Kunjungan   | Log       | `rte_006` (50 menit)                          | Tamu misterius "Rina S." (selingkuhan Haryanto).                                         |
-| `evi_008` | Kliping Koran Lama          | Surat & Catatan | Artikel   | TKP `obj_017` (Koran) / `rte_007`             | PHK massal, ancaman buruh (red herring).                                                 |
-| `evi_009` | Kunci Cadangan              | Bukti Fisik     | Fisik     | TKP `obj_023` (Kunci Jatuh)                   | Membuka laci tersembunyi dan laci terkunci. Sidik jari Sari.                             |
-| `evi_010` | Nota Pembelian Apotek       | Bukti Fisik     | Nota      | TKP `obj_024` (Nota) / `rte_008`              | Pembelian sianida oleh "Ny. S" pada 13 Juni.                                             |
-| `evi_011` | Draf Surat Wasiat           | Surat & Catatan | Dokumen   | TKP `obj_005` (Laci Rahasia, butuh `evi_009`) | 80% untuk Sari, akan direvisi. Motif kuat.                                               |
-| `evi_012` | Serpihan Gelas Brandy       | Bukti Fisik     | Fisik     | TKP `obj_022` (Serpihan Kaca)                 | **Bukti terkuat**: sidik jari Sari di bagian dalam gelas, residu sianida, bekas lipstik. |
-
----
-
-### 21.4 Crime Scene (TKP Interaktif)
-
-TKP terdiri dari **6 area** dengan **24 objek interaktif**. Pemain harus menjelajahi setiap sudut untuk menemukan bukti.
-
-| Area                | ID         | Objek Penting              | Tipe        | Membuka         |
-| ------------------- | ---------- | -------------------------- | ----------- | --------------- |
-| **Meja Kerja**      | `area_001` | `obj_001` Laci Utama       | evidence    | `evi_002`       |
-|                     |            | `obj_002` Gelas Pecah      | clue        | —               |
-|                     |            | `obj_003` Map Kuning       | red_herring | —               |
-|                     |            | `obj_004` Amplop Foto      | clue        | —               |
-|                     |            | `obj_005` Laci Tersembunyi | locked      | butuh `evi_009` |
-|                     |            | `obj_006` Telepon          | clue        | —               |
-| **Jendela**         | `area_002` | `obj_007` Bekas Lumpur     | clue        | —               |
-|                     |            | `obj_008` Sobekan Log      | evidence    | `evi_003`       |
-|                     |            | `obj_009` Kaca Retak       | clue        | —               |
-|                     |            | `obj_010` Serat Kain       | clue        | —               |
-| **Lemari Arsip**    | `area_003` | `obj_011` Laci Terbuka     | evidence    | `evi_004`       |
-|                     |            | `obj_012` Laci Terkunci    | locked      | butuh `evi_009` |
-|                     |            | `obj_013` Amplop Coklat    | clue        | —               |
-|                     |            | `obj_014` Obeng Rusak      | clue        | —               |
-| **Pintu Masuk**     | `area_004` | `obj_015` Lubang Kunci     | clue        | —               |
-|                     |            | `obj_016` Bicara Marni     | evidence    | `evi_005`       |
-|                     |            | `obj_017` Koran            | evidence    | `evi_008`       |
-| **Rak Buku**        | `area_005` | `obj_018` Buku Kimia       | clue        | —               |
-|                     |            | `obj_019` Buku Harian      | evidence    | `evi_006`       |
-|                     |            | `obj_020` Patung           | red_herring | —               |
-| **Lantai & Karpet** | `area_006` | `obj_021` Noda Karpet      | clue        | —               |
-|                     |            | `obj_022` Serpihan Kaca    | evidence    | `evi_012`       |
-|                     |            | `obj_023` Kunci Jatuh      | evidence    | `evi_009`       |
-|                     |            | `obj_024` Nota Apotek      | evidence    | `evi_010`       |
-
-**Mekanika Kunci:** `obj_005` (Laci Tersembunyi) membutuhkan `evi_009` (Kunci Cadangan). `obj_012` (Laci Terkunci) juga membutuhkan `evi_009`. Ini menciptakan dependensi: pemain harus menemukan kunci di karpet terlebih dahulu.
-
----
-
-### 21.5 Real-Time Events (12 Event)
-
-Event memberikan bukti secara bertahap selama 120 menit, menciptakan pacing investigasi yang natural.
-
-| ID        | Menit ke- | Action             | Detail                                               |
-| --------- | --------- | ------------------ | ---------------------------------------------------- |
-| `rte_001` | 0         | `unlock_evidence`  | Laporan Otopsi (`evi_001`) tiba via amplop.          |
-| `rte_002` | 10        | `unlock_evidence`  | Laporan Saksi Marni (`evi_005`) via telepon.         |
-| `rte_003` | 20        | `update_objective` | TKP dibuka untuk eksplorasi.                         |
-| `rte_004` | 30        | `send_message`     | Budi (`char_003`) minta bicara di dapur.             |
-| `rte_005` | 40        | `unlock_evidence`  | Log Keamanan (`evi_003`) dikirim satpam.             |
-| `rte_006` | 50        | `unlock_evidence`  | Buku Tamu (`evi_007`) difotokopi.                    |
-| `rte_007` | 60        | `unlock_evidence`  | Kliping Koran (`evi_008`) dari arsip.                |
-| `rte_008` | 65        | `unlock_evidence`  | Nota Apotek (`evi_010`) diserahkan.                  |
-| `rte_009` | 75        | `unlock_evidence`  | Surat Ancaman (`evi_004`) selesai analisis forensik. |
-| `rte_010` | 85        | `send_message`     | Rahmat (`char_001`) minta bicara jujur.              |
-| `rte_011` | 100       | `notification`     | Peringatan deadline 20 menit lagi.                   |
-| `rte_012` | 120       | `deadline_reached` | Game over jika belum selesai.                        |
-
----
-
-### 21.6 Objectives (9 Tugas)
-
-| ID         | Tugas                                                | Hint                                                    |
-| ---------- | ---------------------------------------------------- | ------------------------------------------------------- |
-| `task_001` | Baca laporan briefing dan otopsi awal                | Buka Case Files, baca briefing.                         |
-| `task_002` | Temukan Buku Besar Keuangan di TKP                   | Periksa laci meja kerja.                                |
-| `task_003` | Kumpulkan bukti dari Jendela dan Pintu               | Jendela punya bekas lumpur, pintu mungkin simpan jejak. |
-| `task_004` | Interogasi Rahmat tentang utang dan buku besar       | Tanyakan "buku besar" atau "uang 500 juta".             |
-| `task_005` | Interogasi Sari tentang ancaman dan resep racun      | Konfrontasi dengan bukti resep racun.                   |
-| `task_006` | Interogasi Budi tentang apa yang sebenarnya ia lihat | Gunakan bukti serpihan kaca.                            |
-| `task_007` | Hubungkan nota apotek dengan tersangka               | Nota apotek → "Ny. S".                                  |
-| `task_008` | Temukan dan baca draf surat wasiat                   | Cari di lemari arsip atau laci tersembunyi.             |
-| `task_009` | Ajukan tuduhan lengkap dengan bukti yang kuat        | Minimal 6 bukti termasuk bukti primer.                  |
-
----
-
-### 21.7 Timeline Kronologis
-
-| Waktu | Peristiwa                                                                          |
-| ----- | ---------------------------------------------------------------------------------- |
-| 20.00 | Haryanto dan Sari makan malam bersama, terlihat tegang.                            |
-| 21.15 | Rahmat tiba di Wisma, menuju ruang kerja minta tanda tangan cek.                   |
-| 21.30 | Sari membeli 10 gram Kalium Sianida di Apotek Sumber Waras (nota `evi_010`).       |
-| 21.50 | Budi mengantar kopi, melihat Sari dan Haryanto bertengkar hebat.                   |
-| 22.00 | Sari keluar marah: "Kau akan menyesal!"                                            |
-| 22.05 | Sari menuangkan sianida ke gelas brandy Haryanto.                                  |
-| 22.25 | Haryanto kejang-kejang setelah minum brandy.                                       |
-| 22.30 | Saksi mendengar suara gelas pecah dari ruang kerja.                                |
-| 22.40 | Rahmat melihat Sari keluar ruang kerja dengan botol kecil.                         |
-| 22.45 | Rahmat terlihat satpam berjalan cepat ke taman belakang.                           |
-| 22.50 | Rahmat masuk lewat jendela, melihat Haryanto sekarat, mengambil buku besar, kabur. |
-| 23.00 | Lampu ruang kerja padam.                                                           |
-| 23.15 | Mobil Sari keluar Wisma (tercatat di log `evi_003`).                               |
-| 23.45 | Sari kembali ke Wisma.                                                             |
-| 00.15 | Budi "menemukan" tubuh Haryanto (sebenarnya sudah tahu sejak 23.00).               |
-| 02.00 | Budi melapor ke polisi.                                                            |
-
----
-
-### 21.8 Solusi & Cara Membuktikan
-
-**Pelaku:** Sari Wijaya (`char_002`)
-
-**Motif:** Balas dendam atas perselingkuhan Haryanto dengan Rina, dan upaya Haryanto mengubah wasiat yang akan mengurangi bagian Sari dari 80% menjadi hanya 20%.
-
-**Bukti yang Dibutuhkan untuk Tuduhan Sukses:**
-
-| Jenis        | ID        | Nama                    |
-| ------------ | --------- | ----------------------- |
-| **Primer**   | `evi_001` | Laporan Otopsi Resmi    |
-| **Sekunder** | `evi_006` | Resep & Catatan Sianida |
-| **Sekunder** | `evi_010` | Nota Pembelian Apotek   |
-| **Sekunder** | `evi_011` | Draf Surat Wasiat       |
-| **Sekunder** | `evi_004` | Surat Ancaman Anonim    |
-| **Sekunder** | `evi_012` | Serpihan Gelas Brandy   |
-| **Sekunder** | `evi_003` | Log Keamanan Gerbang    |
-
-**Rantai Pembuktian:**
-
-1. `evi_001` membuktikan racun sianida sebagai penyebab kematian.
-2. `evi_010` membuktikan Sari membeli sianida (pembeli "Ny. S").
-3. `evi_006` membuktikan Sari menulis catatan dosis untuk "70 kg" (berat Haryanto).
-4. `evi_012` membuktikan sidik jari Sari di **bagian dalam** gelas — dia memegang gelas dari dalam untuk menuangkan racun.
-5. `evi_011` membuktikan motif: wasiat menguntungkan Sari, akan direvisi.
-6. `evi_004` memperkuat motif: seseorang ingin menghentikan revisi wasiat.
-7. `evi_003` membuktikan Sari melanggar alibinya (keluar malam itu).
-
-**Kesaksian Kunci:**
-
-- Rahmat (`char_001`) pada Fase 4: melihat Sari keluar ruang kerja dengan botol kecil.
-- Budi (`char_003`) pada Fase 4: melihat Sari menuangkan sesuatu ke gelas brandy.
-
----
-
-### 21.9 Alur Investigasi yang Diharapkan
-
-**Fase Awal (0–30 menit):**
-
-1. Pemain membaca briefing dan laporan otopsi (`evi_001`).
-2. Menerima laporan saksi Marni (`evi_005`) via telepon pada menit 10.
-3. Menjelajahi TKP, menemukan Buku Besar (`evi_002`) dari laci meja.
-4. Budi mengirim pesan pada menit 30, siap diinterogasi.
-
-**Fase Tengah (30–75 menit):** 5. Pemain menginterogasi Rahmat, mengetahui utangnya dan pergerakannya. 6. Menerima Log Keamanan (`evi_003`) pada menit 40. 7. Menemukan Surat Ancaman (`evi_004`) di lemari arsip. 8. Menerima Buku Tamu (`evi_007`) dan Kliping Koran (`evi_008`). 9. Menerima Nota Apotek (`evi_010`) pada menit 65 — titik balik. 10. Menemukan Serpihan Kaca (`evi_012`) dan Kunci Cadangan (`evi_009`) di area Lantai & Karpet.
-
-**Fase Akhir (75–120 menit):** 11. Menginterogasi Sari dengan bukti nota apotek dan serpihan kaca. 12. Menginterogasi Budi, mengungkap ia melihat Sari meracuni. 13. Menginterogasi Rahmat lagi (pesan menit 85), ia mengaku melihat Sari dengan botol. 14. Membuka laci rahasia dengan kunci cadangan, menemukan Wasiat (`evi_011`). 15. Menyusun tuduhan terhadap Sari dengan semua bukti.
-
----
-
-### 21.10 Semua File Konten (Referensi)
-
-| File            | Path                                                   | Ukuran (approx) |
-| --------------- | ------------------------------------------------------ | --------------- |
-| `index.json`    | `cases/index.json`                                     | ~500 B          |
-| `case.json`     | `cases/case_001_wisma_angker/case.json`                | ~15 KB          |
-| `briefing.md`   | `cases/case_001_wisma_angker/briefing.md`              | ~3 KB           |
-| `solution.md`   | `cases/case_001_wisma_angker/solution.md`              | ~5 KB           |
-| `char_001.json` | `cases/case_001_wisma_angker/characters/char_001.json` | ~12 KB          |
-| `char_002.json` | `cases/case_001_wisma_angker/characters/char_002.json` | ~13 KB          |
-| `char_003.json` | `cases/case_001_wisma_angker/characters/char_003.json` | ~12 KB          |
-| `evi_001.md`    | `cases/case_001_wisma_angker/evidence/evi_001.md`      | ~2 KB           |
-| `evi_002.md`    | `cases/case_001_wisma_angker/evidence/evi_002.md`      | ~3 KB           |
-| `evi_003.md`    | `cases/case_001_wisma_angker/evidence/evi_003.md`      | ~2 KB           |
-| `evi_004.md`    | `cases/case_001_wisma_angker/evidence/evi_004.md`      | ~1 KB           |
-| `evi_005.md`    | `cases/case_001_wisma_angker/evidence/evi_005.md`      | ~2 KB           |
-| `evi_006.md`    | `cases/case_001_wisma_angker/evidence/evi_006.md`      | ~2 KB           |
-| `evi_007.md`    | `cases/case_001_wisma_angker/evidence/evi_007.md`      | ~1 KB           |
-| `evi_008.md`    | `cases/case_001_wisma_angker/evidence/evi_008.md`      | ~1 KB           |
-| `evi_009.md`    | `cases/case_001_wisma_angker/evidence/evi_009.md`      | ~2 KB           |
-| `evi_010.md`    | `cases/case_001_wisma_angker/evidence/evi_010.md`      | ~1 KB           |
-| `evi_011.md`    | `cases/case_001_wisma_angker/evidence/evi_011.md`      | ~2 KB           |
-| `evi_012.md`    | `cases/case_001_wisma_angker/evidence/evi_012.md`      | ~2 KB           |
-
-**Total file konten:** 19 file (1 index + 1 case + 1 briefing + 1 solution + 3 karakter + 12 bukti)  
-**Total ukuran konten:** ~80 KB (sangat ringan, mendukung deployment cepat)
-
----
-
-### 21.11 Mengapa Kasus Ini Dirancang Seperti Ini?
-
-**Kompleksitas Berlapis:**
-
-- 12 bukti menciptakan banyak jalur investigasi. Pemain bisa melewatkan bukti kunci jika tidak teliti.
-- Mekanika `locked` (butuh kunci untuk laci tertentu) memaksa pemain bolak-balik antar area TKP.
-- Real-time events menciptakan urgensi tanpa mengurangi kebebasan eksplorasi.
-
-**Tiga Tersangka Berbeda:**
-
-- **Rahmat** terlihat sangat bersalah di awal (utang, mencuri, melarikan diri) — red herring sempurna.
-- **Budi** adalah saksi yang menyembunyikan informasi — pemain harus mendapatkan kepercayaannya.
-- **Sari** adalah pelaku sebenarnya, tapi sangat pandai berakting — baru mengaku jika dihadapkan bukti tak terbantahkan.
-
-**Pembuktian Ganda:**
-
-- Bukti forensik (`evi_012`) + bukti pembelian (`evi_010`) + bukti motif (`evi_011`) + kesaksian (Rahmat & Budi) membentuk rantai yang tak terpatahkan.
-
----
-
-## _Dokumentasi ini adalah cetak biru lengkap kasus "Malam di Wisma Angker", mencakup semua aspek naratif, mekanis, dan teknis yang telah diimplementasikan._
-
-## 22. Future Considerations & Expandability
-
-### 22.1 Overview
+### 21.1 Overview
 
 RetroSleuth dirancang sebagai platform investigasi yang dapat diperluas tanpa batas. Arsitektur data-driven, sistem modding, dan integrasi AI lokal membuka banyak kemungkinan untuk pengembangan di masa depan. Bagian ini menjabarkan visi jangka panjang, fitur-fitur potensial, dan bagaimana fitur tersebut akan terintegrasi dengan fondasi yang sudah dibangun.
 
-### 22.2 Peta Jalan Ekspansi
+### 21.2 Peta Jalan Ekspansi
 
 | Prioritas           | Fitur                      | Deskripsi Singkat                                                                    | Target Rilis  |
 | ------------------- | -------------------------- | ------------------------------------------------------------------------------------ | ------------- |
@@ -7685,9 +7389,9 @@ RetroSleuth dirancang sebagai platform investigasi yang dapat diperluas tanpa ba
 
 ---
 
-### 22.3 Detail Fitur Masa Depan
+### 21.3 Detail Fitur Masa Depan
 
-#### 22.3.1 Progressive Web App (PWA) & Mobile Wrapper
+#### 21.3.1 Progressive Web App (PWA) & Mobile Wrapper
 
 **Deskripsi:**  
 Mengubah RetroSleuth menjadi Progressive Web App yang dapat diinstal di layar utama perangkat mobile (Android, iOS) dan berjalan secara offline. PWA menyediakan pengalaman yang lebih mulus dibandingkan sekadar membuka browser, dengan splash screen, ikon aplikasi, dan caching agresif.
@@ -7721,7 +7425,7 @@ Mengubah RetroSleuth menjadi Progressive Web App yang dapat diinstal di layar ut
 
 ---
 
-#### 22.3.2 Community Modding Toolkit
+#### 21.3.2 Community Modding Toolkit
 
 **Deskripsi:**  
 Sebuah halaman web terpisah (`/tools/modding-kit.html`) atau aplikasi ringan yang memungkinkan pembuat kasus mengisi formulir untuk menghasilkan semua file yang diperlukan ( `case.json`, `char_*.json`, `evi_*.md`, `index.json`). Toolkit akan memvalidasi input secara real-time dan menghasilkan folder ZIP yang siap di-upload ke `cases/`.
@@ -7754,7 +7458,7 @@ Sebuah halaman web terpisah (`/tools/modding-kit.html`) atau aplikasi ringan yan
 
 ---
 
-#### 22.3.3 Case Editor Visual
+#### 21.3.3 Case Editor Visual
 
 **Deskripsi:**  
 Editor drag-and-drop berbasis web untuk membuat TKP, menghubungkan karakter dengan bukti, dan membangun timeline secara visual. Editor ini akan menghasilkan `case.json` dan file terkait tanpa perlu menulis JSON secara manual. Mirip dengan game engine visual (seperti RPG Maker) tetapi dikhususkan untuk game detektif.
@@ -7786,7 +7490,7 @@ Editor drag-and-drop berbasis web untuk membuat TKP, menghubungkan karakter deng
 
 ---
 
-#### 22.3.4 Voice Input & Output
+#### 21.3.4 Voice Input & Output
 
 **Deskripsi:**  
 Menambahkan kemampuan interogasi suara: pemain dapat **berbicara** pertanyaan melalui mikrofon, dan AI dapat **membacakan** responsnya melalui speaker. Teknologi yang digunakan adalah Web Speech API (SpeechRecognition dan SpeechSynthesis).
@@ -7819,7 +7523,7 @@ Menambahkan kemampuan interogasi suara: pemain dapat **berbicara** pertanyaan me
 
 ---
 
-#### 22.3.5 Multiplayer Co-op
+#### 21.3.5 Multiplayer Co-op
 
 **Deskripsi:**  
 Memungkinkan dua (atau lebih) pemain untuk menyelidiki kasus yang sama secara bersamaan. Setiap pemain dapat menginterogasi tersangka yang berbeda, berbagi bukti yang ditemukan, dan berdiskusi melalui chat atau voice terintegrasi. Menggunakan WebRTC untuk komunikasi peer-to-peer.
@@ -7852,7 +7556,7 @@ Memungkinkan dua (atau lebih) pemain untuk menyelidiki kasus yang sama secara be
 
 ---
 
-#### 22.3.6 AI Generated Cases
+#### 21.3.6 AI Generated Cases
 
 **Deskripsi:**  
 Menggunakan LLM (seperti yang sudah digunakan untuk interogasi) untuk **menghasilkan kerangka kasus baru** secara otomatis. Penulis konten cukup memberikan prompt (misal: "pembunuhan di hotel tua, 3 tersangka, motif warisan") dan AI akan menghasilkan draf `case.json`, karakter, dan bukti. Penulis kemudian menyunting dan menyempurnakan hasilnya.
@@ -7884,7 +7588,7 @@ Menggunakan LLM (seperti yang sudah digunakan untuk interogasi) untuk **menghasi
 
 ---
 
-#### 22.3.7 Steam Workshop Integration
+#### 21.3.7 Steam Workshop Integration
 
 **Deskripsi:**  
 Jika RetroSleuth dirilis di Steam (sebagai aplikasi Electron atau PWA yang dibungkus), integrasi Steam Workshop memungkinkan pemain mengunggah dan mengunduh kasus buatan komunitas langsung dari dalam game.
@@ -7908,7 +7612,7 @@ Jika RetroSleuth dirilis di Steam (sebagai aplikasi Electron atau PWA yang dibun
 
 ---
 
-#### 22.3.8 Advanced Accessibility
+#### 21.3.8 Advanced Accessibility
 
 **Deskripsi:**  
 Meningkatkan aksesibilitas game untuk pemain dengan disabilitas. Ini adalah komitmen berkelanjutan yang selaras dengan Pilar 6 (Accessibility & Performance).
@@ -7930,7 +7634,7 @@ Meningkatkan aksesibilitas game untuk pemain dengan disabilitas. Ini adalah komi
 
 ---
 
-### 22.4 Dampak pada Arsitektur
+### 21.4 Dampak pada Arsitektur
 
 | Fitur              | Perubahan Engine                                 | Perubahan UI             | Perubahan Konten | File Baru                           |
 | ------------------ | ------------------------------------------------ | ------------------------ | ---------------- | ----------------------------------- |
@@ -7945,7 +7649,7 @@ Meningkatkan aksesibilitas game untuk pemain dengan disabilitas. Ini adalah komi
 
 ---
 
-### 22.5 Prinsip Pengembangan Berkelanjutan
+### 21.5 Prinsip Pengembangan Berkelanjutan
 
 1. **Backward Compatibility:** Setiap fitur baru tidak boleh merusak kasus yang sudah ada. Format file dan API engine harus tetap kompatibel.
 2. **Modularity:** Fitur baru diimplementasikan sebagai modul atau tools terpisah, tidak mengotori kode inti.
@@ -7959,15 +7663,15 @@ _Visi jangka panjang ini menunjukkan bahwa RetroSleuth bukan sekadar game, tetap
 
 ---
 
-## 23. Glossary
+## 22. Glossary
 
-### 23.1 Overview
+### 22.1 Overview
 
 Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesifik yang digunakan dalam dokumen PRD dan pengembangan RetroSleuth. Istilah dikelompokkan berdasarkan kategori untuk kemudahan referensi.
 
 ---
 
-### 23.2 Istilah Teknis
+### 22.2 Istilah Teknis
 
 | Istilah                                  | Definisi                                                                                                                              |
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -7989,17 +7693,17 @@ Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesif
 | **Markdown**                             | Format markup ringan yang digunakan untuk konten bukti (`*.md`). Dirender menjadi HTML oleh `marked.js`.                              |
 | **Mixed Content**                        | Masalah keamanan browser di mana halaman HTTPS tidak bisa memuat konten HTTP. Terjadi saat GitHub Pages mengakses `localhost`.        |
 | **OscillatorNode**                       | Node Web Audio API yang menghasilkan gelombang periodik. Digunakan untuk membuat suara beep, nada, dan efek.                          |
-| **Prompt Injection**                     | Serangan di mana pengguna mencoba mengubah instruksi AI melalui input. Dicegah oleh response rules di PromptBuilder.                 |
+| **Prompt Injection**                     | Serangan di mana pengguna mencoba mengubah instruksi AI melalui input. Dicegah oleh response rules di PromptBuilder.                  |
 | **PWA (Progressive Web App)**            | Aplikasi web yang dapat diinstal di perangkat dan berjalan offline. Rencana masa depan.                                               |
 | **System Prompt**                        | Instruksi awal yang diberikan ke AI sebelum percakapan. Dibangun oleh `PromptBuilder` berdasarkan data karakter.                      |
 | **Typewriter Effect**                    | Animasi teks yang muncul karakter per karakter, meniru mesin ketik. Diimplementasikan di `Typewriter.js`.                             |
 | **Web Audio API**                        | API browser untuk pemrosesan audio. Digunakan oleh `AudioManager` untuk menghasilkan suara tanpa file eksternal.                      |
 | **WebRTC (Web Real-Time Communication)** | API untuk komunikasi peer-to-peer. Rencana untuk fitur multiplayer.                                                                   |
-| **XSS (Cross-Site Scripting)**           | Serangan injeksi skrip. Dicegah dengan penggunaan textContent untuk rendering input pengguna.                                        |
+| **XSS (Cross-Site Scripting)**           | Serangan injeksi skrip. Dicegah dengan penggunaan textContent untuk rendering input pengguna.                                         |
 
 ---
 
-### 23.3 Istilah Gameplay
+### 22.3 Istilah Gameplay
 
 | Istilah                   | Definisi                                                                                                      |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -8039,7 +7743,7 @@ Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesif
 
 ---
 
-### 23.4 Istilah Content Authoring
+### 22.4 Istilah Content Authoring
 
 | Istilah                   | Definisi                                                                                       |
 | ------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -8058,24 +7762,24 @@ Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesif
 
 ---
 
-### 23.5 Istilah Arsitektur
+### 22.5 Istilah Arsitektur
 
-| Istilah                         | Definisi                                                                                                |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **Core Layer**                  | Lapisan inti aplikasi: `EventBus.js` dan `Store.js`.                                                    |
+| Istilah                         | Definisi                                                                                                                     |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Core Layer**                  | Lapisan inti aplikasi: `EventBus.js` dan `Store.js`.                                                                         |
 | **Engine Layer**                | Lapisan logika bisnis: `CaseLoader.js`, `EvidenceEngine.js`, `SolutionEngine.js`, `TimelineEngine.js`, `RealTimeManager.js`. |
-| **AI Layer**                    | Lapisan kecerdasan buatan: `AIClient.js`, `PromptBuilder.js`, `TrustSystem.js`, `FallbackMode.js`.      |
-| **UI Layer**                    | Lapisan antarmuka: `WindowManager.js`, `DesktopManager.js`, `Taskbar.js`.                               |
-| **Modules**                     | Modul fitur: `InterrogationRoom.js`, `AccusationForm.js`, `EvidenceViewer.js`, `TimelineViewer.js`, dll. |
-| **Utils Layer**                 | Lapisan utilitas: `AudioManager.js`, `DatabaseManager.js`, `Markdown.js`, `Typewriter.js`, `Storage.js`. |
-| **Data-Driven Architecture**    | Filosofi desain di mana konten disimpan di file JSON/MD, bukan di-hardcode di JavaScript.               |
-| **Event-Driven Architecture**   | Pola di mana modul berkomunikasi melalui event (pub/sub), bukan pemanggilan langsung.                   |
-| **Singleton Pattern**           | Pola desain di mana hanya ada satu instance dari class (`EventBus`, `Store`, `WindowManager`).          |
-| **Pub/Sub (Publish/Subscribe)** | Pola komunikasi di mana publisher mengirim event tanpa tahu subscriber-nya.                             |
+| **AI Layer**                    | Lapisan kecerdasan buatan: `AIClient.js`, `PromptBuilder.js`, `TrustSystem.js`, `FallbackMode.js`.                           |
+| **UI Layer**                    | Lapisan antarmuka: `WindowManager.js`, `DesktopManager.js`, `Taskbar.js`.                                                    |
+| **Modules**                     | Modul fitur: `InterrogationRoom.js`, `AccusationForm.js`, `EvidenceViewer.js`, `TimelineViewer.js`, dll.                     |
+| **Utils Layer**                 | Lapisan utilitas: `AudioManager.js`, `DatabaseManager.js`, `Markdown.js`, `Typewriter.js`, `Storage.js`.                     |
+| **Data-Driven Architecture**    | Filosofi desain di mana konten disimpan di file JSON/MD, bukan di-hardcode di JavaScript.                                    |
+| **Event-Driven Architecture**   | Pola di mana modul berkomunikasi melalui event (pub/sub), bukan pemanggilan langsung.                                        |
+| **Singleton Pattern**           | Pola desain di mana hanya ada satu instance dari class (`EventBus`, `Store`, `WindowManager`).                               |
+| **Pub/Sub (Publish/Subscribe)** | Pola komunikasi di mana publisher mengirim event tanpa tahu subscriber-nya.                                                  |
 
 ---
 
-### 23.6 Istilah UI/UX
+### 22.6 Istilah UI/UX
 
 | Istilah              | Definisi                                                                  |
 | -------------------- | ------------------------------------------------------------------------- |
@@ -8094,7 +7798,7 @@ Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesif
 
 ---
 
-### 23.7 Akronim
+### 22.7 Akronim
 
 | Akronim   | Kepanjangan                       | Konteks                         |
 | --------- | --------------------------------- | ------------------------------- |
@@ -8123,7 +7827,7 @@ Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesif
 
 ---
 
-### 23.8 Konvensi Penamaan ID
+### 22.8 Konvensi Penamaan ID
 
 | Prefix    | Kategori         | Contoh       | Range per Kasus            |
 | --------- | ---------------- | ------------ | -------------------------- |
@@ -8140,9 +7844,9 @@ Glosarium ini mendefinisikan seluruh istilah teknis, gameplay, dan domain-spesif
 
 _Glosarium ini adalah referensi cepat untuk semua istilah yang digunakan dalam pengembangan RetroSleuth. Untuk definisi yang lebih mendalam, lihat bagian terkait dalam dokumen PRD._
 
-## 24. Appendix: Developer Quick Reference
+## 23. Appendix: Developer Quick Reference
 
-### 24.1 Complete Event List
+### 23.1 Complete Event List
 
 Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Berikut adalah daftar lengkap semua event, payload, dan subscriber utama.
 
@@ -8153,7 +7857,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `app:ready`       | `main.js`         | `{}`             | `DesktopManager`, `Taskbar`              | Aplikasi selesai boot, desktop siap.    |
 | `index:loaded`    | `CaseLoader`      | `{ totalCases }` | `CaseHub`                                | Daftar kasus dari `index.json` termuat. |
 | `index:loadError` | `CaseLoader`      | `{ error }`      | `CaseHub` (tampilkan pesan error)        | Gagal memuat `index.json`.              |
-| `case:loaded`     | `CaseLoader`      | `{ caseData }`   | Semua modul (lihat 24.1.2)               | Kasus lengkap termuat dan siap.         |
+| `case:loaded`     | `CaseLoader`      | `{ caseData }`   | Semua modul (lihat 23.1.2)               | Kasus lengkap termuat dan siap.         |
 | `case:loadError`  | `CaseLoader`      | `{ error }`      | UI Error Handler                         | Gagal memuat kasus.                     |
 | `case:unloaded`   | `CaseLoader`      | `{}`             | Semua modul (reset)                      | Kasus dibersihkan dari memori.          |
 | `case:solved`     | `SolutionEngine`  | `{ culpritId }`  | `AudioManager`, `WindowManager` (epilog) | Kasus terpecahkan.                      |
@@ -8161,11 +7865,11 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 
 #### Evidence Events
 
-| Event               | Emitter               | Payload          | Subscriber                                                                    | Deskripsi                    |
-| ------------------- | --------------------- | ---------------- | ----------------------------------------------------------------------------- | ---------------------------- |
-| `evidence:unlocked` | `EvidenceEngine`      | `{ evidenceId }` | `EvidenceViewer`, `Taskbar` (badge), `AudioManager` | Bukti baru ditemukan.        |
-| `evidence:analyzed` | `EvidenceEngine`      | `{ evidenceId }` | `ObjectivesTracker`                                                           | Bukti selesai dibaca detail. |
-| `evidence:view`     | `EvidenceViewer`      | `{ evidenceId }` | Detail window rendering                                                       | Buka jendela detail bukti.   |
+| Event               | Emitter          | Payload          | Subscriber                                          | Deskripsi                    |
+| ------------------- | ---------------- | ---------------- | --------------------------------------------------- | ---------------------------- |
+| `evidence:unlocked` | `EvidenceEngine` | `{ evidenceId }` | `EvidenceViewer`, `Taskbar` (badge), `AudioManager` | Bukti baru ditemukan.        |
+| `evidence:analyzed` | `EvidenceEngine` | `{ evidenceId }` | `ObjectivesTracker`                                 | Bukti selesai dibaca detail. |
+| `evidence:view`     | `EvidenceViewer` | `{ evidenceId }` | Detail window rendering                             | Buka jendela detail bukti.   |
 
 #### Interrogation Events
 
@@ -8236,40 +7940,40 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 
 ---
 
-### 24.2 Keyboard Shortcuts Complete Reference
+### 23.2 Keyboard Shortcuts Complete Reference
 
-| Shortcut             | Konteks                   | Aksi                                | Keterangan                              |
-| -------------------- | ------------------------- | ----------------------------------- | --------------------------------------- |
-| **Navigasi Umum**    |                           |                                     |                                         |
-| `Ctrl+Tab`           | Global                    | Cycle jendela aktif                 | Berpindah antar jendela yang terbuka.   |
-| `Ctrl+Shift+Tab`     | Global                    | Cycle mundur                        | Berpindah ke jendela sebelumnya.        |
-| `Escape`             | Global                    | Tutup jendela aktif / hentikan drag | Prioritaskan tutup modal, lalu jendela. |
-| **Jendela Spesifik** |                           |                                     |                                         |
-| `Alt+E`              | Global                    | Buka Evidence File Manager          | Jika belum ada, buat dan fokus.         |
-| `Alt+I`              | Global                    | Buka Interrogation (terakhir)       | Buka kembali interogasi terakhir.       |
-| `Alt+N`              | Global                    | Buka Notes                          | Notepad detektif.                       |
-| `Alt+A`              | Global                    | Buka Accusation Form                | Formulir tuduhan.                       |
-| `Alt+T`              | Global                    | Buka Timeline                       | Kronologi kasus.                        |
-| `Alt+C`              | Global                    | Buka Case Hub                       | Kembali ke daftar kasus.                |
-| `Alt+S`              | Global                    | Buka Settings                       | Pengaturan.                             |
-| **Interogasi**       |                           |                                     |                                         |
-| `Enter`              | Fokus di input interogasi | Kirim pertanyaan                    | Saat input teks aktif.                  |
-| `Shift+Enter`        | Fokus di input interogasi | Baris baru                          | Untuk pertanyaan multi-baris.           |
-| `1–3`                | InterrogationRoom aktif   | Sodorkan bukti 1-3                  | Cepat menyodorkan bukti dari strip.     |
-| **TKP**              |                           |                                     |                                         |
-| `1–6`                | *(planned)* CrimeSceneViewer aktif | Pindah area 1-6            | Navigasi cepat antar area.              |
-| `R`                  | *(planned)* CrimeSceneViewer aktif | Reset tampilan area        | Kembali ke tampilan default.            |
-| **Save/Load**        |                           |                                     |                                         |
-| `Ctrl+S`             | Global                    | Quick save                          | Simpan state ke IndexedDB.              |
-| **Efek Visual**      |                           |                                     |                                         |
-| `F12`                | Global                    | Toggle CRT effect                   | Matikan/hidupkan efek monitor.          |
-| `F11`                | Global                    | Toggle fullscreen                   | Browser fullscreen mode.                |
+| Shortcut             | Konteks                            | Aksi                                | Keterangan                              |
+| -------------------- | ---------------------------------- | ----------------------------------- | --------------------------------------- |
+| **Navigasi Umum**    |                                    |                                     |                                         |
+| `Ctrl+Tab`           | Global                             | Cycle jendela aktif                 | Berpindah antar jendela yang terbuka.   |
+| `Ctrl+Shift+Tab`     | Global                             | Cycle mundur                        | Berpindah ke jendela sebelumnya.        |
+| `Escape`             | Global                             | Tutup jendela aktif / hentikan drag | Prioritaskan tutup modal, lalu jendela. |
+| **Jendela Spesifik** |                                    |                                     |                                         |
+| `Alt+E`              | Global                             | Buka Evidence File Manager          | Jika belum ada, buat dan fokus.         |
+| `Alt+I`              | Global                             | Buka Interrogation (terakhir)       | Buka kembali interogasi terakhir.       |
+| `Alt+N`              | Global                             | Buka Notes                          | Notepad detektif.                       |
+| `Alt+A`              | Global                             | Buka Accusation Form                | Formulir tuduhan.                       |
+| `Alt+T`              | Global                             | Buka Timeline                       | Kronologi kasus.                        |
+| `Alt+C`              | Global                             | Buka Case Hub                       | Kembali ke daftar kasus.                |
+| `Alt+S`              | Global                             | Buka Settings                       | Pengaturan.                             |
+| **Interogasi**       |                                    |                                     |                                         |
+| `Enter`              | Fokus di input interogasi          | Kirim pertanyaan                    | Saat input teks aktif.                  |
+| `Shift+Enter`        | Fokus di input interogasi          | Baris baru                          | Untuk pertanyaan multi-baris.           |
+| `1–3`                | InterrogationRoom aktif            | Sodorkan bukti 1-3                  | Cepat menyodorkan bukti dari strip.     |
+| **TKP**              |                                    |                                     |                                         |
+| `1–6`                | _(planned)_ CrimeSceneViewer aktif | Pindah area 1-6                     | Navigasi cepat antar area.              |
+| `R`                  | _(planned)_ CrimeSceneViewer aktif | Reset tampilan area                 | Kembali ke tampilan default.            |
+| **Save/Load**        |                                    |                                     |                                         |
+| `Ctrl+S`             | Global                             | Quick save                          | Simpan state ke IndexedDB.              |
+| **Efek Visual**      |                                    |                                     |                                         |
+| `F12`                | Global                             | Toggle CRT effect                   | Matikan/hidupkan efek monitor.          |
+| `F11`                | Global                             | Toggle fullscreen                   | Browser fullscreen mode.                |
 
 ---
 
-### 24.3 CSS Quick Guide
+### 23.3 CSS Quick Guide
 
-#### 24.3.1 Layout & Container
+#### 23.3.1 Layout & Container
 
 | Class          | Target                   | Fungsi                                   |
 | -------------- | ------------------------ | ---------------------------------------- |
@@ -8278,7 +7982,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `#desktop`     | `<main>`                 | Area desktop (background abu-abu, ikon). |
 | `#taskbar`     | `<footer>`               | Taskbar bawah (tombol jendela, jam).     |
 
-#### 24.3.2 Windows
+#### 23.3.2 Windows
 
 | Class                     | Target     | Fungsi                                                     |
 | ------------------------- | ---------- | ---------------------------------------------------------- |
@@ -8295,7 +7999,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `.window-body.terminal`   | Modifier   | Terminal hijau CRT (background #030a02, teks #33ff33).     |
 | `.window-resize-handle`   | `<div>`    | Grip resize di sudut kanan bawah.                          |
 
-#### 24.3.3 Desktop
+#### 23.3.3 Desktop
 
 | Class                    | Target   | Fungsi                                  |
 | ------------------------ | -------- | --------------------------------------- |
@@ -8304,7 +8008,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `.desktop-icon img`      | `<img>`  | Gambar ikon (32x32, pixelated).         |
 | `.desktop-icon span`     | `<span>` | Label teks (putih, text-shadow).        |
 
-#### 24.3.4 Taskbar
+#### 23.3.4 Taskbar
 
 | Class                    | Target     | Fungsi                                          |
 | ------------------------ | ---------- | ----------------------------------------------- |
@@ -8316,7 +8020,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `.taskbar-tray`          | `<div>`    | Area tray kanan (jam).                          |
 | `.taskbar-clock`         | `<span>`   | Jam digital (font VT323, update per detik).     |
 
-#### 24.3.5 Interrogation
+#### 23.3.5 Interrogation
 
 | Class                      | Target     | Fungsi                                                               |
 | -------------------------- | ---------- | -------------------------------------------------------------------- |
@@ -8331,7 +8035,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `.evidence-strip`          | `<div>`    | Strip bukti di bawah chat.                                           |
 | `.evidence-chip`           | `<button>` | Chip bukti yang bisa diklik.                                         |
 
-#### 24.3.6 Evidence File Manager
+#### 23.3.6 Evidence File Manager
 
 | Class                     | Target  | Fungsi                                  |
 | ------------------------- | ------- | --------------------------------------- |
@@ -8342,7 +8046,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `.filemanager-file`       | `<div>` | Item file bukti (ikon + judul).         |
 | `.filemanager-addressbar` | `<div>` | Address bar (path folder saat ini).     |
 
-#### 24.3.7 Crime Scene
+#### 23.3.7 Crime Scene
 
 | Class                           | Target     | Fungsi                                      |
 | ------------------------------- | ---------- | ------------------------------------------- |
@@ -8355,7 +8059,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 | `.crimescene-notification`      | `<div>`    | Notifikasi saat menemukan sesuatu.          |
 | `.crimescene-log`               | `<div>`    | Panel log riwayat penemuan.                 |
 
-#### 24.3.8 Others
+#### 23.3.8 Others
 
 | Class                       | Target       | Fungsi                                             |
 | --------------------------- | ------------ | -------------------------------------------------- |
@@ -8371,54 +8075,54 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 
 ---
 
-### 24.4 Important File Paths
+### 23.4 Important File Paths
 
-| File              | Path                                   | Fungsi                      |
-| ----------------- | -------------------------------------- | --------------------------- |
-| Entry Point       | `/index.html`                          | HTML utama.                 |
-| Main Script       | `/assets/js/main.js`                   | Bootstrapper aplikasi.      |
-| Event Bus         | `/assets/js/core/EventBus.js`          | Pub/sub system.             |
-| Game State        | `/assets/js/core/Store.js`             | State management singleton. |
-| Case Loader       | `/assets/js/engine/CaseLoader.js`      | Memuat data kasus.          |
-| Evidence Engine   | `/assets/js/engine/EvidenceEngine.js`  | Manajemen bukti.            |
-| Solution Engine   | `/assets/js/engine/SolutionEngine.js`  | Validasi tuduhan.           |
-| Real-Time Manager | `/assets/js/engine/RealTimeManager.js` | Event real-time. *(planned)* |
-| AI Client         | `/assets/js/ai/AIClient.js`            | Komunikasi LLM.             |
-| Prompt Builder    | `/assets/js/ai/PromptBuilder.js`       | System prompt builder.      |
-| Trust System      | `/assets/js/ai/TrustSystem.js`         | Kalkulasi emosi.            |
-| Fallback Mode     | `/assets/js/ai/FallbackMode.js`        | Respons offline.            |
-| Window Manager    | `/assets/js/ui/WindowManager.js`       | Sistem windowing.           |
-| Audio Manager     | `/assets/js/utils/AudioManager.js`     | Suara prosedural.           |
-| Database Manager  | `/assets/js/utils/DatabaseManager.js`  | IndexedDB wrapper.          |
-| Markdown          | `/assets/js/utils/Markdown.js`         | Render Markdown.            |
-| Typewriter        | `/assets/js/utils/Typewriter.js`       | Efek animasi teks.          |
-| Timeline Engine   | `/assets/js/engine/TimelineEngine.js`  | Timeline kronologis.        |
-| Timeline Viewer   | `/assets/js/modules/TimelineViewer.js` | UI timeline dengan filter.  |
-| Real-Time Manager | `/assets/js/engine/RealTimeManager.js` | Event real-time. ✅ v4.2.0 |
-| CSS Variables     | `/assets/css/variables.css`            | Design tokens.              |
-| Case Index        | `/cases/index.json`                    | Registri kasus.             |
-| Case Manifest     | `/cases/case_XXX/case.json`            | Data kasus.                 |
-
----
-
-### 24.5 Console Logging Conventions
-
-| Prefix         | Modul            | Warna     | Contoh                                       |
-| -------------- | ---------------- | --------- | -------------------------------------------- |
-| `[CaseLoader]` | Case Loader      | Biru      | `CaseLoader: 12 bukti terdaftar.`            |
-| `[Evidence]`   | Evidence Engine  | Hijau     | `EvidenceEngine: Bukti 'evi_001' ditemukan.` |
-| `[AI]`         | AIClient         | Ungu      | `AIClient: Mengirim request ke char_002...`  |
-| `[Trust]`      | Trust System     | Oranye    | `TrustSystem: char_002 stress +30.`          |
-| `[RTM]`        | RealTimeManager  | Merah     | `RealTimeManager: Event rte_002 terpicu.`    |
-| `[Audio]`      | Audio Manager    | Cyan      | `AudioManager: Memainkan suara 'unlock'.`    |
-| `[DB]`         | Database Manager | Coklat    | `DatabaseManager: State tersimpan.`          |
-| `[WM]`         | Window Manager   | Abu-abu   | `WindowManager: Membuka jendela 'notes'.`    |
-| `[EV]`         | EvidenceViewer   | Hijau Muda| `EvidenceViewer: Refresh bukti terdaftar.`   |
-| `[TL]`         | TimelineViewer   | Kuning    | `TimelineViewer: Render 9 event timeline.`   |
+| File              | Path                                   | Fungsi                       |
+| ----------------- | -------------------------------------- | ---------------------------- |
+| Entry Point       | `/index.html`                          | HTML utama.                  |
+| Main Script       | `/assets/js/main.js`                   | Bootstrapper aplikasi.       |
+| Event Bus         | `/assets/js/core/EventBus.js`          | Pub/sub system.              |
+| Game State        | `/assets/js/core/Store.js`             | State management singleton.  |
+| Case Loader       | `/assets/js/engine/CaseLoader.js`      | Memuat data kasus.           |
+| Evidence Engine   | `/assets/js/engine/EvidenceEngine.js`  | Manajemen bukti.             |
+| Solution Engine   | `/assets/js/engine/SolutionEngine.js`  | Validasi tuduhan.            |
+| Real-Time Manager | `/assets/js/engine/RealTimeManager.js` | Event real-time. _(planned)_ |
+| AI Client         | `/assets/js/ai/AIClient.js`            | Komunikasi LLM.              |
+| Prompt Builder    | `/assets/js/ai/PromptBuilder.js`       | System prompt builder.       |
+| Trust System      | `/assets/js/ai/TrustSystem.js`         | Kalkulasi emosi.             |
+| Fallback Mode     | `/assets/js/ai/FallbackMode.js`        | Respons offline.             |
+| Window Manager    | `/assets/js/ui/WindowManager.js`       | Sistem windowing.            |
+| Audio Manager     | `/assets/js/utils/AudioManager.js`     | Suara prosedural.            |
+| Database Manager  | `/assets/js/utils/DatabaseManager.js`  | IndexedDB wrapper.           |
+| Markdown          | `/assets/js/utils/Markdown.js`         | Render Markdown.             |
+| Typewriter        | `/assets/js/utils/Typewriter.js`       | Efek animasi teks.           |
+| Timeline Engine   | `/assets/js/engine/TimelineEngine.js`  | Timeline kronologis.         |
+| Timeline Viewer   | `/assets/js/modules/TimelineViewer.js` | UI timeline dengan filter.   |
+| Real-Time Manager | `/assets/js/engine/RealTimeManager.js` | Event real-time. ✅ v4.2.0   |
+| CSS Variables     | `/assets/css/variables.css`            | Design tokens.               |
+| Case Index        | `/cases/index.json`                    | Registri kasus.              |
+| Case Manifest     | `/cases/case_XXX/case.json`            | Data kasus.                  |
 
 ---
 
-### 24.6 Common Debugging Tips
+### 23.5 Console Logging Conventions
+
+| Prefix         | Modul            | Warna      | Contoh                                       |
+| -------------- | ---------------- | ---------- | -------------------------------------------- |
+| `[CaseLoader]` | Case Loader      | Biru       | `CaseLoader: 12 bukti terdaftar.`            |
+| `[Evidence]`   | Evidence Engine  | Hijau      | `EvidenceEngine: Bukti 'evi_001' ditemukan.` |
+| `[AI]`         | AIClient         | Ungu       | `AIClient: Mengirim request ke char_002...`  |
+| `[Trust]`      | Trust System     | Oranye     | `TrustSystem: char_002 stress +30.`          |
+| `[RTM]`        | RealTimeManager  | Merah      | `RealTimeManager: Event rte_002 terpicu.`    |
+| `[Audio]`      | Audio Manager    | Cyan       | `AudioManager: Memainkan suara 'unlock'.`    |
+| `[DB]`         | Database Manager | Coklat     | `DatabaseManager: State tersimpan.`          |
+| `[WM]`         | Window Manager   | Abu-abu    | `WindowManager: Membuka jendela 'notes'.`    |
+| `[EV]`         | EvidenceViewer   | Hijau Muda | `EvidenceViewer: Refresh bukti terdaftar.`   |
+| `[TL]`         | TimelineViewer   | Kuning     | `TimelineViewer: Render 9 event timeline.`   |
+
+---
+
+### 23.6 Common Debugging Tips
 
 | Masalah                | Kemungkinan Penyebab             | Solusi                                                         |
 | ---------------------- | -------------------------------- | -------------------------------------------------------------- |
@@ -8435,7 +8139,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 
 ---
 
-### 24.7 Performance Checklist
+### 23.7 Performance Checklist
 
 | Item                 | Target    | Cara Mengukur                            |
 | -------------------- | --------- | ---------------------------------------- |
@@ -8449,7 +8153,7 @@ Seluruh komunikasi antar modul di RetroSleuth dilakukan melalui `EventBus`. Beri
 
 ---
 
-### 24.8 Browser Compatibility Quick Reference
+### 23.8 Browser Compatibility Quick Reference
 
 | Fitur                 | Chrome 90+ | Firefox 90+ | Safari 15+      | Edge 90+ |
 | --------------------- | ---------- | ----------- | --------------- | -------- |

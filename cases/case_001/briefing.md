@@ -25,7 +25,7 @@
 
 | Keterangan               | Detail                                      |
 | ------------------------ | ------------------------------------------- |
-| Tanggal Kejadian         | 14 Juni 1979                                |
+| Tanggal Kejadian         | 13 Juni 1979                                |
 | Perkiraan Waktu Kematian | Antara pukul 22.30 – 23.30 WIB              |
 | Tempat Kejadian          | Ruang Kerja Pribadi, Lantai 2, Wisma Angker |
 | Waktu Ditemukan          | Pukul 02.00 WIB (14 Juni 1979)              |
@@ -39,21 +39,19 @@ Pada pukul 02.00 WIB, saksi Budi (Kepala Pelayan) melakukan ronda malam rutin. S
 
 Korban ditemukan tergeletak di lantai dengan tanda-tanda keracunan akut (wajah membiru). Di dekat tubuh korban ditemukan gelas brandy pecah dengan residu cairan beraroma amandel pahit — indikasi zat sianida. Tim forensik telah mengambil sampel untuk pengujian laboratorium.
 
-Ruang kerja dalam keadaan berantakan, khususnya pada area lemari arsip yang tampak telah dibuka paksa. Sebuah jendela di sisi timur dalam keadaan sedikit terbuka. Tanah di luar basah akibat hujan deras pada malam sebelumnya.
+Ruang kerja dalam keadaan berantakan, khususnya pada area lemari arsip yang tampak telah dibuka paksa. Sebuah jendela di sisi barat dalam keadaan sedikit terbuka. Tanah di luar basah akibat hujan deras pada malam sebelumnya.
 
 ---
 
 ## IV. INDIVIDU DI TEMPAT KEJADIAN
 
-Tiga orang tercatat berada di Wisma Angker pada rentang waktu kematian:
-
-| Nama        | Usia | Hubungan dgn Korban        | Keterangan                                     |
-| ----------- | ---- | -------------------------- | ---------------------------------------------- |
-| Sari Wijaya | 29   | Istri                      | Berada di lantai 1 menurut keterangan pembantu |
-| Rahmat      | 34   | Keponakan, Akuntan Pribadi | Terakhir terlihat di ruang kerja pukul 21.15   |
-| Budi        | 61   | Kepala Pelayan             | Melakukan ronda malam dan menemukan jenazah    |
-
-Ketiganya telah dimintai keterangan awal dan tidak diperkenankan meninggalkan lokasi sebelum penyelidikan selesai.
+| Nama | Usia | Hubungan dgn Korban | Keterangan |
+|------|------|---------------------|------------|
+| Sari Wijaya | 29 | Istri | Berada di lantai 1 menurut keterangan pembantu |
+| Rahmat | 34 | Keponakan, Akuntan Pribadi | Terakhir terlihat di ruang kerja pukul 21.15 |
+| Budi | 61 | Kepala Pelayan | Melakukan ronda malam dan menemukan jenazah |
+| Rina Santoso | 26 | Mantan Sekretaris / Selingkuhan | Tercatat di buku tamu pukul 17.00 |
+| Rendy Pratama | 32 | Instruktur Berkuda / Selingkuhan Sari | Dikabarkan meninggalkan klub berkuda dalam keadaan marah pada 12 Juni |
 
 ---
 
@@ -71,8 +69,16 @@ Barang bukti lainnya masih dalam proses identifikasi di TKP.
 1. Menerima dan mempelajari Laporan Otopsi Resmi dari tim forensik.
 2. Melakukan olah TKP secara menyeluruh pada ruang kerja korban.
 3. Mengumpulkan dan mendokumentasikan semua bukti yang relevan.
-4. Melakukan interogasi terhadap Sari, Rahmat, dan Budi.
-5. Dapat meminta keterangan tambahan dari saksi lain: pembantu dapur dan satpam.
+4. Melakukan interogasi terhadap:
+   - **Sari Wijaya** (istri korban)
+   - **Rahmat** (keponakan, akuntan)
+   - **Budi** (kepala pelayan)
+   - **Rina Santoso** (mantan sekretaris, selingkuhan)
+   - **Rendy Pratama** (instruktur berkuda, selingkuhan Sari)
+   - **Sugeng** (notaris)
+   - **Marni** (pembantu dapur)
+   - **Bos Guntur** (rentenir, jika dapat dilacak)
+5. Dapat meminta keterangan tambahan dari saksi lain: satpam, staf dapur, dan karyawan klub berkuda.
 6. **Batas waktu penyelidikan: 3 (tiga) jam** sejak laporan ini diterbitkan.
 7. Mengajukan laporan akhir dan tuduhan resmi jika bukti telah mencukupi.
 

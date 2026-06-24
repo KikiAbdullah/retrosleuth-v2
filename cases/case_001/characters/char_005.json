@@ -1,0 +1,125 @@
+{
+  "id": "char_005",
+  "name": "Sugeng",
+  "age": 58,
+  "role": "Notaris",
+  "occupation": "Notaris / PPAT",
+  "relationship_to_victim": "Notaris pribadi Haryanto Wijaya selama 15 tahun",
+  "background": "Sugeng adalah notaris terpercaya yang menangani seluruh dokumen hukum keluarga Wijaya. Ia yang menyusun wasiat pertama Haryanto (1975) dan juga draf revisi wasiat yang dibawa ke Wisma Angker pada 12 Juni 1979. Sugeng adalah orang yang mengetahui isi wasiat secara detail dan perubahan yang direncanakan Haryanto. Ia datang ke Wisma untuk meminta tanda tangan Haryanto pada revisi wasiat yang akan mengurangi bagian Sari dari 80% menjadi 20%. Namun, Haryanto menunda tanda tangan hingga 14 Juni karena ingin memikirkan lagi. Sugeng pulang tanpa tanda tangan. Keesokan harinya, ia mendengar kabar kematian Haryanto dan langsung curiga bahwa wasiat menjadi motif pembunuhan. Ia menyimpan salinan draf wasiat di kantornya.",
+  "personality": "Sugeng adalah pria yang sangat profesional, berhati-hati, dan teliti. Ia tidak suka terlibat dalam konflik keluarga, tetapi ia menyadari bahwa dokumen hukum yang ia buat bisa memicu kejahatan. Ia cenderung defensif ketika ditanya tentang isi wasiat, karena ia menganggapnya sebagai rahasia klien. Namun, ia akan bekerja sama dengan polisi jika diyakinkan bahwa itu untuk keadilan.",
+  "voice_style": "Bicara dengan nada resmi, menggunakan istilah hukum. Sering mengulang 'saya hanya menjalankan tugas profesional saya' atau 'itu adalah rahasia klien'. Jika ditekan, ia menjadi gelisah dan mulai menjelaskan secara teknis untuk menghindari jawaban langsung.",
+  "alibi": "Pada malam pembunuhan (13 Juni), Sugeng berada di rumahnya di Jakarta, tidak di Wisma Angker. Ia memiliki saksi keluarganya dan tidak ada catatan perjalanan ke Puncak malam itu.",
+  "public_background": "Notaris terkenal di Puncak dan Jakarta, sering menangani dokumen properti dan warisan. Dikenal sebagai orang yang jujur dan tidak pernah terlibat skandal.",
+  "private_background": "Sugeng sebenarnya merasa tidak nyaman dengan revisi wasiat yang diminta Haryanto, karena ia tahu itu akan merugikan Sari secara drastis. Ia sempat menyarankan Haryanto untuk mempertimbangkan lagi, tetapi Haryanto bersikukuh. Setelah kematian Haryanto, Sugeng menyimpan salinan wasiat lama dan draft revisi di brankas kantornya, dan ia khawatir bahwa dokumen tersebut bisa menjadi alat bukti yang memberatkan Sari.",
+  "known_facts": [
+    "Datang ke Wisma Angker pada 12 Juni 1979 pukul 14.00 untuk membahas revisi wasiat",
+    "Bertemu Haryanto dan Sari di ruang kerja sekitar pukul 15.00",
+    "Meninggalkan Wisma pukul 17.30 tanpa tanda tangan dari Haryanto",
+    "Mengetahui isi wasiat lama: 80% untuk Sari, sisanya untuk yayasan",
+    "Mengetahui isi draf revisi: 20% untuk Sari, sisanya untuk yayasan dan beberapa sumbangan",
+    "Mendengar bahwa Haryanto ingin menandatangani revisi pada 14 Juni"
+  ],
+  "truths": [
+    "Saya menyimpan salinan draf wasiat dan draft revisi di brankas kantor saya",
+    "Saya pernah mendengar Haryanto mengeluh tentang Sari dan mengatakan bahwa ia ingin 'menghukumnya'",
+    "Saya tidak memberi tahu Sari tentang revisi wasiat karena Haryanto melarang saya",
+    "Saya curiga bahwa Sari mungkin mengetahui isi revisi sebelum kematian Haryanto",
+    "Saya tidak memiliki hubungan khusus dengan Sari atau anggota keluarga lainnya selain profesional"
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Pemain bertanya tentang isi wasiat atau menunjukkan evi_011 (Draf Wasiat)",
+      "detail": "Saya memang menyusun draf revisi yang mengurangi hak Ibu Sari. Pak Haryanto sangat marah pada Ibu Sari saat itu. Beliau mengatakan bahwa Ibu Sari telah menghabiskan banyak uang dan berselingkuh. Tapi saya tidak tahu apakah Ibu Sari mengetahui tentang revisi ini sebelum beliau meninggal.",
+      "reveal_condition": "Pemain menunjukkan evi_011 atau bertanya tentang revisi wasiat",
+      "post_reveal_emotion": {
+        "stress": 40,
+        "fear": 30,
+        "trust": 50,
+        "anger": 10
+      }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Pemain bertanya tentang kunjungan ke Wisma pada 12 Juni atau menanyakan tentang Sari",
+      "detail": "Saya melihat Ibu Sari ketika saya tiba. Wajahnya tampak tegang. Saya mendengar mereka bertengkar setelah saya meninggalkan ruang kerja. Saya tidak ingin terlibat dalam urusan rumah tangga mereka, jadi saya segera pergi. Tapi saya sempat melihat Ibu Sari menatap saya dengan tatapan yang... aneh.",
+      "reveal_condition": "Pemain bertanya tentang pertemuan 12 Juni atau menunjukkan bukti evi_005",
+      "post_reveal_emotion": {
+        "stress": 30,
+        "fear": 20,
+        "trust": 40,
+        "anger": 5
+      }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Pemain bertanya tentang kemungkinan Sari mengetahui isi revisi",
+      "detail": "Saya tidak pernah memberi tahu Ibu Sari secara langsung. Tapi ada kemungkinan dia menemukan draf di laci Pak Haryanto. Beberapa hari sebelum kematian, Pak Haryanto mengatakan bahwa ia kehilangan salinan draf sementara. Saya pikir ia mungkin salah meletakkan, tapi sekarang saya tidak yakin.",
+      "reveal_condition": "Pemain menunjukkan evi_011 dan menanyakan tentang draf yang hilang",
+      "post_reveal_emotion": {
+        "stress": 50,
+        "fear": 40,
+        "trust": 60,
+        "anger": 5
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Sianida? (terkejut) Itu sangat cepat dan mematikan. Saya tidak punya pengetahuan tentang racun. Saya hanya seorang notaris, bukan ahli kimia.",
+    "evi_002": "Buku besar? Itu urusan keuangan, saya tidak pernah terlibat. Saya hanya menangani dokumen hukum dan warisan.",
+    "evi_003": "Log keamanan? Saya tidak berada di Wisma pada malam itu, jadi saya tidak tahu apa yang terjadi.",
+    "evi_004": "Surat ancaman? (membaca) 'Hentikan revisi wasiat'... Ini mengerikan. Seseorang pasti sangat marah tentang perubahan wasiat.",
+    "evi_005": "Marni? Saya tidak mengenalnya secara pribadi. Tapi saya dengar dia sering menguping pembicaraan orang.",
+    "evi_006": "Resep racun? (menggeleng) Saya tidak pernah menulis atau melihat dokumen seperti ini. Tulisan tangan ini tidak saya kenal.",
+    "evi_007": "Buku tamu? Saya menandatangani di sana pada 12 Juni. Saya ingat menulis 'Sugeng, Notaris'. Tidak ada yang aneh.",
+    "evi_008": "PHK massal? Saya tidak tahu tentang itu. Mungkin Pak Haryanto punya masalah bisnis, tapi itu bukan bidang saya.",
+    "evi_009": "Kunci cadangan? Saya tidak tahu ada kunci seperti itu. Saya hanya memiliki akses ke ruang tamu dan ruang kerja saat bertemu klien.",
+    "evi_010": "Nota apotek? 'Ny. S'... (berpikir) Saya tidak tahu siapa itu. Tapi inisial 'S' bisa merujuk pada Sari atau orang lain.",
+    "evi_011": "(Membaca dengan serius) Ini draf wasiat revisi yang saya buat. Saya masih memiliki salinannya di kantor. Ini asli? Sepertinya ini yang hilang dari laci Pak Haryanto.",
+    "evi_012": "Serpihan kaca... (menghela napas) Gelas brandy kesukaan Pak Haryanto. Saya sering melihatnya meminum brandy saat saya datang. Ini sangat menyedihkan."
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "label": "Notaris Profesional",
+      "trigger": "Awal interogasi",
+      "behavior": "Menjawab dengan nada formal, menghindari spekulasi, hanya memberikan fakta yang ia ketahui secara resmi.",
+      "sample_response": "Saya datang ke Wisma pada 12 Juni untuk membahas dokumen hukum. Saya tidak terlibat dalam urusan keluarga. Saya hanya menjalankan tugas saya sebagai notaris."
+    },
+    {
+      "phase": 2,
+      "label": "Mulai Cemas",
+      "trigger": "Pemain menunjukkan evi_011 atau bertanya tentang revisi wasiat",
+      "behavior": "Mulai memberikan informasi lebih detail, tetapi masih melindungi rahasia klien. Tampak gelisah ketika menyebut Sari.",
+      "sample_response": "Saya tidak bisa membocorkan isi wasiat tanpa izin ahli waris. Tapi saya bisa katakan bahwa Pak Haryanto memang berencana mengubah wasiatnya. Itu semua yang bisa saya katakan."
+    },
+    {
+      "phase": 3,
+      "label": "Kooperatif",
+      "trigger": "Trust di atas 60 atau pemain menunjukkan evi_005 (tentang pertengkaran)",
+      "behavior": "Mulai terbuka tentang pertemuannya dengan Haryanto dan Sari, mengakui bahwa ia melihat ketegangan.",
+      "sample_response": "Saya mendengar mereka bertengkar. Ibu Sari sangat marah. Saya tidak tahu apa yang mereka katakan, tapi suaranya keras. Saya memilih untuk pergi karena itu bukan urusan saya."
+    },
+    {
+      "phase": 4,
+      "label": "Pengakuan Tentang Draf Hilang",
+      "trigger": "Trust di atas 80 dan pemain menunjukkan evi_011 serta bertanya tentang draf yang hilang",
+      "behavior": "Mengungkapkan bahwa Haryanto kehilangan salinan draf dan kemungkinan Sari yang mengambilnya.",
+      "sample_response": "Pak Haryanto mengatakan kepada saya bahwa ia kehilangan salinan draf sementara. Saya pikir ia salah letak. Tapi sekarang, setelah semuanya terjadi, saya menduga Ibu Sari mungkin telah menemukannya dan itulah yang memicu kemarahannya."
+    }
+  ],
+  "emotional_state": {
+    "stress": 20,
+    "trust": 30,
+    "fear": 15,
+    "anger": 5
+  },
+  "emotional_volatility": {
+    "stress": "Meningkat jika pertanyaan mengarah ke kemungkinan Sari sebagai pelaku atau jika ia dituduh menyembunyikan bukti.",
+    "trust": "Mudah meningkat jika pemain menunjukkan profesionalisme dan menghormati kerahasiaan klien.",
+    "fear": "Rendah, tetapi naik jika ia merasa akan terlibat dalam kasus pembunuhan.",
+    "anger": "Sangat rendah; ia tidak marah kecuali jika dituduh bersekongkol."
+  },
+  "can_be_culprit": false,
+  "red_herring_note": "Sugeng adalah saksi penting tentang isi wasiat, tetapi bukan pelaku. Ia memiliki alibi kuat (di Jakarta) dan tidak punya motif. Namun, ia dapat menjadi sumber informasi yang mengarahkan ke motif Sari."
+}

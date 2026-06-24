@@ -218,250 +218,66 @@ clean modern background, studio lighting
 - No people visible — empty crime scene
 ```
 
----
+### Daftar Alat Bukti Foto TKP "Malam di Wisma Angker"
 
-### 5. TKP Utama — Ruang Kerja Haryanto (Wide Shot)
-**File:** `crimescene/tkp_overview.png`
-**Ukuran:** 800x600px
+#### 1. FOTO ESTABLISHING (Suasana Keseluruhan Ruangan)
+- **Kode Foto:** `PHOTO_001`
+- **Deskripsi Visual:** Sudut mata burung dari atas (atau dari arah pintu masuk) menunjukkan seluruh ruang kerja. Terlihat meja kayu jati besar di tengah, kursi terguling, tumpukan dokumen berantakan di lantai, dan lemari arsip yang lacinya terbuka.
+- **Keterangan Forensik:** Mendokumentasikan kondisi ruangan secara utuh sebelum ada yang tersentuh. Menunjukkan bahwa tidak ada perkelahian besar (barang tidak terlalu berserakan) kecuali area di sekitar meja dan lemari arsip.
+- **Prompt AI (jika pakai generator):** _"Top-down wide shot of a 1970s classic Indonesian colonial style private study room. Wooden desk in the center, a fallen office chair, a Persian carpet on the floor, files scattered, a mahogany filing cabinet with open drawers. Vintage police crime scene photography, grainy, 35mm film, flash lighting, sepia-green tint."_
 
-**Prompt:**
-```
-1970s forensic crime scene photograph, vintage flash camera, harsh white flash mixed with warm ambient light,
-Kodak Tri-X 400 film grain pushed to 800, dramatic Dutch angle composition,
-desaturated warm amber tones, strong vignette, photorealistic, highly detailed,
+#### 2. FOTO JENAZAH & POSISI TUBUH (Mid-Range)
+- **Kode Foto:** `PHOTO_002`
+- **Deskripsi Visual:** Posisi jenazah Haryanto Wijaya tergeletak di sisi kanan meja (dekat kursi). Tubuh membujur dengan posisi miring ke kanan, kepala menghadap ke lantai, kaki sedikit tertekuk. Tangan kanan terentang ke depan.
+- **Keterangan Forensik:** Foto ini merekonstruksi bahwa korban jatuh dari kursi setelah kejang-kejang (posisi jatuh ke depan dan miring). Jarak antara tubuh dan meja minum (45 cm) menunjukkan korban sempat berusaha meraih sesuatu sebelum ambruk.
+- **Prompt AI:** _"Dead body of an elderly man in a white shirt lying on a dark wooden floor, slumped beside a desk. Body is in a lateral recumbent position, right hand outstretched. Indonesian police crime scene photo, 1970s, black and white film, harsh flash shadow."_
 
-wide shot of luxurious 1970s Indonesian home office crime scene,
-large antique mahogany desk with scattered papers and documents,
-shattered crystal brandy glass on dark red Persian rug near desk leg,
-chalk body outline on rug between desk and leather chair,
-green banker's lamp still glowing on desk casting eerie green-tinted light,
-large wooden window on left wall slightly open with brown curtains billowing,
-brandy bottle (Hennessy VSOP) and silver tray with one intact glass on desk,
-yellow numbered evidence markers (cards 1-8) placed around room,
-police measuring tape visible near body outline,
-harsh flash creating stark white highlights with deep warm shadows,
-heavy film grain, strong vignette, desaturated amber tones,
-composition showing locked room mystery — no visible entry point,
-1970s Indonesian colonial mansion interior, noir crime scene aesthetic
-```
+#### 3. FOTO CLOSE-UP WAJAH KORBAN (Bukti Racun)
+- **Kode Foto:** `PHOTO_003`
+- **Deskripsi Visual:** Foto close-up wajah Haryanto (ekspresi tegang). Bibir dan ujung jari terlihat membiru (sianosis). Ada sedikit busa putih kering di sudut mulut.
+- **Keterangan Forensik:** **Bukti fisik penyebab kematian.** Sianosis (kebiruan) dan busa di mulut adalah indikasi klasik keracunan sianida (KCN) yang bekerja sangat cepat (sesak napas akut). Ini memperkuat temuan `evi_001` (Laporan Otopsi).
+- **Prompt AI:** _"Extreme close-up of a deceased 60-year-old man's face. Cyanosis visible, lips and fingertips turning bluish-white. Slight white foam at the corner of the mouth. 1970s crime scene macro photography, sharp focus, harsh camera flash."_
 
-**Negative prompt:**
-```
-modern office, bright even lighting, clean organized space, people visible,
-colorful decorations, daylight, cartoon, anime, clean sharp digital look
-```
+#### 4. FOTO SERPIHAN GELAS & RESIDU (Close-Up)
+- **Kode Foto:** `PHOTO_004` _(Menguatkan `evi_012`)_
+- **Deskripsi Visual:** Close-up serpihan gelas kristal di atas karpet Persia merah. Terlihat noda cairan kecoklatan di beberapa pecahan dan di sekitar karpet.
+- **Keterangan Forensik:** Mendokumentasikan posisi akhir gelas setelah pecah. Cairan kecoklatan (brandy + sianida) yang terserap karpet menjadi sampel toksikologi sekunder. Letak serpihan menunjukkan gelas pecah saat terjatuh dari tangan korban, bukan dilempar (serpihan terkonsentrasi di satu titik).
+- **Prompt AI:** _"Macro shot of broken crystal glass shards on a dark red Persian rug. Brownish liquid stains soaked into the carpet fibers. Forensic ruler placed beside the shards. High contrast, 1970s film grain."_
 
----
+#### 5. FOTO JEJAK LUMPUR DI AMBANG JENDELA (TKP Alternatif)
+- **Kode Foto:** `PHOTO_005` _(Menguatkan `evi_003` / Pengakuan Rahmat)_
+- **Deskripsi Visual:** Sudut ambang jendela kayu sisi timur. Terlihat bekas lumpur coklat tua mengering di kayu dan sedikit di lantai dalam ruangan. Ada bekas goresan di cat jendela (seperti gesekan sepatu/sandal).
+- **Keterangan Forensik:** Membuktikan adanya **penyusup yang masuk/keluar melalui jendela**. Jejak ini akan dicocokkan dengan sepatu Rahmat (yang basah karena hujan deras malam itu). Ini adalah peta petunjuk (clue) penting bahwa alibi Rahmat (di kamar) adalah bohong.
+- **Prompt AI:** _"Close-up of a wooden window sill with dried muddy footprints. Scratches on the wooden paint. Rain outside visible through the glass. 1970s detective evidence photo, yellowish lighting."_
 
-### 6. TKP Detail — Gelas Brandy Pecah (Close-up)
-**File:** `crimescene/tkp_glass_detail.png`
-**Ukuran:** 600x400px
+#### 6. FOTO KUNCI CADANGAN DI BAWAH KARPET
+- **Kode Foto:** `PHOTO_006` _(Menguatkan `evi_009`)_
+- **Deskripsi Visual:** Sudut karpet di dekat kaki meja kerja yang terlipat. Sebuah anak kunci kuningan kecil (panjang 4,5 cm) terlihat terselip di antara lipatan karpet.
+- **Keterangan Forensik:** Bukti fisik bahwa ada yang sengaja menyembunyikan kunci akses ke laci rahasia. Sidik jari Sari ditemukan di kunci ini (dalam `evi_009`), membuktikan bahwa ia tidak hanya berada di ruangan, tetapi juga mengutak-atik laci setelah kematian Haryanto (atau saat Haryanto sekarat).
+- **Prompt AI:** _"A small brass key partially hidden under the fold of a thick red carpet. Dust particles visible. Macro shot, 1970s evidence photography."_
 
-**Prompt:**
-```
-1970s forensic crime scene close-up photograph, macro lens, harsh side lighting,
-Kodak Tri-X 400 film grain, extreme detail, shallow depth of field,
-desaturated warm amber tones, photorealistic,
+#### 7. FOTO LACI LEMARI ARSIP YANG DIUSIK
+- **Kode Foto:** `PHOTO_007` _(Menguatkan `evi_004` & `evi_011`)_
+- **Deskripsi Visual:** Lemari arsip kayu dengan 3 laci. Laci kedua terlihat setengah terbuka secara paksa (ada sedikit serpihan kayu di sisi lubang kunci). Laci ketiga terlihat menyendok keluar.
+- **Keterangan Forensik:** Mendokumentasikan bahwa seseorang (kemungkinan Sari atau Budi) terburu-buru mencari dokumen penting (Surat Ancaman dan Draf Wasiat) setelah pembunuhan. Ini memperkuat motif "warisan" karena dokumen yang dicari adalah yang berkaitan dengan wasiat.
+- **Prompt AI:** _"Wooden filing cabinet drawer forced open, wood splinters near the keyhole. Papers sticking out messily. 1970s office furniture, dark lighting, crime scene evidence."_
 
-extreme close-up of shattered crystal brandy glass on dark red Persian carpet,
-8 large glass shards (5-8cm) and 15 small fragments (1-3cm) scattered in radial pattern,
-amber brandy liquid stain spreading irregularly into carpet fibers,
-visible black fingerprint dust powder on several glass shards,
-yellow evidence marker card numbered "12" placed next to largest shard,
-dramatic raking side light from desk lamp creating long shadows from each shard,
-glass fragments showing light refraction with warm amber and green tints,
-carpet fiber detail visible — deep red Persian wool with gold thread pattern,
-heavy film grain, macro photography style, shallow depth of field
-focusing on largest shard with visible fingerprint smudge on inner surface,
-forensic scale ruler partially visible at frame edge
-```
+#### 8. FOTO BOTOL BRANDY & BAKI MINUMAN (Sisa TKP)
+- **Kode Foto:** `PHOTO_008`
+- **Deskripsi Visual:** Foto baki perak di atas meja kecil (meja minum). Terdapat satu botol brandy (berisi setengah), satu gelas kristal bersih (tidak terpakai, berada di baki), dan serbet.
+- **Keterangan Forensik:** **Bukti kunci yang membuktikan kebohongan Budi!** Sari membawa 2 gelas (`evi_013`), tetapi di foto ini hanya ada 1 gelas bersih di baki. Faktanya, gelas kedua (yang dibersihkan Budi) seharusnya ada di sini. Ini membuktikan ada barang bukti yang **dipindahkan/dihilangkan** oleh seseorang (dalam hal ini Budi) setelah pembunuhan, yang mengarah ke pengakuan Budi di Fase 4.
+- **Prompt AI:** _"Silver serving tray on a side table, containing a half-full brandy decanter, one clean empty crystal glass, and a folded white napkin. Another spot on the tray is empty where a glass should be. Flash photography."_
 
-**Negative prompt:**
-```
-modern glass, clean surface, bright even lighting, cartoon, anime,
-colorful background, people visible, new carpet, plastic texture
-```
+### ✨ Tips Membuat Foto-foto Ini (Jika Pakai AI Generator)
+Agar terlihat otentik sebagai **dokumentasi polisi tahun 1979**, pastikan gaya visualnya memiliki ciri-ciri berikut:
 
----
+- **Grainy (Berbutir)**: Tambahkan efek film ISO tinggi.
+- **Warna**: Dominasi warna hijau/kuning sepia (khas film Kodak 70-an) atau hitam-putih kontras tinggi.
+- **Flash**: Sumber cahaya terlihat keras dari satu arah (dari kamera polisi).
+- **Penggaris/Skala**: Tambahkan penggaris putih kecil atau segitiga ukur di samping barang bukti (seperti di `PHOTO_004`) untuk menunjukkan skala forensik.
+- **Sudut**: Hindari sudut yang terlalu artistik. Ambil sudut **90 derajat** (top-down) atau **45 derajat** (side-angle) seperti yang dilakukan petugas identifikasi.
 
-### 7. TKP Detail — Jendela Terbuka (Medium Shot)
-**File:** `crimescene/tkp_window.png`
-**Ukuran:** 600x800px
-
-**Prompt:**
-```
-1970s forensic crime scene photograph, large wooden window slightly ajar,
-Kodak Tri-X 400 film grain, dramatic moonlight mixed with dark interior,
-desaturated cool-warm contrast, photorealistic, highly detailed,
-
-large colonial-style wooden window (1.5m x 1.2m) open approximately 30cm,
-heavy brown velvet curtain billowing gently inward from night breeze,
-visible fresh scratch marks on interior window frame (pry marks from climbing),
-muddy shoe print on white-painted windowsill — size 42 European, tread pattern visible,
-small torn piece of dark blue fabric caught on rusty window latch,
-moonlight streaming through gap creating dramatic light beam into dark room,
-overgrown garden visible outside — tropical bushes and tall grass,
-yellow evidence marker card numbered "5" leaning against window frame,
-interior wall shows peeling white paint revealing older green layer,
-heavy film grain, strong vignette, high contrast between cool blue moonlight
-and warm dark interior, 1970s Indonesian colonial architecture
-```
-
-**Negative prompt:**
-```
-modern window, aluminum frame, clean paint, daytime, bright colors,
-cartoon, anime, people visible, new construction, glass door
-```
-
----
-
-### 8. TKP Detail — Meja Kerja (Medium Close-up)
-**File:** `crimescene/tkp_desk.png`
-**Ukuran:** 800x600px
-
-**Prompt:**
-```
-1970s forensic crime scene photograph, close-up of antique mahogany desk surface,
-Kodak Tri-X 400 film grain, dramatic green-tinted desk lamp light mixed with flash,
-desaturated warm amber tones, photorealistic, highly detailed,
-
-antique mahogany desk surface (1.5m x 0.8m) with scattered papers and documents,
-open main drawer (left side) with visible dust outline where thick book was removed,
-Hennessy VSOP brandy bottle (250ml remaining) with condensation on glass,
-silver tray with one intact crystal brandy glass (space where second glass should be),
-gold fountain pen with "HW" monogram engraved on cap,
-vintage black rotary telephone with receiver slightly off hook (cord dangling),
-green glass banker's lamp casting eucalyptus-tinted light on desk surface,
-yellow evidence markers numbered "1" through "4" placed at item locations,
-desk surface shows ring stains from previous glasses and scattered ash from cigar,
-heavy film grain, warm shadows pooling in desk corners,
-composition showing evidence of struggle — papers scattered, drawer forced
-```
-
-**Negative prompt:**
-```
-modern desk, computer, keyboard, clean organized surface, bright even lighting,
-cartoon, anime, people visible, white desk, minimalist design
-```
-
----
-
-### 9. TKP Detail — Lemari Arsip (Medium Shot)
-**File:** `crimescene/tkp_cabinet.png`
-**Ukuran:** 600x800px
-
-**Prompt:**
-```
-1970s forensic crime scene photograph, four-drawer metal filing cabinet,
-Kodak Tri-X 400 film grain, single overhead fluorescent light creating harsh shadows,
-desaturated gray-brown tones, photorealistic, highly detailed,
-
-gray metal filing cabinet (1.3m tall, 0.5m wide) with four drawers,
-third drawer from top forced open with visible pry marks around lock mechanism,
-scratches on paint showing tool entry point, lock bent and deformed,
-scattered manila folders and documents on floor below drawer,
-yellow evidence marker card numbered "8" placed on floor near scattered papers,
-cabinet shows age — slight rust on edges, paint chipped at base,
-single overhead light creating dramatic shadow of cabinet on wall behind,
-heavy film grain, strong vignette, detail shot showing tool marks on lock,
-1970s Indonesian office furniture, institutional gray-green paint color
-```
-
-**Negative prompt:**
-```
-modern filing cabinet, clean surface, bright lighting, cartoon, anime,
-people visible, new furniture, white cabinet, modern office
-```
-
----
-
-### 10. TKP Detail — Karpet & Kunci (Macro Close-up)
-**File:** `crimescene/tkp_carpet_key.png`
-**Ukuran:** 600x400px
-
-**Prompt:**
-```
-1970s forensic crime scene extreme close-up, macro lens, dramatic raking side light,
-Kodak Tri-X 400 film grain, shallow depth of field, desaturated warm amber tones,
-photorealistic, highly detailed,
-
-edge of luxurious dark red Persian carpet slightly lifted by investigator's gloved hand,
-revealing small antique brass key (4.5cm) hidden underneath carpet fold,
-key shows wear on third tooth pattern, brass patina indicating age,
-yellow evidence marker card numbered "9" placed adjacent to key,
-carpet fiber detail visible — hand-knotted wool with gold thread border pattern,
-wet stain on carpet edge (dried alcohol residue showing darker ring),
-carpet fiber disturbance pattern showing something was deliberately hidden,
-dramatic raking side light at low angle showing every fiber and texture detail,
-heavy film grain, macro photography style, shallow depth of field focusing on key,
-forensic scale reference partially visible, warm amber and deep red color palette
-```
-
-**Negative prompt:**
-```
-modern carpet, clean floor, bright even lighting, cartoon, anime,
-people visible, new synthetic carpet, plastic texture, colorful pattern
-```
-
----
-
-### 11. TKP Detail — Sidik Jari pada Gelas (Extreme Macro)
-**File:** `crimescene/tkp_fingerprint.png`
-**Ukuran:** 400x400px
-
-**Prompt:**
-```
-1970s forensic crime scene extreme macro photograph, fingerprint analysis,
-Kodak Tri-X 400 film grain, harsh directional lighting, black and white with warm tint,
-photorealistic, highly detailed,
-
-extreme close-up of crystal glass shard with visible fingerprint in black powder,
-fingerprint shows clear loop pattern (ulnar loop) with visible ridge detail,
-glass shard approximately 6cm long with sharp edges,
-black fingerprint dust powder contrasting against clear glass surface,
-partial fingerprint visible — approximately 1.5cm x 1.5cm area,
-ridge endings and bifurcations clearly visible under magnification,
-yellow evidence marker partially visible at frame edge,
-harsh directional light at 45-degree angle creating shadow in each ridge valley,
-heavy film grain, extreme shallow depth of field,
-forensic photography style, scientific documentation aesthetic
-```
-
-**Negative prompt:**
-```
-modern glass, clean surface, color fingerprint, cartoon, anime,
-people visible, digital scanner, bright even lighting
-```
-
----
-
-### 12. TKP Detail — Amplop Surat Ancaman (Close-up)
-**File:** `crimescene/tkp_threat_letter.png`
-**Ukuran:** 500x400px
-
-**Prompt:**
-```
-1970s forensic crime scene close-up photograph, evidence on wooden surface,
-Kodak Tri-X 400 film grain, warm desk lamp lighting from above,
-desaturated warm amber tones, photorealistic, highly detailed,
-
-close-up of threatening letter on mahogany desk surface,
-letter constructed from cut newspaper letters (different fonts and sizes) glued to off-white HVS paper,
-text reads "HENTIKAN REVISI WASIAT ATAU NYAWAMU TARUHANNYA" in capital letters,
-paper shows slight yellowing at edges, glue residue visible around cut letters,
-some letters identifiable as from "Suara Rakyat" newspaper (visible masthead fragments),
-brown envelope (A4 size, no stamp, no return address) placed beside letter,
-yellow evidence marker card numbered "4" at corner,
-warm desk lamp casting soft shadow of envelope across letter,
-heavy film grain, shallow depth of field focusing on center text,
-1970s Indonesian newspaper cuttings visible, Times New Roman and serif fonts mixed
-```
-
-**Negative prompt:**
-```
-modern paper, printed text, computer font, clean surface, bright lighting,
-cartoon, anime, people visible, white background, digital text
-```
+Dengan 8 foto ini, pemain game akan memiliki **barang bukti visual** yang sangat kuat untuk melengkapi dokumen teks yang sudah ada!
 
 ---
 

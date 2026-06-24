@@ -1,0 +1,124 @@
+{
+  "id": "char_007",
+  "name": "Rendy Pratama",
+  "age": 32,
+  "role": "Instruktur Berkuda / Selingkuhan Sari",
+  "occupation": "Instruktur Berkuda di Klub Elit Puncak",
+  "relationship_to_victim": "Tidak langsung; menjalin hubungan asmara rahasia dengan Sari Wijaya (istri korban)",
+  "background": "Rendy adalah instruktur berkuda di klub elit Puncak. Ia bertemu Sari saat Sari mulai mengambil kelas berkuda pada awal 1979 sebagai pelarian dari pernikahan yang tidak bahagia. Hubungan mereka berkembang menjadi perselingkuhan yang serius. Rendy tahu Sari adalah istri dari pengusaha kaya, tetapi ia percaya Sari benar-benar mencintainya. Ia tidak tahu bahwa Sari juga menggunakannya sebagai jalan keluar dari kemiskinan. Ketika Sari memintanya untuk menemuinya pada malam 13 Juni setelah kejadian di Wisma, Rendy menolak karena sudah terlambat dan ia curiga ada yang tidak benar. Ia tidak pernah melapor ke polisi karena takut terlibat.",
+  "personality": "Charming, percaya diri, tetapi naif dalam urusan cinta. Sering menggunakan garis-garis romantis. Tidak suka konfrontasi dan lebih memilih menghindari masalah. Cemburu buta terhadap Sari, tetapi tidak berani menghadapinya langsung.",
+  "voice_style": "Bicara dengan nada santai dan romantis. Sering menggunakan kata 'sayang' atau 'cantik'. Jika terpojok, suaranya menjadi defensif dan ia mulai bercerita panjang untuk membenarkan tindakannya.",
+  "alibi": "Mengaku berada di klub berkuda sampai pukul 21.00, lalu pulang ke apartemennya di Jakarta. Tidak ada saksi yang bisa membuktikan kehadirannya di klub setelah pukul 21:00. Ia menolak permintaan Sari untuk menemuinya pada pukul 23:15 dengan alasan sudah terlambat.",
+  "public_background": "Instruktur berkuda yang populer di kalangan elit Puncak dan Jakarta. Dikenal sebagai pria tampan dan ramah. Tidak diketahui publik bahwa ia menjalin hubungan dengan Sari.",
+  "private_background": "Berasal dari keluarga sederhana. Berjuang untuk mencapai posisinya saat ini. Hubungan dengan Sari adalah kali pertama ia berhubungan dengan wanita yang sudah menikah. Ia benar-benar mencintai Sari, tetapi tidak tahu bahwa Sari mungkin hanya memanfaatkannya.",
+  "known_facts": [
+    "Instruktur berkuda di Klub Elit Puncak sejak 1977",
+    "Sari Wijaya adalah salah satu klien tetapnya",
+    "Mereka sering bertemu di hotel-hotel di Jakarta dan Bandung",
+    "Rendy menolak permintaan Sari untuk menemuinya pada malam 13 Juni",
+    "Tidak ada saksi yang membuktikan kehadirannya di klub setelah pukul 21:00"
+  ],
+  "truths": [
+    "Saya mencintai Sari, tetapi saya tahu dia istri orang kaya",
+    "Kami bertemu di hotel beberapa kali sebulan",
+    "Malam itu, Sari menelepon saya dan meminta saya datang ke Wisma. Saya tolak karena sudah terlambat dan saya curiga ada yang tidak benar",
+    "Saya tidak tahu apa yang terjadi di Wisma. Saya hanya tahu Sari terdengar panik di telepon",
+    "Saya takut terlibat dalam kasus ini. Saya tidak mau orang tahu saya selingkuhan istri orang kaya"
+  ],
+  "secrets": [
+    {
+      "id": "secret_001",
+      "trigger_condition": "Detektif menyebut nama 'Rendy' atau 'berkuda' atau bertanya tentang hubungan Sari dengan pria lain",
+      "detail": "(Wajahnya memerah) Saya... saya memang kenal Ibu Sari. Dia klien saya di klub berkuda. Tapi itu saja, Pak. Tidak ada yang lebih.",
+      "reveal_condition": "Trust minimal 40 ATAU detektif menunjukkan bukti yang menghubungkan Rendy dengan Sari",
+      "post_reveal_emotion": {
+        "stress": 50,
+        "fear": 60,
+        "anger": 10,
+        "trust": 30
+      }
+    },
+    {
+      "id": "secret_002",
+      "trigger_condition": "Trust di atas 50 DAN detektif bertanya lebih detail tentang hubungan dengan Sari",
+      "detail": "(Menunduk) Baik, saya akui. Saya dan Ibu Sari... kami lebih dari sekadar instruktur dan klien. Kami sering bertemu. Dia bilang dia tidak bahagia dengan suaminya. Dia bilang dia mencintai saya. Tapi saya tahu... saya tahu dia istri orang kaya. Saya pikir kami bisa terus seperti ini.",
+      "reveal_condition": "Trust di atas 50 DAN detektif bertanya 'Apakah kamu mencintai dia?'",
+      "post_reveal_emotion": {
+        "stress": 70,
+        "fear": 50,
+        "anger": 5,
+        "trust": 50
+      }
+    },
+    {
+      "id": "secret_003",
+      "trigger_condition": "Trust di atas 70 DAN detektif bertanya tentang malam 13 Juni",
+      "detail": "(Gemetar) Malam itu... Saya menelepon Sari. Dia terdengar panik. Dia bilang ada yang terjadi di Wisma. Dia minta saya datang. Saya tolak. Saya bilang sudah terlambat dan saya harus kerja besok. Saya dengar dia menangis. Tapi saya tidak datang. Saya pikir... saya pikir dia hanya dramatis seperti biasa. Saya tidak tahu... saya tidak tahu suaminya meninggal.",
+      "reveal_condition": "Trust di atas 70 DAN detektif menunjukkan bukti bahwa mobil Sari keluar Wisma pukul 23:15",
+      "post_reveal_emotion": {
+        "stress": 80,
+        "fear": 70,
+        "anger": 10,
+        "trust": 70
+      }
+    }
+  ],
+  "reactions_to_evidence": {
+    "evi_001": "Sianida? Saya tidak tahu apa-apa tentang racun. Saya hanya instruktur berkuda.",
+    "evi_002": "Buku besar? Itu urusan keuangan. Saya tidak pernah lihat.",
+    "evi_003": "Log keamanan? Saya tidak tahu. Saya tidak pernah ke Wisma Angker.",
+    "evi_004": "Surat ancaman? 'Hentikan revisi wasiat'? Saya tidak tahu soal wasiat. Saya hanya tahu Sari tidak bahagia dengan suaminya.",
+    "evi_005": "Laporan saksi Marni? Saya tidak kenal dia. Tapi kalau dia bilang lihat Sari turun dengan wajah marah... mungkin benar. Sari memang sering marah setelah bertengkar dengan suaminya.",
+    "evi_006": "Resep racun? Saya tidak kenal tulisan ini. Bukan tulisan saya.",
+    "evi_007": "Buku tamu? Saya tidak pernah tanda tangan di sana. Saya tidak pernah ke Wisma.",
+    "evi_008": "Kliping koran? Saya tidak baca koran. Saya sibuk di klub.",
+    "evi_009": "Kunci cadangan? Saya tidak tahu ada kunci seperti itu.",
+    "evi_010": "Nota apotek? 'Ny. S'? Saya tidak tahu siapa itu. Bukan saya.",
+    "evi_011": "Draf wasiat? Saya tidak tahu soal wasiat. Tapi kalau Sari bilang dia akan dapat banyak uang kalau suaminya meninggal... mungkin benar. Dia sering bilang begitu.",
+    "evi_012": "Serpihan kaca? Saya tidak pernah ke ruang kerja di Wisma. Saya tidak tahu."
+  },
+  "interrogation_phases": [
+    {
+      "phase": 1,
+      "label": "Pria Santai",
+      "trigger": "Awal interogasi",
+      "behavior": "Bicara dengan nada santai, mencoba tampak tidak terlibat. Menjawab dengan singkat.",
+      "sample_response": "Saya hanya instruktur berkuda, Pak. Saya tidak tahu apa-apa soal kejadian di Wisma. Saya tidak kenal Pak Haryanto."
+    },
+    {
+      "phase": 2,
+      "label": "Mulai Defensif",
+      "trigger": "Detektif menyebut nama Sari atau bertanya tentang hubungan dengannya",
+      "behavior": "Mulai defensif, mengakui kenalan dengan Sari tetapi menyangkal ada hubungan lebih.",
+      "sample_response": "Baik, saya kenal Ibu Sari. Dia klien saya. Tapi itu saja. Tidak ada yang lebih."
+    },
+    {
+      "phase": 3,
+      "label": "Mengaku Terbatas",
+      "trigger": "Trust di atas 60 ATAU detektif menunjukkan bukti yang menghubungkan Rendy dengan Sari",
+      "behavior": "Mengaku perselingkuhan, tetapi menyangkal terlibat dalam pembunuhan.",
+      "sample_response": "Baik, saya akui. Saya dan Sari... kami lebih dari sekadar instruktur dan klien. Tapi saya tidak membunuh suaminya. Saya tidak pernah ke Wisma."
+    },
+    {
+      "phase": 4,
+      "label": "Saksi Emosional",
+      "trigger": "Trust di atas 80 DAN detektif bertanya tentang telepon malam itu",
+      "behavior": "Mengungkapkan bahwa Sari meneleponnya malam itu dan meminta datang. Menyesal tidak datang.",
+      "sample_response": "(Menunduk) Saya menelepon Sari malam itu. Dia terdengar panik. Dia minta saya datang. Saya tolak. Saya pikir dia hanya dramatis. Tapi sekarang... saya menyesal. Kalau saya datang, mungkin suaminya masih hidup."
+    }
+  ],
+  "emotional_state": {
+    "stress": 30,
+    "trust": 25,
+    "fear": 40,
+    "anger": 10
+  },
+  "emotional_volatility": {
+    "stress": "Meningkat saat ditanya tentang hubungan dengan Sari dan malam kejadian",
+    "trust": "Sulit didapatkan karena ia terbiasa menyembunyikan hubungan; meningkat jika detektif menunjukkan empati",
+    "fear": "Tinggi karena takut terlibat dalam kasus pembunuhan dan hubungannya terbongkar",
+    "anger": "Rendah; tidak marah kecuali jika dituduh bersekongkol"
+  },
+  "can_be_culprit": false,
+  "red_herring_note": "Rendy adalah red herring yang baik: ia punya hubungan rahasia dengan Sari, menolak permintaan Sari untuk datang malam itu, dan tidak punya alibi yang kuat. Namun, ia BUKAN pembunuh — ia hanya selingkuhan yang ketakutan. Jika pemain menuduhnya, Rendy akan mengaku perselingkuhan tetapi bersikeras tidak terlibat dalam pembunuhan. Bukti fisik (sidik jari Sari di gelas, nota apotek) tidak mengarah padanya."
+}

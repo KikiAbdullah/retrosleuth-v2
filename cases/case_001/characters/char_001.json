@@ -10,12 +10,14 @@
   "voice_style": "Nada tinggi, sering menyela ucapannya sendiri, banyak menggunakan kata 'saya tidak bersalah' atau 'percayalah, Pak'. Bahasa informal, kadang menggunakan istilah perjudian. Jika terdesak, suaranya bergetar dan ia bisa menangis.",
   "alibi": "Mengaku berada di kamar tamu Wisma Angker sejak pukul 21.30 setelah bertemu Haryanto. Menyangkal keluar dari kamar sampai pagi. Alibi ini bertentangan dengan keterangan satpam Tio dan saksi Marni.",
   "public_background": "Keponakan yang sering terlihat di kasino-kasino kecil di kota. Dikenal sebagai akuntan pabrik, tetapi sudah jarang masuk kerja beberapa bulan terakhir. Hubungan dengan Haryanto terlihat tegang akhir-akhir ini.",
-  "private_background": "Memiliki utang judi sebesar Rp 497 juta (tercatat di buku besar) kepada rentenir bernama 'Bos Guntur'. Batas akhir pembayaran adalah 15 Juni — sehari setelah kematian Haryanto. Ia panik karena jika tidak bisa membayar, ia akan dibunuh. Ia juga menggelapkan uang perusahaan sekitar Rp 200 juta yang belum diketahui pamannya secara pasti.",
+  "private_background": "Memiliki utang judi sebesar Rp 497 juta (tercatat di buku besar) kepada rentenir bernama 'Bos Guntur'. Batas akhir pembayaran adalah 15 Juni — sehari setelah kematian Haryanto. Ia panik karena jika tidak bisa membayar, ia akan dibunuh oleh Bos Guntur. Ia juga menggelapkan uang perusahaan sekitar Rp 200 juta yang belum diketahui pamannya secara pasti.",
   "known_facts": [
     "Memiliki utang besar yang tercatat di buku besar keuangan rahasia",
     "Terlihat oleh satpam berjalan cepat ke arah taman belakang sekitar pukul 22.45",
     "Tidak tercatat keluar melalui gerbang utama pada malam kejadian",
-    "Berada di Wisma Angker pada sore hari (17.30) dan kembali pukul 21.15"
+    "Berada di Wisma Angker pada sore hari (17.30) dan kembali pukul 21.15",
+    "Berutang Rp 497 juta kepada Bos Guntur (rentenir)",
+    "Batas pembayaran utang adalah 15 Juni 1979"
   ],
   "truths": [
     "Datang ke Wisma untuk memohon keringanan utang dan menghapus catatan di buku besar",

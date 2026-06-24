@@ -130,15 +130,37 @@
       "file": "evi_015.md",
       "icon": "📞",
       "description_short": "Rekaman otomatis PABX yang menangkap percakapan terakhir Haryanto sebelum kematian."
+    },
+    {
+      "id": "evi_016",
+      "title": "Catatan Kedatangan — Klinik Berkuda Puncak",
+      "file": "evi_016.md",
+      "icon": "🐴",
+      "description_short": "Catatan kedatangan Rendy Pratama ke Wisma Angker pada 12 Juni 1979, menunjukkan hubungannya dengan Sari."
+    },
+    {
+      "id": "evi_017",
+      "title": "Surat Utang — Rahmat kepada Bos Guntur",
+      "file": "evi_017.md",
+      "icon": "💰",
+      "description_short": "Surat utang resmi Rahmat Wijaya kepada Bos Guntur sebesar Rp 497 juta dengan batas pembayaran 15 Juni 1979."
+    },
+    {
+      "id": "evi_018",
+      "title": "Log Penerimaan Telepon — Rina Santoso",
+      "file": "evi_018.md",
+      "icon": "📋",
+      "description_short": "Catatan kedatangan Rina ke Wisma Angker pada 13 Juni 1979, melengkapi buku tamu dan rekaman telepon."
     }
   ],
   "evidence_structure": {
     "Dokumen Resmi": ["evi_001", "evi_005", "evi_003", "evi_013"],
-    "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008"],
+    "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008", "evi_017"],
     "Bukti Fisik": ["evi_002", "evi_009", "evi_010", "evi_012"],
-    "Log Kunjungan": ["evi_007"],
+    "Log Kunjungan": ["evi_007", "evi_016", "evi_018"],
     "Dokumentasi TKP": ["evi_014"],
-    "Rekaman Audio": ["evi_015"]
+    "Rekaman Audio": ["evi_015"],
+    "Laporan Tambahan": ["evi_016", "evi_017", "evi_018"]
   },
   "characters": [
     {
@@ -161,6 +183,41 @@
       "role": "Kepala Pelayan Senior",
       "file": "char_003.json",
       "photo": "images/char_003.png"
+    },
+    {
+      "id": "char_004",
+      "name": "Rina Santoso",
+      "role": "Resepsionis Wisma Angker / Mantan Sekretaris Haryanto",
+      "file": "char_004.json",
+      "photo": "images/char_004.png"
+    },
+    {
+      "id": "char_005",
+      "name": "Sugeng",
+      "role": "Notaris Pribadi Haryanto",
+      "file": "char_005.json",
+      "photo": "images/char_005.png"
+    },
+    {
+      "id": "char_006",
+      "name": "Marni",
+      "role": "Pembantu Dapur Wisma Angker",
+      "file": "char_006.json",
+      "photo": "images/char_006.png"
+    },
+    {
+      "id": "char_007",
+      "name": "Rendy Pratama",
+      "role": "Instruktur Berkuda / Selingkuhan Sari",
+      "file": "char_007.json",
+      "photo": "images/char_007.png"
+    },
+    {
+      "id": "char_008",
+      "name": "Bos Guntur",
+      "role": "Rentenir / Pemberi Utang",
+      "file": "char_008.json",
+      "photo": "images/char_008.png"
     }
   ],
   "solution_matrix": {
