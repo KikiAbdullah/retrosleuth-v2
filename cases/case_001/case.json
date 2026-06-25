@@ -3,7 +3,7 @@
   "meta": {
     "title": "Malam di Wisma Angker",
     "author": "Tim RetroSleuth",
-    "version": "3.0",
+    "version": "3.1",
     "difficulty": "Expert",
     "estimated_playtime_minutes": 90,
     "estimated_playtime_max_minutes": 120,
@@ -136,30 +136,94 @@
       "title": "Catatan Kedatangan — Klinik Berkuda Puncak",
       "file": "evi_016.md",
       "icon": "🐴",
-      "description_short": "Catatan kedatangan Rendy Pratama ke Wisma Angker pada 12 Juni 1979, menunjukkan hubungannya dengan Sari."
+      "description_short": "Catatan kedatangan Rendy Pratama ke Wisma Angker pada 12 Juni 1979."
     },
     {
       "id": "evi_017",
       "title": "Surat Utang — Rahmat kepada Bos Guntur",
       "file": "evi_017.md",
       "icon": "💰",
-      "description_short": "Surat utang resmi Rahmat Wijaya kepada Bos Guntur sebesar Rp 497 juta dengan batas pembayaran 15 Juni 1979."
+      "description_short": "Surat utang resmi Rahmat Wijaya kepada Bos Guntur sebesar Rp 497 juta."
     },
     {
       "id": "evi_018",
       "title": "Log Penerimaan Telepon — Rina Santoso",
       "file": "evi_018.md",
       "icon": "📋",
-      "description_short": "Catatan kedatangan Rina ke Wisma Angker pada 13 Juni 1979, melengkapi buku tamu dan rekaman telepon."
+      "description_short": "Catatan kedatangan Rina ke Wisma Angker pada 13 Juni 1979."
+    },
+    {
+      "id": "evi_019",
+      "title": "Resi Hotel — Rina Santoso",
+      "file": "evi_019.md",
+      "icon": "🏨",
+      "description_short": "Resi kamar hotel atas nama Rina di malam pembunuhan."
+    },
+    {
+      "id": "evi_020",
+      "title": "Catatan Panggilan Telepon Klub Berkuda",
+      "file": "evi_020.md",
+      "icon": "📞",
+      "description_short": "Catatan PABX klub yang menunjukkan panggilan Rendy ke Wisma Angker."
+    },
+    {
+      "id": "evi_021",
+      "title": "Botol Sianida Kosong",
+      "file": "evi_021.md",
+      "icon": "🧴",
+      "description_short": "Botol kosong berisi residu sianida, ditemukan di tempat sampah dapur."
+    },
+    {
+      "id": "evi_022",
+      "title": "Salinan Draf Wasiat (Ditemukan di Kamar Sari)",
+      "file": "evi_022.md",
+      "icon": "📜",
+      "description_short": "Fotokopi draft wasiat revisi yang disembunyikan Sari di bawah kasurnya."
+    },
+    {
+      "id": "evi_023",
+      "title": "Salinan Wasiat Asli (1975)",
+      "file": "evi_023.md",
+      "icon": "📜",
+      "description_short": "Wasiat asli Haryanto dari tahun 1975 yang memberikan 80% harta kepada Sari."
+    },
+    {
+      "id": "evi_024",
+      "title": "Laporan Detektif Swasta — Perselingkuhan Sari",
+      "file": "evi_024.md",
+      "icon": "🔍",
+      "description_short": "Laporan investigasi perselingkuhan Sari dengan Rendy, disimpan Haryanto di brankas."
+    },
+    {
+      "id": "evi_025",
+      "title": "Surat Gugatan Cerai — Haryanto",
+      "file": "evi_025.md",
+      "icon": "⚖️",
+      "description_short": "Draf surat gugatan cerai yang disiapkan Haryanto untuk menceraikan Sari."
     }
   ],
   "evidence_structure": {
-    "Dokumen Resmi": ["evi_001", "evi_005", "evi_003", "evi_013"],
-    "Surat & Catatan": ["evi_004", "evi_006", "evi_011", "evi_008"],
-    "Bukti Fisik": ["evi_002", "evi_009", "evi_010", "evi_012"],
-    "Log Kunjungan": ["evi_007", "evi_016", "evi_018"],
-    "Dokumentasi TKP": ["evi_014"],
-    "Rekaman Audio": ["evi_015"],
+    "Dokumen Resmi": [
+      "evi_001",
+      "evi_005",
+      "evi_003",
+      "evi_013",
+      "evi_014",
+      "evi_015"
+    ],
+    "Surat & Catatan": [
+      "evi_004",
+      "evi_006",
+      "evi_011",
+      "evi_008",
+      "evi_022",
+      "evi_023",
+      "evi_024",
+      "evi_025"
+    ],
+    "Bukti Fisik": ["evi_002", "evi_009", "evi_010", "evi_012", "evi_021"],
+    "Log Kunjungan": ["evi_007", "evi_016", "evi_018", "evi_019"],
+    "Rekaman & Transkrip": ["evi_015", "evi_020"],
     "Laporan Tambahan": ["evi_017"]
   },
   "characters": [
@@ -187,7 +251,7 @@
     {
       "id": "char_004",
       "name": "Rina Santoso",
-      "role": "Resepsionis Wisma Angker / Mantan Sekretaris Haryanto",
+      "role": "Resepsionis Wisma Angker / Mantan Sekretaris",
       "file": "char_004.json",
       "photo": "images/char_004.png"
     },
@@ -222,23 +286,27 @@
   ],
   "solution_matrix": {
     "culprit_id": "char_002",
-    "motive": "Balas dendam karena perselingkuhan dan upaya Haryanto mengubah wasiat demi wanita lain.",
-    "primary_evidence": "evi_001",
+    "motive": "Balas dendam karena perselingkuhan Haryanto dengan Rina dan upaya Haryanto mengubah wasiat yang akan mengurangi bagian Sari dari 80% menjadi 20%.",
+    "primary_evidence": "evi_012",
     "secondary_evidence": [
       "evi_006",
       "evi_010",
       "evi_011",
       "evi_004",
-      "evi_012",
-      "evi_003"
+      "evi_003",
+      "evi_009",
+      "evi_021",
+      "evi_022",
+      "evi_024",
+      "evi_025"
     ],
     "explanation_file": "solution.md",
     "alternative_suspect_misdirects": {
-      "char_001": "Rahmat mencuri buku besar untuk menutupi utangnya, tetapi ia bukan pembunuh.",
-      "char_003": "Budi melihat kejadian namun sengaja terlambat karena dendam lama."
+      "char_001": "Rahmat mencuri buku besar untuk menutupi utangnya, tetapi ia bukan pembunuh. Ia masuk setelah Haryanto sekarat.",
+      "char_003": "Budi melihat kejadian namun sengaja terlambat karena dendam lama terhadap Haryanto."
     }
   },
-  "initial_evidence": ["evi_001"],
+  "initial_evidence": ["evi_001", "evi_013"],
   "timeline": [
     {
       "time": "20.00",
@@ -355,7 +423,17 @@
     {
       "id": "task_012",
       "text": "Dengarkan rekaman telepon dan identifikasi pembicara",
-      "hint": "Rekaman PABX menangkap percakaran terakhir Haryanto. Siapa yang dia hubungi? Siapa yang meneleponnya?"
+      "hint": "Rekaman PABX menangkap percakapan terakhir Haryanto. Siapa yang dia hubungi? Siapa yang meneleponnya?"
+    },
+    {
+      "id": "task_013",
+      "text": "Temukan bukti perselingkuhan Sari dan rencana perceraian",
+      "hint": "Laporan detektif swasta dan surat gugatan cerai ada di brankas Haryanto (butuh kunci evi_009)."
+    },
+    {
+      "id": "task_014",
+      "text": "Cari botol sianida kosong di tempat sampah dapur",
+      "hint": "Sari membuang botol racun di dapur untuk menyembunyikan jejak."
     }
   ],
   "crime_scene": {

@@ -13,15 +13,24 @@
       "is_active": true,
       "description_short": "Haryanto Wijaya, raja tekstil yang ditakuti, ditemukan tewas di ruang kerjanya yang terkunci. Tiga orang terdekatnya memiliki motif, tapi hanya satu yang berani membunuh.",
       "meta": {
-        "suspect_count": 3,
-        "evidence_count": 18,
+        "suspect_count": 8,
+        "evidence_count": 25,
         "crime_scene_areas": 6,
-        "objectives_count": 12,
+        "objectives_count": 14,
         "has_real_time_events": true,
-        "real_time_events_count": 17,
-        "tags": ["pembunuhan", "racun", "ruang-terkunci", "warisan", "dendam"],
+        "real_time_events_count": 15,
+        "tags": [
+          "pembunuhan",
+          "racun",
+          "ruang-terkunci",
+          "warisan",
+          "dendam",
+          "perselingkuhan",
+          "1970an",
+          "indonesia"
+        ],
         "author": "Tim RetroSleuth",
-        "version": "3.0"
+        "version": "3.1"
       }
     }
   ]

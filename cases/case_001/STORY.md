@@ -165,24 +165,27 @@ Event memberikan bukti secara bertahap selama 120 menit, menciptakan pacing inve
 
 ## Timeline Kronologis
 
-| Waktu | Peristiwa                                                                          |
+| Waktu | Peristiwa |
 | ----- | ---------------------------------------------------------------------------------- |
-| 20.00 | Haryanto dan Sari makan malam bersama, terlihat tegang.                            |
-| 21.15 | Rahmat tiba di Wisma, menuju ruang kerja minta tanda tangan cek.                   |
-| 21.30 | Sari membeli 10 gram Kalium Sianida di Apotek Sumber Waras (nota `evi_010`).       |
-| 21.50 | Budi mengantar kopi, melihat Sari dan Haryanto bertengkar hebat.                   |
-| 22.00 | Sari keluar marah: "Kau akan menyesal!"                                            |
-| 22.05 | Sari menuangkan sianida ke gelas brandy Haryanto.                                  |
-| 22.25 | Haryanto kejang-kejang setelah minum brandy.                                       |
-| 22.30 | Saksi mendengar suara gelas pecah dari ruang kerja.                                |
-| 22.40 | Rahmat melihat Sari keluar ruang kerja dengan botol kecil.                         |
-| 22.45 | Rahmat terlihat satpam berjalan cepat ke taman belakang.                           |
-| 22.50 | Rahmat masuk lewat jendela, melihat Haryanto sekarat, mengambil buku besar, kabur. |
-| 23.00 | Lampu ruang kerja padam.                                                           |
-| 23.15 | Mobil Sari keluar Wisma (tercatat di log `evi_003`).                               |
-| 23.45 | Sari kembali ke Wisma.                                                             |
-| 00.15 | Budi "menemukan" tubuh Haryanto (sebenarnya sudah tahu sejak 23.00).               |
-| 02.00 | Budi melapor ke polisi.                                                            |
+| 20.00 | Haryanto dan Sari makan malam bersama, terlihat tegang. |
+| 21.15 | Rahmat tiba di Wisma, menuju ruang kerja minta tanda tangan cek. |
+| 21.30 | Sari membeli 10 gram Kalium Sianida di Apotek Sumber Waras (nota `evi_010`). |
+| 21.50 | Budi mengantar kopi, melihat Sari dan Haryanto bertengkar hebat. |
+| 22.00 | Sari keluar marah: "Kau akan menyesal!" |
+| 22.05 | Sari menuangkan sianida ke gelas brandy Haryanto. |
+| 22.07 | Haryanto kejang-kejang setelah minum brandy. |
+| 22.10 | Haryanto meninggal dunia. |
+| 22.10 | Rahmat (bersembunyi) mulai panik, diam-diam mengambil buku besar. |
+| 22.15 | Budi (di koridor) mendengar suara jatuh, mendekat, dan melihat Sari berlutut di samping Haryanto yang sudah tidak bergerak. |
+| 22.30 | Sari membersihkan gelasnya (menghapus sidik jari), lalu keluar dari ruang kerja dengan botol kecil. |
+| 22.30 | Marni (di dapur) melihat Sari turun dari tangga dengan wajah pucat. |
+| 22.35 | Rina berpapasan dengan Sari di koridor lantai 1. |
+| 22.40 | Rahmat keluar dari ruang kerja melalui jendela, berpapasan dengan Sari yang sedang berjalan menuju mobil. |
+| 22.45 | Rahmat terlihat satpam berjalan cepat ke taman belakang. |
+| 23.00 | Lampu ruang kerja padam. |
+| 23.15 | Mobil Sari keluar Wisma (tercatat di log `evi_003`), menuju apartemen Rendy. |
+| 00.15 | Budi "menemukan" tubuh Haryanto (sebenarnya sudah tahu sejak 23.00). |
+| 00.30 | Budi melapor ke polisi. |
 
 ---
 
