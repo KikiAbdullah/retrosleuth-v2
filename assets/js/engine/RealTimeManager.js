@@ -245,7 +245,7 @@ export class RealTimeManager {
     const elapsedGameMinutes = Math.floor(elapsedRealMs / this.TICK_INTERVAL);
 
     const deadlineEvent = this.events.find(e => e.action === "deadline_reached");
-    const deadlineMinutes = deadlineEvent?.trigger?.minutes || 120;
+    const deadlineMinutes = deadlineEvent?.trigger?.minutes || 90;
 
     return {
       elapsedRealMs,

@@ -5,8 +5,8 @@
     "author": "Tim RetroSleuth",
     "version": "3.1",
     "difficulty": "Expert",
-    "estimated_playtime_minutes": 90,
-    "estimated_playtime_max_minutes": 120,
+    "estimated_playtime_minutes": 60,
+    "estimated_playtime_max_minutes": 90,
     "year": 1979,
     "description": "Haryanto Wijaya, raja tekstil yang ditakuti, ditemukan tewas di ruang kerjanya yang terkunci. Tiga orang terdekatnya memiliki motif, tapi hanya satu yang berani membunuh. Selidiki TKP, interogasi dengan cerdas, dan buktikan siapa dalang di balik kematian ini."
   },
@@ -803,8 +803,8 @@
       "id": "rte_010b",
       "trigger": {
         "type": "relative",
-        "minutes": 95,
-        "description": "1 jam 35 menit setelah dimulai"
+        "minutes": 75,
+        "description": "1 jam 15 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -817,8 +817,8 @@
       "id": "rte_011",
       "trigger": {
         "type": "relative",
-        "minutes": 90,
-        "description": "1 jam 30 menit setelah dimulai"
+        "minutes": 78,
+        "description": "1 jam 18 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -831,8 +831,8 @@
       "id": "rte_012",
       "trigger": {
         "type": "relative",
-        "minutes": 100,
-        "description": "1 jam 40 menit setelah dimulai"
+        "minutes": 80,
+        "description": "1 jam 20 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -845,8 +845,8 @@
       "id": "rte_013",
       "trigger": {
         "type": "relative",
-        "minutes": 110,
-        "description": "1 jam 50 menit setelah dimulai"
+        "minutes": 83,
+        "description": "1 jam 23 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -859,8 +859,8 @@
       "id": "rte_014",
       "trigger": {
         "type": "relative",
-        "minutes": 115,
-        "description": "1 jam 55 menit setelah dimulai"
+        "minutes": 86,
+        "description": "1 jam 26 menit setelah dimulai"
       },
       "action": "unlock_evidence",
       "payload": {
@@ -873,8 +873,8 @@
       "id": "rte_015",
       "trigger": {
         "type": "relative",
-        "minutes": 120,
-        "description": "2 jam setelah dimulai"
+        "minutes": 90,
+        "description": "1 jam 30 menit setelah dimulai"
       },
       "action": "deadline_reached",
       "payload": {

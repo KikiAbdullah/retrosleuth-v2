@@ -3,7 +3,7 @@
  *  AICLIENT.JS — HTTP Client untuk Server AI Lokal
  *  Format OpenAI-compatible. Menangani timeout, error, fallback.
  * ============================================================
- */ 
+ */
 
 import { GameState } from "../core/Store.js";
 import { PromptBuilder } from "./PromptBuilder.js";
@@ -21,9 +21,9 @@ export class AIClient {
    * @param {string} model - Nama model (default: gemini-2.5)
    */
   constructor(
-    endpoint = "https://openrouter.ai/api/v1/chat/completions",
-    apiKey = "",
-    model = "openrouter/free"
+    endpoint = "http://localhost:20128/v1/chat/completions",
+    apiKey = "sk-d9da44a505179175-7im48b-73d30919",
+    model = "ag-gemini3"
   ) {
     this.endpoint = endpoint;
     this.apiKey = apiKey;
@@ -64,7 +64,6 @@ export class AIClient {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.apiKey}`,
           "HTTP-Referer": window.location.origin,
-          "X-OpenRouter-Title": "RetroSleuth",
         },
         body: JSON.stringify({
           model: this.model,
@@ -130,14 +129,11 @@ export class AIClient {
    */
   async checkHealth() {
     try {
-      const response = await fetch(
-        "https://openrouter.ai/api/v1/models",
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${this.apiKey}` },
-          signal: AbortSignal.timeout(5000),
-        }
-      );
+      const response = await fetch("https://openrouter.ai/api/v1/models", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${this.apiKey}` },
+        signal: AbortSignal.timeout(5000),
+      });
       return response.ok;
     } catch (error) {
       console.warn("[AIClient] Health check gagal:", error);

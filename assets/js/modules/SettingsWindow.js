@@ -26,15 +26,13 @@ export class SettingsWindow {
 
     // Set default jika belum ada atau masih pakai localhost lama
     const needsReset =
-      !this.settings.endpoint ||
-      this.settings.endpoint.includes("localhost") ||
-      this.settings.endpoint.includes("20128");
+      !this.settings.endpoint;
 
     if (needsReset) {
       this.settings = {
-        endpoint: "https://openrouter.ai/api/v1/chat/completions",
-        apiKey: "",
-        model: "openrouter/free",
+        endpoint: "http://localhost:20128/v1/chat/completions",
+        apiKey: "sk-d9da44a505179175-7im48b-73d30919",
+        model: "ag-gemini3",
         temperature: 0.8,
         masterVolume: 0.7,
         sfxVolume: 1.0,
@@ -546,9 +544,9 @@ export class SettingsWindow {
         )
       ) {
         this.settings = {
-          endpoint: "https://openrouter.ai/api/v1/chat/completions",
+          endpoint: "http://localhost:20128/v1/chat/completions",
           apiKey: "",
-          model: "openrouter/free",
+          model: "ag-gemini3",
           temperature: 0.8,
           masterVolume: 0.7,
           sfxVolume: 1.0,

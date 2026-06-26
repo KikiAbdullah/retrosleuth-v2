@@ -17,7 +17,7 @@ export class Taskbar {
     /** @type {Map<string, HTMLElement>} */
     this.buttons = new Map();
     this._timerInterval = null;
-    this._deadlineMinutes = 120;
+    this._deadlineMinutes = 90;
 
     this.render();
     this.startClock();

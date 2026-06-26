@@ -85,7 +85,7 @@ Barang bukti lainnya masih dalam proses identifikasi di TKP dan akan tersedia se
    - **Marni** (pembantu dapur) — saksi
    - **Bos Guntur** (rentenir) — saksi latar belakang
 5. Dapat meminta keterangan tambahan dari saksi lain: satpam Tio, staf dapur, dan karyawan klub berkuda.
-6. **Batas waktu penyelidikan: 3 (tiga) jam** sejak laporan ini diterbitkan (hingga pukul 06.00 WIB, 14 Juni 1979).
+6. **Batas waktu penyelidikan: 2 (tiga) jam** sejak laporan ini diterbitkan (hingga pukul 06.00 WIB, 14 Juni 1979).
 7. Mengajukan laporan akhir dan tuduhan resmi jika bukti telah mencukupi — minimal 6 bukti, termasuk bukti primer (`evi_012`).
 
 > **Catatan:** Setiap perkembangan akan dikirimkan melalui telepon atau kurir ke meja penyelidik. Perhatikan notifikasi real-time yang muncul secara bertahap.
