@@ -625,6 +625,7 @@ export class WismaWorld {
 
     // --- hasil kerja nyata: artefak ---
     if (task.artifact) {
+      const jumlahSebelum = this.forge.all().length;
       const art = this.forge.produce({
         def: task.artifact,
         agentId: a.id,
@@ -649,7 +650,10 @@ export class WismaWorld {
           })),
       });
       if (art) {
-        this.stats.artifacts++;
+        // forge.produce() mendedup: kalau barangnya sudah pernah lahir,
+        // pencacah tidak boleh naik lagi — kalau tidak, angka di HUD lebih
+        // besar daripada jumlah barang yang benar-benar ada di dunia.
+        if (this.forge.all().length > jumlahSebelum) this.stats.artifacts++;
         if (visible) {
           this._log("artifact", `${a.name} meninggalkan sesuatu di ${this.floor.roomName(roomId)}.`, roomId, {
             agents: [a.id],

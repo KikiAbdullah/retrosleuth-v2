@@ -136,18 +136,46 @@ try {
   console.error(e);
 }
 
-// render semua tab
-for (const tab of ["map", "roster", "log", "artifacts", "relations", "ai"]) {
+// render semua tab — tiap tab HARUS menghasilkan konten khasnya sendiri,
+// bukan jatuh ke cabang default (roster). Tanpa tanda tangan ini, uji bisa
+// "lulus" padahal yang dirender itu-itu saja.
+const TABS = [
+  { id: "roster", tanda: ["ws-roster-list", "STATUS RUMAH"] },
+  { id: "log", tanda: ["ws-log-entry"] },
+  { id: "barang", tanda: ["BARANG HASIL KERJA PENGHUNI"] },
+  { id: "agent", tanda: ["PERAN DI WISMA", "PIKIRAN SAAT INI"] },
+];
+app.wismaWindow.selectedAgent = [...world.agents.values()].find((a) => a.present && !a.deceased)?.id ?? null;
+
+const rendered = new Set();
+for (const t of TABS) {
   try {
-    app.wismaWindow.tab = tab;
+    app.wismaWindow.activeTab = t.id;
     app.wismaWindow._renderTab();
     app.wismaWindow._renderHud();
-    if (tab === "map") app.wismaWindow._draw();
-    step(`render tab "${tab}"`, true);
+    const html = String(app.wismaWindow.panel?.innerHTML ?? "");
+    const cocok = t.tanda.filter((x) => html.includes(x));
+    rendered.add(html.slice(0, 400));
+    step(
+      `render tab "${t.id}"`,
+      cocok.length === t.tanda.length && html.length > 200,
+      `${html.length} karakter · penanda: ${cocok.join(", ") || "TIDAK ADA"}`
+    );
   } catch (e) {
-    step(`render tab "${tab}"`, false, e?.message);
+    step(`render tab "${t.id}"`, false, e?.message);
     console.error(e);
   }
+}
+step("tiap tab menghasilkan konten berbeda", rendered.size === TABS.length, `${rendered.size}/${TABS.length} konten unik`);
+
+// peta (canvas) digambar terpisah dari tab
+try {
+  app.wismaWindow._fitCanvas();
+  app.wismaWindow._draw();
+  step("gambar peta denah (_draw)", true, `${world.floor.rooms.size} ruangan dirender`);
+} catch (e) {
+  step("gambar peta denah (_draw)", false, e?.message);
+  console.error(e);
 }
 
 // kartu agen
@@ -174,6 +202,37 @@ try {
 // ============================================================
 //  5. AKSI PEMAIN (semua harus jalan tanpa AI / mode offline)
 // ============================================================
+
+// di puncak malam barang sudah banyak — sebagian TERKUNCI (anti-spoiler)
+try {
+  let terlihat = 0, terkunci = 0, tersita = 0;
+  for (const r of world.floor.rooms.keys()) {
+    const res = world.searchRoom(r);
+    terlihat += res.found?.length ?? 0;
+    terkunci += res.hiddenLocked ?? 0;
+    tersita += res.alreadyTaken ?? 0;
+  }
+  const total = world.forge.all().length;
+  step(
+    "geledah seluruh ruangan di puncak malam",
+    total >= 8 && terlihat > 0,
+    `${total} barang di dunia · ${terlihat} terlihat · ${terkunci} terkunci (anti-spoiler) · ${tersita} sudah disita`
+  );
+  step("kunci anti-spoiler aktif", terkunci > 0, `${terkunci} barang disembunyikan sampai petunjuk lain ditemukan`);
+
+  app.wismaWindow.activeTab = "barang";
+  app.wismaWindow._renderTab();
+  const html = String(app.wismaWindow.panel?.innerHTML ?? "");
+  const jumlah = (html.match(/ws-artifact/g) || []).length;
+  step(
+    "tab BARANG: kartu + baris 'Urusan:'",
+    jumlah > 0 && html.includes("Urusan:"),
+    `${jumlah} kartu barang · baris urusan ${html.includes("Urusan:") ? "ada" : "HILANG"}`
+  );
+} catch (e) {
+  step("geledah seluruh ruangan di puncak malam", false, e?.message);
+  console.error(e);
+}
 try {
   const res = await world.probe(firstAgent.id);
   const text = res?.thought || res?.text || res?.speech || "";
