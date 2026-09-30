@@ -22,3 +22,8 @@ build/
 # Environment
 .env
 .env.local
+
+# Kunci API (JANGAN pernah di-commit)
+tools/.openrouter-key
+.openrouter-key
+*.key

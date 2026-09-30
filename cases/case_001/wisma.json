@@ -1,0 +1,3142 @@
+{
+  "$schema_note": "Definisi Wisma Angker (Simulasi Penghuni) RetroSleuth. Semua data-driven: ruangan, titik aktivitas, peran, jadwal, relasi, dan insiden. Simulasi tetap jalan 100% tanpa API (mode OFFLINE); OpenRouter hanya memperkaya pikiran/ucapan agen.",
+  "meta": {
+    "id": "wisma_case_001",
+    "title": "Wisma Angker — Shift Malam",
+    "subtitle": "Peta Keamanan & Monitoring Aktivitas Penghuni",
+    "date": "14 Juni 1979",
+    "start_time": "17:00",
+    "end_time": "02:30",
+    "tick_ms": 500,
+    "minutes_per_tick": 1,
+    "incident_time": "22:25",
+    "discovery_time": "00:15",
+    "spoiler_guard": {
+      "blackout_rooms_on_incident": [
+        "ruang_kerja"
+      ],
+      "forbidden_facts": [
+        "Siapa yang menuang racun",
+        "Isi gelas brandy",
+        "Waktu pasti kematian"
+      ],
+      "rule": "Karakter hanya boleh tahu apa yang mereka LIHAT/DENGAR sendiri di simulasi. Tidak boleh ada yang mengaku menyaksikan kejadian di ruang kerja selama blackout."
+    }
+  },
+  "grid": {
+    "cols": 54,
+    "rows": 35,
+    "tile": 16
+  },
+  "rooms": [
+    {
+      "id": "jalan_samping",
+      "name": "Jalan Samping",
+      "x": 1,
+      "y": 1,
+      "w": 2,
+      "h": 33,
+      "floor": "luar",
+      "kind": "outdoor",
+      "icon": "🚶"
+    },
+    {
+      "id": "taman_belakang",
+      "name": "Taman Belakang",
+      "x": 3,
+      "y": 1,
+      "w": 50,
+      "h": 5,
+      "floor": "luar",
+      "kind": "outdoor",
+      "icon": "🌳"
+    },
+    {
+      "id": "kamar_sari",
+      "name": "Kamar Sari",
+      "x": 3,
+      "y": 6,
+      "w": 12,
+      "h": 7,
+      "floor": "2",
+      "kind": "private",
+      "icon": "🛏"
+    },
+    {
+      "id": "ruang_kerja",
+      "name": "Ruang Kerja (TKP)",
+      "x": 15,
+      "y": 6,
+      "w": 14,
+      "h": 7,
+      "floor": "2",
+      "kind": "crime",
+      "icon": "🗄"
+    },
+    {
+      "id": "kamar_tamu",
+      "name": "Kamar Tamu",
+      "x": 29,
+      "y": 6,
+      "w": 12,
+      "h": 7,
+      "floor": "2",
+      "kind": "private",
+      "icon": "🛏"
+    },
+    {
+      "id": "koridor_atas",
+      "name": "Koridor Lantai 2",
+      "x": 3,
+      "y": 13,
+      "w": 50,
+      "h": 2,
+      "floor": "2",
+      "kind": "hall",
+      "icon": "🚪"
+    },
+    {
+      "id": "koridor_bawah",
+      "name": "Koridor Lantai 1",
+      "x": 3,
+      "y": 15,
+      "w": 50,
+      "h": 2,
+      "floor": "1",
+      "kind": "hall",
+      "icon": "🚪"
+    },
+    {
+      "id": "dapur",
+      "name": "Dapur",
+      "x": 3,
+      "y": 17,
+      "w": 12,
+      "h": 7,
+      "floor": "1",
+      "kind": "work",
+      "icon": "🍳"
+    },
+    {
+      "id": "ruang_makan",
+      "name": "Ruang Makan",
+      "x": 15,
+      "y": 17,
+      "w": 12,
+      "h": 7,
+      "floor": "1",
+      "kind": "social",
+      "icon": "🍽"
+    },
+    {
+      "id": "ruang_tamu",
+      "name": "Ruang Tamu",
+      "x": 27,
+      "y": 17,
+      "w": 14,
+      "h": 7,
+      "floor": "1",
+      "kind": "social",
+      "icon": "🛋"
+    },
+    {
+      "id": "lobi_depan",
+      "name": "Lobi / Resepsionis",
+      "x": 41,
+      "y": 17,
+      "w": 12,
+      "h": 7,
+      "floor": "1",
+      "kind": "work",
+      "icon": "☎"
+    },
+    {
+      "id": "halaman_depan",
+      "name": "Halaman & Gerbang",
+      "x": 3,
+      "y": 24,
+      "w": 50,
+      "h": 4,
+      "floor": "luar",
+      "kind": "outdoor",
+      "icon": "🚗"
+    },
+    {
+      "id": "pos_satpam",
+      "name": "Pos Satpam",
+      "x": 3,
+      "y": 28,
+      "w": 10,
+      "h": 6,
+      "floor": "1",
+      "kind": "work",
+      "icon": "🛡"
+    },
+    {
+      "id": "garasi",
+      "name": "Garasi",
+      "x": 13,
+      "y": 28,
+      "w": 14,
+      "h": 6,
+      "floor": "1",
+      "kind": "work",
+      "icon": "🚘"
+    },
+    {
+      "id": "kamar_budi",
+      "name": "Kamar Budi",
+      "x": 27,
+      "y": 28,
+      "w": 12,
+      "h": 6,
+      "floor": "1",
+      "kind": "private",
+      "icon": "🛏"
+    },
+    {
+      "id": "gudang",
+      "name": "Gudang / Arsip",
+      "x": 39,
+      "y": 28,
+      "w": 14,
+      "h": 6,
+      "floor": "1",
+      "kind": "work",
+      "icon": "📦"
+    }
+  ],
+  "doors": [
+    {
+      "id": "d_jendela_kerja",
+      "label": "Jendela Ruang Kerja",
+      "from": "ruang_kerja",
+      "to": "taman_belakang",
+      "ax": 22,
+      "ay": 6,
+      "bx": 22,
+      "by": 5,
+      "type": "window",
+      "locked": false
+    },
+    {
+      "id": "d_sari",
+      "label": "Pintu Kamar Sari",
+      "from": "kamar_sari",
+      "to": "koridor_atas",
+      "ax": 9,
+      "ay": 13,
+      "bx": 9,
+      "by": 13,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_kerja",
+      "label": "Pintu Ruang Kerja",
+      "from": "ruang_kerja",
+      "to": "koridor_atas",
+      "ax": 22,
+      "ay": 13,
+      "bx": 22,
+      "by": 13,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_kamar_tamu",
+      "label": "Pintu Kamar Tamu",
+      "from": "kamar_tamu",
+      "to": "koridor_atas",
+      "ax": 34,
+      "ay": 13,
+      "bx": 34,
+      "by": 13,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_tangga",
+      "label": "Tangga Utama",
+      "from": "koridor_atas",
+      "to": "koridor_bawah",
+      "ax": 30,
+      "ay": 14,
+      "bx": 30,
+      "by": 15,
+      "type": "stairs",
+      "locked": false
+    },
+    {
+      "id": "d_dapur",
+      "label": "Pintu Dapur",
+      "from": "dapur",
+      "to": "koridor_bawah",
+      "ax": 8,
+      "ay": 16,
+      "bx": 8,
+      "by": 16,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_makan",
+      "label": "Pintu Ruang Makan",
+      "from": "ruang_makan",
+      "to": "koridor_bawah",
+      "ax": 20,
+      "ay": 16,
+      "bx": 20,
+      "by": 16,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_ruang_tamu",
+      "label": "Pintu Ruang Tamu",
+      "from": "ruang_tamu",
+      "to": "koridor_bawah",
+      "ax": 33,
+      "ay": 16,
+      "bx": 33,
+      "by": 16,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_lobi",
+      "label": "Pintu Lobi",
+      "from": "lobi_depan",
+      "to": "koridor_bawah",
+      "ax": 46,
+      "ay": 16,
+      "bx": 46,
+      "by": 16,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_pintu_depan",
+      "label": "Pintu Depan",
+      "from": "lobi_depan",
+      "to": "halaman_depan",
+      "ax": 46,
+      "ay": 23,
+      "bx": 46,
+      "by": 24,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_pintu_belakang",
+      "label": "Pintu Belakang Dapur",
+      "from": "dapur",
+      "to": "halaman_depan",
+      "ax": 5,
+      "ay": 23,
+      "bx": 5,
+      "by": 24,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_pos",
+      "label": "Pintu Pos Satpam",
+      "from": "pos_satpam",
+      "to": "halaman_depan",
+      "ax": 7,
+      "ay": 27,
+      "bx": 7,
+      "by": 28,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_garasi",
+      "label": "Pintu Garasi",
+      "from": "garasi",
+      "to": "halaman_depan",
+      "ax": 19,
+      "ay": 27,
+      "bx": 19,
+      "by": 28,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_budi",
+      "label": "Pintu Kamar Budi",
+      "from": "kamar_budi",
+      "to": "halaman_depan",
+      "ax": 32,
+      "ay": 27,
+      "bx": 32,
+      "by": 28,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_gudang",
+      "label": "Pintu Gudang",
+      "from": "gudang",
+      "to": "halaman_depan",
+      "ax": 45,
+      "ay": 27,
+      "bx": 45,
+      "by": 28,
+      "type": "door",
+      "locked": false
+    },
+    {
+      "id": "d_samping_utara",
+      "label": "Celah Samping (Utara)",
+      "from": "taman_belakang",
+      "to": "jalan_samping",
+      "ax": 3,
+      "ay": 3,
+      "bx": 2,
+      "by": 3,
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": "d_samping_selatan",
+      "label": "Celah Samping (Selatan)",
+      "from": "halaman_depan",
+      "to": "jalan_samping",
+      "ax": 3,
+      "ay": 25,
+      "bx": 2,
+      "by": 25,
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": "d_gerbang",
+      "label": "Gerbang Utama",
+      "from": "halaman_depan",
+      "to": "jalan_samping",
+      "ax": 27,
+      "ay": 27,
+      "bx": 27,
+      "by": 27,
+      "type": "gate",
+      "locked": false
+    }
+  ],
+  "stations": [
+    {
+      "id": "st_meja_kerja",
+      "room": "ruang_kerja",
+      "x": 20,
+      "y": 9,
+      "label": "Meja Kerja Haryanto",
+      "icon": "🗄",
+      "tags": [
+        "admin",
+        "hukum",
+        "keuangan"
+      ]
+    },
+    {
+      "id": "st_lemari_arsip",
+      "room": "ruang_kerja",
+      "x": 26,
+      "y": 8,
+      "label": "Lemari Arsip",
+      "icon": "📚",
+      "tags": [
+        "admin",
+        "keuangan"
+      ]
+    },
+    {
+      "id": "st_meja_brandy",
+      "room": "ruang_kerja",
+      "x": 17,
+      "y": 11,
+      "label": "Meja Minum / Brandy",
+      "icon": "🥃",
+      "tags": [
+        "konsumsi"
+      ]
+    },
+    {
+      "id": "st_lemari_sari",
+      "room": "kamar_sari",
+      "x": 6,
+      "y": 8,
+      "label": "Lemari & Meja Rias",
+      "icon": "💄",
+      "tags": [
+        "pribadi"
+      ]
+    },
+    {
+      "id": "st_naskah",
+      "room": "kamar_sari",
+      "x": 12,
+      "y": 11,
+      "label": "Naskah Teater",
+      "icon": "🎭",
+      "tags": [
+        "pribadi",
+        "seni"
+      ]
+    },
+    {
+      "id": "st_kasur_tamu",
+      "room": "kamar_tamu",
+      "x": 34,
+      "y": 9,
+      "label": "Kasur Kamar Tamu",
+      "icon": "🛏",
+      "tags": [
+        "istirahat"
+      ]
+    },
+    {
+      "id": "st_meja_tamu",
+      "room": "kamar_tamu",
+      "x": 38,
+      "y": 11,
+      "label": "Meja Tulis Tamu",
+      "icon": "✍",
+      "tags": [
+        "admin",
+        "keuangan"
+      ]
+    },
+    {
+      "id": "st_kompor",
+      "room": "dapur",
+      "x": 6,
+      "y": 19,
+      "label": "Kompor",
+      "icon": "🔥",
+      "tags": [
+        "konsumsi"
+      ]
+    },
+    {
+      "id": "st_bak_cuci",
+      "room": "dapur",
+      "x": 11,
+      "y": 19,
+      "label": "Bak Cuci",
+      "icon": "🚰",
+      "tags": [
+        "konsumsi"
+      ]
+    },
+    {
+      "id": "st_lemari_dapur",
+      "room": "dapur",
+      "x": 6,
+      "y": 22,
+      "label": "Lemari Dapur",
+      "icon": "📦",
+      "tags": [
+        "konsumsi",
+        "logistik"
+      ]
+    },
+    {
+      "id": "st_meja_makan",
+      "room": "ruang_makan",
+      "x": 20,
+      "y": 20,
+      "label": "Meja Makan Besar",
+      "icon": "🍽",
+      "tags": [
+        "konsumsi",
+        "sosial"
+      ]
+    },
+    {
+      "id": "st_sofa",
+      "room": "ruang_tamu",
+      "x": 32,
+      "y": 20,
+      "label": "Sofa Ruang Tamu",
+      "icon": "🛋",
+      "tags": [
+        "sosial",
+        "istirahat"
+      ]
+    },
+    {
+      "id": "st_meja_rina",
+      "room": "lobi_depan",
+      "x": 44,
+      "y": 19,
+      "label": "Meja Resepsionis",
+      "icon": "☎",
+      "tags": [
+        "admin",
+        "telepon"
+      ]
+    },
+    {
+      "id": "st_buku_tamu",
+      "room": "lobi_depan",
+      "x": 49,
+      "y": 19,
+      "label": "Buku Tamu",
+      "icon": "📖",
+      "tags": [
+        "admin"
+      ]
+    },
+    {
+      "id": "st_mesin_ketik",
+      "room": "lobi_depan",
+      "x": 44,
+      "y": 22,
+      "label": "Mesin Ketik",
+      "icon": "⌨",
+      "tags": [
+        "admin"
+      ]
+    },
+    {
+      "id": "st_log_satpam",
+      "room": "pos_satpam",
+      "x": 7,
+      "y": 30,
+      "label": "Meja Log Keamanan",
+      "icon": "📓",
+      "tags": [
+        "keamanan"
+      ]
+    },
+    {
+      "id": "st_senter",
+      "room": "pos_satpam",
+      "x": 11,
+      "y": 32,
+      "label": "Rak Senter & Payung",
+      "icon": "🔦",
+      "tags": [
+        "keamanan"
+      ]
+    },
+    {
+      "id": "st_mobil_sari",
+      "room": "garasi",
+      "x": 17,
+      "y": 30,
+      "label": "Mobil Sari",
+      "icon": "🚗",
+      "tags": [
+        "transportasi"
+      ]
+    },
+    {
+      "id": "st_mobil_operasi",
+      "room": "garasi",
+      "x": 24,
+      "y": 31,
+      "label": "Mobil Operasional",
+      "icon": "🚙",
+      "tags": [
+        "transportasi"
+      ]
+    },
+    {
+      "id": "st_kamar_budi",
+      "room": "kamar_budi",
+      "x": 31,
+      "y": 30,
+      "label": "Kamar Budi",
+      "icon": "🛏",
+      "tags": [
+        "istirahat"
+      ]
+    },
+    {
+      "id": "st_perak",
+      "room": "gudang",
+      "x": 42,
+      "y": 30,
+      "label": "Rak Perak & Peralatan",
+      "icon": "🍴",
+      "tags": [
+        "logistik"
+      ]
+    },
+    {
+      "id": "st_arsip_gudang",
+      "room": "gudang",
+      "x": 48,
+      "y": 31,
+      "label": "Tumpukan Arsip Lama",
+      "icon": "📦",
+      "tags": [
+        "admin",
+        "keuangan"
+      ]
+    },
+    {
+      "id": "st_pohon_taman",
+      "room": "taman_belakang",
+      "x": 12,
+      "y": 3,
+      "label": "Pohon Besar",
+      "icon": "🌳",
+      "tags": [
+        "sosial",
+        "sembunyi"
+      ]
+    },
+    {
+      "id": "st_bangku_taman",
+      "room": "taman_belakang",
+      "x": 40,
+      "y": 3,
+      "label": "Bangku Taman",
+      "icon": "🪑",
+      "tags": [
+        "istirahat",
+        "sosial"
+      ]
+    },
+    {
+      "id": "st_pagar",
+      "room": "halaman_depan",
+      "x": 27,
+      "y": 26,
+      "label": "Pagar & Gerbang",
+      "icon": "🚧",
+      "tags": [
+        "keamanan"
+      ]
+    }
+  ],
+  "npcs": [
+    {
+      "id": "npc_tio",
+      "name": "Tio",
+      "age": 47,
+      "playable": false,
+      "role": "Satpam Wisma Angker (shift malam 20.00-01.00)",
+      "occupation": "Satpam",
+      "personality": "Pendiam, teliti soal catatan, gampang mengantuk menjelang subuh. Setia pada Haryanto tapi takut pada Sari. Bicara singkat, sering menyebut 'sesuai prosedur'.",
+      "voice_style": "Kalimat pendek, nada datar, banyak jeda. Suka menyebut jam.",
+      "home_room": "pos_satpam",
+      "shift_start": "20:00",
+      "shift_end": "01:00",
+      "initial": {
+        "stress": 20,
+        "energy": 70,
+        "social": 30
+      }
+    },
+    {
+      "id": "npc_haryanto",
+      "name": "Haryanto Wijaya",
+      "age": 62,
+      "playable": false,
+      "role": "Pemilik Wisma Angker / Raja Tekstil (KORBAN)",
+      "occupation": "Pengusaha Tekstil",
+      "personality": "Keras, perhitungan, mudah meledak marah. Sedang menyiapkan revisi wasiat dan gugatan cerai. Tidak suka dibantah.",
+      "voice_style": "Tegas, memerintah, sering menyindir. Menyebut orang dengan jabatan, bukan nama.",
+      "home_room": "ruang_kerja",
+      "shift_start": "17:00",
+      "shift_end": "22:30",
+      "initial": {
+        "stress": 55,
+        "energy": 60,
+        "social": 40
+      },
+      "dies_at": "22:25"
+    }
+  ],
+  "jobs": {
+    "char_001": {
+      "title": "Akuntan Pribadi (nonaktif) / Tamu yang Menginap",
+      "employer": "Pabrik Tekstil Wijaya (diberhentikan diam-diam)",
+      "duties": [
+        "Menyelesaikan pembukuan rahasia (buku besar) sampai Juni",
+        "Mencari dana untuk menutup utang judi",
+        "Menghindari audit pamannya"
+      ],
+      "skills": [
+        "Pembukuan",
+        "Berhitung cepat",
+        "Beralibi"
+      ],
+      "pressure": 85,
+      "pride": 35,
+      "tasks": [
+        {
+          "id": "t_rah_01",
+          "label": "Menghitung utang di kertas buram",
+          "verb": "menghitung",
+          "station": "st_meja_tamu",
+          "duration_min": 40,
+          "chatter": "work",
+          "tags": [
+            "keuangan"
+          ]
+        },
+        {
+          "id": "t_rah_02",
+          "label": "Menulis surat permohonan ke Bos Guntur",
+          "verb": "menulis",
+          "station": "st_meja_tamu",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "admin"
+          ]
+        },
+        {
+          "id": "t_rah_03",
+          "label": "Mondar-mandir gelisah di kamar tamu",
+          "verb": "mondar-mandir",
+          "station": "st_kasur_tamu",
+          "duration_min": 25,
+          "chatter": "anxious",
+          "tags": [
+            "pribadi"
+          ]
+        },
+        {
+          "id": "t_rah_04",
+          "label": "Memohon tanda tangan cek pada Haryanto",
+          "verb": "memohon",
+          "station": "st_meja_kerja",
+          "duration_min": 25,
+          "chatter": "plead",
+          "tags": [
+            "keuangan",
+            "sosial"
+          ],
+          "with": "npc_haryanto"
+        },
+        {
+          "id": "t_rah_05",
+          "label": "Membongkar lemari arsip mencari buku besar",
+          "verb": "membongkar arsip",
+          "station": "st_lemari_arsip",
+          "duration_min": 30,
+          "chatter": "sneak",
+          "tags": [
+            "admin",
+            "keuangan"
+          ]
+        },
+        {
+          "id": "t_rah_06",
+          "label": "Bersembunyi di balik pohon taman",
+          "verb": "bersembunyi",
+          "station": "st_pohon_taman",
+          "duration_min": 20,
+          "chatter": "anxious",
+          "tags": [
+            "sembunyi"
+          ]
+        },
+        {
+          "id": "t_rah_07",
+          "label": "Mengintip lewat jendela ruang kerja",
+          "verb": "mengintip",
+          "station": "st_meja_kerja",
+          "duration_min": 12,
+          "chatter": "sneak",
+          "tags": [
+            "sembunyi"
+          ],
+          "spoiler": true,
+          "reveal_evidence": [
+            "evi_003"
+          ],
+          "allow_window": true
+        },
+        {
+          "id": "t_rah_08",
+          "label": "Mengambil buku besar dari laci",
+          "verb": "mengambil",
+          "station": "st_meja_kerja",
+          "duration_min": 10,
+          "chatter": "sneak",
+          "tags": [
+            "keuangan"
+          ],
+          "spoiler": true,
+          "reveal_evidence": [
+            "evi_002"
+          ],
+          "allow_window": true
+        },
+        {
+          "id": "t_rah_09",
+          "label": "Kabur menyusuri taman ke jalan samping",
+          "verb": "kabur",
+          "station": "st_pohon_taman",
+          "duration_min": 20,
+          "chatter": "anxious",
+          "tags": [
+            "sembunyi"
+          ],
+          "allow_window": true
+        },
+        {
+          "id": "t_rah_10",
+          "label": "Duduk gemetar di tepi kasur",
+          "verb": "gemetar",
+          "station": "st_kasur_tamu",
+          "duration_min": 60,
+          "chatter": "anxious",
+          "tags": [
+            "istirahat"
+          ]
+        },
+        {
+          "id": "t_rah_11",
+          "label": "Bertemu Bos Guntur diam-diam di taman",
+          "verb": "berbisik",
+          "station": "st_bangku_taman",
+          "duration_min": 20,
+          "chatter": "secret",
+          "tags": [
+            "sosial",
+            "keuangan"
+          ],
+          "artifact": {
+            "id": "art_surat_utang",
+            "title": "Surat Utang Bertandatangan",
+            "evidence": "evi_017"
+          },
+          "with": "char_008"
+        }
+      ],
+      "schedule": [
+        {
+          "at": "17:00",
+          "task": "t_rah_01"
+        },
+        {
+          "at": "17:45",
+          "task": "t_rah_03"
+        },
+        {
+          "at": "18:15",
+          "free": "makan"
+        },
+        {
+          "at": "19:00",
+          "task": "t_rah_02"
+        },
+        {
+          "at": "19:35",
+          "task": "t_rah_11"
+        },
+        {
+          "at": "19:55",
+          "free": "social"
+        },
+        {
+          "at": "20:30",
+          "task": "t_rah_01"
+        },
+        {
+          "at": "21:05",
+          "task": "t_rah_03"
+        },
+        {
+          "at": "21:15",
+          "task": "t_rah_04"
+        },
+        {
+          "at": "21:45",
+          "free": "restless"
+        },
+        {
+          "at": "22:05",
+          "task": "t_rah_03"
+        },
+        {
+          "at": "22:30",
+          "task": "t_rah_06"
+        },
+        {
+          "at": "22:50",
+          "task": "t_rah_07"
+        },
+        {
+          "at": "23:05",
+          "task": "t_rah_08"
+        },
+        {
+          "at": "23:20",
+          "task": "t_rah_09"
+        },
+        {
+          "at": "23:45",
+          "task": "t_rah_10"
+        },
+        {
+          "at": "00:20",
+          "task": "t_rah_10"
+        },
+        {
+          "at": "01:00",
+          "task": "t_rah_05"
+        }
+      ]
+    },
+    "char_002": {
+      "title": "Nyonya Rumah Wisma Angker / Mantan Aktris Teater",
+      "employer": "Rumah tangga Haryanto Wijaya",
+      "duties": [
+        "Mengelola rumah tangga & jamuan",
+        "Menjaga nama baik keluarga",
+        "Memastikan revisi wasiat tidak terjadi"
+      ],
+      "skills": [
+        "Akting",
+        "Menyusun kata",
+        "Menyembunyikan emosi"
+      ],
+      "pressure": 70,
+      "pride": 80,
+      "tasks": [
+        {
+          "id": "t_sar_01",
+          "label": "Menyusun menu makan malam",
+          "verb": "menyusun menu",
+          "station": "st_meja_makan",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_sar_02",
+          "label": "Berlatih naskah teater di depan cermin",
+          "verb": "berlatih naskah",
+          "station": "st_naskah",
+          "duration_min": 45,
+          "chatter": "rehearse",
+          "tags": [
+            "seni",
+            "pribadi"
+          ]
+        },
+        {
+          "id": "t_sar_03",
+          "label": "Minum teh di ruang tamu",
+          "verb": "minum teh",
+          "station": "st_sofa",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "konsumsi",
+            "sosial"
+          ]
+        },
+        {
+          "id": "t_sar_04",
+          "label": "Berdandan di meja rias",
+          "verb": "berdandan",
+          "station": "st_lemari_sari",
+          "duration_min": 35,
+          "chatter": "work",
+          "tags": [
+            "pribadi"
+          ]
+        },
+        {
+          "id": "t_sar_05",
+          "label": "Berbicara empat mata dengan Haryanto",
+          "verb": "berdebat",
+          "station": "st_meja_kerja",
+          "duration_min": 25,
+          "chatter": "argue",
+          "tags": [
+            "sosial"
+          ],
+          "with": "npc_haryanto"
+        },
+        {
+          "id": "t_sar_06",
+          "label": "Menyiapkan gelas brandy di ruang kerja",
+          "verb": "menyiapkan brandy",
+          "station": "st_meja_brandy",
+          "duration_min": 10,
+          "chatter": "silent",
+          "tags": [
+            "konsumsi"
+          ],
+          "spoiler": true,
+          "reveal_evidence": [
+            "evi_012"
+          ]
+        },
+        {
+          "id": "t_sar_07",
+          "label": "Menelepon Rendy dari lobi",
+          "verb": "menelepon",
+          "station": "st_meja_rina",
+          "duration_min": 20,
+          "chatter": "secret",
+          "tags": [
+            "telepon",
+            "sosial"
+          ],
+          "artifact": {
+            "id": "art_tagihan_telepon",
+            "title": "Slip PABX — Panggilan Keluar",
+            "evidence": "evi_020"
+          }
+        },
+        {
+          "id": "t_sar_08",
+          "label": "Mengambil mobil di garasi",
+          "verb": "mengambil mobil",
+          "station": "st_mobil_sari",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "transportasi"
+          ],
+          "reveal_evidence": [
+            "evi_003"
+          ]
+        },
+        {
+          "id": "t_sar_09",
+          "label": "Menenangkan diri di bangku taman",
+          "verb": "menyendiri",
+          "station": "st_bangku_taman",
+          "duration_min": 30,
+          "chatter": "anxious",
+          "tags": [
+            "pribadi"
+          ]
+        },
+        {
+          "id": "t_sar_10",
+          "label": "Menangis pelan di kamar",
+          "verb": "menangis",
+          "station": "st_lemari_sari",
+          "duration_min": 40,
+          "chatter": "cry",
+          "tags": [
+            "pribadi"
+          ]
+        },
+        {
+          "id": "t_sar_11",
+          "label": "Menyembunyikan fotokopi wasiat di bawah lemari",
+          "verb": "menyembunyikan",
+          "station": "st_lemari_sari",
+          "duration_min": 15,
+          "chatter": "sneak",
+          "tags": [
+            "admin"
+          ],
+          "artifact": {
+            "id": "art_draf_wasiat_kamar",
+            "title": "Fotokopi Draf Wasiat (Kamar Sari)",
+            "evidence": "evi_022",
+            "lock": [
+              "evi_011",
+              "evi_023"
+            ]
+          },
+          "spoiler": true
+        }
+      ],
+      "schedule": [
+        {
+          "at": "17:00",
+          "task": "t_sar_04"
+        },
+        {
+          "at": "17:40",
+          "task": "t_sar_01"
+        },
+        {
+          "at": "18:15",
+          "task": "t_sar_03"
+        },
+        {
+          "at": "19:00",
+          "task": "t_sar_02"
+        },
+        {
+          "at": "19:50",
+          "task": "t_sar_11"
+        },
+        {
+          "at": "20:05",
+          "task": "t_sar_01"
+        },
+        {
+          "at": "20:45",
+          "task": "t_sar_02"
+        },
+        {
+          "at": "21:30",
+          "task": "t_sar_07"
+        },
+        {
+          "at": "21:55",
+          "task": "t_sar_05"
+        },
+        {
+          "at": "22:05",
+          "task": "t_sar_06"
+        },
+        {
+          "at": "22:25",
+          "task": "t_sar_09"
+        },
+        {
+          "at": "23:00",
+          "task": "t_sar_10"
+        },
+        {
+          "at": "23:15",
+          "task": "t_sar_08"
+        },
+        {
+          "at": "23:50",
+          "task": "t_sar_10"
+        },
+        {
+          "at": "00:30",
+          "task": "t_sar_03"
+        },
+        {
+          "at": "01:15",
+          "task": "t_sar_04"
+        }
+      ]
+    },
+    "char_003": {
+      "title": "Kepala Pelayan Senior",
+      "employer": "Wisma Angker (23 tahun mengabdi)",
+      "duties": [
+        "Menyajikan makan malam & minuman",
+        "Merawat peralatan perak",
+        "Mengunci pintu dan meronda malam",
+        "Mengatur pelayan lain"
+      ],
+      "skills": [
+        "Tata graha",
+        "Ronda",
+        "Menjaga rahasia majikan"
+      ],
+      "pressure": 45,
+      "pride": 75,
+      "tasks": [
+        {
+          "id": "t_bud_01",
+          "label": "Menata meja makan",
+          "verb": "menata meja",
+          "station": "st_meja_makan",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "konsumsi",
+            "logistik"
+          ]
+        },
+        {
+          "id": "t_bud_02",
+          "label": "Mengantar kopi ke ruang kerja",
+          "verb": "mengantar kopi",
+          "station": "st_meja_kerja",
+          "duration_min": 15,
+          "chatter": "service",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_bud_03",
+          "label": "Memoles peralatan perak",
+          "verb": "memoles perak",
+          "station": "st_perak",
+          "duration_min": 40,
+          "chatter": "work",
+          "tags": [
+            "logistik"
+          ]
+        },
+        {
+          "id": "t_bud_04",
+          "label": "Memeriksa kunci pintu & jendela",
+          "verb": "memeriksa kunci",
+          "station": "st_buku_tamu",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "keamanan"
+          ],
+          "reveal_evidence": [
+            "evi_009"
+          ]
+        },
+        {
+          "id": "t_bud_05",
+          "label": "Ronda malam keliling wisma",
+          "verb": "meronda",
+          "station": "st_senter",
+          "duration_min": 45,
+          "chatter": "patrol",
+          "tags": [
+            "keamanan"
+          ],
+          "artifact": {
+            "id": "art_ronda_budi",
+            "title": "Catatan Ronda Malam Budi",
+            "dynamic": "memory_log"
+          }
+        },
+        {
+          "id": "t_bud_06",
+          "label": "Istirahat sebentar di kamar",
+          "verb": "beristirahat",
+          "station": "st_kamar_budi",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "istirahat"
+          ]
+        },
+        {
+          "id": "t_bud_07",
+          "label": "Menggosok peralatan di bak cuci",
+          "verb": "menggosok",
+          "station": "st_bak_cuci",
+          "duration_min": 25,
+          "chatter": "work",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_bud_08",
+          "label": "Mengawasi kerja pelayan lain",
+          "verb": "mengawasi",
+          "station": "st_sofa",
+          "duration_min": 20,
+          "chatter": "supervise",
+          "tags": [
+            "sosial"
+          ]
+        }
+      ],
+      "schedule": [
+        {
+          "at": "17:00",
+          "task": "t_bud_01"
+        },
+        {
+          "at": "17:35",
+          "task": "t_bud_07"
+        },
+        {
+          "at": "18:05",
+          "task": "t_bud_03"
+        },
+        {
+          "at": "18:50",
+          "task": "t_bud_08"
+        },
+        {
+          "at": "19:20",
+          "task": "t_bud_01"
+        },
+        {
+          "at": "20:05",
+          "task": "t_bud_01"
+        },
+        {
+          "at": "20:45",
+          "task": "t_bud_03"
+        },
+        {
+          "at": "21:20",
+          "task": "t_bud_04"
+        },
+        {
+          "at": "21:45",
+          "task": "t_bud_02"
+        },
+        {
+          "at": "22:10",
+          "task": "t_bud_06"
+        },
+        {
+          "at": "22:40",
+          "task": "t_bud_05"
+        },
+        {
+          "at": "23:30",
+          "task": "t_bud_06"
+        },
+        {
+          "at": "00:10",
+          "task": "t_bud_05"
+        },
+        {
+          "at": "00:40",
+          "task": "t_bud_08"
+        }
+      ]
+    },
+    "char_004": {
+      "title": "Resepsionis Wisma / Mantan Sekretaris Pribadi Haryanto",
+      "employer": "Wisma Angker",
+      "duties": [
+        "Mengetik surat & mengarsipkan dokumen",
+        "Menerima telepon dan tamu",
+        "Mencatat buku tamu",
+        "Menjaga kerahasiaan surat-menyurat majikan"
+      ],
+      "skills": [
+        "Mesin ketik",
+        "Stenografi",
+        "Ingat wajah & jam kedatangan"
+      ],
+      "pressure": 60,
+      "pride": 55,
+      "tasks": [
+        {
+          "id": "t_rin_01",
+          "label": "Mengetik surat di mesin ketik",
+          "verb": "mengetik",
+          "station": "st_mesin_ketik",
+          "duration_min": 35,
+          "chatter": "work",
+          "tags": [
+            "admin"
+          ],
+          "artifact": {
+            "id": "art_surat_ketikan",
+            "title": "Tembusan Surat Ketikan Rina",
+            "evidence": "evi_025"
+          }
+        },
+        {
+          "id": "t_rin_02",
+          "label": "Mengangkat telepon lobi",
+          "verb": "mengangkat telepon",
+          "station": "st_meja_rina",
+          "duration_min": 15,
+          "chatter": "work",
+          "tags": [
+            "telepon",
+            "admin"
+          ],
+          "artifact": {
+            "id": "art_log_telepon",
+            "title": "Log Penerimaan Telepon",
+            "evidence": "evi_018"
+          }
+        },
+        {
+          "id": "t_rin_03",
+          "label": "Mencatat buku tamu",
+          "verb": "mencatat tamu",
+          "station": "st_buku_tamu",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "admin"
+          ],
+          "artifact": {
+            "id": "art_buku_tamu",
+            "title": "Buku Tamu Wisma (Salinan Malam Itu)",
+            "evidence": "evi_007"
+          }
+        },
+        {
+          "id": "t_rin_04",
+          "label": "Mengarsipkan dokumen di gudang",
+          "verb": "mengarsipkan",
+          "station": "st_arsip_gudang",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "admin"
+          ],
+          "artifact": {
+            "id": "art_wasiat_1975",
+            "title": "Salinan Wasiat Asli 1975",
+            "evidence": "evi_023"
+          }
+        },
+        {
+          "id": "t_rin_05",
+          "label": "Membuat kopi untuk tamu",
+          "verb": "membuat kopi",
+          "station": "st_kompor",
+          "duration_min": 15,
+          "chatter": "work",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_rin_06",
+          "label": "Menerima tamu di ruang tamu",
+          "verb": "menerima tamu",
+          "station": "st_sofa",
+          "duration_min": 25,
+          "chatter": "polite",
+          "tags": [
+            "sosial",
+            "admin"
+          ]
+        },
+        {
+          "id": "t_rin_07",
+          "label": "Bergosip pelan dengan Marni di dapur",
+          "verb": "bergosip",
+          "station": "st_bak_cuci",
+          "duration_min": 20,
+          "chatter": "gossip",
+          "tags": [
+            "sosial"
+          ]
+        }
+      ],
+      "schedule": [
+        {
+          "at": "17:00",
+          "task": "t_rin_01"
+        },
+        {
+          "at": "17:40",
+          "task": "t_rin_02"
+        },
+        {
+          "at": "18:00",
+          "task": "t_rin_05"
+        },
+        {
+          "at": "18:20",
+          "task": "t_rin_03"
+        },
+        {
+          "at": "18:45",
+          "task": "t_rin_04"
+        },
+        {
+          "at": "19:20",
+          "task": "t_rin_01"
+        },
+        {
+          "at": "20:00",
+          "task": "t_rin_07"
+        },
+        {
+          "at": "20:30",
+          "task": "t_rin_02"
+        },
+        {
+          "at": "21:00",
+          "task": "t_rin_06"
+        },
+        {
+          "at": "21:40",
+          "task": "t_rin_03"
+        },
+        {
+          "at": "22:00",
+          "task": "t_rin_01"
+        },
+        {
+          "at": "22:40",
+          "task": "t_rin_04"
+        },
+        {
+          "at": "23:20",
+          "task": "t_rin_02"
+        },
+        {
+          "at": "00:00",
+          "task": "t_rin_07"
+        },
+        {
+          "at": "00:30",
+          "task": "t_rin_06"
+        }
+      ]
+    },
+    "char_005": {
+      "title": "Notaris / PPAT Keluarga Wijaya",
+      "employer": "Kantor Notaris Sugeng & Rekan",
+      "duties": [
+        "Menyusun draf revisi wasiat",
+        "Melegalisasi dokumen",
+        "Menjadi saksi sengketa keluarga"
+      ],
+      "skills": [
+        "Hukum waris",
+        "Kalimat berhati-hati",
+        "Menyimpan dokumen"
+      ],
+      "pressure": 50,
+      "pride": 70,
+      "tasks": [
+        {
+          "id": "t_sug_01",
+          "label": "Memeriksa draf revisi wasiat",
+          "verb": "memeriksa draf",
+          "station": "st_meja_kerja",
+          "duration_min": 40,
+          "chatter": "work",
+          "tags": [
+            "hukum",
+            "admin"
+          ],
+          "artifact": {
+            "id": "art_draf_wasiat",
+            "title": "Draf Surat Wasiat (Belum Ditandatangani)",
+            "evidence": "evi_011"
+          }
+        },
+        {
+          "id": "t_sug_02",
+          "label": "Berdiskusi dengan Haryanto",
+          "verb": "berdiskusi",
+          "station": "st_meja_kerja",
+          "duration_min": 30,
+          "chatter": "formal",
+          "tags": [
+            "hukum",
+            "sosial"
+          ],
+          "with": "npc_haryanto"
+        },
+        {
+          "id": "t_sug_03",
+          "label": "Menunggu di ruang tamu",
+          "verb": "menunggu",
+          "station": "st_sofa",
+          "duration_min": 25,
+          "chatter": "formal",
+          "tags": [
+            "sosial"
+          ]
+        },
+        {
+          "id": "t_sug_04",
+          "label": "Menandatangani berkas di lobi",
+          "verb": "menandatangani",
+          "station": "st_meja_rina",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "hukum",
+            "admin"
+          ]
+        },
+        {
+          "id": "t_sug_05",
+          "label": "Menyimpan berkas ke dalam tas",
+          "verb": "menyimpan berkas",
+          "station": "st_arsip_gudang",
+          "duration_min": 15,
+          "chatter": "work",
+          "tags": [
+            "hukum"
+          ]
+        },
+        {
+          "id": "t_sug_06",
+          "label": "Menunggu mobil di halaman",
+          "verb": "menunggu mobil",
+          "station": "st_pagar",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "transportasi"
+          ]
+        }
+      ],
+      "schedule": [
+        {
+          "at": "20:30",
+          "task": "t_sug_03"
+        },
+        {
+          "at": "21:00",
+          "task": "t_sug_02"
+        },
+        {
+          "at": "21:35",
+          "task": "t_sug_01"
+        },
+        {
+          "at": "22:15",
+          "task": "t_sug_04"
+        },
+        {
+          "at": "22:40",
+          "task": "t_sug_03"
+        },
+        {
+          "at": "23:10",
+          "task": "t_sug_06"
+        },
+        {
+          "at": "23:30",
+          "leave": true
+        },
+        {
+          "at": "00:30",
+          "task": "t_sug_03"
+        }
+      ]
+    },
+    "char_006": {
+      "title": "Pembantu Dapur",
+      "employer": "Wisma Angker (11 tahun)",
+      "duties": [
+        "Memasak dan menyajikan makanan",
+        "Mencuci piring & peralatan",
+        "Menyiapkan nampan minuman majikan"
+      ],
+      "skills": [
+        "Masakan Jawa",
+        "Mendengar tanpa terlihat",
+        "Menghindari majikan"
+      ],
+      "pressure": 40,
+      "pride": 45,
+      "tasks": [
+        {
+          "id": "t_mar_01",
+          "label": "Memasak makan malam",
+          "verb": "memasak",
+          "station": "st_kompor",
+          "duration_min": 45,
+          "chatter": "work",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_mar_02",
+          "label": "Mencuci piring",
+          "verb": "mencuci piring",
+          "station": "st_bak_cuci",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "konsumsi",
+            "logistik"
+          ]
+        },
+        {
+          "id": "t_mar_03",
+          "label": "Menyiapkan nampan minuman",
+          "verb": "menyiapkan nampan",
+          "station": "st_lemari_dapur",
+          "duration_min": 15,
+          "chatter": "work",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_mar_04",
+          "label": "Mengantar nampan ke ruang makan",
+          "verb": "mengantar nampan",
+          "station": "st_meja_makan",
+          "duration_min": 15,
+          "chatter": "service",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_mar_05",
+          "label": "Bergosip dengan Budi",
+          "verb": "bergosip",
+          "station": "st_sofa",
+          "duration_min": 25,
+          "chatter": "gossip",
+          "tags": [
+            "sosial"
+          ]
+        },
+        {
+          "id": "t_mar_06",
+          "label": "Mendengarkan dari balik pintu ruang kerja",
+          "verb": "menguping",
+          "station": "st_meja_kerja",
+          "duration_min": 12,
+          "chatter": "silent",
+          "tags": [
+            "sembunyi"
+          ],
+          "artifact": {
+            "id": "art_laporan_marni",
+            "title": "Kesaksian Marni (Didengar dari Balik Pintu)",
+            "evidence": "evi_005"
+          }
+        },
+        {
+          "id": "t_mar_07",
+          "label": "Istirahat di sudut dapur",
+          "verb": "beristirahat",
+          "station": "st_kompor",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "istirahat"
+          ]
+        },
+        {
+          "id": "t_mar_08",
+          "label": "Membuang sampah dapur",
+          "verb": "membuang sampah",
+          "station": "st_lemari_dapur",
+          "duration_min": 15,
+          "chatter": "work",
+          "tags": [
+            "logistik"
+          ],
+          "reveal_evidence": [
+            "evi_021"
+          ]
+        }
+      ],
+      "schedule": [
+        {
+          "at": "17:00",
+          "task": "t_mar_01"
+        },
+        {
+          "at": "17:50",
+          "task": "t_mar_02"
+        },
+        {
+          "at": "18:25",
+          "task": "t_mar_05"
+        },
+        {
+          "at": "19:00",
+          "task": "t_mar_01"
+        },
+        {
+          "at": "19:50",
+          "task": "t_mar_03"
+        },
+        {
+          "at": "20:10",
+          "task": "t_mar_04"
+        },
+        {
+          "at": "20:30",
+          "task": "t_mar_02"
+        },
+        {
+          "at": "21:15",
+          "task": "t_mar_05"
+        },
+        {
+          "at": "21:55",
+          "task": "t_mar_06"
+        },
+        {
+          "at": "22:15",
+          "task": "t_mar_07"
+        },
+        {
+          "at": "22:40",
+          "task": "t_mar_02"
+        },
+        {
+          "at": "23:20",
+          "task": "t_mar_08"
+        },
+        {
+          "at": "23:45",
+          "task": "t_mar_07"
+        },
+        {
+          "at": "00:20",
+          "task": "t_mar_05"
+        }
+      ]
+    },
+    "char_007": {
+      "title": "Instruktur Berkuda Klub Elit Puncak / Tamu Tidak Resmi",
+      "employer": "Klub Berkuda Puncak",
+      "duties": [
+        "Merawat kuda & pelana",
+        "Menemani anggota klub",
+        "Menjaga hubungan rahasia dengan Nyonya rumah"
+      ],
+      "skills": [
+        "Berkuda",
+        "Membaca situasi",
+        "Menghilang cepat"
+      ],
+      "pressure": 55,
+      "pride": 65,
+      "tasks": [
+        {
+          "id": "t_ren_01",
+          "label": "Menunggu di bawah pohon taman",
+          "verb": "menunggu",
+          "station": "st_pohon_taman",
+          "duration_min": 30,
+          "chatter": "anxious",
+          "tags": [
+            "sembunyi"
+          ]
+        },
+        {
+          "id": "t_ren_02",
+          "label": "Merokok di halaman depan",
+          "verb": "merokok",
+          "station": "st_pagar",
+          "duration_min": 25,
+          "chatter": "work",
+          "tags": [
+            "pribadi"
+          ]
+        },
+        {
+          "id": "t_ren_03",
+          "label": "Menitipkan catatan untuk Sari lewat Rina",
+          "verb": "menitipkan catatan",
+          "station": "st_meja_rina",
+          "duration_min": 15,
+          "chatter": "secret",
+          "tags": [
+            "admin",
+            "sosial"
+          ],
+          "artifact": {
+            "id": "art_catatan_rendy",
+            "title": "Catatan Tulisan Tangan Rendy",
+            "evidence": "evi_016"
+          }
+        },
+        {
+          "id": "t_ren_04",
+          "label": "Mengobrol soal kuda dengan Budi",
+          "verb": "mengobrol",
+          "station": "st_sofa",
+          "duration_min": 20,
+          "chatter": "casual",
+          "tags": [
+            "sosial"
+          ]
+        },
+        {
+          "id": "t_ren_05",
+          "label": "Memeriksa mobil di garasi",
+          "verb": "memeriksa mobil",
+          "station": "st_mobil_operasi",
+          "duration_min": 25,
+          "chatter": "work",
+          "tags": [
+            "transportasi"
+          ]
+        },
+        {
+          "id": "t_ren_06",
+          "label": "Membersihkan pelana di gudang",
+          "verb": "membersihkan pelana",
+          "station": "st_arsip_gudang",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "logistik"
+          ]
+        },
+        {
+          "id": "t_ren_07",
+          "label": "Berdua dengan Sari di taman",
+          "verb": "berbisik",
+          "station": "st_bangku_taman",
+          "duration_min": 20,
+          "chatter": "secret",
+          "tags": [
+            "sosial"
+          ],
+          "artifact": {
+            "id": "art_laporan_detektif",
+            "title": "Catatan Pengintaian dari Balik Pagar",
+            "evidence": "evi_024"
+          },
+          "with": "char_002"
+        }
+      ],
+      "schedule": [
+        {
+          "at": "18:30",
+          "task": "t_ren_02"
+        },
+        {
+          "at": "19:00",
+          "task": "t_ren_01"
+        },
+        {
+          "at": "19:40",
+          "task": "t_ren_03"
+        },
+        {
+          "at": "20:10",
+          "task": "t_ren_05"
+        },
+        {
+          "at": "20:50",
+          "task": "t_ren_04"
+        },
+        {
+          "at": "21:20",
+          "task": "t_ren_07"
+        },
+        {
+          "at": "21:45",
+          "task": "t_ren_01"
+        },
+        {
+          "at": "22:15",
+          "task": "t_ren_02"
+        },
+        {
+          "at": "22:45",
+          "task": "t_ren_06"
+        },
+        {
+          "at": "23:20",
+          "task": "t_ren_05"
+        },
+        {
+          "at": "23:50",
+          "leave": true
+        },
+        {
+          "at": "00:40",
+          "task": "t_ren_02"
+        }
+      ]
+    },
+    "char_008": {
+      "title": "Bos Judi Gelap & Rentenir",
+      "employer": "Diri sendiri",
+      "duties": [
+        "Menagih utang jatuh tempo",
+        "Menghitung setoran",
+        "Menekan debitur lewat telepon dan kunjungan"
+      ],
+      "skills": [
+        "Intimidasi",
+        "Negosiasi",
+        "Menghitung bunga"
+      ],
+      "pressure": 30,
+      "pride": 90,
+      "tasks": [
+        {
+          "id": "t_gun_01",
+          "label": "Menunggu di dekat pagar",
+          "verb": "menunggu",
+          "station": "st_pagar",
+          "duration_min": 30,
+          "chatter": "cold",
+          "tags": [
+            "sembunyi"
+          ]
+        },
+        {
+          "id": "t_gun_02",
+          "label": "Menghitung uang di dalam mobil",
+          "verb": "menghitung uang",
+          "station": "st_mobil_operasi",
+          "duration_min": 25,
+          "chatter": "work",
+          "tags": [
+            "keuangan"
+          ]
+        },
+        {
+          "id": "t_gun_03",
+          "label": "Menelepon Rahmat dari lobi",
+          "verb": "menelepon",
+          "station": "st_meja_rina",
+          "duration_min": 15,
+          "chatter": "threat",
+          "tags": [
+            "telepon"
+          ],
+          "artifact": {
+            "id": "art_ancaman_guntur",
+            "title": "Catatan Ancaman Bos Guntur",
+            "dynamic": "threat_note"
+          }
+        },
+        {
+          "id": "t_gun_04",
+          "label": "Menemui Rahmat di taman",
+          "verb": "menagih",
+          "station": "st_bangku_taman",
+          "duration_min": 20,
+          "chatter": "threat",
+          "tags": [
+            "sosial",
+            "keuangan"
+          ],
+          "with": "char_001"
+        },
+        {
+          "id": "t_gun_05",
+          "label": "Memeriksa arsip utang di gudang",
+          "verb": "memeriksa arsip",
+          "station": "st_arsip_gudang",
+          "duration_min": 15,
+          "chatter": "work",
+          "tags": [
+            "keuangan",
+            "admin"
+          ]
+        }
+      ],
+      "schedule": [
+        {
+          "at": "19:20",
+          "task": "t_gun_01"
+        },
+        {
+          "at": "19:35",
+          "task": "t_gun_04"
+        },
+        {
+          "at": "20:00",
+          "task": "t_gun_02"
+        },
+        {
+          "at": "20:40",
+          "task": "t_gun_01"
+        },
+        {
+          "at": "21:10",
+          "task": "t_gun_03"
+        },
+        {
+          "at": "21:35",
+          "task": "t_gun_05"
+        },
+        {
+          "at": "22:00",
+          "task": "t_gun_01"
+        },
+        {
+          "at": "22:40",
+          "task": "t_gun_02"
+        },
+        {
+          "at": "23:20",
+          "leave": true
+        },
+        {
+          "at": "00:50",
+          "task": "t_gun_01"
+        }
+      ]
+    },
+    "npc_tio": {
+      "title": "Satpam Shift Malam",
+      "employer": "Wisma Angker",
+      "duties": [
+        "Mencatat keluar-masuk kendaraan di buku log",
+        "Meronda halaman & taman",
+        "Menjaga gerbang"
+      ],
+      "skills": [
+        "Catatan log",
+        "Ronda",
+        "Menahan kantuk"
+      ],
+      "pressure": 35,
+      "pride": 60,
+      "tasks": [
+        {
+          "id": "t_tio_01",
+          "label": "Mencatat log gerbang",
+          "verb": "mencatat log",
+          "station": "st_log_satpam",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "keamanan",
+            "admin"
+          ],
+          "artifact": {
+            "id": "art_log_gerbang",
+            "title": "Log Keamanan Gerbang (Salinan)",
+            "evidence": "evi_003"
+          }
+        },
+        {
+          "id": "t_tio_02",
+          "label": "Ronda halaman depan",
+          "verb": "meronda",
+          "station": "st_pagar",
+          "duration_min": 25,
+          "chatter": "patrol",
+          "tags": [
+            "keamanan"
+          ]
+        },
+        {
+          "id": "t_tio_03",
+          "label": "Ronda taman belakang",
+          "verb": "meronda",
+          "station": "st_pohon_taman",
+          "duration_min": 20,
+          "chatter": "patrol",
+          "tags": [
+            "keamanan"
+          ]
+        },
+        {
+          "id": "t_tio_04",
+          "label": "Menyiapkan senter & payung",
+          "verb": "menyiapkan",
+          "station": "st_senter",
+          "duration_min": 10,
+          "chatter": "work",
+          "tags": [
+            "keamanan"
+          ]
+        },
+        {
+          "id": "t_tio_05",
+          "label": "Jaga pos sambil menahan kantuk",
+          "verb": "jaga pos",
+          "station": "st_log_satpam",
+          "duration_min": 30,
+          "chatter": "work",
+          "tags": [
+            "keamanan",
+            "istirahat"
+          ]
+        }
+      ],
+      "schedule": [
+        {
+          "at": "20:00",
+          "task": "t_tio_01"
+        },
+        {
+          "at": "20:30",
+          "task": "t_tio_02"
+        },
+        {
+          "at": "21:00",
+          "task": "t_tio_01"
+        },
+        {
+          "at": "21:30",
+          "task": "t_tio_03"
+        },
+        {
+          "at": "22:00",
+          "task": "t_tio_02"
+        },
+        {
+          "at": "22:30",
+          "task": "t_tio_04"
+        },
+        {
+          "at": "22:45",
+          "task": "t_tio_03"
+        },
+        {
+          "at": "23:10",
+          "task": "t_tio_01"
+        },
+        {
+          "at": "23:50",
+          "task": "t_tio_02"
+        },
+        {
+          "at": "00:20",
+          "task": "t_tio_05"
+        }
+      ]
+    },
+    "npc_haryanto": {
+      "title": "Pemilik Wisma Angker",
+      "employer": "Diri sendiri",
+      "duties": [
+        "Memeriksa pembukuan pabrik",
+        "Menandatangani cek & wasiat",
+        "Menerima notaris dan tamu"
+      ],
+      "skills": [
+        "Negosiasi keras",
+        "Membaca angka",
+        "Memerintah"
+      ],
+      "pressure": 65,
+      "pride": 95,
+      "tasks": [
+        {
+          "id": "t_har_01",
+          "label": "Memeriksa berkas pabrik",
+          "verb": "memeriksa berkas",
+          "station": "st_meja_kerja",
+          "duration_min": 45,
+          "chatter": "work",
+          "tags": [
+            "keuangan",
+            "admin"
+          ]
+        },
+        {
+          "id": "t_har_02",
+          "label": "Menandatangani cek",
+          "verb": "menandatangani",
+          "station": "st_meja_kerja",
+          "duration_min": 20,
+          "chatter": "work",
+          "tags": [
+            "keuangan",
+            "admin"
+          ]
+        },
+        {
+          "id": "t_har_03",
+          "label": "Makan malam bersama Sari",
+          "verb": "makan malam",
+          "station": "st_meja_makan",
+          "duration_min": 40,
+          "chatter": "tense",
+          "tags": [
+            "konsumsi",
+            "sosial"
+          ],
+          "with": "char_002"
+        },
+        {
+          "id": "t_har_04",
+          "label": "Minum brandy di ruang kerja",
+          "verb": "minum brandy",
+          "station": "st_meja_brandy",
+          "duration_min": 25,
+          "chatter": "silent",
+          "tags": [
+            "konsumsi"
+          ]
+        },
+        {
+          "id": "t_har_05",
+          "label": "Bertengkar dengan Sari",
+          "verb": "bertengkar",
+          "station": "st_meja_kerja",
+          "duration_min": 20,
+          "chatter": "argue",
+          "tags": [
+            "sosial"
+          ],
+          "with": "char_002"
+        },
+        {
+          "id": "t_har_06",
+          "label": "Menerima notaris Sugeng",
+          "verb": "menerima tamu",
+          "station": "st_sofa",
+          "duration_min": 25,
+          "chatter": "formal",
+          "tags": [
+            "sosial",
+            "hukum"
+          ],
+          "with": "char_005"
+        },
+        {
+          "id": "t_har_07",
+          "label": "Menelepon pengacara",
+          "verb": "menelepon",
+          "station": "st_meja_rina",
+          "duration_min": 15,
+          "chatter": "work",
+          "tags": [
+            "telepon",
+            "hukum"
+          ]
+        }
+      ],
+      "schedule": [
+        {
+          "at": "17:00",
+          "task": "t_har_01"
+        },
+        {
+          "at": "18:00",
+          "task": "t_har_02"
+        },
+        {
+          "at": "18:30",
+          "task": "t_har_07"
+        },
+        {
+          "at": "19:00",
+          "task": "t_har_01"
+        },
+        {
+          "at": "20:00",
+          "task": "t_har_03"
+        },
+        {
+          "at": "20:45",
+          "task": "t_har_06"
+        },
+        {
+          "at": "21:15",
+          "task": "t_har_02"
+        },
+        {
+          "at": "21:45",
+          "task": "t_har_01"
+        },
+        {
+          "at": "22:00",
+          "task": "t_har_05"
+        },
+        {
+          "at": "22:10",
+          "task": "t_har_04"
+        }
+      ]
+    }
+  },
+  "free_behaviors": {
+    "default": [
+      {
+        "task": "wander",
+        "label": "Berkeliaran tanpa tujuan",
+        "verb": "berjalan",
+        "room": "koridor_bawah",
+        "duration": 15
+      },
+      {
+        "task": "rest",
+        "label": "Duduk melepas lelah",
+        "verb": "duduk",
+        "station": "st_sofa",
+        "duration": 20,
+        "need": "energy"
+      },
+      {
+        "task": "eat",
+        "label": "Mengambil makanan di dapur",
+        "verb": "makan",
+        "station": "st_kompor",
+        "duration": 20,
+        "need": "hunger"
+      },
+      {
+        "task": "social",
+        "label": "Mencari teman mengobrol",
+        "verb": "mengobrol",
+        "duration": 20,
+        "need": "social"
+      },
+      {
+        "task": "smoke",
+        "label": "Keluar menghirup udara",
+        "verb": "berdiri",
+        "station": "st_bangku_taman",
+        "duration": 15
+      }
+    ],
+    "char_001": [
+      {
+        "task": "t_rah_03",
+        "duration": 20
+      },
+      {
+        "task": "t_rah_01",
+        "duration": 25
+      },
+      {
+        "task": "wander",
+        "label": "Mondar-mandir di koridor",
+        "verb": "mondar-mandir",
+        "room": "koridor_atas",
+        "duration": 15
+      }
+    ],
+    "char_002": [
+      {
+        "task": "t_sar_03",
+        "duration": 25
+      },
+      {
+        "task": "t_sar_10",
+        "duration": 30
+      },
+      {
+        "task": "wander",
+        "label": "Berjalan pelan di koridor",
+        "verb": "berjalan",
+        "room": "koridor_atas",
+        "duration": 15
+      }
+    ],
+    "char_008": [
+      {
+        "task": "t_gun_01",
+        "duration": 25
+      },
+      {
+        "task": "t_gun_02",
+        "duration": 20
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "a": "char_001",
+      "b": "npc_haryanto",
+      "trust": 25,
+      "affinity": 55,
+      "tension": 70,
+      "fear": 75,
+      "public_note": "Paman dan keponakan; hubungan memburuk sejak audit.",
+      "secret_note": "Haryanto tahu Rahmat menggelapkan Rp 200 juta dan memecatnya diam-diam.",
+      "reveal_evidence": [
+        "evi_002"
+      ]
+    },
+    {
+      "a": "char_001",
+      "b": "char_008",
+      "trust": 10,
+      "affinity": 15,
+      "tension": 92,
+      "fear": 95,
+      "public_note": "Saling kenal dari meja kartu.",
+      "secret_note": "Utang judi Rp 497 juta jatuh tempo 15 Juni; Guntur mengancam.",
+      "reveal_evidence": [
+        "evi_017",
+        "evi_002"
+      ]
+    },
+    {
+      "a": "char_002",
+      "b": "npc_haryanto",
+      "trust": 20,
+      "affinity": 30,
+      "tension": 88,
+      "fear": 35,
+      "public_note": "Suami-istri, pernikahan kedua, sering bertengkar soal uang.",
+      "secret_note": "Haryanto berencana mengubah wasiat (80% jadi 20%) dan menggugat cerai.",
+      "reveal_evidence": [
+        "evi_011",
+        "evi_025"
+      ]
+    },
+    {
+      "a": "char_002",
+      "b": "char_007",
+      "trust": 80,
+      "affinity": 92,
+      "tension": 25,
+      "fear": 40,
+      "public_note": "Instruktur berkuda keluarga; sopan pada Nyonya.",
+      "secret_note": "Hubungan gelap; mereka bertemu diam-diam di taman.",
+      "reveal_evidence": [
+        "evi_024",
+        "evi_020",
+        "evi_016"
+      ]
+    },
+    {
+      "a": "char_002",
+      "b": "char_004",
+      "trust": 35,
+      "affinity": 40,
+      "tension": 75,
+      "fear": 20,
+      "public_note": "Nyonya rumah dan resepsionis.",
+      "secret_note": "Sari curiga Rina punya hubungan masa lalu dengan Haryanto.",
+      "reveal_evidence": [
+        "evi_019",
+        "evi_025"
+      ]
+    },
+    {
+      "a": "char_002",
+      "b": "char_006",
+      "trust": 60,
+      "affinity": 55,
+      "tension": 20,
+      "fear": 15,
+      "public_note": "Marni melayani Sari sejak awal pernikahan.",
+      "secret_note": "Sari sering memberi uang lebih agar Marni tutup mulut soal tamunya.",
+      "reveal_evidence": [
+        "evi_005"
+      ]
+    },
+    {
+      "a": "char_003",
+      "b": "npc_haryanto",
+      "trust": 85,
+      "affinity": 75,
+      "tension": 15,
+      "fear": 45,
+      "public_note": "Pelayan paling dipercaya, 23 tahun mengabdi.",
+      "secret_note": "Budi diperintah mengawasi siapa saja yang masuk ruang kerja malam itu.",
+      "reveal_evidence": [
+        "evi_009",
+        "evi_003"
+      ]
+    },
+    {
+      "a": "char_003",
+      "b": "char_006",
+      "trust": 70,
+      "affinity": 65,
+      "tension": 10,
+      "fear": 5,
+      "public_note": "Rekan kerja sesama pelayan.",
+      "secret_note": "Saling menutupi kesalahan kecil di dapur.",
+      "reveal_evidence": []
+    },
+    {
+      "a": "char_004",
+      "b": "npc_haryanto",
+      "trust": 65,
+      "affinity": 70,
+      "tension": 45,
+      "fear": 50,
+      "public_note": "Mantan sekretaris pribadi, kini resepsionis.",
+      "secret_note": "Rina menyimpan surat-surat pribadi Haryanto, termasuk draf gugatan cerai.",
+      "reveal_evidence": [
+        "evi_018",
+        "evi_025"
+      ]
+    },
+    {
+      "a": "char_005",
+      "b": "npc_haryanto",
+      "trust": 75,
+      "affinity": 60,
+      "tension": 30,
+      "fear": 10,
+      "public_note": "Notaris keluarga.",
+      "secret_note": "Sugeng ditekan mempercepat revisi wasiat tanpa saksi.",
+      "reveal_evidence": [
+        "evi_011",
+        "evi_023"
+      ]
+    },
+    {
+      "a": "char_007",
+      "b": "char_003",
+      "trust": 45,
+      "affinity": 50,
+      "tension": 35,
+      "fear": 10,
+      "public_note": "Sama-sama orang luar yang sering ke wisma.",
+      "secret_note": "",
+      "reveal_evidence": []
+    },
+    {
+      "a": "npc_tio",
+      "b": "char_001",
+      "trust": 30,
+      "affinity": 25,
+      "tension": 60,
+      "fear": 20,
+      "public_note": "Satpam mencatat setiap tamu.",
+      "secret_note": "Tio melihat Rahmat menuju taman belakang pukul 22.45 tapi ragu melapor.",
+      "reveal_evidence": [
+        "evi_003"
+      ]
+    },
+    {
+      "a": "npc_tio",
+      "b": "char_002",
+      "trust": 35,
+      "affinity": 30,
+      "tension": 50,
+      "fear": 65,
+      "public_note": "Satpam dan Nyonya rumah.",
+      "secret_note": "Tio takut pada Sari; ia mencatat mobilnya keluar 23.15 tanpa berani bertanya.",
+      "reveal_evidence": [
+        "evi_003"
+      ]
+    },
+    {
+      "a": "char_008",
+      "b": "char_003",
+      "trust": 15,
+      "affinity": 10,
+      "tension": 70,
+      "fear": 15,
+      "public_note": "Budi diminta mengusir penagih utang.",
+      "secret_note": "",
+      "reveal_evidence": []
+    }
+  ],
+  "chatter": {
+    "normal": [
+      "Cuaca Puncak malam ini dingin sekali.",
+      "Listrik di sayap kiri sering mati sejak Selasa.",
+      "Tuan besar akhir-akhir ini susah sekali diajak bicara.",
+      "Kabarnya pabrik mau mem-PHK banyak orang.",
+      "Sudah kopinya diantar ke atas?",
+      "Tamu notaris datang lagi malam-malam begini.",
+      "Saya dengar ada yang bertengkar soal wasiat.",
+      "Jangan keras-keras, dinding rumah ini tipis.",
+      "Mobil siapa yang parkir di dekat garasi tadi?",
+      "Pintu taman belakang tidak pernah dikunci rapat."
+    ],
+    "aftermath": [
+      "Suara apa itu tadi dari ruang kerja?",
+      "Saya tidak mau naik ke atas sendirian.",
+      "Tuan besar kok belum keluar dari ruangan?",
+      "Lampu ruang kerja padam, aneh sekali.",
+      "Kamu dengar teriakan itu, kan?",
+      "Sebaiknya kita tunggu di bawah saja.",
+      "Siapa yang terakhir masuk ke ruangan itu?",
+      "Jangan sentuh apa pun sebelum polisi datang.",
+      "Saya gemetar, beri saya air.",
+      "Kalau ditanya polisi, katakan apa adanya saja."
+    ],
+    "crisis": [
+      "Tuan besar... tuan besar tidak bergerak.",
+      "Telepon polisi! Sekarang!",
+      "Jangan ada yang keluar dari rumah ini.",
+      "Gelasnya pecah, ada bau aneh di karpet.",
+      "Saya tidak mau dituduh, saya hanya pelayan.",
+      "Semua orang ada di rumah ini malam tadi.",
+      "Siapa yang menuang brandy itu?",
+      "Kunci pintu depan, jangan sampai ada wartawan.",
+      "Saya lihat ada yang lari ke taman.",
+      "Ini bukan kematian biasa."
+    ],
+    "work": [
+      "Sebentar, saya selesaikan ini dulu.",
+      "Berkasnya menumpuk sejak pagi.",
+      "Jangan ganggu, saya sedang menghitung.",
+      "Nanti saya serahkan sebelum tengah malam."
+    ]
+  },
+  "incidents": [
+    {
+      "id": "inc_rahmat_tiba",
+      "at": "17:30",
+      "label": "Rahmat tiba di Wisma",
+      "phase": "normal",
+      "stress": 5,
+      "rooms": [
+        "halaman_depan",
+        "lobi_depan"
+      ],
+      "broadcast": "🚗 Rahmat tiba dan langsung naik ke kamar tamu. Wajahnya pucat."
+    },
+    {
+      "id": "inc_rendy_tiba",
+      "at": "18:30",
+      "label": "Rendy datang tanpa janji",
+      "phase": "normal",
+      "stress": 8,
+      "rooms": [
+        "halaman_depan",
+        "taman_belakang"
+      ],
+      "broadcast": "🐴 Seorang pria berbau kandang kuda menunggu di dekat pagar. Tidak mencatatkan diri di buku tamu."
+    },
+    {
+      "id": "inc_guntur_tiba",
+      "at": "19:20",
+      "label": "Mobil asing di depan gerbang",
+      "phase": "normal",
+      "stress": 12,
+      "rooms": [
+        "halaman_depan",
+        "pos_satpam"
+      ],
+      "broadcast": "🚬 Mobil hitam berhenti dekat gerbang. Tio diminta 'tidak usah mencatat'."
+    },
+    {
+      "id": "inc_makan_malam",
+      "at": "20:00",
+      "label": "Makan malam yang tegang",
+      "phase": "normal",
+      "stress": 10,
+      "rooms": [
+        "ruang_makan"
+      ],
+      "broadcast": "🍽 Haryanto dan Sari makan malam dalam diam. Hanya bunyi sendok yang terdengar."
+    },
+    {
+      "id": "inc_sugeng_tiba",
+      "at": "20:30",
+      "label": "Notaris Sugeng tiba",
+      "phase": "normal",
+      "stress": 6,
+      "rooms": [
+        "lobi_depan",
+        "ruang_tamu"
+      ],
+      "broadcast": "💼 Notaris Sugeng datang membawa map berisi draf wasiat."
+    },
+    {
+      "id": "inc_rahmat_memohon",
+      "at": "21:15",
+      "label": "Rahmat menghadap Haryanto",
+      "phase": "normal",
+      "stress": 18,
+      "rooms": [
+        "ruang_kerja",
+        "koridor_atas"
+      ],
+      "broadcast": "🙏 Terdengar suara memohon dari ruang kerja, lalu bantingan map."
+    },
+    {
+      "id": "inc_kopi_budi",
+      "at": "21:50",
+      "label": "Budi mengantar kopi",
+      "phase": "normal",
+      "stress": 10,
+      "rooms": [
+        "ruang_kerja"
+      ],
+      "broadcast": "☕ Budi keluar dari ruang kerja sambil menunduk. Ia melihat lebih banyak daripada yang ia katakan."
+    },
+    {
+      "id": "inc_pertengkaran",
+      "at": "22:00",
+      "label": "Pertengkaran hebat",
+      "phase": "aftermath",
+      "stress": 28,
+      "rooms": [
+        "ruang_kerja",
+        "koridor_atas",
+        "dapur"
+      ],
+      "broadcast": "💢 'KAU AKAN MENYESAL!' — suara Sari terdengar sampai ke dapur. Pintu dibanting."
+    },
+    {
+      "id": "inc_blackout_kerja",
+      "at": "22:05",
+      "label": "Kamera ruang kerja terhalang",
+      "type": "blackout",
+      "rooms": [
+        "ruang_kerja"
+      ],
+      "until": "23:10",
+      "broadcast": "📹 Sinyal pemantau ruang kerja hilang. Hanya desis statis di layar."
+    },
+    {
+      "id": "inc_gelas_pecah",
+      "at": "22:30",
+      "label": "Suara gelas pecah",
+      "phase": "aftermath",
+      "stress": 35,
+      "rooms": [
+        "ruang_kerja",
+        "koridor_atas"
+      ],
+      "broadcast": "💥 'PRANG!' Sesuatu pecah di ruang kerja. Lalu hening total."
+    },
+    {
+      "id": "inc_rahmat_taman",
+      "at": "22:45",
+      "label": "Bayangan di taman belakang",
+      "phase": "aftermath",
+      "stress": 20,
+      "rooms": [
+        "taman_belakang",
+        "pos_satpam"
+      ],
+      "broadcast": "🌳 Tio melihat seseorang berjalan cepat menuju taman belakang. Ia ragu mencatatnya."
+    },
+    {
+      "id": "inc_lampu_padam",
+      "at": "23:00",
+      "label": "Lampu ruang kerja padam",
+      "type": "blackout",
+      "rooms": [
+        "ruang_kerja"
+      ],
+      "until": "99:99",
+      "stress": 25,
+      "broadcast": "🔌 Lampu ruang kerja mati. Tidak ada yang tercatat keluar lewat pintu depan."
+    },
+    {
+      "id": "inc_mobil_keluar",
+      "at": "23:15",
+      "label": "Mobil keluar gerbang",
+      "phase": "aftermath",
+      "stress": 15,
+      "rooms": [
+        "garasi",
+        "halaman_depan",
+        "pos_satpam"
+      ],
+      "broadcast": "🚗 Gerbang dibuka. Mobil Nyonya keluar, tujuannya tidak diketahui."
+    },
+    {
+      "id": "inc_mobil_kembali",
+      "at": "23:45",
+      "label": "Mobil kembali",
+      "phase": "aftermath",
+      "stress": 12,
+      "rooms": [
+        "garasi",
+        "halaman_depan"
+      ],
+      "broadcast": "🚗 Mobil itu kembali 30 menit kemudian. Tidak ada yang bertanya."
+    },
+    {
+      "id": "inc_penemuan",
+      "at": "00:15",
+      "label": "Ronda malam — PENEMUAN",
+      "phase": "crisis",
+      "stress": 65,
+      "rooms": [
+        "ruang_kerja",
+        "koridor_atas",
+        "dapur",
+        "pos_satpam"
+      ],
+      "broadcast": "🚨 Budi menemukan tubuh Haryanto. Teriakan memecah keheningan wisma. Semua orang dikumpulkan di ruang tamu.",
+      "gather": "ruang_tamu",
+      "unlock_evidence": "evi_001"
+    },
+    {
+      "id": "inc_polisi",
+      "at": "00:45",
+      "label": "Polisi tiba",
+      "phase": "crisis",
+      "stress": 45,
+      "rooms": [
+        "halaman_depan",
+        "lobi_depan",
+        "ruang_tamu"
+      ],
+      "broadcast": "🚔 Dua mobil polisi masuk halaman. Semua pintu dijaga. Tidak ada yang boleh pergi."
+    }
+  ],
+  "ai": {
+    "provider": "openrouter",
+    "endpoint_direct": "https://openrouter.ai/api/v1/chat/completions",
+    "models": {
+      "primary": "deepseek/deepseek-chat-v3-0324:free",
+      "fallbacks": [
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "qwen/qwen3-235b-a22b:free",
+        "google/gemini-2.0-flash-exp:free",
+        "mistralai/mistral-small-3.2-24b-instruct:free",
+        "deepseek/deepseek-r1:free"
+      ]
+    },
+    "budget": {
+      "daily_limit": 50,
+      "per_minute_limit": 20,
+      "interrogation_reserve": 12,
+      "director_interval_min": 20,
+      "max_director_agents": 10,
+      "batch_max_tokens": 900,
+      "deep_max_tokens": 350
+    },
+    "autonomy_levels": [
+      {
+        "id": "hemat",
+        "label": "Hemat",
+        "interval_min": 40,
+        "desc": "~14 panggilan / malam penuh"
+      },
+      {
+        "id": "normal",
+        "label": "Normal",
+        "interval_min": 20,
+        "desc": "~28 panggilan / malam penuh"
+      },
+      {
+        "id": "intens",
+        "label": "Intensif",
+        "interval_min": 10,
+        "desc": "~57 panggilan — butuh akun ber-kredit $10 (1000/hari)"
+      },
+      {
+        "id": "off",
+        "label": "Offline",
+        "interval_min": 0,
+        "desc": "0 panggilan — simulasi prosedural murni"
+      }
+    ]
+  },
+  "artifact_template": {
+    "header": "> 🗂 **ARTEFAK WISMA ANGKER** — lahir dari urusan rumah {agent} ({job}) pada {time}, di {room}.\n> Sumber: simulasi Wisma Angker. Barang ini {status}.\n",
+    "footer": "\n---\n*Artefak ini muncul karena {agent} menjalankan urusan \"{task}\". Anda menyitanya dari {room} pada pukul {time}.*\n"
+  },
+  "simulation": {
+    "needs_decay": {
+      "energy": 0.35,
+      "hunger": 0.45,
+      "social": 0.55
+    },
+    "needs": {
+      "energy": {
+        "start": 75,
+        "min": 0,
+        "max": 100
+      },
+      "hunger": {
+        "start": 60,
+        "min": 0,
+        "max": 100
+      },
+      "social": {
+        "start": 50,
+        "min": 0,
+        "max": 100
+      }
+    },
+    "mood": {
+      "stress_start": 35
+    },
+    "conversation": {
+      "min_social": 45,
+      "cooldown_min": 12,
+      "max_lines": 3
+    },
+    "perception": {
+      "same_room": 1.0,
+      "adjacent": 0.35,
+      "blackout": 0.0
+    },
+    "memory": {
+      "max_per_agent": 90,
+      "reflect_every_min": 90,
+      "importance_threshold": 45
+    },
+    "movement": {
+      "speed_tiles_per_min": 14
+    }
+  },
+  "agents": {
+    "char_001": {
+      "home_room": "kamar_tamu",
+      "arrive_at": "17:00",
+      "initial": {
+        "stress": 45,
+        "energy": 70,
+        "hunger": 55,
+        "social": 35
+      }
+    },
+    "char_002": {
+      "home_room": "kamar_sari",
+      "arrive_at": "17:00",
+      "initial": {
+        "stress": 25,
+        "energy": 80,
+        "hunger": 45,
+        "social": 50
+      }
+    },
+    "char_003": {
+      "home_room": "ruang_makan",
+      "arrive_at": "17:00",
+      "initial": {
+        "stress": 25,
+        "energy": 65,
+        "hunger": 50,
+        "social": 45
+      }
+    },
+    "char_004": {
+      "home_room": "lobi_depan",
+      "arrive_at": "17:00",
+      "initial": {
+        "stress": 35,
+        "energy": 75,
+        "hunger": 50,
+        "social": 55
+      }
+    },
+    "char_005": {
+      "home_room": "halaman_depan",
+      "arrive_at": "20:30",
+      "initial": {
+        "stress": 20,
+        "energy": 80,
+        "hunger": 40,
+        "social": 40
+      }
+    },
+    "char_006": {
+      "home_room": "dapur",
+      "arrive_at": "17:00",
+      "initial": {
+        "stress": 30,
+        "energy": 70,
+        "hunger": 60,
+        "social": 60
+      }
+    },
+    "char_007": {
+      "home_room": "halaman_depan",
+      "arrive_at": "18:30",
+      "initial": {
+        "stress": 30,
+        "energy": 85,
+        "hunger": 45,
+        "social": 50
+      }
+    },
+    "char_008": {
+      "home_room": "halaman_depan",
+      "arrive_at": "19:20",
+      "initial": {
+        "stress": 20,
+        "energy": 85,
+        "hunger": 50,
+        "social": 25
+      }
+    },
+    "npc_tio": {
+      "home_room": "pos_satpam",
+      "arrive_at": "20:00",
+      "initial": {
+        "stress": 20,
+        "energy": 70,
+        "hunger": 55,
+        "social": 30
+      }
+    },
+    "npc_haryanto": {
+      "home_room": "ruang_kerja",
+      "arrive_at": "17:00",
+      "initial": {
+        "stress": 55,
+        "energy": 60,
+        "hunger": 40,
+        "social": 40
+      }
+    }
+  },
+  "phase_notes": {
+    "normal": "Rumah berjalan normal: semua orang menjalani urusan malamnya.",
+    "aftermath": "Sesuatu telah terjadi di lantai atas. Orang-orang gelisah, bicara pelan, dan saling mengamati.",
+    "crisis": "Tuan rumah ditemukan tewas. Polisi menguasai rumah. Semua orang dikumpulkan dan tidak boleh pergi."
+  },
+  "room_blackout_static": "░▒▓ SINYAL HILANG — pemantau ruangan ini tidak berfungsi ▓▒░"
+}

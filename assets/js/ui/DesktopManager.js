@@ -19,6 +19,12 @@ export class DesktopManager {
         label: "Dossier",
         windowId: "dossier",
       },
+      {
+        id: "wisma",
+        icon: "🏚️",
+        label: "Wisma Angker",
+        windowId: "wisma",
+      },
       { id: "timeline", icon: "⏱️", label: "Timeline", windowId: "timeline" },
       { id: "notes", icon: "📝", label: "Notes", windowId: "notes" },
       {

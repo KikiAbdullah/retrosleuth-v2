@@ -7,7 +7,15 @@ Alih-alih memilih dialog dari daftar, Anda **mengetik pertanyaan sendiri**. Seti
 
 > 🎮 **Live Demo**: [https://kikiabdullah.github.io/retrosleuth-v2/](https://kikiabdullah.github.io/retrosleuth-v2/)
 >
-> 📄 **Dokumentasi Lengkap**: [PRD.md](PRD.md)
+> 📄 **Dokumentasi Lengkap**: [PRD.md](PRD.md) · 🏚️ **Wisma Angker (Simulasi Penghuni)**: [docs/AI_WISMA.md](docs/AI_WISMA.md)
+
+Mulai **v2.1.0**, RetroSleuth punya **Wisma Angker**: sebuah "simulasi penghuni" di dalam game.
+Delapan tersangka dan dua NPC hidup di **Wisma Angker** sepanjang malam — masing-masing punya
+peran di rumah itu (pelayan, dapur, ronda, notaris, keluarga, tamu), jadwal harian, kebutuhan tubuh, ingatan, dan relasinya sendiri. Mereka berjalan antar
+ruangan, mengetik surat, meronda, berbisik, bertengkar, dan **menghasilkan artefak** (buku tamu,
+slip telepon, catatan ronda, draf wasiat) yang bisa Anda sita sebagai bukti. Anda menonton lewat
+CCTV, menyadap percakapan, dan mengintip pikiran mereka — sementara satu panggilan AI "sutradara"
+(OpenRouter **free tier**) sesekali menghidupkan dialognya. Tanpa API pun dunia ini tetap hidup.
 
 ---
 
@@ -16,6 +24,12 @@ Alih-alih memilih dialog dari daftar, Anda **mengetik pertanyaan sendiri**. Seti
 | Fitur                              | Deskripsi                                                                                                                        |
 | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
 | 🕵️ **Interogasi AI Open-Ended**    | Bukan pohon dialog. Anda mengetik pertanyaan bebas ke tersangka, dan AI merespons secara dinamis sesuai kepribadian karakter.    |
+| 🏚️ **Wisma Angker (Simulasi Penghuni)** | Denah top-down Wisma Angker: 10 penghuni berjalan, bekerja, dan mengobrol sendiri sepanjang malam (17:00–02:30). Tonton lewat CCTV, sadap, atau intai pikiran. |
+| 🧠 **Agen Otonom per Karakter** | Tiap penghuni punya peran, jadwal harian, kebutuhan (energi/lapar/sosial), stres, ingatan berskor, dan graf relasi sendiri — bukan skrip dialog. |
+| 🗂️ **Urusan Rumah Jadi Bukti** | Hasil kerja penghuni menjadi artefak (buku tamu, slip PABX, catatan ronda, draf wasiat). Menyitanya membuka bukti — termasuk 2 bukti dinamis yang baru lahir saat permainan berjalan. |
+| 🎭 **Anti-Spoiler Berlapis** | Saat lampu ruang kerja mati (22:05–23:10), kamera buta: tidak ada log, tidak ada saksi, tidak ada sadapan. Prompt AI tidak pernah diberi tahu siapa pelakunya. |
+| 🔑 **OpenRouter Free Tier** | Satu-satunya penyedia AI: model `:free`. Kuota harian, rate limiter, antrean prioritas, cache, retry/backoff, dan auto-degrade ke mode lokal. |
+| 🛡️ **Kunci API Aman (opsional)** | Main langsung dari browser, **atau** jalankan proxy Node 1 berkas (`tools/openrouter-proxy.mjs`) supaya kunci tidak pernah terlihat di browser. |
 | 🖥️ **Estetika CRT Autentik**       | Monitor hijau retro dengan efek _scanline_, _flicker_, _glow_, dan font monospace `VT323`. Bisa dimatikan jika mengganggu.       |
 | 📝 **Data-Driven & Modding-First** | Semua konten (kasus, karakter, bukti) disimpan dalam file JSON dan Markdown. Buat kasus sendiri tanpa menyentuh kode!            |
 | ⏱️ **Investigasi Real-Time**       | Bukti, laporan lab, dan panggilan telepon muncul sesuai waktu nyata. Deadline 2 jam memberi tekanan psikologis. *(planned)* |
@@ -30,7 +44,8 @@ Alih-alih memilih dialog dari daftar, Anda **mengetik pertanyaan sendiri**. Seti
 
 - **Frontend**: Vanilla HTML5, CSS3, JavaScript ES6+ Modules
 - **UI Style**: Windows 1.0 / CRT Monitor Retro
-- **AI Communication**: `fetch` API ke server AI lokal (OpenAI-compatible)
+- **AI Communication**: `fetch` ke **OpenRouter** (`/api/v1/chat/completions`) — langsung dari browser atau lewat proxy Node tanpa dependensi
+- **Simulasi Penghuni**: mesin simulasi agen mandiri (denah + A*, memori, relasi, peran, insiden) di `assets/js/wisma/` — jalan penuh tanpa API
 - **Persistence**: IndexedDB (via `idb`) dengan fallback `localStorage`
 - **Audio**: Web Audio API (Oscillator-based procedural sounds)
 - **Markdown**: `marked.js` (dimuat dari CDN)
@@ -54,38 +69,70 @@ Game tetap 100% bisa dimainkan tanpa AI. Fitur interogasi akan menampilkan respo
 git clone https://github.com/KikiAbdullah/retrosleuth-v2.git
 cd retrosleuth-v2
 
-# Jalankan dengan static server (misal: Live Server VS Code, atau npx serve)
-npx serve .
-# Buka http://localhost:3000
+# Jalankan dengan static server (pilih salah satu)
+npm run serve        # python3 -m http.server 8080 --bind 0.0.0.0
+npx serve .          # atau Live Server VS Code
+# Buka http://localhost:8080 (atau port yang diberikan serve)
+```
+
+Tidak ada `npm install` yang diperlukan — **nol dependensi**. `package.json` hanya berisi
+script utilitas (server statis, proxy AI, dan uji headless).
+
+```bash
+npm run simulate     # jalankan semalam penuh di terminal (0 request AI) — cek dunia hidup
+npm run check:boot   # boot seluruh aplikasi di Node (DOM tiruan), 52 langkah verifikasi
+npm run check        # keduanya
 ```
 
 Atau cukup **double-click** `index.html` di file explorer (beberapa browser mungkin memblokir CORS file lokal, gunakan static server untuk pengalaman terbaik).
 
 > **Catatan**: Game ini menggunakan ES Modules, sehingga **wajib** dijalankan melalui static server (bukan `file://`). Gunakan ekstensi Live Server di VS Code atau `npx serve .`.
 
-### 3. Menjalankan dengan Server AI (Interogasi)
+### 3. Mengaktifkan AI (OpenRouter Free Tier)
 
-Untuk pengalaman interogasi penuh, Anda memerlukan server AI lokal yang kompatibel dengan format OpenAI (`/v1/chat/completions`).
+Game **tidak butuh AI** untuk tamat — Wisma Angker dan interogasi punya mesin lokal.
+Tetapi dengan AI, ucapan dan pikiran karakter jadi jauh lebih hidup.
 
-Contoh dengan `9router` / `gemini-cli`:
+**Langkah 1 — ambil kunci gratis**
 
-```bash
-# Contoh dengan 9router (pastikan CORS diaktifkan)
-PORT=20128 HOSTNAME=0.0.0.0 npm run start
+1. Daftar di [openrouter.ai](https://openrouter.ai) → *Keys* → **Create Key**.
+2. Pilih model berakhiran `:free` (mis. `meta-llama/llama-3.3-70b-instruct:free`).
+   Kuota free tier: **50 request/hari**, **20 request/menit**.
 
-# Atau dengan gemini-cli
-gemini-cli serve --cors --port 20128 --host 0.0.0.0
-```
+**Langkah 2 — pilih mode**
 
-Buka game, klik ikon ⚙️ **Settings**, dan atur:
+<table>
+<tr><th>Mode</th><th>Cara</th><th>Cocok untuk</th></tr>
+<tr>
+<td><b>A. Langsung</b><br>(default)</td>
+<td>Settings ▸ AI ▸ isi <b>API Key</b> → disimpan di <code>localStorage</code> browser Anda.</td>
+<td>Main sendiri di <code>localhost</code>.<br>⚠️ jangan dipakai di situs publik.</td>
+</tr>
+<tr>
+<td><b>B. Proxy Node</b><br>(1 berkas, nol dependensi)</td>
+<td>
+<pre>export OPENROUTER_API_KEY="sk-or-v1-..."
+npm run proxy            # listen di 0.0.0.0:8787</pre>
+lalu Settings ▸ AI ▸ <b>Proxy URL</b> = <code>http://localhost:8787</code>
+</td>
+<td>GitHub Pages / demo publik — kunci tetap di server, kuota dijaga server.</td>
+</tr>
+</table>
 
-- **Endpoint**: `http://localhost:20128/v1/chat/completions`
-- **API Key**: (sesuai konfigurasi server Anda)
-- **Model**: `gemini-cli` atau model yang Anda gunakan
+**Langkah 3 — uji**: Settings ▸ AI ▸ **Test Connection** (menampilkan model, latensi, dan sisa kredit).
 
-Klik **Test Connection** untuk memastikan koneksi berhasil.
+**Langkah 4 — atur Wisma Angker**: Settings ▸ tab 🏚️ **Wisma**
 
----
+| Setting | Saran |
+|---|---|
+| `Level AI` | **Hemat** untuk kuota 50/hari · **Normal** (default) · **Intens** bila punya kredit |
+| `AI on-demand` | biarkan **nyala** — AI hanya bekerja saat jendela Wisma dibuka |
+| `Cadangan interogasi` | 12 request — wisma tidak boleh memakainya |
+| `Kecepatan` | 1x (realistis) sampai 8x (cepat) |
+
+> 💡 Tanpa kunci sama sekali, semua tetap jalan: dialog memakai **SimVoice**
+> (bank kalimat procedural per kepribadian) dan panel AI menampilkan `⚙️ lokal`.
+> Setting lama (endpoint `localhost:20128` / model `ag-gemini3`) **dimigrasi otomatis**.
 
 ## 🎮 Panduan Bermain Singkat
 
@@ -98,12 +145,19 @@ Klik **Test Connection** untuk memastikan koneksi berhasil.
 7. **🗣️ Interrogation** — Ketik pertanyaan bebas, AI akan merespons sesuai karakter.
    - _Tips_: Sodorkan bukti fisik via **Evidence Strip** untuk mendapatkan pengakuan.
    - Perhatikan **Emotion Bars** (Trust, Stress, Fear, Anger) sebagai indikator kejujuran.
-8. **⏱️ Timeline** — Lihat kronologi kejadian dengan filter berdasarkan tipe, partisipan, dan bukti.
-9. **📝 Notes** — Catat teori dan kontradiksi Anda (auto-save, Ctrl+S).
-10. **⚖️ Accusation** — Jika sudah yakin, ajukan tuduhan dengan pelaku, motif, dan bukti yang cukup.
-11. **🎉 Solved!** — Jika tuduhan benar, kasus selesai dan epilog akan muncul.
+8. **🏚️ Wisma Angker** — Klik ikon 🏚️ di desktop (atau taskbar) untuk mengawasi Wisma Angker:
+   - **Peta CCTV** — lihat penghuni berjalan & bekerja. Klik orang untuk membuka panelnya, klik ruangan untuk aksi.
+   - **🎧 Sadap** — dengarkan percakapan dua orang di satu ruangan (kadang membuka rahasia relasi).
+   - **🧠 Intai** — baca pikiran terdalam satu karakter (memakai 1 request AI bila tersedia).
+   - **🔍 Geledah** — cari artefak yang tertinggal di ruangan.
+   - **🗂️ Artefak** — sita hasil kerja mereka; bukti baru masuk inventaris & membuka ingatan terkunci.
+   - **▓ Blackout** — saat lampu ruang kerja mati, kamera buta: tidak ada yang bisa dilihat/disadap di sana.
+9. **⏱️ Timeline** — Lihat kronologi kejadian dengan filter berdasarkan tipe, partisipan, dan bukti.
+10. **📝 Notes** — Catat teori dan kontradiksi Anda (auto-save, Ctrl+S).
+11. **⚖️ Accusation** — Jika sudah yakin, ajukan tuduhan dengan pelaku, motif, dan bukti yang cukup.
+12. **🎉 Solved!** — Jika tuduhan benar, kasus selesai dan epilog akan muncul.
 
-**Fitur yang belum tersedia**: Crime Scene interaktif, Real-Time Events, Objectives Tracker *(sedang dikembangkan)*.
+**Fitur yang belum tersedia**: Crime Scene interaktif, Objectives Tracker *(sedang dikembangkan)*.
 
 ---
 
@@ -173,7 +227,8 @@ retrosleuth/
 │   │   ├── briefing.css            # UI briefing
 │   │   ├── dossier.css             # UI dossier karakter
 │   │   ├── settings.css            # UI pengaturan
-│   │   └── accusation.css          # UI formulir tuduhan
+│   │   ├── accusation.css          # UI formulir tuduhan
+│   │   └── wisma.css              # UI Wisma Angker (CCTV, panel agen)
 │   │
 │   ├── js/
 │   │   ├── main.js                 # Bootstrapper aplikasi
@@ -190,10 +245,23 @@ retrosleuth/
 │   │   │   # Planned (belum diimplementasikan):
 │   │   │   # (semua engine sudah diimplementasikan)
 │   │   ├── ai/                     # Kecerdasan Buatan
-│   │   │   ├── AIClient.js         # HTTP client ke LLM
-│   │   │   ├── PromptBuilder.js    # System prompt builder
+│   │   │   ├── AIClient.js         # Rute panggilan AI (OpenRouter + Budget)
+│   │   │   ├── OpenRouterClient.js # ✨ Klien HTTP OpenRouter (direct/proxy, retry, health, credits)
+│   │   │   ├── BudgetManager.js    # ✨ Kuota harian, rate limiter, antrean prioritas, cache, degrade
+│   │   │   ├── AgentPrompts.js     # ✨ Prompt agen + sanitizer + penyaring spoiler
+│   │   │   ├── PromptBuilder.js    # System prompt builder (+ konteks Wisma Angker)
 │   │   │   ├── TrustSystem.js      # Kalkulasi emosi
 │   │   │   └── FallbackMode.js     # Respons offline
+│   │   ├── wisma/                 # ✨ WISMA ANGKER (Simulasi Penghuni)
+│   │   │   ├── FloorPlan.js        # Denah, pintu, titik aktivitas, A*, blackout
+│   │   │   ├── MemoryStream.js     # Ingatan agen: skor, kadaluarsa, kunci spoiler, refleksi
+│   │   │   ├── Relationships.js    # Graf relasi trust/affinity/fear/tension
+│   │   │   ├── JobSystem.js        # Peran di wisma, jadwal, urusan rumah, perilaku bebas
+│   │   │   ├── SimVoice.js         # Bank kalimat offline (tanpa AI)
+│   │   │   ├── WismaDirector.js   # Sutradara AI: 1 panggilan batch untuk semua agen
+│   │   │   ├── ArtifactForge.js    # Artefak kerja → bukti dinamis
+│   │   │   ├── WismaWorld.js      # Orkestrator tick/fase/insiden/persepsi/aksi pemain
+│   │   │   └── WismaController.js # Pengikat ke game (muat wisma.json, gerbang AI, save)
 │   │   ├── modules/                # Modul UI spesifik (9 file)
 │   │   │   ├── CaseHub.js          # Hub pemilihan kasus
 │   │   │   ├── CaseBriefing.js     # Tampilan briefing.md
@@ -203,7 +271,8 @@ retrosleuth/
 │   │   │   ├── AccusationForm.js   # Formulir tuduhan
 │   │   │   ├── NotesApp.js         # Notepad detektif
 │   │   │   ├── TimelineViewer.js   # Timeline kronologis
-│   │   │   └── SettingsWindow.js   # Pengaturan AI/audio/CRT
+│   │   │   ├── WismaWindow.js     # ✨ Jendela Wisma Angker (peta, roster, log, artefak, AI)
+│   │   │   └── SettingsWindow.js   # Pengaturan AI/audio/CRT (+ tab Wisma, proxy)
 │   │   ├── ui/                     # UI Foundation
 │   │   │   ├── WindowManager.js    # Sistem windowing
 │   │   │   ├── DesktopManager.js   # Ikon desktop
@@ -223,10 +292,21 @@ retrosleuth/
 │       ├── case.json
 │       ├── briefing.md
 │       ├── solution.md
+│       ├── wisma.json             # ✨ Dunia Wisma Angker (~70 KB, data-driven)
 │       ├── characters/
 │       └── evidence/
 │
-└── PRD.md                         # Product Requirements Document
+├── docs/
+│   └── AI_WISMA.md                # ✨ Arsitektur Wisma Angker + anggaran AI + anti-spoiler
+│
+├── tools/                          # ✨ Utilitas pengembangan (bukan bagian game)
+│   ├── openrouter-proxy.mjs        # Proxy OpenRouter 1 berkas, nol dependensi
+│   ├── simulate-night.mjs          # Uji headless: semalam penuh, 0 request AI
+│   ├── boot-check.mjs              # Uji integrasi: boot app + semua aksi pemain
+│   └── dom-shim.mjs                # DOM tiruan untuk kedua uji di atas
+│
+├── package.json                    # Script utilitas saja (dependencies: kosong)
+└── PRD.md                          # Product Requirements Document
 ```
 
 ---
@@ -239,15 +319,18 @@ retrosleuth/
 | Fase 2 | Case Loader, Evidence Engine, Briefing, Dossier | ✅ Selesai |
 | Fase 3 | AI Client, Prompt Builder, Interrogation Room, Trust System | ✅ Selesai |
 | Fase 4 | Solution Engine, Accusation Form, Notes, Timeline, Save/Load | ✅ Selesai |
-| Fase 5 | Konten kasus lengkap ("Malam di Wisma Angker") | 🔲 Direncanakan |
+| Fase 5 | Konten kasus lengkap ("Malam di Wisma Angker") | ✅ Selesai |
+| Fase 5b | **Wisma Angker (Simulasi Penghuni)** — agen otonom, OpenRouter, BudgetManager, artefak→bukti | ✅ Selesai v2.1.0 |
 | Fase 6 | Audio, CRT Toggle, Settings, Polish | ✅ Selesai |
 | Fase 7 | Modding Toolkit, Voice Input, Multiplayer | 🔲 Direncanakan |
 
 **Komponen tambahan yang belum diimplementasikan:**
-- `RealTimeManager` — Event real-time (data model sudah dimuat, ✅ implemented v4.2.0)
 - `CrimeSceneViewer` — TKP interaktif (data model sudah dimuat)
 - `ObjectivesTracker` — Checklist objective (method di GameState sudah ada)
-- `Toast` — Notifikasi pop-up
+
+**Sudah diimplementasikan:** `RealTimeManager` (v4.2.0) · `NotificationSystem` ·
+`WismaWorld` + `WismaController` + `WismaWindow` (v2.1.0) · `OpenRouterClient` +
+`BudgetManager` (v2.1.0). Lihat [docs/AI_WISMA.md](docs/AI_WISMA.md).
 
 ---
 
@@ -260,7 +343,12 @@ retrosleuth/
 | **404 saat load module JS**           | Pastikan nama file modul sesuai casing yang benar (contoh: `AIClient.js`, bukan `AiClient.js`).             |
 | **Suara tidak keluar**                | Klik di mana saja pada halaman untuk mengaktifkan AudioContext (kebijakan browser). Cek volume di Settings. |
 | **Save tidak pulih**                  | Pastikan IndexedDB tidak dibersihkan (jangan hapus data situs di DevTools).                                 |
-| **AI tidak merespons**                | Cek Settings → Test Connection. Pastikan server AI berjalan di endpoint yang benar. Fallback mode aktif otomatis jika AI offline. |
+| **AI tidak merespons**                | Cek Settings ▸ AI ▸ **Test Connection**. Pastikan API key / Proxy URL terisi dan model berakhiran `:free`. Mode lokal aktif otomatis bila AI mati. |
+| **Wisma Angker diam / tidak ada AI** | Itu normal tanpa kunci: dunia tetap hidup lewat mesin lokal. Panel AI menampilkan `⚙️ lokal`. Isi kunci di Settings untuk `🤖 AI`. |
+| **Kena limit 429 / kuota habis**      | Free tier = 50 request/hari & 20/menit. Turunkan `Level AI` ke **Hemat**, biarkan `AI on-demand` nyala, atau tambah kredit $10 di OpenRouter (1.000/hari). |
+| **Interogasi kehabisan kuota karena wisma** | Naikkan `Cadangan interogasi` (default 12) di Settings ▸ Wisma. Wisma tidak pernah memakai cadangan itu. |
+| **Proxy tidak terhubung**             | Jalankan `npm run proxy`, pastikan `OPENROUTER_API_KEY` ter-set, lalu isi Proxy URL `http://localhost:8787`. Cek `http://localhost:8787/health`. |
+| **Ruangan gelap di peta CCTV**        | Bukan bug: ruang kerja **blackout 22:05–23:10**. Kamera buta — tidak ada log, saksi, atau sadapan di sana. Tunggu lampu menyala. |
 
 ---
 
