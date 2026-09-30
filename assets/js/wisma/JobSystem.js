@@ -1,12 +1,12 @@
 /**
  * ============================================================
- *  JOBSYSTEM.JS — Jabatan, Tugas, Jadwal & Hasil Kerja
+ *  JOBSYSTEM.JS — Peran di Wisma, Urusan Rumah, Jadwal & Hasil Kerja
  * ------------------------------------------------------------
- *  "Tiap karakter melakukan pekerjaannya masing-masing" diwujudkan
+ *  "Tiap penghuni menjalani perannya masing-masing" diwujudkan
  *  di sini. Setiap orang punya:
- *    • jabatan (title, employer, duties, pressure, pride)
- *    • daftar tugas (label, kata kerja, titik aktivitas, durasi, tag)
- *    • jadwal harian (HH:MM → tugas)
+ *    • peran (title, employer, duties, pressure, pride)
+ *    • daftar urusan rumah (label, kata kerja, titik aktivitas, durasi, tag)
+ *    • jadwal harian (HH:MM → urusan)
  *    • perilaku bebas saat jadwal kosong (didorong kebutuhan)
  *    • artefak: hasil kerja nyata yang bisa disita detektif
  *
@@ -44,7 +44,7 @@ export class JobSystem {
     }
   }
 
-  /** Ruangan tempat tugas dikerjakan (dari titik aktivitas, atau override). */
+  /** Ruangan tempat urusan dikerjakan (dari titik aktivitas, atau override). */
   _roomOfTask(t) {
     if (t.room) return t.room;
     const st = this.floor?.station(t.station);
@@ -103,7 +103,7 @@ export class JobSystem {
   }
 
   /**
-   * Tugas yang harus dikerjakan sekarang.
+   * Urusan yang harus dikerjakan sekarang.
    * Mengembalikan null kalau entri jadwalnya `leave` (orangnya pergi)
    * atau `free` (pakai perilaku bebas).
    * @returns {{task:Object|null, kind:'task'|'free'|'leave'|'idle', freeType?:string, until:number}}
@@ -125,11 +125,11 @@ export class JobSystem {
   }
 
   /**
-   * Perilaku bebas berdasarkan kebutuhan (saat tidak ada jadwal tugas).
+   * Perilaku bebas berdasarkan kebutuhan (saat tidak ada jadwal).
    * @param {string} agentId
    * @param {{energy:number,hunger:number,social:number,stress:number}} needs
    * @param {Function} [rnd]
-   * @returns {Object} tugas sintetis
+   * @returns {Object} urusan sintetis
    */
   pickFreeTask(agentId, needs = {}, rnd = Math.random) {
     const custom = this.data.free_behaviors?.[agentId];
@@ -149,7 +149,7 @@ export class JobSystem {
     let candidates = want ? pool.filter((p) => p.task === want || p.need === want) : [];
     if (candidates.length === 0) candidates = pool;
 
-    // 35% peluang mengerjakan tugas jabatannya sendiri (orang rajin tetap rajin)
+    // 35% peluang mengerjakan urusan perannya sendiri (orang rajin tetap rajin)
     const ownTasks = this.tasksOf(agentId);
     if (ownTasks.length > 0 && rnd() < 0.35) {
       const t = ownTasks[Math.floor(rnd() * ownTasks.length)];
@@ -172,7 +172,7 @@ export class JobSystem {
     );
   }
 
-  /** Tugas sintetis (dibuat dari perilaku bebas). */
+  /** Urusan sintetis (dibuat dari perilaku bebas). */
   static syntheticTask(id, label, verb, station, duration, room = null) {
     return {
       id: `free_${id}`,
@@ -187,7 +187,7 @@ export class JobSystem {
     };
   }
 
-  /** Ruangan tujuan sebuah tugas (titik aktivitas → ruangan, atau ruangan tugas). */
+  /** Ruangan tujuan sebuah urusan (titik aktivitas → ruangan, atau ruangan urusan). */
   roomFor(task) {
     if (!task) return null;
     if (task.room) return task.room;
@@ -195,12 +195,12 @@ export class JobSystem {
     return st ? st.room : null;
   }
 
-  /** Apakah tugas ini butuh rekan tertentu (mis. rapat dua orang)? */
+  /** Apakah urusan ini butuh rekan tertentu (mis. bicara empat mata)? */
   requiresPartner(task) {
     return task?.with || null;
   }
 
-  /** Artefak yang dihasilkan sebuah tugas (kalau ada). */
+  /** Artefak yang dihasilkan sebuah urusan (kalau ada). */
   artifactFor(taskId) {
     return this.task(taskId)?.artifact || null;
   }

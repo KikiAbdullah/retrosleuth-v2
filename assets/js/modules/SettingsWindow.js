@@ -386,8 +386,9 @@ export class SettingsWindow {
       <div class="settings-panel" data-panel="wisma" style="padding: 4px 0; display: none;">
         <h3 style="color: #000080; margin: 0 0 8px 0; font-size: 16px;">🏚️ Wisma Angker (Simulasi Penghuni)</h3>
         <p style="font-size:12px;color:#555;margin:0 0 8px 0;">
-          Sepuluh penghuni Wisma Angker menjalani malam kejadian secara mandiri: bekerja sesuai jabatan,
-          saling melihat, mengobrol, dan meninggalkan barang yang bisa Anda sita.
+          Sepuluh penghuni Wisma Angker menjalani malam kejadian secara mandiri: menjalankan peran
+          masing-masing di rumah itu (pelayan, dapur, ronda, notaris, keluarga, tamu), saling melihat,
+          mengobrol, dan meninggalkan barang yang bisa Anda sita.
           Simulasi ini <b>tetap hidup tanpa API</b>; AI hanya memperkaya pikiran & ucapan mereka.
         </p>
 

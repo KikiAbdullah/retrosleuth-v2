@@ -59,7 +59,7 @@ export class AgentPrompts {
     const system = AgentPrompts.systemBase(world);
 
     const lines = [];
-    lines.push(`[TUGAS]`);
+    lines.push(`[INSTRUKSI]`);
     lines.push(
       `Tentukan 20 menit berikutnya untuk ${world.agents.length} penghuni. Satu objek JSON per orang.`
     );
@@ -142,7 +142,7 @@ export class AgentPrompts {
   static deepProbe(world, agent) {
     const system = AgentPrompts.systemBase(world);
     const lines = [];
-    lines.push(`[TUGAS]`);
+    lines.push(`[INSTRUKSI]`);
     lines.push(
       `Perdalam satu orang: ${agent.name}. Tulis apa yang benar-benar berkecamuk di kepalanya saat ini.`
     );
@@ -168,7 +168,7 @@ export class AgentPrompts {
         : "- Belum ada ingatan khusus."
     );
     lines.push("");
-    lines.push(`[PEKERJAAN & TUGAS SAAT INI]`);
+    lines.push(`[PERAN & URUSAN SAAT INI]`);
     lines.push(agent.detailedActivity || "-");
 
     return { system, user: lines.join("\n"), jsonMode: true };
@@ -181,7 +181,7 @@ export class AgentPrompts {
   static eavesdrop(world, a, b, context) {
     const system = AgentPrompts.systemBase(world);
     const lines = [];
-    lines.push(`[TUGAS]`);
+    lines.push(`[INSTRUKSI]`);
     lines.push(
       `Tulis percakapan yang sedang terjadi antara ${a.name} dan ${b.name} di ${context.roomName}.`
     );
@@ -214,7 +214,7 @@ export class AgentPrompts {
     if (context.relation.secretKnown) lines.push(context.relation.secretNote || "");
     lines.push("");
     lines.push(`[TOPIK PEMICU]`);
-    lines.push(context.topic || "Pekerjaan rumah tangga malam itu.");
+    lines.push(context.topic || "Urusan rumah tangga malam itu.");
 
     return { system, user: lines.join("\n"), jsonMode: true };
   }
@@ -226,7 +226,7 @@ export class AgentPrompts {
   static reflection(world, agent) {
     const system = AgentPrompts.systemBase(world);
     const lines = [];
-    lines.push(`[TUGAS]`);
+    lines.push(`[INSTRUKSI]`);
     lines.push(
       `${agent.name} sedang merenung. Dari daftar ingatan mentah di bawah, tarik 2-3 kesimpulan batin.`
     );

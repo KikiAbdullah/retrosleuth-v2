@@ -7,7 +7,7 @@
  *  Menjalankan SEMUA malam 14 Juni 1979 di dalam Node (tanpa
  *  browser, tanpa API, tanpa kuota) lalu melaporkan:
  *    • apakah sepuluh penghuni benar-benar bergerak & bekerja
- *    • berapa tugas selesai, percakapan, ingatan, artefak
+ *    • berapa urusan rumah selesai, percakapan, ingatan, artefak
  *    • apakah insiden & blackout berjalan
  *    • UJI ANTI-SPOILER: tidak boleh ada ingatan/ucapan yang
  *      membocorkan pelaku atau racun sebelum waktunya
@@ -161,7 +161,7 @@ console.log(`Entri log    : ${world.log.length}`);
 console.log(`Bukti terbuka: ${[...unlockedEvidence].join(", ") || "-"}`);
 console.log("");
 
-console.log("PENGHUNI".padEnd(18), "TUGAS", "INGATAN", "RUANGAN AKHIR", "STATUS");
+console.log("PENGHUNI".padEnd(18), "URUSAN", "INGATAN", "RUANGAN AKHIR", "STATUS");
 for (const a of world.agents.values()) {
   const done = a.tasksCompleted || 0;
   console.log(

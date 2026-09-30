@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  *  Rumah besar ini HIDUP: sepuluh penghuni (8 karakter kasus +
  *  satpam Tio + Haryanto sendiri) menjalani malam 14 Juni 1979
- *  sesuai jabatan masing-masing. Mereka berjalan, bekerja, saling
+ *  sesuai peran masing-masing di rumah itu. Mereka berjalan, bekerja, saling
  *  melihat, mengobrol, bergosip, takut, dan meninggalkan barang.
  *
  *  Prinsip desain:
@@ -279,7 +279,7 @@ export class WismaWorld {
   _seedInitialMemories() {
     for (const a of this.agents.values()) {
       a.memory.add({
-        text: `${a.name} mulai bertugas di ${this.floor.roomName(a.homeRoom)} menjelang malam.`,
+        text: `${a.name} mulai menjalani malamnya di ${this.floor.roomName(a.homeRoom)}.`,
         type: "self",
         importance: 25,
         clock: this.clock,
@@ -465,7 +465,7 @@ export class WismaWorld {
     const decayRate = a.mood.stress > baseline ? 0.45 : -0.15;
     a.mood.stress = clamp(a.mood.stress - decayRate * step, 0, 100);
 
-    // 3) sedang bicara → pekerjaan tertunda
+    // 3) sedang bicara → urusan tertunda
     if (this.clock < a.talkingUntil) {
       a.state = "talking";
       this._moveAlong(a, step);
@@ -491,7 +491,7 @@ export class WismaWorld {
       return;
     }
 
-    // 6) pilih / lanjutkan pekerjaan
+    // 6) pilih / lanjutkan urusan rumah
     this._assignWork(a);
 
     if (a.task) {
@@ -537,9 +537,9 @@ export class WismaWorld {
     EventBus.emit("wisma:agent-arrived", { id: a.id, room: startRoom });
   }
 
-  /** Selesaikan tugas & tentukan pekerjaan berikutnya. */
+  /** Selesaikan urusan & tentukan kegiatan berikutnya. */
   _assignWork(a) {
-    // jeda antar tugas (biar tidak robotik)
+    // jeda antar urusan (biar tidak robotik)
     if (!a.task && this.clock < a.idleUntil) return;
 
     // perintah berkumpul darurat mengalahkan jadwal
@@ -569,7 +569,7 @@ export class WismaWorld {
     const sameAsCurrent = a.task && a.task.id === task.id && a.taskProgress < (a.task.duration_min || 15);
     if (sameAsCurrent) return;
 
-    // tugas lama hampir rampung? selesaikan dulu supaya hasilnya tidak hilang
+    // urusan lama hampir rampung? selesaikan dulu supaya hasilnya tidak hilang
     if (a.task && a.task.id !== task.id) {
       const dur = a.task.duration_min || 15;
       if (a.taskProgress >= dur * 0.7) this._completeTask(a);
@@ -579,7 +579,7 @@ export class WismaWorld {
       }
     }
 
-    // ganti tugas
+    // ganti urusan
     if (a.task?.id !== task.id) {
       a.task = task;
       a.taskProgress = 0;
@@ -589,7 +589,7 @@ export class WismaWorld {
       const announce = !task.id.startsWith("free_") && !task.synthetic;
       if (targetRoom !== a.room) {
         this._setDestination(a, targetRoom, task.station, { allowWindow: !!task.allow_window });
-        // diumumkan nanti saat benar-benar tiba di lokasi tugas
+        // diumumkan nanti saat benar-benar tiba di lokasinya
         a.pendingStartLog = announce ? task.label : null;
       } else {
         if (task.station) {
@@ -1639,7 +1639,7 @@ export class WismaWorld {
     const pool = this.data.chatter?.[this.phase] || [];
     const work = [a.task?.label, b.task?.label].filter(Boolean);
     if (work.length && Math.random() < 0.5) {
-      return `Pekerjaan mereka saat ini: ${work.join(" dan ")}.`;
+      return `Kegiatan mereka saat ini: ${work.join(" dan ")}.`;
     }
     return pool.length ? pool[Math.floor(Math.random() * pool.length)] : "Keadaan rumah malam itu.";
   }
@@ -1651,7 +1651,7 @@ export class WismaWorld {
   /**
    * Tambah ingatan dengan penyaring anti-kembar: teks yang sama persis
    * dalam 20 menit terakhir tidak dicatat ulang (menghindari memori
-   * berulang saat tugas diulang-ulang).
+   * berulang saat urusan diulang-ulang).
    */
   _remember(a, m) {
     if (!m?.text) return null;
@@ -1771,8 +1771,8 @@ export class WismaWorld {
       roomName: this.floor.roomName(a.room),
       activity: this.activityOf(a),
       detailedActivity: a.task
-        ? `Tugas: ${a.task.label} (${a.task.verb}), berlangsung ${Math.round(a.taskProgress)} dari ${a.task.duration_min} menit, di ${this.floor.roomName(this.jobs.roomFor(a.task) || a.room)}.`
-        : "Tidak ada tugas terjadwal.",
+        ? `Urusan: ${a.task.label}, sudah berjalan ${Math.round(a.taskProgress)} dari ${a.task.duration_min} menit, di ${this.floor.roomName(this.jobs.roomFor(a.task) || a.room)}.`
+        : "Tidak ada urusan terjadwal.",
       nextGoal,
       needs: {
         energy: Math.round(a.needs.energy),

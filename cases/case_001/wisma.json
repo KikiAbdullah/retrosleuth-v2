@@ -1323,7 +1323,7 @@
         },
         {
           "id": "t_bud_08",
-          "label": "Mengawasi pekerjaan pelayan lain",
+          "label": "Mengawasi kerja pelayan lain",
           "verb": "mengawasi",
           "station": "st_sofa",
           "duration_min": 20,
@@ -2984,7 +2984,7 @@
   },
   "artifact_template": {
     "header": "> 🗂 **ARTEFAK WISMA ANGKER** — dihasilkan otomatis oleh aktivitas {agent} ({job}) pada {time}, {room}.\n> Sumber: simulasi Wisma Angker. Barang ini {status}.\n",
-    "footer": "\n---\n*Artefak ini muncul karena {agent} mengerjakan tugas \"{task}\". Anda menyitanya dari {room} pada pukul {time}.*\n"
+    "footer": "\n---\n*Artefak ini muncul karena {agent} menjalankan urusan \"{task}\". Anda menyitanya dari {room} pada pukul {time}.*\n"
   },
   "simulation": {
     "needs_decay": {
@@ -3134,7 +3134,7 @@
     }
   },
   "phase_notes": {
-    "normal": "Rumah berjalan normal: semua orang mengerjakan tugas malamnya.",
+    "normal": "Rumah berjalan normal: semua orang menjalani urusan malamnya.",
     "aftermath": "Sesuatu telah terjadi di lantai atas. Orang-orang gelisah, bicara pelan, dan saling mengamati.",
     "crisis": "Tuan rumah ditemukan tewas. Polisi menguasai rumah. Semua orang dikumpulkan dan tidak boleh pergi."
   },

@@ -102,7 +102,7 @@ step("WismaController membangun dunia", !!world, world ? `${world.agents?.size ?
 step(
   "wisma.json terbaca",
   (world?.floor?.rooms?.size ?? 0) > 0 && (world?.jobs?.tasks?.size ?? 0) > 0,
-  `${world?.floor?.rooms?.size ?? 0} ruangan · ${world?.floor?.doors?.length ?? 0} pintu · ${world?.jobs?.tasks?.size ?? 0} tugas · ${world?.incidents?.length ?? 0} insiden`
+  `${world?.floor?.rooms?.size ?? 0} ruangan · ${world?.floor?.doors?.length ?? 0} pintu · ${world?.jobs?.tasks?.size ?? 0} urusan · ${world?.incidents?.length ?? 0} insiden`
 );
 
 // ============================================================

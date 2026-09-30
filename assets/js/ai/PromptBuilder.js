@@ -169,7 +169,7 @@ export class PromptBuilder {
     let out = `[WISMA ANGKER — PENGALAMAN ANDA MALAM INI (simulasi berjalan)]\n`;
     out += `Jam sekarang di wisma: ${card.room ? world.hud().timeLabel : "-"} | Fase rumah: ${world.phaseLabel}\n`;
     out += `Posisi terakhir Anda: ${card.roomName}. Kegiatan: ${card.activity}.\n`;
-    if (card.jobData?.title) out += `Pekerjaan Anda malam itu: ${card.jobData.title}.\n`;
+    if (card.jobData?.title) out += `Peran Anda di wisma malam itu: ${card.jobData.title}.\n`;
     if (card.thought) out += `Pikiran terakhir Anda: "${card.thought}"\n`;
     out += `\nIngatan Anda (hanya ini yang Anda tahu):\n`;
     out += memories.length ? memories.join("\n") + "\n" : "- Belum ada yang berarti.\n";
@@ -177,7 +177,7 @@ export class PromptBuilder {
       out += `\nPerasaan Anda terhadap orang di sekitar:\n${relations.join("\n")}\n`;
     }
     if (artifacts.length) {
-      out += `\nBarang yang berkaitan dengan pekerjaan Anda:\n${artifacts.join("\n")}\n`;
+      out += `\nBarang yang berkaitan dengan urusan Anda malam itu:\n${artifacts.join("\n")}\n`;
     }
     if (card.suspicion?.length) {
       out += `\nKecurigaan pribadi Anda (belum pasti):\n${card.suspicion

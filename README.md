@@ -11,7 +11,7 @@ Alih-alih memilih dialog dari daftar, Anda **mengetik pertanyaan sendiri**. Seti
 
 Mulai **v2.1.0**, RetroSleuth punya **Wisma Angker**: sebuah "simulasi penghuni" di dalam game.
 Delapan tersangka dan dua NPC hidup di **Wisma Angker** sepanjang malam — masing-masing punya
-jabatan, jadwal kerja, kebutuhan tubuh, ingatan, dan relasinya sendiri. Mereka berjalan antar
+peran di rumah itu (pelayan, dapur, ronda, notaris, keluarga, tamu), jadwal harian, kebutuhan tubuh, ingatan, dan relasinya sendiri. Mereka berjalan antar
 ruangan, mengetik surat, meronda, berbisik, bertengkar, dan **menghasilkan artefak** (buku tamu,
 slip telepon, catatan ronda, draf wasiat) yang bisa Anda sita sebagai bukti. Anda menonton lewat
 CCTV, menyadap percakapan, dan mengintip pikiran mereka — sementara satu panggilan AI "sutradara"
@@ -25,8 +25,8 @@ CCTV, menyadap percakapan, dan mengintip pikiran mereka — sementara satu pangg
 | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
 | 🕵️ **Interogasi AI Open-Ended**    | Bukan pohon dialog. Anda mengetik pertanyaan bebas ke tersangka, dan AI merespons secara dinamis sesuai kepribadian karakter.    |
 | 🏚️ **Wisma Angker (Simulasi Penghuni)** | Denah top-down Wisma Angker: 10 penghuni berjalan, bekerja, dan mengobrol sendiri sepanjang malam (17:00–02:30). Tonton lewat CCTV, sadap, atau intai pikiran. |
-| 🧠 **Agen Otonom per Karakter** | Tiap karakter punya jabatan, jadwal kerja, kebutuhan (energi/lapar/sosial), stres, ingatan berskor, dan graf relasi sendiri — bukan skrip dialog. |
-| 🗂️ **Pekerjaan Jadi Bukti** | Hasil kerja agen menjadi artefak (buku tamu, slip PABX, catatan ronda, draf wasiat). Menyitanya membuka bukti — termasuk 2 bukti dinamis yang baru lahir saat permainan berjalan. |
+| 🧠 **Agen Otonom per Karakter** | Tiap penghuni punya peran, jadwal harian, kebutuhan (energi/lapar/sosial), stres, ingatan berskor, dan graf relasi sendiri — bukan skrip dialog. |
+| 🗂️ **Urusan Rumah Jadi Bukti** | Hasil kerja penghuni menjadi artefak (buku tamu, slip PABX, catatan ronda, draf wasiat). Menyitanya membuka bukti — termasuk 2 bukti dinamis yang baru lahir saat permainan berjalan. |
 | 🎭 **Anti-Spoiler Berlapis** | Saat lampu ruang kerja mati (22:05–23:10), kamera buta: tidak ada log, tidak ada saksi, tidak ada sadapan. Prompt AI tidak pernah diberi tahu siapa pelakunya. |
 | 🔑 **OpenRouter Free Tier** | Satu-satunya penyedia AI: model `:free`. Kuota harian, rate limiter, antrean prioritas, cache, retry/backoff, dan auto-degrade ke mode lokal. |
 | 🛡️ **Kunci API Aman (opsional)** | Main langsung dari browser, **atau** jalankan proxy Node 1 berkas (`tools/openrouter-proxy.mjs`) supaya kunci tidak pernah terlihat di browser. |
@@ -45,7 +45,7 @@ CCTV, menyadap percakapan, dan mengintip pikiran mereka — sementara satu pangg
 - **Frontend**: Vanilla HTML5, CSS3, JavaScript ES6+ Modules
 - **UI Style**: Windows 1.0 / CRT Monitor Retro
 - **AI Communication**: `fetch` ke **OpenRouter** (`/api/v1/chat/completions`) — langsung dari browser atau lewat proxy Node tanpa dependensi
-- **Simulasi Penghuni**: mesin simulasi agen mandiri (denah + A*, memori, relasi, jabatan, insiden) di `assets/js/wisma/` — jalan penuh tanpa API
+- **Simulasi Penghuni**: mesin simulasi agen mandiri (denah + A*, memori, relasi, peran, insiden) di `assets/js/wisma/` — jalan penuh tanpa API
 - **Persistence**: IndexedDB (via `idb`) dengan fallback `localStorage`
 - **Audio**: Web Audio API (Oscillator-based procedural sounds)
 - **Markdown**: `marked.js` (dimuat dari CDN)
@@ -256,7 +256,7 @@ retrosleuth/
 │   │   │   ├── FloorPlan.js        # Denah, pintu, titik aktivitas, A*, blackout
 │   │   │   ├── MemoryStream.js     # Ingatan agen: skor, kadaluarsa, kunci spoiler, refleksi
 │   │   │   ├── Relationships.js    # Graf relasi trust/affinity/fear/tension
-│   │   │   ├── JobSystem.js        # Jabatan, jadwal, tugas, perilaku bebas
+│   │   │   ├── JobSystem.js        # Peran di wisma, jadwal, urusan rumah, perilaku bebas
 │   │   │   ├── SimVoice.js         # Bank kalimat offline (tanpa AI)
 │   │   │   ├── WismaDirector.js   # Sutradara AI: 1 panggilan batch untuk semua agen
 │   │   │   ├── ArtifactForge.js    # Artefak kerja → bukti dinamis

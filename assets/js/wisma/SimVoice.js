@@ -52,7 +52,7 @@ const LINES = {
     "Kalau Tuan besar bertanya, bilang saya ada di sini.",
     "Sudah biasa begini tiap malam Jumat.",
     "Nanti saya serahkan sebelum tengah malam.",
-    "Pekerjaan rumah ini tidak pernah habis.",
+    "Urusan rumah ini tidak pernah habis.",
     "Tolong jangan dipindah, saya hafal letaknya.",
   ],
   gossip: [
@@ -301,7 +301,7 @@ const THOUGHTS = {
 const WORLD_NOTES = {
   normal: [
     "Rumah besar itu bernapas pelan: piring berdenting, mesin ketik berbunyi, dan radio berdengung di dapur.",
-    "Semua orang sibuk dengan pekerjaannya, tapi mata mereka sesekali melirik ke lantai atas.",
+    "Semua orang sibuk dengan urusannya, tapi mata mereka sesekali melirik ke lantai atas.",
     "Aroma kopi dan kayu tua mengisi koridor. Malam belum menunjukkan taringnya.",
   ],
   aftermath: [
@@ -345,7 +345,7 @@ export class SimVoice {
     const verb = task?.verb || "berdiri";
     const obj = task?.label ? task.label.replace(/^[A-Z]/, (c) => c.toLowerCase()) : "";
     const place = stationLabel || task?.label || "";
-    // seed STABIL per (agen, tugas): frasa tidak berubah tiap menit,
+    // seed STABIL per (agen, urusan): frasa tidak berubah tiap menit,
     // supaya sistem persepsi bisa mengenali "aktivitas yang sama".
     const rnd = makeRng(hashSeed(`${agent.id}|${task?.id || "idle"}|act`));
     const forms = [

@@ -1,6 +1,6 @@
 # 🏚️ Wisma Angker (Simulasi Penghuni) — Dokumen Arsitektur
 
-> Fitur **Fase 5b** RetroSleuth: setiap karakter punya "kecerdasan" dan pekerjaannya
+> Fitur **Fase 5b** RetroSleuth: setiap penghuni punya "kecerdasan" dan urusan rumahnya
 > sendiri. Mereka berjalan, bekerja, mengobrol, berbohong, dan menghasilkan
 > **artefak** (memo, buku tamu, slip telepon, catatan ronda) yang bisa disita
 > detektif — sementara pemain menonton lewat CCTV, menyadap, dan mengintip pikiran.
@@ -37,7 +37,7 @@ assets/js/
 │   ├── FloorPlan.js          Denah: ruangan, pintu, titik aktivitas, pathfinding A*, blackout/visibilitas
 │   ├── MemoryStream.js       Ingatan agen: skor kepentingan, kadaluarsa, kunci spoiler, refleksi
 │   ├── Relationships.js      Graf relasi: trust / affinity / fear / tension + rahasia yang terbuka
-│   ├── JobSystem.js          Jabatan, jadwal per menit, tugas, perilaku bebas
+│   ├── JobSystem.js          Peran di wisma, jadwal per menit, urusan rumah, perilaku bebas
 │   ├── SimVoice.js           Bank kalimat offline (gumam kerja, obrolan, argumen, pikiran batin)
 │   ├── WismaDirector.js     "Sutradara" AI: 1 panggilan batch → instruksi semua agen
 │   ├── ArtifactForge.js      Artefak hasil kerja → bukti dinamis di EvidenceEngine
@@ -59,6 +59,25 @@ tools/
 
 ---
 
+## 2b. Kosakata fitur
+
+Karena latarnya **rumah tinggal**, bukan kantor, istilah yang muncul di UI dan prompt
+mengikuti bahasa rumah tangga:
+
+| Istilah UI | Artinya | Kunci data internal (tidak berubah) |
+|---|---|---|
+| **Peran di wisma** | siapa orang itu di rumah (kepala pelayan, pembantu dapur, satpam, nyonya rumah, notaris, tamu) | `jobs.<id>.title`, `employer` |
+| **Kewajiban sehari-hari** | daftar tanggung jawab perannya | `jobs.<id>.duties[]` |
+| **Urusan** / **urusan rumah** | satu kegiatan terjadwal yang sedang/akan dikerjakan | `task`, `schedule[]` |
+| **Titik aktivitas** | perabot/lokasi tempat urusan itu dikerjakan (meja ketik, kompor, pos ronda) | `stations[]` |
+| **Barang hasil kerja** | artefak yang bisa disita jadi bukti | `artifacts` |
+
+> Kunci JSON/JS (`jobs`, `task`, `duties`, `stations`) sengaja **tidak** diganti agar
+> simpanan lama, modding, dan kode tetap stabil — yang berubah hanya bahasa yang
+> dilihat pemain dan dibaca model AI.
+
+---
+
 ## 3. Siklus simulasi (tick)
 
 ```
@@ -66,9 +85,9 @@ setiap 500 ms (nyata) ── advance(1 menit simulasi @1x)
    │
    ├─ 1. fase          normal → tension → incident → crisis → aftermath
    ├─ 2. insiden       skrip malam (16 entri): cek, kopi, argumen, mati lampu, mayat…
-   ├─ 3. kebutuhan     energy ↓, hunger ↑, social ↑, stres meluruh ke baseline jabatan
+   ├─ 3. kebutuhan     energy ↓, hunger ↑, social ↑, stres meluruh ke baseline peran
    ├─ 4. pergerakan    A* antar ruangan lewat pintu/tangga/jendela (14 tile/menit)
-   ├─ 5. pekerjaan     jadwal → tugas → titik aktivitas → progres → artefak
+   ├─ 5. urusan rumah  jadwal → urusan → titik aktivitas → progres → artefak
    ├─ 6. percakapan    pasangan "panas" di ruangan sama → skrip SimVoice / AI
    ├─ 7. persepsi      siapa melihat siapa → ingatan berskor kepentingan
    ├─ 8. sutradara AI  tiap `intervalMin` (default 20 menit sim) → 1 panggilan batch
@@ -144,7 +163,7 @@ npm run proxy                                     # http://0.0.0.0:8787
 
 Proxy (`tools/openrouter-proxy.mjs`, **tanpa dependensi**) melakukan:
 
-| Tugas | Detail |
+| Butir | Detail |
 |---|---|
 | Kunci di server | browser tidak pernah melihat `OPENROUTER_API_KEY` |
 | Kuota server-side | `DAILY_LIMIT=50`, `RPM_LIMIT=18` — menolak sebelum menembak OpenRouter |
@@ -163,7 +182,7 @@ Proxy (`tools/openrouter-proxy.mjs`, **tanpa dependensi**) melakukan:
 Kasus ini punya **blackout ruang kerja 22:05–23:10** — justru di situlah racun
 bekerja. Karena itu:
 
-1. **Data** — `wisma.json` tidak memuat `truths`/`secrets` karakter; hanya jabatan,
+1. **Data** — `wisma.json` tidak memuat `truths`/`secrets` karakter; hanya peran,
    jadwal, relasi, dan insiden yang *teramati*.
 2. **Visibilitas** — selama blackout `FloorPlan.isVisible('ruang_kerja') === false`:
    tidak ada log, tidak ada persepsi, tidak ada sadapan, agen di dalam ruangan
@@ -195,7 +214,7 @@ Semua data-driven; menambah kasus baru = menulis satu berkas JSON.
 | `doors[]` | `from`, `to`, `ax/ay/bx/by`, `type` (`door`/`stairs`/`window`), `locked`, `label` |
 | `stations[]` | titik kerja: `id`, `room`, `x/y`, `label`, `kind` |
 | `npcs[]` | penghuni non-karakter (satpam, korban) |
-| `jobs{}` | per jabatan: `title`, `employer`, `duties[]`, `skills[]`, `pressure`, `pride`, `schedule[]` |
+| `jobs{}` | per peran: `title`, `employer`, `duties[]`, `skills[]`, `pressure`, `pride`, `schedule[]` |
 | `free_behaviors{}` | perilaku saat menganggur (makan, istirahat, gosip, rokok) |
 | `relationships[]` | `a`, `b`, `trust`, `affinity`, `fear`, `tension`, `secret_note`, `reveal_evidence` |
 | `chatter{}` | bank kalimat per suasana (`work`, `casual`, `argue`, `anxious`, …) |
@@ -209,7 +228,7 @@ Semua data-driven; menambah kasus baru = menulis satu berkas JSON.
 
 ### Artefak → bukti
 
-Tugas yang selesai dapat menyetor artefak (`ArtifactForge`). 14 artefak pada
+Urusan yang selesai dapat menyetor artefak (`ArtifactForge`). 14 artefak pada
 `case_001`: **12** terhubung ke bukti yang sudah ada (`evi_003`, `evi_005`,
 `evi_007`, `evi_011`, `evi_016`, `evi_018`, `evi_020`, `evi_022`, `evi_023`,
 `evi_024`, `evi_025`, …) dan **2** dibuat dinamis saat permainan berjalan:
@@ -291,7 +310,7 @@ npm run check        # keduanya
 ```
 
 `check:boot` memverifikasi: import & boot, ikon desktop, muat kasus, dunia
-terbangun (16 ruangan / 18 pintu / 75 tugas / 16 insiden), render 6 tab, kartu
+terbangun (16 ruangan / 18 pintu / 75 urusan / 16 insiden), render 6 tab, kartu
 agen, `probe`, `eavesdrop`, penolakan sadapan saat blackout, `searchRoom`,
 `takeArtifact`, `hud`, `snapshotForAI` bebas spoiler, tab Wisma di Settings,
 `applySettings`, prompt interogasi memuat `[WISMA ANGKER]` dan bebas spoiler,
@@ -311,9 +330,9 @@ ucapan & ingatan; tidak ada saksi di ruang kerja selama blackout).
 
 1. Buat folder `cases/case_XXX/` dengan `case.json`, `characters/`, `evidence/`.
 2. Tulis `cases/case_XXX/wisma.json` (salin dari `case_001`, ganti denah/jadwal).
-3. Pastikan setiap `jobs.<jabatan>.schedule[]` menunjuk `task` yang terdaftar di
+3. Pastikan setiap `jobs.<peran>.schedule[]` menunjuk `task` yang terdaftar di
    `agents.<id>.tasks[]`, dan setiap `station` ada di `stations[]`.
-4. Tandai tugas sensitif dengan `"spoiler": true` dan `"reveal_evidence": ["evi_xxx"]`.
+4. Tandai urusan sensitif dengan `"spoiler": true` dan `"reveal_evidence": ["evi_xxx"]`.
 5. Jalankan `npm run simulate` (ubah `CASE` di berkas uji bila perlu) → harus hijau.
 
 Tidak ada build step, tidak ada dependensi npm, tidak ada kompilasi: cukup JSON.

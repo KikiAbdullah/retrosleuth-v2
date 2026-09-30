@@ -234,7 +234,7 @@ export class WismaDirector {
       moveTo: null,
       mood: { stress: agentSnap.phase === "crisis" ? 3 : 1, energy: -1, social: 0 },
       memory: agentSnap.lastMemory || "",
-      intent: `${agentSnap.nextGoal || "melanjutkan pekerjaannya"} dalam 30 menit ke depan.`,
+      intent: `${agentSnap.nextGoal || "melanjutkan urusannya"} dalam 30 menit ke depan.`,
     };
   }
 

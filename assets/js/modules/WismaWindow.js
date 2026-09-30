@@ -6,8 +6,8 @@
  *                penghuni bergerak real-time, gelembung ucapan,
  *                ruangan blackout (statis), penanda barang.
  *  Panel kanan : 4 tab
- *                PENGHUNI  — roster + status pekerjaan tiap orang
- *                AGEN      — pikiran, memori, jabatan, relasi
+ *                PENGHUNI  — roster + peran & urusan rumah tiap orang
+ *                AGEN      — pikiran, memori, peran di wisma, relasi
  *                CCTV      — log peristiwa (feed keamanan)
  *                BARANG    — artefak hasil kerja yang bisa disita
  *  Toolbar     : jam simulasi, fase, play/pause, kecepatan,
@@ -375,7 +375,7 @@ export class WismaWindow {
           <p style="font-size:15px;color:#000080;font-weight:bold;">🏚️ Wisma Angker belum aktif</p>
           <p>Belum ada kasus yang dimuat. Simulasi ini mengikuti data kasus: penghuninya adalah karakter kasus itu sendiri, dan jadwalnya mengikuti linimasa malam kejadian.</p>
           <button class="wisma-btn primary" id="ws-open-case">📁 Buka Case Files</button>
-          <p style="margin-top:10px;">Setelah kasus dimuat, jendela ini menampilkan denah Wisma, sepuluh penghuni yang bekerja sesuai jabatannya, dan monitor keamanan real-time.</p>
+          <p style="margin-top:10px;">Setelah kasus dimuat, jendela ini menampilkan denah Wisma, sepuluh penghuni yang menjalani perannya masing-masing: pelayan, dapur, ronda, notaris, keluarga, dan tamu, dan monitor keamanan real-time.</p>
         </div>`;
       this.panel.querySelector("#ws-open-case")?.addEventListener("click", () => {
         this.caseHub?.open?.();
@@ -462,7 +462,7 @@ export class WismaWindow {
     const world = this.getWorld?.();
     if (!world) return;
     if (!id) {
-      this.panel.innerHTML = `<div class="ws-empty">Pilih seorang penghuni di peta atau di tab PENGHUNI untuk melihat pikirannya, pekerjaannya, ingatannya, dan relasinya.</div>`;
+      this.panel.innerHTML = `<div class="ws-empty">Pilih seorang penghuni di peta atau di tab PENGHUNI untuk melihat pikirannya, urusan rumahnya, ingatannya, dan relasinya.</div>`;
       return;
     }
     const card = world.agentCard(id);
@@ -514,11 +514,12 @@ export class WismaWindow {
         </div>
 
         <div class="ws-section">
-          <h4>PEKERJAAN</h4>
+          <h4>PERAN DI WISMA</h4>
           ${card.jobData ? `
             <div style="font-size:13px;"><b>${card.jobData.title}</b></div>
             <div style="font-size:11px;color:#666;">${card.jobData.employer || ""}</div>
-            <ul style="margin:4px 0 4px 16px;font-size:12px;">
+            <div style="font-size:11px;color:#555;margin-top:4px;">Kewajiban sehari-hari di wisma:</div>
+            <ul style="margin:2px 0 4px 16px;font-size:12px;">
               ${(card.jobData.duties || []).map((d) => `<li>${d}</li>`).join("")}
             </ul>
             <div style="font-size:11px;color:#555;">Keahlian: ${(card.jobData.skills || []).join(", ")}</div>
@@ -526,10 +527,10 @@ export class WismaWindow {
             ${bar("Harga diri", card.jobData.pride || 0, "amber")}
             <div style="font-size:12px;margin-top:4px;" id="ws-task">
               ${card.task
-                ? `Tugas: <b>${card.task.label}</b> — ${Math.round(card.task.progress)}/${card.task.duration} menit`
-                : card.nextGoal ? `Berikutnya: ${card.nextGoal}` : "Sedang tidak bertugas."}
-              <br>Tugas diselesaikan malam ini: <b>${card.tasksCompleted || 0}</b>
-            </div>` : `<div style="font-size:12px;">Tidak ada data pekerjaan.</div>`}
+                ? `Urusan: <b>${card.task.label}</b> — ${Math.round(card.task.progress)}/${card.task.duration} menit`
+                : card.nextGoal ? `Berikutnya: ${card.nextGoal}` : "Sedang senggang."}
+              <br>Urusan rumah selesai malam ini: <b>${card.tasksCompleted || 0}</b>
+            </div>` : `<div style="font-size:12px;">Tidak ada data peran.</div>`}
         </div>
 
         <div class="ws-section">
@@ -586,8 +587,8 @@ export class WismaWindow {
     const task = this.panel.querySelector("#ws-task");
     if (task) {
       task.innerHTML = card.task
-        ? `Tugas: <b>${card.task.label}</b> — ${Math.round(card.task.progress)}/${card.task.duration} menit`
-        : card.nextGoal ? `Berikutnya: ${card.nextGoal}` : "Sedang tidak bertugas.";
+        ? `Urusan: <b>${card.task.label}</b> — ${Math.round(card.task.progress)}/${card.task.duration} menit`
+        : card.nextGoal ? `Berikutnya: ${card.nextGoal}` : "Sedang senggang.";
     }
     const intent = this.panel.querySelector("#ws-intent");
     if (intent && card.intent) intent.textContent = `🎯 ${card.intent}`;
@@ -621,9 +622,9 @@ export class WismaWindow {
 
     this.panel.innerHTML = `
       <div class="ws-section">
-        <h4>BARANG HASIL PEKERJAAN PENGHUNI</h4>
+        <h4>BARANG HASIL KERJA PENGHUNI</h4>
         <div style="font-size:12px;color:#555;">
-          Setiap penghuni menghasilkan barang dari pekerjaannya. Barang tersembunyi sampai Anda menggeledah ruangannya
+          Setiap penghuni menghasilkan barang dari urusan rumahnya. Barang tersembunyi sampai Anda menggeledah ruangannya
           (klik ganda ruangan di peta, atau tombol 🔦 GELDAH). Menyita barang = menambah bukti baru.
         </div>
       </div>
