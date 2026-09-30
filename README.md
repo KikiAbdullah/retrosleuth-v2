@@ -7,9 +7,9 @@ Alih-alih memilih dialog dari daftar, Anda **mengetik pertanyaan sendiri**. Seti
 
 > 🎮 **Live Demo**: [https://kikiabdullah.github.io/retrosleuth-v2/](https://kikiabdullah.github.io/retrosleuth-v2/)
 >
-> 📄 **Dokumentasi Lengkap**: [PRD.md](PRD.md) · 🏢 **Kantor Virtual (AI Workspace)**: [docs/AI_OFFICE.md](docs/AI_OFFICE.md)
+> 📄 **Dokumentasi Lengkap**: [PRD.md](PRD.md) · 🏚️ **Wisma Angker (Simulasi Penghuni)**: [docs/AI_WISMA.md](docs/AI_WISMA.md)
 
-Mulai **v2.1.0**, RetroSleuth punya **Kantor Virtual**: sebuah "AI workspace" di dalam game.
+Mulai **v2.1.0**, RetroSleuth punya **Wisma Angker**: sebuah "simulasi penghuni" di dalam game.
 Delapan tersangka dan dua NPC hidup di **Wisma Angker** sepanjang malam — masing-masing punya
 jabatan, jadwal kerja, kebutuhan tubuh, ingatan, dan relasinya sendiri. Mereka berjalan antar
 ruangan, mengetik surat, meronda, berbisik, bertengkar, dan **menghasilkan artefak** (buku tamu,
@@ -24,7 +24,7 @@ CCTV, menyadap percakapan, dan mengintip pikiran mereka — sementara satu pangg
 | Fitur                              | Deskripsi                                                                                                                        |
 | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
 | 🕵️ **Interogasi AI Open-Ended**    | Bukan pohon dialog. Anda mengetik pertanyaan bebas ke tersangka, dan AI merespons secara dinamis sesuai kepribadian karakter.    |
-| 🏢 **Kantor Virtual (AI Workspace)** | Denah top-down Wisma Angker: 10 penghuni berjalan, bekerja, dan mengobrol sendiri sepanjang malam (17:00–02:30). Tonton lewat CCTV, sadap, atau intai pikiran. |
+| 🏚️ **Wisma Angker (Simulasi Penghuni)** | Denah top-down Wisma Angker: 10 penghuni berjalan, bekerja, dan mengobrol sendiri sepanjang malam (17:00–02:30). Tonton lewat CCTV, sadap, atau intai pikiran. |
 | 🧠 **Agen Otonom per Karakter** | Tiap karakter punya jabatan, jadwal kerja, kebutuhan (energi/lapar/sosial), stres, ingatan berskor, dan graf relasi sendiri — bukan skrip dialog. |
 | 🗂️ **Pekerjaan Jadi Bukti** | Hasil kerja agen menjadi artefak (buku tamu, slip PABX, catatan ronda, draf wasiat). Menyitanya membuka bukti — termasuk 2 bukti dinamis yang baru lahir saat permainan berjalan. |
 | 🎭 **Anti-Spoiler Berlapis** | Saat lampu ruang kerja mati (22:05–23:10), kamera buta: tidak ada log, tidak ada saksi, tidak ada sadapan. Prompt AI tidak pernah diberi tahu siapa pelakunya. |
@@ -45,7 +45,7 @@ CCTV, menyadap percakapan, dan mengintip pikiran mereka — sementara satu pangg
 - **Frontend**: Vanilla HTML5, CSS3, JavaScript ES6+ Modules
 - **UI Style**: Windows 1.0 / CRT Monitor Retro
 - **AI Communication**: `fetch` ke **OpenRouter** (`/api/v1/chat/completions`) — langsung dari browser atau lewat proxy Node tanpa dependensi
-- **AI Workspace**: mesin simulasi agen mandiri (denah + A*, memori, relasi, jabatan, insiden) di `assets/js/office/` — jalan penuh tanpa API
+- **Simulasi Penghuni**: mesin simulasi agen mandiri (denah + A*, memori, relasi, jabatan, insiden) di `assets/js/wisma/` — jalan penuh tanpa API
 - **Persistence**: IndexedDB (via `idb`) dengan fallback `localStorage`
 - **Audio**: Web Audio API (Oscillator-based procedural sounds)
 - **Markdown**: `marked.js` (dimuat dari CDN)
@@ -90,7 +90,7 @@ Atau cukup **double-click** `index.html` di file explorer (beberapa browser mung
 
 ### 3. Mengaktifkan AI (OpenRouter Free Tier)
 
-Game **tidak butuh AI** untuk tamat — Kantor Virtual dan interogasi punya mesin lokal.
+Game **tidak butuh AI** untuk tamat — Wisma Angker dan interogasi punya mesin lokal.
 Tetapi dengan AI, ucapan dan pikiran karakter jadi jauh lebih hidup.
 
 **Langkah 1 — ambil kunci gratis**
@@ -121,13 +121,13 @@ lalu Settings ▸ AI ▸ <b>Proxy URL</b> = <code>http://localhost:8787</code>
 
 **Langkah 3 — uji**: Settings ▸ AI ▸ **Test Connection** (menampilkan model, latensi, dan sisa kredit).
 
-**Langkah 4 — atur Kantor Virtual**: Settings ▸ tab 🏢 **Kantor**
+**Langkah 4 — atur Wisma Angker**: Settings ▸ tab 🏚️ **Wisma**
 
 | Setting | Saran |
 |---|---|
 | `Level AI` | **Hemat** untuk kuota 50/hari · **Normal** (default) · **Intens** bila punya kredit |
-| `AI on-demand` | biarkan **nyala** — AI hanya bekerja saat jendela Kantor dibuka |
-| `Cadangan interogasi` | 12 request — kantor tidak boleh memakainya |
+| `AI on-demand` | biarkan **nyala** — AI hanya bekerja saat jendela Wisma dibuka |
+| `Cadangan interogasi` | 12 request — wisma tidak boleh memakainya |
 | `Kecepatan` | 1x (realistis) sampai 8x (cepat) |
 
 > 💡 Tanpa kunci sama sekali, semua tetap jalan: dialog memakai **SimVoice**
@@ -145,7 +145,7 @@ lalu Settings ▸ AI ▸ <b>Proxy URL</b> = <code>http://localhost:8787</code>
 7. **🗣️ Interrogation** — Ketik pertanyaan bebas, AI akan merespons sesuai karakter.
    - _Tips_: Sodorkan bukti fisik via **Evidence Strip** untuk mendapatkan pengakuan.
    - Perhatikan **Emotion Bars** (Trust, Stress, Fear, Anger) sebagai indikator kejujuran.
-8. **🏢 Kantor Virtual** — Klik ikon 🏢 di desktop (atau taskbar) untuk mengawasi Wisma Angker:
+8. **🏚️ Wisma Angker** — Klik ikon 🏚️ di desktop (atau taskbar) untuk mengawasi Wisma Angker:
    - **Peta CCTV** — lihat penghuni berjalan & bekerja. Klik orang untuk membuka panelnya, klik ruangan untuk aksi.
    - **🎧 Sadap** — dengarkan percakapan dua orang di satu ruangan (kadang membuka rahasia relasi).
    - **🧠 Intai** — baca pikiran terdalam satu karakter (memakai 1 request AI bila tersedia).
@@ -228,7 +228,7 @@ retrosleuth/
 │   │   ├── dossier.css             # UI dossier karakter
 │   │   ├── settings.css            # UI pengaturan
 │   │   ├── accusation.css          # UI formulir tuduhan
-│   │   └── office.css              # UI Kantor Virtual (CCTV, panel agen)
+│   │   └── wisma.css              # UI Wisma Angker (CCTV, panel agen)
 │   │
 │   ├── js/
 │   │   ├── main.js                 # Bootstrapper aplikasi
@@ -249,19 +249,19 @@ retrosleuth/
 │   │   │   ├── OpenRouterClient.js # ✨ Klien HTTP OpenRouter (direct/proxy, retry, health, credits)
 │   │   │   ├── BudgetManager.js    # ✨ Kuota harian, rate limiter, antrean prioritas, cache, degrade
 │   │   │   ├── AgentPrompts.js     # ✨ Prompt agen + sanitizer + penyaring spoiler
-│   │   │   ├── PromptBuilder.js    # System prompt builder (+ konteks Kantor Virtual)
+│   │   │   ├── PromptBuilder.js    # System prompt builder (+ konteks Wisma Angker)
 │   │   │   ├── TrustSystem.js      # Kalkulasi emosi
 │   │   │   └── FallbackMode.js     # Respons offline
-│   │   ├── office/                 # ✨ KANTOR VIRTUAL (AI Workspace)
-│   │   │   ├── FloorPlan.js        # Denah, pintu, stasiun kerja, A*, blackout
+│   │   ├── wisma/                 # ✨ WISMA ANGKER (Simulasi Penghuni)
+│   │   │   ├── FloorPlan.js        # Denah, pintu, titik aktivitas, A*, blackout
 │   │   │   ├── MemoryStream.js     # Ingatan agen: skor, kadaluarsa, kunci spoiler, refleksi
 │   │   │   ├── Relationships.js    # Graf relasi trust/affinity/fear/tension
 │   │   │   ├── JobSystem.js        # Jabatan, jadwal, tugas, perilaku bebas
 │   │   │   ├── SimVoice.js         # Bank kalimat offline (tanpa AI)
-│   │   │   ├── OfficeDirector.js   # Sutradara AI: 1 panggilan batch untuk semua agen
+│   │   │   ├── WismaDirector.js   # Sutradara AI: 1 panggilan batch untuk semua agen
 │   │   │   ├── ArtifactForge.js    # Artefak kerja → bukti dinamis
-│   │   │   ├── OfficeWorld.js      # Orkestrator tick/fase/insiden/persepsi/aksi pemain
-│   │   │   └── OfficeController.js # Pengikat ke game (muat office.json, gerbang AI, save)
+│   │   │   ├── WismaWorld.js      # Orkestrator tick/fase/insiden/persepsi/aksi pemain
+│   │   │   └── WismaController.js # Pengikat ke game (muat wisma.json, gerbang AI, save)
 │   │   ├── modules/                # Modul UI spesifik (9 file)
 │   │   │   ├── CaseHub.js          # Hub pemilihan kasus
 │   │   │   ├── CaseBriefing.js     # Tampilan briefing.md
@@ -271,8 +271,8 @@ retrosleuth/
 │   │   │   ├── AccusationForm.js   # Formulir tuduhan
 │   │   │   ├── NotesApp.js         # Notepad detektif
 │   │   │   ├── TimelineViewer.js   # Timeline kronologis
-│   │   │   ├── OfficeWindow.js     # ✨ Jendela Kantor Virtual (peta, roster, log, artefak, AI)
-│   │   │   └── SettingsWindow.js   # Pengaturan AI/audio/CRT (+ tab Kantor, proxy)
+│   │   │   ├── WismaWindow.js     # ✨ Jendela Wisma Angker (peta, roster, log, artefak, AI)
+│   │   │   └── SettingsWindow.js   # Pengaturan AI/audio/CRT (+ tab Wisma, proxy)
 │   │   ├── ui/                     # UI Foundation
 │   │   │   ├── WindowManager.js    # Sistem windowing
 │   │   │   ├── DesktopManager.js   # Ikon desktop
@@ -292,12 +292,12 @@ retrosleuth/
 │       ├── case.json
 │       ├── briefing.md
 │       ├── solution.md
-│       ├── office.json             # ✨ Dunia Kantor Virtual (~70 KB, data-driven)
+│       ├── wisma.json             # ✨ Dunia Wisma Angker (~70 KB, data-driven)
 │       ├── characters/
 │       └── evidence/
 │
 ├── docs/
-│   └── AI_OFFICE.md                # ✨ Arsitektur Kantor Virtual + anggaran AI + anti-spoiler
+│   └── AI_WISMA.md                # ✨ Arsitektur Wisma Angker + anggaran AI + anti-spoiler
 │
 ├── tools/                          # ✨ Utilitas pengembangan (bukan bagian game)
 │   ├── openrouter-proxy.mjs        # Proxy OpenRouter 1 berkas, nol dependensi
@@ -320,7 +320,7 @@ retrosleuth/
 | Fase 3 | AI Client, Prompt Builder, Interrogation Room, Trust System | ✅ Selesai |
 | Fase 4 | Solution Engine, Accusation Form, Notes, Timeline, Save/Load | ✅ Selesai |
 | Fase 5 | Konten kasus lengkap ("Malam di Wisma Angker") | ✅ Selesai |
-| Fase 5b | **Kantor Virtual (AI Workspace)** — agen otonom, OpenRouter, BudgetManager, artefak→bukti | ✅ Selesai v2.1.0 |
+| Fase 5b | **Wisma Angker (Simulasi Penghuni)** — agen otonom, OpenRouter, BudgetManager, artefak→bukti | ✅ Selesai v2.1.0 |
 | Fase 6 | Audio, CRT Toggle, Settings, Polish | ✅ Selesai |
 | Fase 7 | Modding Toolkit, Voice Input, Multiplayer | 🔲 Direncanakan |
 
@@ -329,8 +329,8 @@ retrosleuth/
 - `ObjectivesTracker` — Checklist objective (method di GameState sudah ada)
 
 **Sudah diimplementasikan:** `RealTimeManager` (v4.2.0) · `NotificationSystem` ·
-`OfficeWorld` + `OfficeController` + `OfficeWindow` (v2.1.0) · `OpenRouterClient` +
-`BudgetManager` (v2.1.0). Lihat [docs/AI_OFFICE.md](docs/AI_OFFICE.md).
+`WismaWorld` + `WismaController` + `WismaWindow` (v2.1.0) · `OpenRouterClient` +
+`BudgetManager` (v2.1.0). Lihat [docs/AI_WISMA.md](docs/AI_WISMA.md).
 
 ---
 
@@ -344,9 +344,9 @@ retrosleuth/
 | **Suara tidak keluar**                | Klik di mana saja pada halaman untuk mengaktifkan AudioContext (kebijakan browser). Cek volume di Settings. |
 | **Save tidak pulih**                  | Pastikan IndexedDB tidak dibersihkan (jangan hapus data situs di DevTools).                                 |
 | **AI tidak merespons**                | Cek Settings ▸ AI ▸ **Test Connection**. Pastikan API key / Proxy URL terisi dan model berakhiran `:free`. Mode lokal aktif otomatis bila AI mati. |
-| **Kantor Virtual diam / tidak ada AI** | Itu normal tanpa kunci: dunia tetap hidup lewat mesin lokal. Panel AI menampilkan `⚙️ lokal`. Isi kunci di Settings untuk `🤖 AI`. |
+| **Wisma Angker diam / tidak ada AI** | Itu normal tanpa kunci: dunia tetap hidup lewat mesin lokal. Panel AI menampilkan `⚙️ lokal`. Isi kunci di Settings untuk `🤖 AI`. |
 | **Kena limit 429 / kuota habis**      | Free tier = 50 request/hari & 20/menit. Turunkan `Level AI` ke **Hemat**, biarkan `AI on-demand` nyala, atau tambah kredit $10 di OpenRouter (1.000/hari). |
-| **Interogasi kehabisan kuota karena kantor** | Naikkan `Cadangan interogasi` (default 12) di Settings ▸ Kantor. Kantor tidak pernah memakai cadangan itu. |
+| **Interogasi kehabisan kuota karena wisma** | Naikkan `Cadangan interogasi` (default 12) di Settings ▸ Wisma. Wisma tidak pernah memakai cadangan itu. |
 | **Proxy tidak terhubung**             | Jalankan `npm run proxy`, pastikan `OPENROUTER_API_KEY` ter-set, lalu isi Proxy URL `http://localhost:8787`. Cek `http://localhost:8787/health`. |
 | **Ruangan gelap di peta CCTV**        | Bukan bug: ruang kerja **blackout 22:05–23:10**. Kamera buta — tidak ada log, saksi, atau sadapan di sana. Tunggu lampu menyala. |
 

@@ -1,12 +1,12 @@
 /**
  * ============================================================
- *  OFFICECONTROLLER.JS — Pengikat Kantor Virtual ke Game
+ *  WISMACONTROLLER.JS — Pengikat Wisma Angker ke Game
  * ------------------------------------------------------------
  *  Tugasnya:
- *   1. Muat office.json milik kasus yang sedang aktif
- *   2. Rakit OpenRouterClient + BudgetManager + OfficeDirector + OfficeWorld
+ *   1. Muat wisma.json milik kasus yang sedang aktif
+ *   2. Rakit OpenRouterClient + BudgetManager + WismaDirector + WismaWorld
  *   3. Jalankan simulasi (otomatis, gratis, tanpa API)
- *   4. Hemat kuota: AI "sutradara" hanya menyala saat jendela Kantor
+ *   4. Hemat kuota: AI "sutradara" hanya menyala saat jendela Wisma
  *      Virtual dibuka (bisa dimatikan di Settings)
  *   5. Terjemahkan permintaan dunia → aksi game (buka bukti, notifikasi)
  *   6. Simpan/pulihkan sesi malam (localStorage per kasus)
@@ -14,23 +14,23 @@
  */
 
 import { EventBus } from "../core/EventBus.js";
-import { OfficeWorld } from "./OfficeWorld.js";
-import { OfficeDirector } from "./OfficeDirector.js";
+import { WismaWorld } from "./WismaWorld.js";
+import { WismaDirector } from "./WismaDirector.js";
 import { openRouter } from "../ai/OpenRouterClient.js";
 import { budget } from "../ai/BudgetManager.js";
 
-export const OFFICE_DEFAULTS = {
+export const WISMA_DEFAULTS = {
   enabled: true,
   level: "normal", // off | hemat | normal | intens
   intervalMin: 20,
-  aiOnDemand: true, // AI hanya aktif ketika jendela Kantor dibuka
+  aiOnDemand: true, // AI hanya aktif ketika jendela Wisma dibuka
   autoStart: true,
   useAIForEavesdrop: true,
   useAIForReflection: true,
   speed: 1,
 };
 
-export class OfficeController {
+export class WismaController {
   /**
    * @param {Object} deps
    * @param {Object} deps.caseLoader
@@ -44,9 +44,9 @@ export class OfficeController {
     this.notificationSystem = notificationSystem;
     this.settings = settings || {};
 
-    /** @type {OfficeWorld|null} */
+    /** @type {WismaWorld|null} */
     this.world = null;
-    /** @type {OfficeDirector|null} */
+    /** @type {WismaDirector|null} */
     this.director = null;
     this.caseId = null;
     this.windowOpen = false;
@@ -55,25 +55,25 @@ export class OfficeController {
     this._bindEvents();
   }
 
-  get officeSettings() {
-    return { ...OFFICE_DEFAULTS, ...(this.settings?.office || {}) };
+  get wismaSettings() {
+    return { ...WISMA_DEFAULTS, ...(this.settings?.wisma || {}) };
   }
 
   _bindEvents() {
     // dunia minta bukti dibuka (mis. insiden penemuan mayat)
-    EventBus.on("office:request-evidence", ({ evidenceId }) => {
+    EventBus.on("wisma:request-evidence", ({ evidenceId }) => {
       if (!evidenceId) return;
       this.evidenceEngine?.unlockEvidence?.(evidenceId);
     });
 
-    // jendela Kantor dibuka/ditutup → kendalikan pemakaian AI
+    // jendela Wisma dibuka/ditutup → kendalikan pemakaian AI
     EventBus.on("window:opened", ({ windowId }) => {
-      if (windowId !== "office") return;
+      if (windowId !== "wisma") return;
       this.windowOpen = true;
       this._syncAiGate();
     });
     EventBus.on("window:closed", ({ windowId }) => {
-      if (windowId !== "office") return;
+      if (windowId !== "wisma") return;
       this.windowOpen = false;
       this._syncAiGate();
       this.world?.save?.();
@@ -93,7 +93,7 @@ export class OfficeController {
    */
   applySettings(patch = {}) {
     if (patch) this.settings = { ...this.settings, ...patch };
-    const s = this.officeSettings;
+    const s = this.wismaSettings;
 
     openRouter.updateConfig({
       endpoint: this.settings.endpoint,
@@ -120,21 +120,21 @@ export class OfficeController {
 
     this._syncAiGate();
     if (this.world && s.speed) this.world.setSpeed(Number(s.speed) || 1);
-    EventBus.emit("office:settings-applied", s);
+    EventBus.emit("wisma:settings-applied", s);
   }
 
   /**
    * AI hanya dipakai kalau: diizinkan pengaturan + (tidak mode on-demand
-   * ATAU jendela kantor sedang dibuka).
+   * ATAU jendela wisma sedang dibuka).
    */
   _syncAiGate() {
     if (!this.director) return;
-    const s = this.officeSettings;
+    const s = this.wismaSettings;
     const wanted = s.enabled !== false && s.level !== "off";
     const allowed = wanted && (!s.aiOnDemand || this.windowOpen);
     // `enabled` adalah gerbang runtime; `level` menyimpan pilihan pengguna
     this.director.config.enabled = allowed;
-    EventBus.emit("office:ai-gate", { allowed, wanted, windowOpen: this.windowOpen });
+    EventBus.emit("wisma:ai-gate", { allowed, wanted, windowOpen: this.windowOpen });
   }
 
   // ============================================================
@@ -151,7 +151,7 @@ export class OfficeController {
 
     const folder = caseData.meta_data?.folder || caseData.id;
     const base = this.caseLoader?.basePath || "./cases";
-    const url = `${base}/${folder}/office.json`;
+    const url = `${base}/${folder}/wisma.json`;
 
     let data = null;
     try {
@@ -159,14 +159,14 @@ export class OfficeController {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       data = await res.json();
     } catch (err) {
-      console.warn(`[Office] ℹ️ ${url} tidak ada — Kantor Virtual nonaktif untuk kasus ini.`, err.message);
-      EventBus.emit("office:unavailable", { caseId: caseData.id, reason: err.message });
+      console.warn(`[Wisma] ℹ️ ${url} tidak ada — Wisma Angker nonaktif untuk kasus ini.`, err.message);
+      EventBus.emit("wisma:unavailable", { caseId: caseData.id, reason: err.message });
       return false;
     }
 
     // direktur AI (sutradara)
-    const s = this.officeSettings;
-    this.director = new OfficeDirector({
+    const s = this.wismaSettings;
+    this.director = new WismaDirector({
       client: openRouter,
       budget,
       config: {
@@ -183,7 +183,7 @@ export class OfficeController {
     this._syncAiGate();
 
     // dunia
-    this.world = new OfficeWorld({
+    this.world = new WismaWorld({
       data,
       characters: caseData.characters || [],
       director: this.director,
@@ -196,25 +196,25 @@ export class OfficeController {
     // pulihkan sesi sebelumnya kalau ada
     const restored = this.world.load();
     if (restored) {
-      console.log(`[Office] ✅ Sesi malam ${caseData.id} dipulihkan (jam ${OfficeWorld.timeLabel(this.world.clock)}).`);
+      console.log(`[Wisma] ✅ Sesi malam ${caseData.id} dipulihkan (jam ${WismaWorld.timeLabel(this.world.clock)}).`);
     }
 
     if (s.autoStart !== false) this.world.start();
     this.world.setSpeed(Number(s.speed) || 1);
 
     this.notificationSystem?.add?.(
-      `🏢 Kantor Virtual aktif: ${data.meta?.title || caseData.meta?.title}. ${this.world.agents.size} penghuni sedang menjalani malamnya.`,
-      "office-started"
+      `🏚️ Wisma Angker aktif: ${data.meta?.title || caseData.meta?.title}. ${this.world.agents.size} penghuni sedang menjalani malamnya.`,
+      "wisma-started"
     );
 
-    EventBus.emit("office:ready", {
+    EventBus.emit("wisma:ready", {
       caseId: caseData.id,
       agents: this.world.agents.size,
       restored,
       aiActive: !!this.director.aiActive,
     });
     console.log(
-      `[Office] 🏢 Kantor Virtual siap: ${this.world.agents.size} penghuni, ${this.world.incidents.length} insiden terjadwal, AI=${this.director.aiActive ? "aktif" : "lokal"}.`
+      `[Wisma] 🏚️ Wisma Angker siap: ${this.world.agents.size} penghuni, ${this.world.incidents.length} insiden terjadwal, AI=${this.director.aiActive ? "aktif" : "lokal"}.`
     );
     return true;
   }

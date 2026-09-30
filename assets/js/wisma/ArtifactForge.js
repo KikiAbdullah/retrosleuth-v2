@@ -2,7 +2,7 @@
  * ============================================================
  *  ARTIFACTFORGE.JS — Hasil Kerja Nyata dari Tiap Karakter
  * ------------------------------------------------------------
- *  Inilah bagian "kantor virtual"-nya yang paling terasa: setiap
+ *  Inilah bagian "simulasi wisma"-nya yang paling terasa: setiap
  *  penghuni mengerjakan PEKERJAANNYA, dan pekerjaan itu meninggalkan
  *  barang di dunia.
  *
@@ -22,7 +22,7 @@ import { EventBus } from "../core/EventBus.js";
 export class ArtifactForge {
   /**
    * @param {Object} deps
-   * @param {Object} [deps.template]  - template header/footer dari office.json
+   * @param {Object} [deps.template]  - template header/footer dari wisma.json
    * @param {Object} [deps.evidenceEngine]
    * @param {Object} [deps.notificationSystem]
    */
@@ -49,7 +49,7 @@ export class ArtifactForge {
   /**
    * Sebuah tugas selesai → barangnya muncul di dunia.
    * @param {Object} ctx
-   * @param {Object} ctx.def        - definisi artefak dari office.json
+   * @param {Object} ctx.def        - definisi artefak dari wisma.json
    * @param {string} ctx.agentName
    * @param {string} ctx.agentJob
    * @param {string} ctx.agentId
@@ -102,7 +102,7 @@ export class ArtifactForge {
     };
 
     this.items.set(artifact.id, artifact);
-    EventBus.emit("office:artifact-produced", { artifact });
+    EventBus.emit("wisma:artifact-produced", { artifact });
     return artifact;
   }
 
@@ -187,7 +187,7 @@ export class ArtifactForge {
         icon: "🗃",
         description_short: `Dihasilkan oleh aktivitas ${a.agentName} di ${a.roomName}.`,
         content: a.content,
-        source: "office",
+        source: "wisma",
       });
       isNew = registered !== false;
     }
@@ -199,10 +199,10 @@ export class ArtifactForge {
 
     this.notify?.add?.(
       `🗃 Disita dari ${a.roomName}: ${a.title}${unlocked ? "" : " (sudah tercatat)"}`,
-      `office-artifact-${a.id}`
+      `wisma-artifact-${a.id}`
     );
 
-    EventBus.emit("office:artifact-taken", { artifact: a, evidenceId, unlocked, isNew });
+    EventBus.emit("wisma:artifact-taken", { artifact: a, evidenceId, unlocked, isNew });
     return { ok: true, evidenceId, title: a.title, isNew, unlocked };
   }
 

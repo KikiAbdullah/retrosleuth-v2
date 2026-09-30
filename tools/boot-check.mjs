@@ -6,10 +6,10 @@
  *  DOM tiruan (tools/dom-shim.mjs), lalu:
  *    1. boot  (DOMContentLoaded → runBootSequence → initializeApp)
  *    2. muat kasus case_001 lewat CaseLoader (fetch dari disk)
- *    3. buka Kantor Virtual, jalankan tick, render semua tab
+ *    3. buka Wisma Angker, jalankan tick, render semua tab
  *    4. uji aksi pemain: intai (probe), sadap ruang, geledah, ambil artefak
- *    5. buka Pengaturan → tab Kantor → applySettings
- *    6. uji prompt interogasi (konteks kantor + anti-spoiler)
+ *    5. buka Pengaturan → tab Wisma → applySettings
+ *    6. uji prompt interogasi (konteks wisma + anti-spoiler)
  *    7. uji jalur AI tanpa API key (harus fallback, bukan crash)
  *    8. simpan / bongkar sesi
  *
@@ -72,15 +72,15 @@ if (!app) {
 // ============================================================
 //  2. KOMPONEN INTI TERDAFTAR
 // ============================================================
-const wajib = ["wm", "desktop", "taskbar", "loader", "eviEngine", "aiClient", "openRouter", "aiBudget", "office", "officeWindow", "settings", "interrogationRoom"];
+const wajib = ["wm", "desktop", "taskbar", "loader", "eviEngine", "aiClient", "openRouter", "aiBudget", "wisma", "wismaWindow", "settings", "interrogationRoom"];
 for (const k of wajib) step(`komponen ${k}`, app[k] != null, app[k] == null ? "tidak terinisialisasi" : "");
 
 try {
   const icons = app.desktop?.apps || app.desktop?.icons || [];
   const list = Array.isArray(icons) ? icons.map((i) => i.id || i.windowId) : Object.keys(icons || {});
-  step("ikon 🏢 Kantor Virtual di desktop", list.includes("office"), list.slice(0, 12).join(", "));
+  step("ikon 🏚️ Wisma Angker di desktop", list.includes("wisma"), list.slice(0, 12).join(", "));
 } catch (e) {
-  step("ikon 🏢 Kantor Virtual di desktop", false, e?.message);
+  step("ikon 🏚️ Wisma Angker di desktop", false, e?.message);
 }
 
 // ============================================================
@@ -95,24 +95,24 @@ try {
   console.error(e);
 }
 
-await sleep(300); // beri waktu handler case:loaded (office.loadForCase)
+await sleep(300); // beri waktu handler case:loaded (wisma.loadForCase)
 
-const world = app.office?.world;
-step("OfficeController membangun dunia", !!world, world ? `${world.agents?.size ?? 0} penghuni` : "world kosong");
+const world = app.wisma?.world;
+step("WismaController membangun dunia", !!world, world ? `${world.agents?.size ?? 0} penghuni` : "world kosong");
 step(
-  "office.json terbaca",
+  "wisma.json terbaca",
   (world?.floor?.rooms?.size ?? 0) > 0 && (world?.jobs?.tasks?.size ?? 0) > 0,
   `${world?.floor?.rooms?.size ?? 0} ruangan · ${world?.floor?.doors?.length ?? 0} pintu · ${world?.jobs?.tasks?.size ?? 0} tugas · ${world?.incidents?.length ?? 0} insiden`
 );
 
 // ============================================================
-//  4. BUKA JENDELA KANTOR + JALANKAN SIMULASI
+//  4. BUKA JENDELA WISMA + JALANKAN SIMULASI
 // ============================================================
 try {
-  app.officeWindow.open();
-  step("buka jendela Kantor Virtual", app.officeWindow.built === true, "UI terbangun");
+  app.wismaWindow.open();
+  step("buka jendela Wisma Angker", app.wismaWindow.built === true, "UI terbangun");
 } catch (e) {
-  step("buka jendela Kantor Virtual", false, e?.message);
+  step("buka jendela Wisma Angker", false, e?.message);
   console.error(e);
 }
 await sleep(150);
@@ -139,10 +139,10 @@ try {
 // render semua tab
 for (const tab of ["map", "roster", "log", "artifacts", "relations", "ai"]) {
   try {
-    app.officeWindow.tab = tab;
-    app.officeWindow._renderTab();
-    app.officeWindow._renderHud();
-    if (tab === "map") app.officeWindow._draw();
+    app.wismaWindow.tab = tab;
+    app.wismaWindow._renderTab();
+    app.wismaWindow._renderHud();
+    if (tab === "map") app.wismaWindow._draw();
     step(`render tab "${tab}"`, true);
   } catch (e) {
     step(`render tab "${tab}"`, false, e?.message);
@@ -156,7 +156,7 @@ try {
   firstAgent = [...world.agents.values()].find((a) => a.present && !a.deceased);
   const card = world.agentCard(firstAgent.id);
   step("agentCard()", !!card?.name, `${card?.name} · ${card?.activity} · ${card?.tasksCompleted ?? 0} tugas selesai`);
-  app.officeWindow._renderAgentCard(firstAgent.id);
+  app.wismaWindow._renderAgentCard(firstAgent.id);
   step("render kartu agen di UI", true);
 } catch (e) {
   step("agentCard()", false, e?.message);
@@ -244,7 +244,7 @@ try {
 }
 
 // ============================================================
-//  6. PENGATURAN (tab AI + tab Kantor)
+//  6. PENGATURAN (tab AI + tab Wisma)
 // ============================================================
 try {
   app.settings.open();
@@ -255,19 +255,19 @@ try {
 }
 
 try {
-  app.settings._showPanel?.("office") ?? app.settings.showPanel?.("office");
-  step("render tab Kantor di Pengaturan", true);
+  app.settings._showPanel?.("wisma") ?? app.settings.showPanel?.("wisma");
+  step("render tab Wisma di Pengaturan", true);
 } catch (e) {
-  step("render tab Kantor di Pengaturan", false, e?.message);
+  step("render tab Wisma di Pengaturan", false, e?.message);
 }
 
 try {
-  app.office.applySettings({ level: "normal", speed: 2, aiOnDemand: false });
-  step("applySettings() kantor", app.office.settings?.level === "normal", `level=${app.office.settings?.level} speed=${app.office.settings?.speed} aiOnDemand=${app.office.settings?.aiOnDemand}`);
-  app.office.applySettings({ level: "off" });
-  step("applySettings({level:'off'})", app.office.settings?.level === "off", "AI dimatikan");
+  app.wisma.applySettings({ level: "normal", speed: 2, aiOnDemand: false });
+  step("applySettings() wisma", app.wisma.settings?.level === "normal", `level=${app.wisma.settings?.level} speed=${app.wisma.settings?.speed} aiOnDemand=${app.wisma.settings?.aiOnDemand}`);
+  app.wisma.applySettings({ level: "off" });
+  step("applySettings({level:'off'})", app.wisma.settings?.level === "off", "AI dimatikan");
 } catch (e) {
-  step("applySettings() kantor", false, e?.message);
+  step("applySettings() wisma", false, e?.message);
 }
 
 // ============================================================
@@ -277,19 +277,19 @@ try {
   const { PromptBuilder } = await import("../assets/js/ai/PromptBuilder.js");
   const suspectId = "char_002";
   const prompt = String(PromptBuilder.build(suspectId) || "");
-  const hasOffice = /\[KANTOR VIRTUAL\]/.test(prompt);
-  step("prompt interogasi memuat [KANTOR VIRTUAL]", hasOffice, `${prompt.length} karakter`);
+  const hasWisma = /\[WISMA ANGKER\]/.test(prompt);
+  step("prompt interogasi memuat [WISMA ANGKER]", hasWisma, `${prompt.length} karakter`);
 
-  // Blok kantor TIDAK boleh memuat kebenaran kasus (hanya fakta terpantau).
-  const officeBlock = prompt.split("[KANTOR VIRTUAL]")[1]?.split(/\n\[[A-Z ]+\]/)[0] || "";
+  // Blok wisma TIDAK boleh memuat kebenaran kasus (hanya fakta terpantau).
+  const wismaBlock = prompt.split("[WISMA ANGKER]")[1]?.split(/\n\[[A-Z ]+\]/)[0] || "";
   const TERLARANG = /(meracun|sianida|racun|membunuh|pelaku|mayat|korban meninggal)/i;
-  const bocorKantor = officeBlock.match(TERLARANG);
-  step("blok [KANTOR VIRTUAL] bebas spoiler", !bocorKantor && officeBlock.length > 0, bocorKantor ? `ADA "${bocorKantor[0]}"` : `${officeBlock.length} karakter bersih`);
+  const bocorWisma = wismaBlock.match(TERLARANG);
+  step("blok [WISMA ANGKER] bebas spoiler", !bocorWisma && wismaBlock.length > 0, bocorWisma ? `ADA "${bocorWisma[0]}"` : `${wismaBlock.length} karakter bersih`);
 
   // Aturan anti-bocor harus tertulis di prompt.
   step("prompt memuat aturan anti-spoiler", /(jangan|tidak boleh)[^.]*?(akui|mengaku|bocor|membongkar)/i.test(prompt), "aturan 9-10");
 } catch (e) {
-  step("PromptBuilder + kantor", false, e?.message);
+  step("PromptBuilder + wisma", false, e?.message);
   console.error(e);
 }
 
@@ -316,7 +316,7 @@ try {
   step(
     "budget.stats()",
     typeof st?.dailyLeft === "number",
-    `dipakai ${st.used}/${st.dailyLimit} · sisa kantor ${st.officeLeft} · cadangan interogasi ${st.reserve} · degrade=${st.degraded}`
+    `dipakai ${st.used}/${st.dailyLimit} · sisa wisma ${st.wismaLeft} · cadangan interogasi ${st.reserve} · degrade=${st.degraded}`
   );
 } catch (e) {
   step("budget.stats()", false, e?.message);
@@ -329,8 +329,8 @@ try {
   world.save();
   const keys = [];
   for (let i = 0; i < globalThis.localStorage.length; i++) keys.push(globalThis.localStorage.key(i));
-  const officeKey = keys.find((k) => /office/i.test(k));
-  step("world.save()", !!officeKey, officeKey ? `kunci "${officeKey}" (${globalThis.localStorage.getItem(officeKey).length} byte)` : `kunci: ${keys.join(", ")}`);
+  const wismaKey = keys.find((k) => /wisma/i.test(k));
+  step("world.save()", !!wismaKey, wismaKey ? `kunci "${wismaKey}" (${globalThis.localStorage.getItem(wismaKey).length} byte)` : `kunci: ${keys.join(", ")}`);
   step("world.hasSave()", world.hasSave() === true);
   world.clearSave?.();
   step("world.clearSave()", world.hasSave() === false);
@@ -340,11 +340,62 @@ try {
 }
 
 try {
-  app.officeWindow.close?.();
-  app.office.unload?.();
-  step("tutup jendela + office.unload()", app.office.world == null, "world dibebaskan");
+  app.wismaWindow.close?.();
+  app.wisma.unload?.();
+  step("tutup jendela + wisma.unload()", app.wisma.world == null, "world dibebaskan");
 } catch (e) {
-  step("tutup jendela + office.unload()", false, e?.message);
+  step("tutup jendela + wisma.unload()", false, e?.message);
+}
+
+// ============================================================
+// 10. MIGRASI NAMA LAMA ("office" → "wisma")
+// ============================================================
+try {
+  const KEY = "retrosleuth_settings";
+  const backup = globalThis.localStorage.getItem(KEY);
+  const lama = backup ? JSON.parse(backup) : {};
+  delete lama.wisma; // payload pra-rename tidak punya kunci "wisma"
+  lama.office = { level: "hemat", speed: 4, aiOnDemand: false };
+  globalThis.localStorage.setItem(KEY, JSON.stringify(lama));
+  const { SettingsWindow } = await import("../assets/js/modules/SettingsWindow.js");
+  const sw = new SettingsWindow(app.wm);
+  const w = sw.settings?.wisma || {};
+  step(
+    "migrasi settings.office → settings.wisma",
+    w.level === "hemat" && w.speed === 4 && sw.settings.office === undefined,
+    `level=${w.level} speed=${w.speed} kunciLama=${sw.settings.office === undefined ? "sudah dibuang" : "MASIH ADA"}`
+  );
+  if (backup) globalThis.localStorage.setItem(KEY, backup);
+  else globalThis.localStorage.removeItem(KEY);
+} catch (e) {
+  step("migrasi settings.office → settings.wisma", false, e?.message);
+}
+
+try {
+  await app.loader.loadFullCase("case_001"); // dunia dibangun ulang
+  await sleep(350);
+  const w2 = app.wisma?.world;
+  if (!w2) throw new Error("dunia tidak dibangun ulang");
+  w2.save();
+  const payload = globalThis.localStorage.getItem("retrosleuth_wisma_case_001");
+  if (!payload) throw new Error("save baru tidak tertulis");
+  // seolah-olah save ini dibuat sebelum fitur dinamai ulang
+  globalThis.localStorage.setItem("retrosleuth_office_case_001", payload);
+  globalThis.localStorage.removeItem("retrosleuth_wisma_case_001");
+
+  const ketemu = w2.hasSave();
+  const kunciBaru = globalThis.localStorage.getItem("retrosleuth_wisma_case_001");
+  const kunciLama = globalThis.localStorage.getItem("retrosleuth_office_case_001");
+  step(
+    "migrasi kunci save lama (retrosleuth_office_*)",
+    ketemu && !!kunciBaru && kunciLama == null,
+    `hasSave=${ketemu} · kunci baru=${kunciBaru ? "terisi" : "kosong"} · kunci lama=${kunciLama ? "MASIH ADA" : "bersih"}`
+  );
+  const dipulihkan = w2.load();
+  step("pulihkan sesi dari hasil migrasi", dipulihkan === true, `jam ${w2.constructor.timeLabel(w2.clock)} · fase ${w2.phase}`);
+  w2.clearSave();
+} catch (e) {
+  step("migrasi kunci save lama", false, e?.message);
 }
 
 // ============================================================

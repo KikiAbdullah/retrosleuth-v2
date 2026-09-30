@@ -1,10 +1,10 @@
 /**
  * ============================================================
- *  AGENTPROMPTS.JS — Otak "Kantor Virtual"
+ *  AGENTPROMPTS.JS — Otak "Wisma Angker"
  * ------------------------------------------------------------
  *  Rahasia menghemat kuota: SATU panggilan menggerakkan SEMUA
  *  karakter (Director Batch). Model gratis membalas JSON ringkas,
- *  lalu OfficeWorld menerjemahkannya jadi tindakan, ucapan, emosi,
+ *  lalu WismaWorld menerjemahkannya jadi tindakan, ucapan, emosi,
  *  dan ingatan di dalam simulasi.
  *
  *  Semua prompt di sini dibangun dari data murni (tanpa DOM) supaya
@@ -12,7 +12,7 @@
  *
  *  PRINSIP ANTI-SPOILER (penting untuk game detektif!):
  *   - Data `truths`, `secrets`, `can_be_culprit`, `red_herring_note`
- *     TIDAK PERNAH dikirim ke model untuk simulasi kantor.
+ *     TIDAK PERNAH dikirim ke model untuk simulasi wisma.
  *   - Karakter hanya tahu apa yang mereka LIHAT/DENGAR (memori sim).
  *   - Ruang kerja blackout saat kejadian ⇒ tidak ada saksi mata.
  * ============================================================
@@ -26,7 +26,7 @@ export class AgentPrompts {
    */
   static systemBase(world) {
     return [
-      `[MESIN SIMULASI — ${world.title || "KANTOR VIRTUAL"}]`,
+      `[MESIN SIMULASI — ${world.title || "WISMA ANGKER"}]`,
       `Tanggal: ${world.date || "-"}. Jam simulasi: ${world.clock || "-"}. Fase: ${world.phaseLabel || world.phase || "normal"}.`,
       world.phaseNote || "",
       "",
@@ -52,7 +52,7 @@ export class AgentPrompts {
   // ============================================================
 
   /**
-   * @param {Object} world - snapshot dunia (lihat OfficeWorld.snapshotForAI)
+   * @param {Object} world - snapshot dunia (lihat WismaWorld.snapshotForAI)
    * @returns {{system:string,user:string,jsonMode:true}}
    */
   static directorBatch(world) {

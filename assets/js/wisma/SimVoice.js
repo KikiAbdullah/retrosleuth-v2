@@ -2,7 +2,7 @@
  * ============================================================
  *  SIMVOICE.JS — Generator Perilaku Offline (Tanpa API)
  * ------------------------------------------------------------
- *  Simulasi kantor HARUS tetap hidup walau kuota OpenRouter habis,
+ *  Simulasi wisma HARUS tetap hidup walau kuota OpenRouter habis,
  *  key belum diisi, atau internet mati. Modul ini menghasilkan
  *  pikiran, ucapan, dan aksi prosedural dalam Bahasa Indonesia,
  *  dengan cita rasa kepribadian tiap karakter.

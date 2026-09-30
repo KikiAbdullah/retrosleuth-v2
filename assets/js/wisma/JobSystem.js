@@ -5,7 +5,7 @@
  *  "Tiap karakter melakukan pekerjaannya masing-masing" diwujudkan
  *  di sini. Setiap orang punya:
  *    • jabatan (title, employer, duties, pressure, pride)
- *    • daftar tugas (label, kata kerja, stasiun, durasi, tag)
+ *    • daftar tugas (label, kata kerja, titik aktivitas, durasi, tag)
  *    • jadwal harian (HH:MM → tugas)
  *    • perilaku bebas saat jadwal kosong (didorong kebutuhan)
  *    • artefak: hasil kerja nyata yang bisa disita detektif
@@ -18,14 +18,14 @@
 
 export class JobSystem {
   /**
-   * @param {Object} officeData - isi office.json
-   * @param {Object} floorPlan  - instance FloorPlan (untuk tahu ruangan stasiun)
+   * @param {Object} wismaData - isi wisma.json
+   * @param {Object} floorPlan  - instance FloorPlan (untuk tahu ruangan tempat aktivitas)
    */
-  constructor(officeData, floorPlan) {
-    this.data = officeData;
+  constructor(wismaData, floorPlan) {
+    this.data = wismaData;
     this.floor = floorPlan;
     /** @type {Map<string,Object>} */
-    this.jobs = new Map(Object.entries(officeData.jobs || {}));
+    this.jobs = new Map(Object.entries(wismaData.jobs || {}));
     /** @type {Map<string,Object>} */
     this.tasks = new Map();
     for (const [agentId, job] of this.jobs) {
@@ -35,7 +35,7 @@ export class JobSystem {
     }
     /** Jadwal ternormalisasi: agentId -> [{min, entry}] */
     this.schedules = new Map();
-    const startMin = JobSystem.parseTime(officeData.meta?.start_time || "17:00");
+    const startMin = JobSystem.parseTime(wismaData.meta?.start_time || "17:00");
     for (const [agentId, job] of this.jobs) {
       const list = (job.schedule || [])
         .map((e) => ({ min: JobSystem.parseTime(e.at, startMin), entry: e }))
@@ -44,7 +44,7 @@ export class JobSystem {
     }
   }
 
-  /** Ruangan tempat tugas dikerjakan (dari stasiun, atau override). */
+  /** Ruangan tempat tugas dikerjakan (dari titik aktivitas, atau override). */
   _roomOfTask(t) {
     if (t.room) return t.room;
     const st = this.floor?.station(t.station);
@@ -187,7 +187,7 @@ export class JobSystem {
     };
   }
 
-  /** Ruangan tujuan sebuah tugas (stasiun → ruangan, atau ruangan tugas). */
+  /** Ruangan tujuan sebuah tugas (titik aktivitas → ruangan, atau ruangan tugas). */
   roomFor(task) {
     if (!task) return null;
     if (task.room) return task.room;

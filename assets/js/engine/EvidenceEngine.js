@@ -48,7 +48,7 @@ export class EvidenceEngine {
   }
 
   /**
-   * Daftarkan bukti DINAMIS yang lahir dari Kantor Virtual
+   * Daftarkan bukti DINAMIS yang lahir dari Wisma Angker
    * (artefak hasil pekerjaan penghuni, bukan file di folder kasus).
    * Tidak menghapus registri yang sudah ada.
    * @param {Object} evi - { id, title, icon, description_short, content, source }
@@ -65,7 +65,7 @@ export class EvidenceEngine {
       description_short: evi.description_short || "Dihasilkan oleh aktivitas penghuni wisma.",
       content: evi.content || "",
       dynamic: true,
-      source: evi.source || "office",
+      source: evi.source || "wisma",
     });
     if (evi.content) this.contentCache.set(evi.id, evi.content);
     if (isNew) {

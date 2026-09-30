@@ -3,7 +3,7 @@
  *  OPENROUTERCLIENT.JS — Lapisan HTTP paling bawah untuk AI
  * ------------------------------------------------------------
  *  Satu-satunya pintu keluar ke model AI (OpenRouter free tier
- *  atau proxy lokal). Semua modul (interogasi & kantor virtual)
+ *  atau proxy lokal). Semua modul (interogasi & simulasi wisma)
  *  memakai klien ini lewat BudgetManager, TIDAK pernah fetch
  *  sendiri — supaya kuota 20 req/menit & 50 req/hari aman.
  *
@@ -49,7 +49,7 @@ export class OpenRouterClient {
     this.proxyUrl = config.proxyUrl || "";
     this.timeout = config.timeout || 45000;
     this.maxRetries = config.maxRetries ?? 2;
-    this.appTitle = config.appTitle || "RetroSleuth Office";
+    this.appTitle = config.appTitle || "RetroSleuth Wisma";
 
     /** Statistik kumulatif sesi ini */
     this.stats = {

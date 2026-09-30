@@ -1,7 +1,7 @@
 {
-  "$schema_note": "Definisi Kantor Virtual (AI Workspace) RetroSleuth. Semua data-driven: ruangan, stasiun kerja, jabatan, jadwal, relasi, dan insiden. Simulasi tetap jalan 100% tanpa API (mode OFFLINE); OpenRouter hanya memperkaya pikiran/ucapan agen.",
+  "$schema_note": "Definisi Wisma Angker (Simulasi Penghuni) RetroSleuth. Semua data-driven: ruangan, titik aktivitas, peran, jadwal, relasi, dan insiden. Simulasi tetap jalan 100% tanpa API (mode OFFLINE); OpenRouter hanya memperkaya pikiran/ucapan agen.",
   "meta": {
-    "id": "office_case_001",
+    "id": "wisma_case_001",
     "title": "Wisma Angker — Shift Malam",
     "subtitle": "Peta Keamanan & Monitoring Aktivitas Penghuni",
     "date": "14 Juni 1979",
@@ -2983,7 +2983,7 @@
     ]
   },
   "artifact_template": {
-    "header": "> 🗂 **ARTEFAK KANTOR VIRTUAL** — dihasilkan otomatis oleh aktivitas {agent} ({job}) pada {time}, {room}.\n> Sumber: simulasi Wisma Angker. Barang ini {status}.\n",
+    "header": "> 🗂 **ARTEFAK WISMA ANGKER** — dihasilkan otomatis oleh aktivitas {agent} ({job}) pada {time}, {room}.\n> Sumber: simulasi Wisma Angker. Barang ini {status}.\n",
     "footer": "\n---\n*Artefak ini muncul karena {agent} mengerjakan tugas \"{task}\". Anda menyitanya dari {room} pada pukul {time}.*\n"
   },
   "simulation": {

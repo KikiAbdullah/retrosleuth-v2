@@ -7,7 +7,7 @@
  *   • semua HTTP lewat OpenRouterClient (retry, fallback model, proxy)
  *   • semua panggilan lewat BudgetManager (kuota free tier aman)
  *   • default: OpenRouter model :free, key KOSONG (diisi di Settings)
- *   • konteks Kantor Virtual ikut disuntikkan ke prompt (PromptBuilder)
+ *   • konteks Wisma Angker ikut disuntikkan ke prompt (PromptBuilder)
  *
  *  API publik lama tetap sama: sendMessage(), checkHealth(),
  *  updateConfig() — supaya InterrogationRoom tidak perlu diubah.

@@ -2,7 +2,7 @@
  * ============================================================
  *  FLOORPLAN.JS — Denah Wisma & Mesin Navigasi
  * ------------------------------------------------------------
- *  Denah dibaca dari cases/<case>/office.json (data-driven).
+ *  Denah dibaca dari cases/<case>/wisma.json (data-driven).
  *  Navigasi memakai GRAF RUANGAN (bukan grid tile), sehingga:
  *   • murah dihitung (A* di atas ~16 node),
  *   • agen berjalan lewat pintu, bukan menembus tembok,
@@ -15,7 +15,7 @@
 
 export class FloorPlan {
   /**
-   * @param {Object} data - isi office.json
+   * @param {Object} data - isi wisma.json
    */
   constructor(data) {
     this.data = data;
@@ -103,7 +103,7 @@ export class FloorPlan {
     };
   }
 
-  /** Titik stasiun kerja, atau titik acak di ruangan stasiun itu. */
+  /** Titik aktivitas, atau titik acak di ruangan tempat aktivitas itu. */
   stationPoint(stationId, roomId = null, rnd = Math.random) {
     const s = this.station(stationId);
     if (s) return { x: s.x + 0.5, y: s.y + 0.5, station: s.id, room: s.room };

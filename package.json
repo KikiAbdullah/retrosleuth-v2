@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "private": true,
   "type": "module",
-  "description": "RetroSleuth: game investigasi kriminal retro di browser + Kantor Virtual (AI Workspace) berbasis OpenRouter free tier.",
+  "description": "RetroSleuth: game investigasi kriminal retro di browser + Wisma Angker (Simulasi Penghuni) berbasis OpenRouter free tier.",
   "scripts": {
     "serve": "python3 -m http.server 8080 --bind 0.0.0.0",
     "proxy": "node tools/openrouter-proxy.mjs",

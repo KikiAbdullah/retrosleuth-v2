@@ -1,6 +1,6 @@
 /**
  * ============================================================
- *  OFFICEWORLD.JS — Dunia "Kantor Virtual" Wisma Angker
+ *  WISMAWORLD.JS — Dunia simulasi "Wisma Angker"
  * ------------------------------------------------------------
  *  Rumah besar ini HIDUP: sepuluh penghuni (8 karakter kasus +
  *  satpam Tio + Haryanto sendiri) menjalani malam 14 Juni 1979
@@ -33,7 +33,7 @@ import { RelationshipGraph } from "./Relationships.js";
 import { ArtifactForge } from "./ArtifactForge.js";
 import { SimVoice } from "./SimVoice.js";
 
-const SAVE_PREFIX = "retrosleuth_office_";
+const SAVE_PREFIX = "retrosleuth_wisma_";
 const LOG_MAX = 400;
 
 /** Bobot kepentingan ingatan per jenis obrolan/aktivitas. */
@@ -59,12 +59,12 @@ const IMPORTANCE = {
   cold: 48,
 };
 
-export class OfficeWorld {
+export class WismaWorld {
   /**
    * @param {Object} deps
-   * @param {Object} deps.data            - isi office.json
+   * @param {Object} deps.data            - isi wisma.json
    * @param {Array}  deps.characters      - karakter kasus (dari CaseLoader)
-   * @param {Object} deps.director        - OfficeDirector (boleh null → murni offline)
+   * @param {Object} deps.director        - WismaDirector (boleh null → murni offline)
    * @param {Object} [deps.evidenceEngine]
    * @param {Object} [deps.notificationSystem]
    * @param {Object} [deps.config]
@@ -172,7 +172,7 @@ export class OfficeWorld {
       }));
     }
 
-    // 2) NPC dari office.json
+    // 2) NPC dari wisma.json
     for (const n of npcDefs) {
       if (this.agents.has(n.id)) continue;
       this.agents.set(n.id, this._makeAgent({
@@ -283,7 +283,7 @@ export class OfficeWorld {
         type: "self",
         importance: 25,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room: a.homeRoom,
       });
     }
@@ -302,7 +302,7 @@ export class OfficeWorld {
     this.running = true;
     this._lastTickAt = performance?.now?.() || Date.now();
     this._timer = setInterval(() => this.tick(), this.tickMs);
-    EventBus.emit("office:state", { running: true, clock: this.clock });
+    EventBus.emit("wisma:state", { running: true, clock: this.clock });
   }
 
   pause() {
@@ -311,7 +311,7 @@ export class OfficeWorld {
     if (this._timer) clearInterval(this._timer);
     this._timer = null;
     this.save();
-    EventBus.emit("office:state", { running: false, clock: this.clock });
+    EventBus.emit("wisma:state", { running: false, clock: this.clock });
   }
 
   toggle() {
@@ -322,7 +322,7 @@ export class OfficeWorld {
 
   setSpeed(mult) {
     this.speed = Math.max(0.25, Math.min(8, mult));
-    EventBus.emit("office:speed", { speed: this.speed });
+    EventBus.emit("wisma:speed", { speed: this.speed });
   }
 
   /** Lompat waktu (dipakai tombol "lompat ke 22:00" & pengujian). */
@@ -332,7 +332,7 @@ export class OfficeWorld {
     while (this.clock < target && guard++ < 4000) {
       this.advance(Math.min(this.minutesPerTick, target - this.clock), { quiet: true });
     }
-    EventBus.emit("office:seek", { clock: this.clock });
+    EventBus.emit("wisma:seek", { clock: this.clock });
   }
 
   reset(reloadFromSave = false) {
@@ -377,7 +377,7 @@ export class OfficeWorld {
     try {
       localStorage.removeItem(SAVE_PREFIX + (GameState.currentCaseId || "default"));
     } catch { /* ignore */ }
-    EventBus.emit("office:reset", {});
+    EventBus.emit("wisma:reset", {});
   }
 
   /** Satu tick realtime. */
@@ -391,7 +391,7 @@ export class OfficeWorld {
       this._log("system", "Pukul 02.30 — shift malam berakhir. Polisi mengambil alih wisma.", null);
       this.pause();
     }
-    EventBus.emit("office:tick", { clock: this.clock, timeLabel: OfficeWorld.timeLabel(this.clock), phase: this.phase });
+    EventBus.emit("wisma:tick", { clock: this.clock, timeLabel: WismaWorld.timeLabel(this.clock), phase: this.phase });
   }
 
   /**
@@ -445,7 +445,7 @@ export class OfficeWorld {
       if (this.floor.isVisible(a.room)) {
         this._log("incident", `${a.name} tidak lagi bergerak.`, a.room, { agents: [a.id], importance: 100 });
       }
-      EventBus.emit("office:agent-died", { id: a.id });
+      EventBus.emit("wisma:agent-died", { id: a.id });
       return;
     }
     if (!a.present) {
@@ -531,10 +531,10 @@ export class OfficeWorld {
       type: "self",
       importance: 40,
       clock: this.clock,
-      timeLabel: OfficeWorld.timeLabel(this.clock),
+      timeLabel: WismaWorld.timeLabel(this.clock),
       room: startRoom,
     });
-    EventBus.emit("office:agent-arrived", { id: a.id, room: startRoom });
+    EventBus.emit("wisma:agent-arrived", { id: a.id, room: startRoom });
   }
 
   /** Selesaikan tugas & tentukan pekerjaan berikutnya. */
@@ -607,7 +607,7 @@ export class OfficeWorld {
         type: "self",
         importance: 22,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room: targetRoom,
         spoiler: !!task.spoiler,
         revealEvidence: task.reveal_evidence || [],
@@ -634,7 +634,7 @@ export class OfficeWorld {
         taskLabel: task.label,
         roomId,
         roomName: this.floor.roomName(roomId),
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         phase: this.phase,
         memories: a.memory.recent(10).map((m) => ({
           timeLabel: m.timeLabel,
@@ -661,7 +661,7 @@ export class OfficeWorld {
         type: "self",
         importance: 60,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room: roomId,
         spoiler: !!task.spoiler,
         revealEvidence: task.reveal_evidence,
@@ -695,7 +695,7 @@ export class OfficeWorld {
     a.task = null;
     a.waypoints = [];
     this._log("move", `${a.name} meninggalkan wisma.`, a.room, { agents: [a.id], importance: 60 });
-    EventBus.emit("office:agent-left", { id: a.id });
+    EventBus.emit("wisma:agent-left", { id: a.id });
   }
 
   // ============================================================
@@ -769,7 +769,7 @@ export class OfficeWorld {
       this._log("work", `${a.name} mulai ${String(a.pendingStartLog).toLowerCase()}.`, a.room, { agents: [a.id] });
     }
     a.pendingStartLog = null;
-    EventBus.emit("office:agent-moved", { id: a.id, room: a.room });
+    EventBus.emit("wisma:agent-moved", { id: a.id, room: a.room });
   }
 
   // ============================================================
@@ -811,7 +811,7 @@ export class OfficeWorld {
         type: "observation",
         importance,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room,
         about: other.id,
         spoiler: !!other.task?.spoiler,
@@ -842,7 +842,7 @@ export class OfficeWorld {
             type: "observation",
             importance: 58,
             clock: this.clock,
-            timeLabel: OfficeWorld.timeLabel(this.clock),
+            timeLabel: WismaWorld.timeLabel(this.clock),
             room,
             about: other.id,
           });
@@ -908,7 +908,7 @@ export class OfficeWorld {
     const lines = SimVoice.conversation(a, b, {
       chatter,
       roomName: this.floor.roomName(roomId),
-      timeLabel: OfficeWorld.timeLabel(this.clock),
+      timeLabel: WismaWorld.timeLabel(this.clock),
     });
 
     a.talkingUntil = this.clock + 3;
@@ -947,7 +947,7 @@ export class OfficeWorld {
         type: "conversation",
         importance: importance + 5,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room: roomId,
         about: other.id,
         spoiler: chatter === "secret",
@@ -963,7 +963,7 @@ export class OfficeWorld {
         type: "observation",
         importance: importance - 5,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room: roomId,
         about: chatter === "secret" ? a.id : null,
         spoiler: chatter === "secret",
@@ -983,10 +983,10 @@ export class OfficeWorld {
       });
     }
 
-    EventBus.emit("office:conversation", {
+    EventBus.emit("wisma:conversation", {
       roomId,
       roomName: this.floor.roomName(roomId),
-      timeLabel: OfficeWorld.timeLabel(this.clock),
+      timeLabel: WismaWorld.timeLabel(this.clock),
       participants: [a.id, b.id],
       lines,
       chatter,
@@ -1040,7 +1040,7 @@ export class OfficeWorld {
         type: "conversation",
         importance: (IMPORTANCE[chatter] ?? 30) - 5,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room: a.room,
         about: a.id,
       });
@@ -1074,7 +1074,7 @@ export class OfficeWorld {
       if (inc.phase && inc.phase !== this.phase) {
         this.phase = inc.phase;
         this.phaseLabel = inc.phase.toUpperCase();
-        EventBus.emit("office:phase", { phase: this.phase, label: this.phaseLabel, note: this.data.phase_notes?.[this.phase] });
+        EventBus.emit("wisma:phase", { phase: this.phase, label: this.phaseLabel, note: this.data.phase_notes?.[this.phase] });
       }
 
       // perintah berkumpul
@@ -1104,7 +1104,7 @@ export class OfficeWorld {
               type: "observation",
               importance: 85,
               clock: this.clock,
-              timeLabel: OfficeWorld.timeLabel(this.clock),
+              timeLabel: WismaWorld.timeLabel(this.clock),
               room: a.room,
               fromIncident: true,
             });
@@ -1116,11 +1116,11 @@ export class OfficeWorld {
         importance: 95,
         incidentId: inc.id,
       });
-      this.notify?.add?.(inc.broadcast || `🏢 ${inc.label}`, `office-${inc.id}`);
-      EventBus.emit("office:incident", { incident: inc });
+      this.notify?.add?.(inc.broadcast || `🏚️ ${inc.label}`, `wisma-${inc.id}`);
+      EventBus.emit("wisma:incident", { incident: inc });
 
       if (inc.unlock_evidence) {
-        EventBus.emit("office:request-evidence", { evidenceId: inc.unlock_evidence, source: inc.id });
+        EventBus.emit("wisma:request-evidence", { evidenceId: inc.unlock_evidence, source: inc.id });
       }
     }
   }
@@ -1169,7 +1169,7 @@ export class OfficeWorld {
       roomId,
       roomName: roomId ? this.floor.roomName(roomId) : "SISTEM",
       clock: this.clock,
-      timeLabel: OfficeWorld.timeLabel(this.clock),
+      timeLabel: WismaWorld.timeLabel(this.clock),
       agents: meta.agents || [],
       importance: meta.importance ?? 25,
       spoiler: !!meta.spoiler,
@@ -1179,7 +1179,7 @@ export class OfficeWorld {
     };
     this.log.push(entry);
     if (this.log.length > LOG_MAX) this.log.splice(0, this.log.length - LOG_MAX);
-    EventBus.emit("office:log", entry);
+    EventBus.emit("wisma:log", entry);
     return entry;
   }
 
@@ -1229,7 +1229,7 @@ export class OfficeWorld {
         this._applyDirector(res, interval);
       })
       .catch((err) => {
-        console.warn("[OfficeWorld] Director gagal:", err);
+        console.warn("[WismaWorld] Director gagal:", err);
       })
       .finally(() => {
         this.pendingDirector = null;
@@ -1251,7 +1251,7 @@ export class OfficeWorld {
           type: "self",
           importance: 38,
           clock: this.clock,
-          timeLabel: OfficeWorld.timeLabel(this.clock),
+          timeLabel: WismaWorld.timeLabel(this.clock),
           room: a.room,
           private: true,
         });
@@ -1275,7 +1275,7 @@ export class OfficeWorld {
               type: "conversation",
               importance: 58,
               clock: this.clock,
-              timeLabel: OfficeWorld.timeLabel(this.clock),
+              timeLabel: WismaWorld.timeLabel(this.clock),
               room: a.room,
               about: a.id,
             });
@@ -1288,7 +1288,7 @@ export class OfficeWorld {
               type: "observation",
               importance: 45,
               clock: this.clock,
-              timeLabel: OfficeWorld.timeLabel(this.clock),
+              timeLabel: WismaWorld.timeLabel(this.clock),
               room: a.room,
               about: a.id,
             });
@@ -1326,12 +1326,12 @@ export class OfficeWorld {
           type: "ai",
           importance: 62,
           clock: this.clock,
-          timeLabel: OfficeWorld.timeLabel(this.clock),
+          timeLabel: WismaWorld.timeLabel(this.clock),
           room: a.room,
         });
       }
 
-      EventBus.emit("office:agent-updated", { id: a.id });
+      EventBus.emit("wisma:agent-updated", { id: a.id });
     }
 
     if (res.worldNote) {
@@ -1375,7 +1375,7 @@ export class OfficeWorld {
       const data = res?.data;
       if (!data) continue;
       for (const r of data.reflections || []) {
-        a.memory.addReflection(r, this.clock, OfficeWorld.timeLabel(this.clock));
+        a.memory.addReflection(r, this.clock, WismaWorld.timeLabel(this.clock));
         this._log("thought", `${a.name} merenung: "${r}"`, a.room, {
           agents: [a.id],
           importance: 45,
@@ -1414,7 +1414,7 @@ export class OfficeWorld {
     const ctx = {
       roomId: a.room,
       roomName: this.floor.roomName(a.room),
-      timeLabel: OfficeWorld.timeLabel(this.clock),
+      timeLabel: WismaWorld.timeLabel(this.clock),
       chatter: this._pickChatter(a, b),
       relation: {
         trust: rel.trust,
@@ -1521,9 +1521,9 @@ export class OfficeWorld {
     };
 
     if (payload.overheardFact) {
-      this.notify?.add?.(`🎧 Sadapan ${a.name} & ${b.name}: ${payload.overheardFact}`, `office-wiretap-${this._logSeq}`);
+      this.notify?.add?.(`🎧 Sadapan ${a.name} & ${b.name}: ${payload.overheardFact}`, `wisma-wiretap-${this._logSeq}`);
     }
-    EventBus.emit("office:eavesdrop", payload);
+    EventBus.emit("wisma:eavesdrop", payload);
     return payload;
   }
 
@@ -1547,7 +1547,7 @@ export class OfficeWorld {
         type: "self",
         importance: 66,
         clock: this.clock,
-        timeLabel: OfficeWorld.timeLabel(this.clock),
+        timeLabel: WismaWorld.timeLabel(this.clock),
         room: a.room,
         private: true,
       });
@@ -1572,7 +1572,7 @@ export class OfficeWorld {
       thought: a.thought,
       monologue: data.monologue || "",
       intent: data.intent || "",
-      timeLabel: OfficeWorld.timeLabel(this.clock),
+      timeLabel: WismaWorld.timeLabel(this.clock),
       roomName: this.floor.roomName(a.room),
     };
     this._log("thought", `🧠 Pikiran ${a.name}: "${a.thought}"`, a.room, {
@@ -1580,7 +1580,7 @@ export class OfficeWorld {
       importance: 50,
       source: res.source,
     });
-    EventBus.emit("office:probe", payload);
+    EventBus.emit("wisma:probe", payload);
     return payload;
   }
 
@@ -1602,13 +1602,13 @@ export class OfficeWorld {
           type: "observation",
           importance: 72,
           clock: this.clock,
-          timeLabel: OfficeWorld.timeLabel(this.clock),
+          timeLabel: WismaWorld.timeLabel(this.clock),
           room: roomId,
         });
       }
     }
 
-    EventBus.emit("office:room-searched", { roomId, ...res });
+    EventBus.emit("wisma:room-searched", { roomId, ...res });
     return {
       ok: true,
       roomId,
@@ -1722,9 +1722,9 @@ export class OfficeWorld {
       .map((e) => ({ time: e.timeLabel, text: `${e.roomName}: ${e.text}` }));
 
     return {
-      title: this.meta.title || "Kantor Virtual",
+      title: this.meta.title || "Wisma Angker",
       date: this.meta.date || "",
-      clock: OfficeWorld.timeLabel(this.clock),
+      clock: WismaWorld.timeLabel(this.clock),
       phase: this.phase,
       phaseLabel: this.phaseLabel,
       phaseNote: this.data.phase_notes?.[this.phase] || "",
@@ -1912,7 +1912,7 @@ export class OfficeWorld {
   hud() {
     const present = [...this.agents.values()].filter((a) => a.present && !a.left && !a.deceased);
     return {
-      timeLabel: OfficeWorld.timeLabel(this.clock),
+      timeLabel: WismaWorld.timeLabel(this.clock),
       clock: this.clock,
       startMin: this.startMin,
       endMin: this.endMin,
@@ -1952,6 +1952,32 @@ export class OfficeWorld {
     return SAVE_PREFIX + (GameState.currentCaseId || "default");
   }
 
+  /** Kunci lama (sebelum fitur ini dinamai ulang jadi "Wisma Angker"). */
+  _legacySaveKey() {
+    return "retrosleuth_office_" + (GameState.currentCaseId || "default");
+  }
+
+  /**
+   * Baca sesi tersimpan: pakai kunci baru, dan bila tidak ada, ambil dari
+   * kunci lama lalu pindahkan (migrasi sekali jalan, tanpa kehilangan progres).
+   */
+  _readSave() {
+    try {
+      const key = this._saveKey();
+      let raw = localStorage.getItem(key);
+      if (raw) return raw;
+      const legacy = this._legacySaveKey();
+      raw = localStorage.getItem(legacy);
+      if (raw) {
+        localStorage.setItem(key, raw);
+        localStorage.removeItem(legacy);
+      }
+      return raw;
+    } catch {
+      return null;
+    }
+  }
+
   save() {
     try {
       const data = {
@@ -1987,7 +2013,7 @@ export class OfficeWorld {
       localStorage.setItem(this._saveKey(), JSON.stringify(data));
       return true;
     } catch (err) {
-      console.warn("[OfficeWorld] Gagal menyimpan:", err);
+      console.warn("[WismaWorld] Gagal menyimpan:", err);
       return false;
     }
   }
@@ -1998,7 +2024,7 @@ export class OfficeWorld {
    */
   load() {
     try {
-      const raw = localStorage.getItem(this._saveKey());
+      const raw = this._readSave();
       if (!raw) return false;
       const data = JSON.parse(raw);
       if (!data || data.version !== 1) return false;
@@ -2049,14 +2075,14 @@ export class OfficeWorld {
       this._pushLog("system", "Sesi pemantauan sebelumnya dipulihkan.", null, { importance: 20 });
       return true;
     } catch (err) {
-      console.warn("[OfficeWorld] Gagal memuat:", err);
+      console.warn("[WismaWorld] Gagal memuat:", err);
       return false;
     }
   }
 
   hasSave() {
     try {
-      return !!localStorage.getItem(this._saveKey());
+      return !!this._readSave();
     } catch {
       return false;
     }
@@ -2065,6 +2091,7 @@ export class OfficeWorld {
   clearSave() {
     try {
       localStorage.removeItem(this._saveKey());
+      localStorage.removeItem(this._legacySaveKey());
     } catch { /* ignore */ }
   }
 }

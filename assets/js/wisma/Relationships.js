@@ -21,7 +21,7 @@ const NEUTRAL = { trust: 40, affinity: 40, tension: 15, fear: 5 };
 
 export class RelationshipGraph {
   /**
-   * @param {Array<Object>} seeds - dari office.json.relationships
+   * @param {Array<Object>} seeds - dari wisma.json.relationships
    */
   constructor(seeds = []) {
     /** @type {Map<string,Object>} */

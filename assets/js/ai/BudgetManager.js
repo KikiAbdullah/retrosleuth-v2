@@ -8,13 +8,13 @@
  *
  *  Kalau 8 karakter "berpikir" sendiri-sendiri tiap 10 detik, kuota
  *  seharian habis dalam 6 menit. Karena itu SEMUA panggilan AI
- *  (interogasi + kantor virtual) harus antre di sini.
+ *  (interogasi + simulasi wisma) harus antre di sini.
  *
  *  Yang dilakukan modul ini:
  *   1. Kuota harian   → dihitung per tanggal lokal, disimpan permanen
  *   2. Rate per menit → sliding window, job ditunda kalau penuh
  *   3. Prioritas      → interogasi pemain > sadapan > director > refleksi
- *   4. Cadangan       → slot khusus interogasi supaya kantor tidak
+ *   4. Cadangan       → slot khusus interogasi supaya wisma tidak
  *                        "memakan" jatah pertanyaan pemain
  *   5. Cache          → prompt identik tidak dibayar dua kali
  *   6. Degradasi      → 3x gagal beruntun ⇒ mode OFFLINE sementara
@@ -32,7 +32,7 @@ export const PRIORITY = {
   interrogation: 100, // pemain sedang menunggu jawaban
   deep: 70, // "intai pikiran" satu karakter
   eavesdrop: 65, // sadap percakapan
-  director: 40, // tick rutin seluruh kantor
+  director: 40, // tick rutin seluruh wisma
   reflect: 20, // ringkasan memori (paling murah dikorbankan)
 };
 
@@ -170,7 +170,7 @@ export class BudgetManager {
       dailyLimit: this.dailyLimit,
       dailyLeft,
       reserve: this.reserve,
-      officeLeft: Math.max(0, dailyLeft - this.reserve),
+      wismaLeft: Math.max(0, dailyLeft - this.reserve),
       minuteUsed: this._countLastMinute(),
       minuteLimit: this.perMinuteLimit,
       queueLength: this.queue.length,
@@ -381,7 +381,7 @@ export class BudgetManager {
           reason: result?.error || "3 kegagalan beruntun",
           until: this.degradedUntil,
         });
-        console.warn("[Budget] ⚠️ Mode degradasi: kantor virtual pindah ke simulasi offline.");
+        console.warn("[Budget] ⚠️ Mode degradasi: simulasi wisma pindah ke mesin lokal.");
       }
     }
 

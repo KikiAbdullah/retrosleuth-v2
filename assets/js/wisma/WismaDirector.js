@@ -1,6 +1,6 @@
 /**
  * ============================================================
- *  OFFICEDIRECTOR.JS — Sutradara AI Kantor Virtual
+ *  WISMADIRECTOR.JS — Sutradara AI Wisma Angker
  * ------------------------------------------------------------
  *  Menghubungkan dunia simulasi dengan model AI lewat BudgetManager.
  *  Empat jenis panggilan:
@@ -20,7 +20,7 @@ import { EventBus } from "../core/EventBus.js";
 import { AgentPrompts } from "../ai/AgentPrompts.js";
 import { SimVoice } from "./SimVoice.js";
 
-export class OfficeDirector {
+export class WismaDirector {
   /**
    * @param {Object} deps
    * @param {import("../ai/OpenRouterClient.js").OpenRouterClient} deps.client
@@ -57,7 +57,7 @@ export class OfficeDirector {
   setConfig(patch = {}) {
     Object.assign(this.config, patch);
     if (patch.intervalMin !== undefined) this.config.intervalMin = patch.intervalMin;
-    EventBus.emit("office:ai-config", { ...this.config });
+    EventBus.emit("wisma:ai-config", { ...this.config });
   }
 
   get aiActive() {
@@ -74,7 +74,7 @@ export class OfficeDirector {
   // ============================================================
 
   /**
-   * @param {Object} snapshot - dari OfficeWorld.snapshotForAI()
+   * @param {Object} snapshot - dari WismaWorld.snapshotForAI()
    * @returns {Promise<{source:'ai'|'sim', agents:Map|null, worldNote:string, error?:string}>}
    */
   async directorTick(snapshot) {
@@ -112,7 +112,7 @@ export class OfficeDirector {
       this.metrics.aiDirector++;
       this.metrics.lastSource = "ai";
       this.metrics.lastError = null;
-      EventBus.emit("office:ai-used", { kind: "director", model: result.value.model });
+      EventBus.emit("wisma:ai-used", { kind: "director", model: result.value.model });
       return {
         source: "ai",
         agents: result.value.agents,
@@ -128,7 +128,7 @@ export class OfficeDirector {
     this.metrics.lastSource = "sim";
     if (reason && reason !== this.metrics.lastError) {
       this.metrics.lastError = reason;
-      EventBus.emit("office:ai-fallback", { kind: "director", reason });
+      EventBus.emit("wisma:ai-fallback", { kind: "director", reason });
     }
 
     const agents = new Map();
@@ -213,7 +213,7 @@ export class OfficeDirector {
     if (result.ok && result.value) {
       this.metrics.aiDeep++;
       this.metrics.lastSource = "ai";
-      EventBus.emit("office:ai-used", { kind: "deep", agent: agentSnap.id });
+      EventBus.emit("wisma:ai-used", { kind: "deep", agent: agentSnap.id });
       return { source: "ai", data: result.value };
     }
     return { source: "sim", data: this._simDeep(agentSnap), error: result.reason };
@@ -293,7 +293,7 @@ export class OfficeDirector {
     if (result.ok && result.value) {
       this.metrics.aiEavesdrop++;
       this.metrics.lastSource = "ai";
-      EventBus.emit("office:ai-used", { kind: "eavesdrop", agents: [aSnap.id, bSnap.id] });
+      EventBus.emit("wisma:ai-used", { kind: "eavesdrop", agents: [aSnap.id, bSnap.id] });
       return { source: "ai", data: result.value };
     }
     return offline();

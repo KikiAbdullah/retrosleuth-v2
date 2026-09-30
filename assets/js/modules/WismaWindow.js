@@ -1,6 +1,6 @@
 /**
  * ============================================================
- *  OFFICEWINDOW.JS — Jendela "Kantor Virtual" (AI Workspace)
+ *  WISMAWINDOW.JS — Jendela "Wisma Angker" (Simulasi Penghuni)
  * ------------------------------------------------------------
  *  Layar kiri  : monitor keamanan CRT — denah Wisma Angker,
  *                penghuni bergerak real-time, gelembung ucapan,
@@ -32,16 +32,16 @@ const KIND_COLOR = {
 
 const AGENT_COLORS = ["#4dff88", "#ffd166", "#7ec8ff", "#ff9de2", "#c3ff7e", "#ffa07a", "#9d8bff", "#7affd6", "#ffe07a", "#ff7a7a"];
 
-export class OfficeWindow {
+export class WismaWindow {
   /**
    * @param {WindowManager} wm
-   * @param {() => OfficeWorld|null} getWorld
+   * @param {() => WismaWorld|null} getWorld
    * @param {Object} [deps]
    */
   constructor(wm, getWorld, deps = {}) {
     this.wm = wm;
     this.getWorld = getWorld;
-    this.windowId = "office";
+    this.windowId = "wisma";
     this.caseHub = deps.caseHub || null;
 
     this.selectedAgent = null;
@@ -78,7 +78,7 @@ export class OfficeWindow {
     }
 
     const winEl = this.wm.register(this.windowId, {
-      title: "🏢 Kantor Virtual — Pemantau Wisma Angker",
+      title: "🏚️ Wisma Angker — Pemantau Penghuni",
       width: Math.min(1120, window.innerWidth - 60),
       height: Math.min(700, window.innerHeight - 90),
       resizable: true,
@@ -98,8 +98,8 @@ export class OfficeWindow {
 
   _startLoop() {
     EventBus.on("ai:budget", this._onBudget);
-    EventBus.on("office:log", this._onLog);
-    EventBus.on("office:tick", this._onTick);
+    EventBus.on("wisma:log", this._onLog);
+    EventBus.on("wisma:tick", this._onTick);
     if (this._raf) return;
     const loop = () => {
       this._draw();
@@ -110,8 +110,8 @@ export class OfficeWindow {
 
   _stopLoop() {
     EventBus.off("ai:budget", this._onBudget);
-    EventBus.off("office:log", this._onLog);
-    EventBus.off("office:tick", this._onTick);
+    EventBus.off("wisma:log", this._onLog);
+    EventBus.off("wisma:tick", this._onTick);
     if (this._raf) cancelAnimationFrame(this._raf);
     this._raf = null;
     if (this._resizeObs) this._resizeObs.disconnect();
@@ -128,56 +128,56 @@ export class OfficeWindow {
     body.style.padding = "0";
     body.style.overflow = "hidden";
     body.innerHTML = `
-      <div class="office-root">
-        <div class="office-toolbar">
-          <span class="office-clock" id="oc-clock">--:--</span>
-          <span class="office-phase" id="oc-phase" data-phase="normal">NORMAL</span>
-          <button class="office-btn primary" id="oc-play">▶ JALAN</button>
-          <button class="office-btn" id="oc-speed">1×</button>
+      <div class="wisma-root">
+        <div class="wisma-toolbar">
+          <span class="wisma-clock" id="ws-clock">--:--</span>
+          <span class="wisma-phase" id="ws-phase" data-phase="normal">NORMAL</span>
+          <button class="wisma-btn primary" id="ws-play">▶ JALAN</button>
+          <button class="wisma-btn" id="ws-speed">1×</button>
           <span style="font-size:12px;color:#555;">lompat:</span>
-          <button class="office-btn" data-jump="20:00">20:00</button>
-          <button class="office-btn" data-jump="22:00">22:00</button>
-          <button class="office-btn" data-jump="00:15">00:15</button>
-          <span class="office-spacer"></span>
-          <button class="office-btn" id="oc-wiretap" title="Sadap percakapan dua penghuni di ruangan terpilih (1 panggilan AI)">🎧 SADAP</button>
-          <button class="office-btn" id="oc-probe" title="Intai pikiran penghuni terpilih (1 panggilan AI)">🧠 INTAI</button>
-          <button class="office-btn" id="oc-search" title="Geladah ruangan terpilih (gratis)">🔦 GELDAH</button>
-          <button class="office-btn" id="oc-interrogate" title="Bawa penghuni ini ke ruang interogasi">🗣️ INTEROGASI</button>
-          <span class="office-budget" id="oc-budget" title="Kuota OpenRouter free tier">AI <b>-/-</b></span>
-          <button class="office-btn danger" id="oc-reset" title="Ulang malam dari pukul 17.00">↺</button>
+          <button class="wisma-btn" data-jump="20:00">20:00</button>
+          <button class="wisma-btn" data-jump="22:00">22:00</button>
+          <button class="wisma-btn" data-jump="00:15">00:15</button>
+          <span class="wisma-spacer"></span>
+          <button class="wisma-btn" id="ws-wiretap" title="Sadap percakapan dua penghuni di ruangan terpilih (1 panggilan AI)">🎧 SADAP</button>
+          <button class="wisma-btn" id="ws-probe" title="Intai pikiran penghuni terpilih (1 panggilan AI)">🧠 INTAI</button>
+          <button class="wisma-btn" id="ws-search" title="Geladah ruangan terpilih (gratis)">🔦 GELDAH</button>
+          <button class="wisma-btn" id="ws-interrogate" title="Bawa penghuni ini ke ruang interogasi">🗣️ INTEROGASI</button>
+          <span class="wisma-budget" id="ws-budget" title="Kuota OpenRouter free tier">AI <b>-/-</b></span>
+          <button class="wisma-btn danger" id="ws-reset" title="Ulang malam dari pukul 17.00">↺</button>
         </div>
 
-        <div class="office-main">
-          <div class="office-screen" id="oc-screen">
-            <canvas id="oc-canvas"></canvas>
-            <div class="office-screen-label" id="oc-screen-label">KAMERA 01 — DENAH WISMA</div>
-            <div class="office-screen-hint" id="oc-hint">Klik penghuni untuk memilih • klik ruangan untuk menggeledah</div>
+        <div class="wisma-main">
+          <div class="wisma-screen" id="ws-screen">
+            <canvas id="ws-canvas"></canvas>
+            <div class="wisma-screen-label" id="ws-screen-label">KAMERA 01 — DENAH WISMA</div>
+            <div class="wisma-screen-hint" id="ws-hint">Klik penghuni untuk memilih • klik ruangan untuk menggeledah</div>
           </div>
 
-          <div class="office-side">
-            <div class="office-tabs">
-              <button class="office-tab active" data-tab="roster">👥 PENGHUNI</button>
-              <button class="office-tab" data-tab="agent">🧠 AGEN</button>
-              <button class="office-tab" data-tab="log">📼 CCTV</button>
-              <button class="office-tab" data-tab="barang">🗃 BARANG</button>
+          <div class="wisma-side">
+            <div class="wisma-tabs">
+              <button class="wisma-tab active" data-tab="roster">👥 PENGHUNI</button>
+              <button class="wisma-tab" data-tab="agent">🧠 AGEN</button>
+              <button class="wisma-tab" data-tab="log">📼 CCTV</button>
+              <button class="wisma-tab" data-tab="barang">🗃 BARANG</button>
             </div>
-            <div class="office-panel" id="oc-panel"></div>
+            <div class="wisma-panel" id="ws-panel"></div>
           </div>
         </div>
       </div>
     `;
 
-    this.rootEl = body.querySelector(".office-root");
-    this.canvas = body.querySelector("#oc-canvas");
+    this.rootEl = body.querySelector(".wisma-root");
+    this.canvas = body.querySelector("#ws-canvas");
     this.ctx = this.canvas.getContext("2d");
-    this.panel = body.querySelector("#oc-panel");
+    this.panel = body.querySelector("#ws-panel");
 
     this._bindToolbar(body);
     this._bindTabs(body);
     this._bindCanvas(body);
 
     // ukuran canvas mengikuti container
-    const screen = body.querySelector("#oc-screen");
+    const screen = body.querySelector("#ws-screen");
     if (typeof ResizeObserver !== "undefined") {
       this._resizeObs = new ResizeObserver(() => this._fitCanvas());
       this._resizeObs.observe(screen);
@@ -191,17 +191,17 @@ export class OfficeWindow {
   }
 
   _bindToolbar(body) {
-    body.querySelector("#oc-play")?.addEventListener("click", () => {
+    body.querySelector("#ws-play")?.addEventListener("click", () => {
       const world = this.getWorld?.();
       if (!world) return;
       const running = world.toggle();
-      const btn = body.querySelector("#oc-play");
+      const btn = body.querySelector("#ws-play");
       btn.textContent = running ? "⏸ JEDA" : "▶ JALAN";
       btn.classList.toggle("on", running);
       AudioManager.play?.("click");
     });
 
-    body.querySelector("#oc-speed")?.addEventListener("click", (e) => {
+    body.querySelector("#ws-speed")?.addEventListener("click", (e) => {
       const world = this.getWorld?.();
       if (!world) return;
       const steps = [1, 2, 4, 8];
@@ -222,14 +222,14 @@ export class OfficeWindow {
       });
     });
 
-    body.querySelector("#oc-wiretap")?.addEventListener("click", () => this._onWiretap());
-    body.querySelector("#oc-probe")?.addEventListener("click", () => this._onProbe());
-    body.querySelector("#oc-search")?.addEventListener("click", () => this._onSearch());
-    body.querySelector("#oc-interrogate")?.addEventListener("click", () => this._onInterrogate());
-    body.querySelector("#oc-reset")?.addEventListener("click", () => {
+    body.querySelector("#ws-wiretap")?.addEventListener("click", () => this._onWiretap());
+    body.querySelector("#ws-probe")?.addEventListener("click", () => this._onProbe());
+    body.querySelector("#ws-search")?.addEventListener("click", () => this._onSearch());
+    body.querySelector("#ws-interrogate")?.addEventListener("click", () => this._onInterrogate());
+    body.querySelector("#ws-reset")?.addEventListener("click", () => {
       const world = this.getWorld?.();
       if (!world) return;
-      if (!confirm("Ulang seluruh malam dari pukul 17.00? Progres simulasi kantor akan dihapus (bukti yang sudah disita tetap ada).")) return;
+      if (!confirm("Ulang seluruh malam dari pukul 17.00? Progres simulasi wisma akan dihapus (bukti yang sudah disita tetap ada).")) return;
       world.reset();
       this._renderHud();
       this._renderTab();
@@ -237,10 +237,10 @@ export class OfficeWindow {
   }
 
   _bindTabs(body) {
-    body.querySelectorAll(".office-tab").forEach((tab) => {
+    body.querySelectorAll(".wisma-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         this.activeTab = tab.dataset.tab;
-        body.querySelectorAll(".office-tab").forEach((t) => t.classList.toggle("active", t === tab));
+        body.querySelectorAll(".wisma-tab").forEach((t) => t.classList.toggle("active", t === tab));
         this._renderTab();
       });
     });
@@ -256,7 +256,7 @@ export class OfficeWindow {
         this.selectedAgent = hit.agentId;
         this.selectedRoom = hit.roomId || this.selectedRoom;
         this.activeTab = "agent";
-        body.querySelectorAll(".office-tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === "agent"));
+        body.querySelectorAll(".wisma-tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === "agent"));
         this._renderAgentCard(hit.agentId);
         AudioManager.play?.("click");
       } else if (hit?.roomId) {
@@ -274,7 +274,7 @@ export class OfficeWindow {
     canvas.addEventListener("mousemove", (e) => {
       const hit = this._hitTest(e);
       this._hover = hit;
-      const hint = document.getElementById("oc-hint");
+      const hint = document.getElementById("ws-hint");
       if (!hint) return;
       if (hit?.agentId) {
         const world = this.getWorld();
@@ -312,9 +312,9 @@ export class OfficeWindow {
 
   _renderHud() {
     const world = this.getWorld?.();
-    const clockEl = document.getElementById("oc-clock");
-    const phaseEl = document.getElementById("oc-phase");
-    const labelEl = document.getElementById("oc-screen-label");
+    const clockEl = document.getElementById("ws-clock");
+    const phaseEl = document.getElementById("ws-phase");
+    const labelEl = document.getElementById("ws-screen-label");
     if (!clockEl || !phaseEl) return;
 
     if (!world) {
@@ -335,7 +335,7 @@ export class OfficeWindow {
       labelEl.textContent = `KAMERA 01 — ${roomName.toUpperCase()} • ${hud.timeLabel} • ${hud.presentCount}/${hud.totalAgents} HADIR${hud.aiActive ? " • AI AKTIF" : " • SIMULASI LOKAL"}`;
     }
 
-    const playBtn = document.getElementById("oc-play");
+    const playBtn = document.getElementById("ws-play");
     if (playBtn) {
       playBtn.textContent = hud.running ? "⏸ JEDA" : "▶ JALAN";
       playBtn.classList.toggle("on", hud.running);
@@ -343,13 +343,13 @@ export class OfficeWindow {
   }
 
   _renderBudget(stats) {
-    const el = document.getElementById("oc-budget");
+    const el = document.getElementById("ws-budget");
     if (!el || !stats) return;
     el.classList.remove("warn", "dead");
     if (stats.degraded) {
       el.classList.add("dead");
       el.innerHTML = `AI ⚠ DEGRADASI ${stats.degradedSecondsLeft}s`;
-      el.title = "Terlalu banyak kegagalan. Kantor berjalan dengan simulasi lokal sementara waktu.";
+      el.title = "Terlalu banyak kegagalan. Wisma berjalan dengan simulasi lokal sementara waktu.";
       return;
     }
     if (stats.dailyLeft <= 0) {
@@ -358,9 +358,9 @@ export class OfficeWindow {
       el.title = "Kuota harian OpenRouter habis. Simulasi tetap jalan (mode lokal).";
       return;
     }
-    if (stats.officeLeft <= 3) el.classList.add("warn");
+    if (stats.wismaLeft <= 3) el.classList.add("warn");
     el.innerHTML = `AI <b>${stats.used}</b>/${stats.dailyLimit} • menit ${stats.minuteUsed}/${stats.minuteLimit} • antrean ${stats.queueLength}`;
-    el.title = `Sisa untuk kantor: ${stats.officeLeft} panggilan (${stats.reserve} dicadangkan untuk interogasi).`;
+    el.title = `Sisa untuk wisma: ${stats.wismaLeft} panggilan (${stats.reserve} dicadangkan untuk interogasi).`;
   }
 
   // ============================================================
@@ -371,13 +371,13 @@ export class OfficeWindow {
     const world = this.getWorld?.();
     if (!world) {
       this.panel.innerHTML = `
-        <div class="oc-empty">
-          <p style="font-size:15px;color:#000080;font-weight:bold;">🏢 Kantor Virtual belum aktif</p>
-          <p>Belum ada kasus yang dimuat. Kantor virtual mengikuti data kasus: penghuninya adalah karakter kasus itu sendiri, dan jadwalnya mengikuti linimasa malam kejadian.</p>
-          <button class="office-btn primary" id="oc-open-case">📁 Buka Case Files</button>
+        <div class="ws-empty">
+          <p style="font-size:15px;color:#000080;font-weight:bold;">🏚️ Wisma Angker belum aktif</p>
+          <p>Belum ada kasus yang dimuat. Simulasi ini mengikuti data kasus: penghuninya adalah karakter kasus itu sendiri, dan jadwalnya mengikuti linimasa malam kejadian.</p>
+          <button class="wisma-btn primary" id="ws-open-case">📁 Buka Case Files</button>
           <p style="margin-top:10px;">Setelah kasus dimuat, jendela ini menampilkan denah Wisma, sepuluh penghuni yang bekerja sesuai jabatannya, dan monitor keamanan real-time.</p>
         </div>`;
-      this.panel.querySelector("#oc-open-case")?.addEventListener("click", () => {
+      this.panel.querySelector("#ws-open-case")?.addEventListener("click", () => {
         this.caseHub?.open?.();
       });
       return;
@@ -402,7 +402,7 @@ export class OfficeWindow {
     const interesting = rooms.filter((r) => r.artifacts.length > 0 || r.blackout);
 
     this.panel.innerHTML = `
-      <div class="oc-section" style="margin-bottom:6px;">
+      <div class="ws-section" style="margin-bottom:6px;">
         <h4>STATUS RUMAH</h4>
         <div style="font-size:12px;line-height:1.5;">
           ${hud.phaseNote}<br>
@@ -415,22 +415,22 @@ export class OfficeWindow {
       </div>
 
       ${interesting.length ? `
-      <div class="oc-section" style="margin-bottom:6px;">
+      <div class="ws-section" style="margin-bottom:6px;">
         <h4>PERHATIAN</h4>
         ${interesting.map((r) => `<div style="font-size:12px;">${r.blackout ? "📵" : "🗃"} <b>${r.name}</b> — ${r.blackout ? "kanal pemantau mati" : `${r.artifacts.length} barang terlihat`}</div>`).join("")}
       </div>` : ""}
 
-      <div id="oc-roster-list">
+      <div id="ws-roster-list">
         ${roster.map((a, i) => this._rosterRow(a, i)).join("")}
       </div>
     `;
 
-    this.panel.querySelectorAll(".oc-agent").forEach((el) => {
+    this.panel.querySelectorAll(".ws-agent").forEach((el) => {
       el.addEventListener("click", () => {
         this.selectedAgent = el.dataset.id;
         this.selectedRoom = el.dataset.room || this.selectedRoom;
         this.activeTab = "agent";
-        document.querySelectorAll(".office-tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === "agent"));
+        document.querySelectorAll(".wisma-tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === "agent"));
         this._renderAgentCard(this.selectedAgent);
       });
     });
@@ -447,7 +447,7 @@ export class OfficeWindow {
       ? "📵 tidak terpantau (kamera mati)"
       : a.activity;
     return `
-      <div class="oc-agent ${a.present ? "" : "absent"} ${a.deceased ? "dead" : ""} ${this.selectedAgent === a.id ? "selected" : ""}"
+      <div class="ws-agent ${a.present ? "" : "absent"} ${a.deceased ? "dead" : ""} ${this.selectedAgent === a.id ? "selected" : ""}"
            data-id="${a.id}" data-room="${a.room}" style="border-left-color:${AGENT_COLORS[i % AGENT_COLORS.length]}">
         <span class="dot ${stressCls}" title="stres ${a.stress}%"></span>
         <span>
@@ -462,25 +462,25 @@ export class OfficeWindow {
     const world = this.getWorld?.();
     if (!world) return;
     if (!id) {
-      this.panel.innerHTML = `<div class="oc-empty">Pilih seorang penghuni di peta atau di tab PENGHUNI untuk melihat pikirannya, pekerjaannya, ingatannya, dan relasinya.</div>`;
+      this.panel.innerHTML = `<div class="ws-empty">Pilih seorang penghuni di peta atau di tab PENGHUNI untuk melihat pikirannya, pekerjaannya, ingatannya, dan relasinya.</div>`;
       return;
     }
     const card = world.agentCard(id);
     if (!card) return;
 
     // mode ringan: hanya perbarui angka, jangan bangun ulang DOM (menghindari flicker)
-    if (opts.light && this._cardId === id && this.panel.querySelector("#oc-card-root")) {
+    if (opts.light && this._cardId === id && this.panel.querySelector("#ws-card-root")) {
       this._patchCardNumbers(card);
       return;
     }
     this._cardId = id;
 
     const bar = (label, value, cls = "") => `
-      <div class="oc-bar"><span>${label}</span><span class="track"><span class="fill ${cls}" style="width:${Math.round(value)}%"></span></span><span>${Math.round(value)}</span></div>`;
+      <div class="ws-bar"><span>${label}</span><span class="track"><span class="fill ${cls}" style="width:${Math.round(value)}%"></span></span><span>${Math.round(value)}</span></div>`;
 
     const rels = card.relations
       .map((r) => `
-        <div class="oc-rel">
+        <div class="ws-rel">
           <span class="who">${r.name}</span>
           <span class="nums">T${r.trust} A${r.affinity} X${r.tension}${r.fear ? ` F${r.fear}` : ""}</span>
           ${r.note ? `<span class="note">${r.note}</span>` : ""}
@@ -491,7 +491,7 @@ export class OfficeWindow {
     const mems = card.memories
       .slice(0, 26)
       .map((m) => `
-        <div class="oc-mem ${m.locked ? "locked" : ""}" data-type="${m.type}">
+        <div class="ws-mem ${m.locked ? "locked" : ""}" data-type="${m.type}">
           <span class="mt">${m.timeLabel}</span>${m.text}
           ${m.room ? `<span style="color:#999;"> @${world.floor.roomName(m.room)}</span>` : ""}
         </div>`)
@@ -502,18 +502,18 @@ export class OfficeWindow {
       : `<div style="font-size:12px;color:#777;">Belum ada yang ia curigai.</div>`;
 
     this.panel.innerHTML = `
-      <div class="oc-card" id="oc-card-root">
+      <div class="ws-card" id="ws-card-root">
         <h3>${card.name} ${card.age ? `<span style="font-size:13px;color:#666;">(${card.age})</span>` : ""}</h3>
         <div class="sub">${card.role}${card.npc ? " • staf rumah" : ""}</div>
 
-        <div class="oc-section">
+        <div class="ws-section">
           <h4>PIKIRAN SAAT INI</h4>
-          <div class="oc-thought" id="oc-thought">${card.thought ? `“${card.thought}”` : "<i>Belum terbaca. Tekan 🧠 INTAI untuk menggali (1 panggilan AI).</i>"}</div>
-          ${card.intent ? `<div style="font-size:12px;margin-top:4px;" id="oc-intent">🎯 ${card.intent}</div>` : ""}
-          <div style="font-size:12px;margin-top:4px;" id="oc-activity">📍 ${card.roomName} — ${card.activity}</div>
+          <div class="ws-thought" id="ws-thought">${card.thought ? `“${card.thought}”` : "<i>Belum terbaca. Tekan 🧠 INTAI untuk menggali (1 panggilan AI).</i>"}</div>
+          ${card.intent ? `<div style="font-size:12px;margin-top:4px;" id="ws-intent">🎯 ${card.intent}</div>` : ""}
+          <div style="font-size:12px;margin-top:4px;" id="ws-activity">📍 ${card.roomName} — ${card.activity}</div>
         </div>
 
-        <div class="oc-section">
+        <div class="ws-section">
           <h4>PEKERJAAN</h4>
           ${card.jobData ? `
             <div style="font-size:13px;"><b>${card.jobData.title}</b></div>
@@ -524,7 +524,7 @@ export class OfficeWindow {
             <div style="font-size:11px;color:#555;">Keahlian: ${(card.jobData.skills || []).join(", ")}</div>
             ${bar("Tekanan", card.jobData.pressure || 0, "red")}
             ${bar("Harga diri", card.jobData.pride || 0, "amber")}
-            <div style="font-size:12px;margin-top:4px;" id="oc-task">
+            <div style="font-size:12px;margin-top:4px;" id="ws-task">
               ${card.task
                 ? `Tugas: <b>${card.task.label}</b> — ${Math.round(card.task.progress)}/${card.task.duration} menit`
                 : card.nextGoal ? `Berikutnya: ${card.nextGoal}` : "Sedang tidak bertugas."}
@@ -532,7 +532,7 @@ export class OfficeWindow {
             </div>` : `<div style="font-size:12px;">Tidak ada data pekerjaan.</div>`}
         </div>
 
-        <div class="oc-section">
+        <div class="ws-section">
           <h4>KONDISI</h4>
           ${bar("Stres", card.mood.stress, "red")}
           ${bar("Takut", card.mood.fear, "amber")}
@@ -543,26 +543,26 @@ export class OfficeWindow {
           <div style="font-size:11px;color:#666;margin-top:3px;">Sifat suara: ${card.traits.join(", ")}</div>
         </div>
 
-        <div class="oc-section">
+        <div class="ws-section">
           <h4>KECURIGAAN PRIBADI</h4>
           ${susp}
         </div>
 
-        <div class="oc-section">
+        <div class="ws-section">
           <h4>RELASI (${card.relations.length})</h4>
           ${rels || `<div style="font-size:12px;color:#777;">Belum ada hubungan berarti.</div>`}
         </div>
 
-        <div class="oc-section">
+        <div class="ws-section">
           <h4>INGATAN (${card.memories.length})</h4>
           ${mems || `<div style="font-size:12px;color:#777;">Belum ada ingatan malam ini.</div>`}
         </div>
 
-        <div class="oc-actions">
-          <button class="office-btn" data-act="probe">🧠 INTAI PIKIRAN</button>
-          <button class="office-btn" data-act="wiretap">🎧 SADAP DI RUANGAN INI</button>
-          <button class="office-btn" data-act="search">🔦 GELDAH ${card.roomName}</button>
-          ${!card.npc ? `<button class="office-btn primary" data-act="interrogate">🗣️ INTEROGASI</button>` : ""}
+        <div class="ws-actions">
+          <button class="wisma-btn" data-act="probe">🧠 INTAI PIKIRAN</button>
+          <button class="wisma-btn" data-act="wiretap">🎧 SADAP DI RUANGAN INI</button>
+          <button class="wisma-btn" data-act="search">🔦 GELDAH ${card.roomName}</button>
+          ${!card.npc ? `<button class="wisma-btn primary" data-act="interrogate">🗣️ INTEROGASI</button>` : ""}
         </div>
       </div>
     `;
@@ -579,17 +579,17 @@ export class OfficeWindow {
   }
 
   _patchCardNumbers(card) {
-    const t = this.panel.querySelector("#oc-thought");
+    const t = this.panel.querySelector("#ws-thought");
     if (t && card.thought) t.innerHTML = `“${card.thought}”`;
-    const act = this.panel.querySelector("#oc-activity");
+    const act = this.panel.querySelector("#ws-activity");
     if (act) act.textContent = `📍 ${card.roomName} — ${card.activity}`;
-    const task = this.panel.querySelector("#oc-task");
+    const task = this.panel.querySelector("#ws-task");
     if (task) {
       task.innerHTML = card.task
         ? `Tugas: <b>${card.task.label}</b> — ${Math.round(card.task.progress)}/${card.task.duration} menit`
         : card.nextGoal ? `Berikutnya: ${card.nextGoal}` : "Sedang tidak bertugas.";
     }
-    const intent = this.panel.querySelector("#oc-intent");
+    const intent = this.panel.querySelector("#ws-intent");
     if (intent && card.intent) intent.textContent = `🎯 ${card.intent}`;
   }
 
@@ -601,10 +601,10 @@ export class OfficeWindow {
       <div style="font-size:11px;color:#666;margin-bottom:4px;">
         Feed keamanan — terbaru di atas. Rekaman yang berhubungan dengan hal belum terungkap akan disensor otomatis.
       </div>
-      <div class="oc-log">
+      <div class="ws-log">
         ${entries
           .map((e) => `
-            <div class="oc-log-entry ${e.wiretap ? "wiretap" : ""}" data-kind="${e.kind}">
+            <div class="ws-log-entry ${e.wiretap ? "wiretap" : ""}" data-kind="${e.kind}">
               <span class="t">${e.timeLabel}</span>
               <span>${e.text}</span>
             </div>`)
@@ -620,22 +620,22 @@ export class OfficeWindow {
     const found = items.filter((a) => a.found || a.taken);
 
     this.panel.innerHTML = `
-      <div class="oc-section">
+      <div class="ws-section">
         <h4>BARANG HASIL PEKERJAAN PENGHUNI</h4>
         <div style="font-size:12px;color:#555;">
           Setiap penghuni menghasilkan barang dari pekerjaannya. Barang tersembunyi sampai Anda menggeledah ruangannya
           (klik ganda ruangan di peta, atau tombol 🔦 GELDAH). Menyita barang = menambah bukti baru.
         </div>
       </div>
-      ${found.length === 0 ? `<div class="oc-empty">Belum ada barang yang ditemukan. Awasi siapa mengerjakan apa, lalu geledah ruangannya.</div>` : ""}
+      ${found.length === 0 ? `<div class="ws-empty">Belum ada barang yang ditemukan. Awasi siapa mengerjakan apa, lalu geledah ruangannya.</div>` : ""}
       ${found
         .map((a) => `
-          <div class="oc-artifact ${a.taken ? "taken" : ""}">
+          <div class="ws-artifact ${a.taken ? "taken" : ""}">
             <div class="ti">🗃 ${a.title}</div>
             <div class="me">${a.agentName} (${a.agentJob}) • ${a.roomName} • ${a.timeLabel}</div>
             ${a.taken
               ? `<div style="color:#2e7d32;font-size:12px;">✔ sudah disita ${a.evidenceId ? `→ ${a.evidenceId}` : ""}</div>`
-              : `<button class="office-btn primary" data-take="${a.id}" style="margin-top:4px;">SITA SEKARANG</button>`}
+              : `<button class="wisma-btn primary" data-take="${a.id}" style="margin-top:4px;">SITA SEKARANG</button>`}
           </div>`)
         .join("")}
     `;
@@ -684,7 +684,7 @@ export class OfficeWindow {
         this._showModal(
           `🧠 Pikiran ${res.name} — ${res.timeLabel}, ${res.roomName}`,
           `
-          <div class="oc-thought" style="font-size:14px;">“${res.thought || "..."}”</div>
+          <div class="ws-thought" style="font-size:14px;">“${res.thought || "..."}”</div>
           ${res.monologue ? `<div style="margin-top:8px;font-size:13px;line-height:1.5;">${res.monologue}</div>` : ""}
           ${res.intent ? `<div class="wt-fact">🎯 Niatnya: ${res.intent}</div>` : ""}
           <div style="margin-top:8px;font-size:11px;color:#666;">Sumber: ${res.source === "ai" ? "🤖 AI (OpenRouter)" : "⚙️ mesin simulasi lokal"}</div>
@@ -774,10 +774,10 @@ export class OfficeWindow {
       ${res.found.length === 0 ? `<div class="wt-fact">${res.hint || "Tidak ada barang berarti."}</div>` : ""}
       ${res.found
         .map((a) => `
-          <div class="oc-artifact">
+          <div class="ws-artifact">
             <div class="ti">🗃 ${a.title}</div>
             <div class="me">Ditinggalkan oleh ${a.agentName} pukul ${a.timeLabel} saat ${a.taskLabel.toLowerCase()}</div>
-            <button class="office-btn primary" data-take="${a.id}" style="margin-top:4px;">SITA</button>
+            <button class="wisma-btn primary" data-take="${a.id}" style="margin-top:4px;">SITA</button>
           </div>`)
         .join("")}
       ${res.hiddenLocked > 0 ? `<div style="font-size:12px;color:#8b0000;margin-top:6px;">Ada ${res.hiddenLocked} tempat yang belum berani Anda bongkar — butuh petunjuk lain dulu.</div>` : ""}
@@ -823,10 +823,10 @@ export class OfficeWindow {
   _showModal(title, bodyHtml, opts = {}) {
     this._closeModal();
     const back = document.createElement("div");
-    back.className = "office-modal-back";
+    back.className = "wisma-modal-back";
     back.innerHTML = `
-      <div class="office-modal">
-        <header><span>${title}</span><button class="office-btn" data-close="1">✕</button></header>
+      <div class="wisma-modal">
+        <header><span>${title}</span><button class="wisma-btn" data-close="1">✕</button></header>
         <div class="body">${bodyHtml}</div>
       </div>`;
     back.addEventListener("click", (e) => {
@@ -961,7 +961,7 @@ export class OfficeWindow {
       ctx.font = `${Math.max(8, Math.min(13, scale * 0.72))}px VT323, monospace`;
       ctx.fillText(r.icon ? `${r.icon} ${r.name}` : r.name, x + 4, y + Math.max(10, scale * 0.85));
 
-      // stasiun kerja
+      // titik aktivitas
       for (const s of r.stations) {
         ctx.font = `${Math.max(8, scale * 0.72)}px monospace`;
         ctx.fillStyle = "rgba(255,255,255,0.5)";

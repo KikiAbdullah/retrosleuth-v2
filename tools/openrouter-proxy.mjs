@@ -187,7 +187,7 @@ const server = http.createServer(async (req, res) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${key}`,
           "HTTP-Referer": process.env.APP_URL || "https://retrosleuth.local",
-          "X-Title": "RetroSleuth Office (proxy)",
+          "X-Title": "RetroSleuth Wisma (proxy)",
         },
         body: JSON.stringify(body),
       });

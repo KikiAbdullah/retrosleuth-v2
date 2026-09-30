@@ -1,6 +1,6 @@
-# 🏢 Kantor Virtual (AI Workspace) — Dokumen Arsitektur
+# 🏚️ Wisma Angker (Simulasi Penghuni) — Dokumen Arsitektur
 
-> Fitur **Fase 5** RetroSleuth: setiap karakter punya "kecerdasan" dan pekerjaannya
+> Fitur **Fase 5b** RetroSleuth: setiap karakter punya "kecerdasan" dan pekerjaannya
 > sendiri. Mereka berjalan, bekerja, mengobrol, berbohong, dan menghasilkan
 > **artefak** (memo, buku tamu, slip telepon, catatan ronda) yang bisa disita
 > detektif — sementara pemain menonton lewat CCTV, menyadap, dan mengintip pikiran.
@@ -14,12 +14,12 @@
 
 | Keputusan | Pilihan | Alasan |
 |---|---|---|
-| Bentuk fitur | **Hybrid**: simulasi denah top-down + panel per-agen + artefak jadi bukti | Pemain bisa "mengawasi kantor" seperti tren AI workspace, tapi tetap ada gameplay detektif |
+| Bentuk fitur | **Hybrid**: simulasi denah top-down + panel per-agen + artefak jadi bukti | Tren *AI agent workspace*, tapi dalam bentuk **rumah tinggal** sesuai cerita (Wisma Angker) — bukan kantor |
 | Otak agen | **Sutradara batch** (1 panggilan AI menggerakkan semua agen) + panggilan per-karakter hanya untuk momen penting | Kuota free tier cuma **50 request/hari** dan **20 request/menit** |
 | Penyedia AI | **OpenRouter free tier saja** (model berakhiran `:free`) | Satu penyedia, tanpa biaya, mudah dipindah ke proxy |
 | Tanpa AI | **SimVoice + jadwal + kebutuhan** (prosedural) | Game harus tetap tamat dimainkan offline / GitHub Pages |
 | Kunci API | **Dua mode**: langsung dari browser *atau* proxy Node 1 berkas | Aman untuk publikasi, tetap simpel untuk lokal |
-| Spoiler | **Anti-spoiler berlapis** (data → prompt → memori → UI) | Kantor tidak boleh membocorkan pelaku sebelum waktunya |
+| Spoiler | **Anti-spoiler berlapis** (data → prompt → memori → UI) | Wisma tidak boleh membocorkan pelaku sebelum waktunya |
 
 ---
 
@@ -32,24 +32,24 @@ assets/js/
 │   ├── BudgetManager.js      Kuota harian, rate limiter per menit, antrean prioritas, cache, auto-degrade
 │   ├── AgentPrompts.js       Pembangun prompt agen + sanitizer JSON + penyaring spoiler
 │   ├── AIClient.js           (ditulis ulang) rute semua panggilan AI lewat OpenRouter + Budget
-│   └── PromptBuilder.js      (+ `_officeContext`) suntik konteks kantor ke prompt interogasi
-├── office/
-│   ├── FloorPlan.js          Denah: ruangan, pintu, stasiun kerja, pathfinding A*, blackout/visibilitas
+│   └── PromptBuilder.js      (+ `_wismaContext`) suntik konteks wisma ke prompt interogasi
+├── wisma/
+│   ├── FloorPlan.js          Denah: ruangan, pintu, titik aktivitas, pathfinding A*, blackout/visibilitas
 │   ├── MemoryStream.js       Ingatan agen: skor kepentingan, kadaluarsa, kunci spoiler, refleksi
 │   ├── Relationships.js      Graf relasi: trust / affinity / fear / tension + rahasia yang terbuka
 │   ├── JobSystem.js          Jabatan, jadwal per menit, tugas, perilaku bebas
 │   ├── SimVoice.js           Bank kalimat offline (gumam kerja, obrolan, argumen, pikiran batin)
-│   ├── OfficeDirector.js     "Sutradara" AI: 1 panggilan batch → instruksi semua agen
+│   ├── WismaDirector.js     "Sutradara" AI: 1 panggilan batch → instruksi semua agen
 │   ├── ArtifactForge.js      Artefak hasil kerja → bukti dinamis di EvidenceEngine
-│   ├── OfficeWorld.js        Orkestrator simulasi (tick, fase, insiden, persepsi, aksi pemain)
-│   └── OfficeController.js   Pengikat ke game: muat office.json, gerbang AI, save/unload
+│   ├── WismaWorld.js        Orkestrator simulasi (tick, fase, insiden, persepsi, aksi pemain)
+│   └── WismaController.js   Pengikat ke game: muat wisma.json, gerbang AI, save/unload
 ├── modules/
-│   ├── OfficeWindow.js       Jendela UI: peta CCTV, roster, log, artefak, relasi, panel AI
-│   └── SettingsWindow.js     (+ tab Kantor, field proxy, migrasi setting lama)
-└── ui/DesktopManager.js      (+ ikon 🏢 Kantor Virtual)
+│   ├── WismaWindow.js       Jendela UI: peta CCTV, roster, log, artefak, relasi, panel AI
+│   └── SettingsWindow.js     (+ tab Wisma, field proxy, migrasi setting lama)
+└── ui/DesktopManager.js      (+ ikon 🏚️ Wisma Angker)
 
-assets/css/office.css         Gaya jendela Kantor Virtual
-cases/case_001/office.json    Data dunia (~70 KB, data-driven)
+assets/css/wisma.css         Gaya jendela Wisma Angker
+cases/case_001/wisma.json    Data dunia (~70 KB, data-driven)
 tools/
 ├── openrouter-proxy.mjs      Proxy Node tanpa dependensi (kunci di server)
 ├── simulate-night.mjs        Uji headless: jalankan semalam penuh, 0 request AI
@@ -68,7 +68,7 @@ setiap 500 ms (nyata) ── advance(1 menit simulasi @1x)
    ├─ 2. insiden       skrip malam (16 entri): cek, kopi, argumen, mati lampu, mayat…
    ├─ 3. kebutuhan     energy ↓, hunger ↑, social ↑, stres meluruh ke baseline jabatan
    ├─ 4. pergerakan    A* antar ruangan lewat pintu/tangga/jendela (14 tile/menit)
-   ├─ 5. pekerjaan     jadwal → tugas → stasiun kerja → progres → artefak
+   ├─ 5. pekerjaan     jadwal → tugas → titik aktivitas → progres → artefak
    ├─ 6. percakapan    pasangan "panas" di ruangan sama → skrip SimVoice / AI
    ├─ 7. persepsi      siapa melihat siapa → ingatan berskor kepentingan
    ├─ 8. sutradara AI  tiap `intervalMin` (default 20 menit sim) → 1 panggilan batch
@@ -97,7 +97,7 @@ Kuota OpenRouter **free tier**: 50 request/hari, 20 request/menit (akun-wide).
 Setelah membeli kredit $10 sekali seumur hidup: 1.000/hari (RPM tetap 20).
 
 ```
-level AI (Settings ▸ Kantor)     arti
+level AI (Settings ▸ Wisma)     arti
 ─────────────────────────────────────────────────────────────
 off      tidak ada panggilan AI sama sekali (SimVoice penuh)
 hemat    sutradara tiap 40 menit, tanpa refleksi AI      ≈ 14 panggilan/malam
@@ -108,8 +108,8 @@ intens   sutradara tiap 10 menit + intai/sadap pakai AI   ≈ 50 panggilan/malam
 Mekanisme pengaman:
 
 1. **Kuota harian** — penghitung tersimpan di `localStorage`, reset otomatis tiap tanggal baru.
-2. **Cadangan interogasi** — default **12 request** disisakan; kantor tidak boleh memakainya
-   (`officeLeft = dailyLeft - reserve`). Interogasi adalah inti game, kantor hanya bumbu.
+2. **Cadangan interogasi** — default **12 request** disisakan; wisma tidak boleh memakainya
+   (`wismaLeft = dailyLeft - reserve`). Interogasi adalah inti game, wisma hanya bumbu.
 3. **Rate limiter** — jendela geser 60 detik; plafon efektif `perMinuteLimit - 2` (18/menit)
    supaya tidak menabrak 429.
 4. **Antrean prioritas** — `interrogation (0) > eavesdrop (1) > probe (2) > director (3) > reflection (4)`.
@@ -163,7 +163,7 @@ Proxy (`tools/openrouter-proxy.mjs`, **tanpa dependensi**) melakukan:
 Kasus ini punya **blackout ruang kerja 22:05–23:10** — justru di situlah racun
 bekerja. Karena itu:
 
-1. **Data** — `office.json` tidak memuat `truths`/`secrets` karakter; hanya jabatan,
+1. **Data** — `wisma.json` tidak memuat `truths`/`secrets` karakter; hanya jabatan,
    jadwal, relasi, dan insiden yang *teramati*.
 2. **Visibilitas** — selama blackout `FloorPlan.isVisible('ruang_kerja') === false`:
    tidak ada log, tidak ada persepsi, tidak ada sadapan, agen di dalam ruangan
@@ -183,7 +183,7 @@ bekerja. Karena itu:
 
 ---
 
-## 7. Format `office.json`
+## 7. Format `wisma.json`
 
 Semua data-driven; menambah kasus baru = menulis satu berkas JSON.
 
@@ -230,7 +230,7 @@ menjadi terlihat.
 
 ```js
 // dari konsol browser (semua terekspos untuk debugging)
-const { office, officeWindow, world } = window.__RETROSLEUTH;
+const { wisma, wismaWindow, world } = window.__RETROSLEUTH;
 
 world.start(); world.pause(); world.setSpeed(4); world.seekTo(22*60+30);
 world.advance(1);                        // maju 1 menit simulasi
@@ -246,20 +246,20 @@ world.takeArtifact('art_001');           // sita artefak → bukti
 
 world.snapshotForAI({});                 // bahan prompt sutradara
 world.save(); world.hasSave(); world.clearSave();   // localStorage per kasus
-office.applySettings({ level: 'hemat', speed: 2 });
+wisma.applySettings({ level: 'hemat', speed: 2 });
 ```
 
 Event (`EventBus`) yang dipancarkan dunia:
 
 ```
-office:tick  office:state  office:phase  office:incident  office:agent-moved
-office:conversation  office:artifact  office:request-evidence  office:eavesdrop
-office:probe  office:ai-gate  ai:budget
+wisma:tick  wisma:state  wisma:phase  wisma:incident  wisma:agent-moved
+wisma:conversation  wisma:artifact  wisma:request-evidence  wisma:eavesdrop
+wisma:probe  wisma:ai-gate  ai:budget
 ```
 
 ---
 
-## 9. Pengaturan (Settings ▸ Kantor)
+## 9. Pengaturan (Settings ▸ Wisma)
 
 | Field | Default | Arti |
 |---|---|---|
@@ -269,8 +269,8 @@ office:probe  office:ai-gate  ai:budget
 | `dailyLimit` | `50` | kuota request per hari |
 | `perMinuteLimit` | `20` | kuota per menit (dipakai 18 agar aman) |
 | `reserve` | `12` | cadangan khusus interogasi |
-| `enabled` | `true` | matikan seluruh fitur kantor |
-| `aiOnDemand` | `true` | AI hanya aktif saat jendela Kantor dibuka ← **penghemat utama** |
+| `enabled` | `true` | matikan seluruh fitur wisma |
+| `aiOnDemand` | `true` | AI hanya aktif saat jendela Wisma dibuka ← **penghemat utama** |
 | `autoStart` | `true` | simulasi jalan sendiri begitu kasus dimuat |
 | `useAIForEavesdrop` | `true` | sadapan memakai AI (bila kuota ada) |
 | `useAIForReflection` | `true` | refleksi memori memakai AI |
@@ -293,8 +293,8 @@ npm run check        # keduanya
 `check:boot` memverifikasi: import & boot, ikon desktop, muat kasus, dunia
 terbangun (16 ruangan / 18 pintu / 75 tugas / 16 insiden), render 6 tab, kartu
 agen, `probe`, `eavesdrop`, penolakan sadapan saat blackout, `searchRoom`,
-`takeArtifact`, `hud`, `snapshotForAI` bebas spoiler, tab Kantor di Settings,
-`applySettings`, prompt interogasi memuat `[KANTOR VIRTUAL]` dan bebas spoiler,
+`takeArtifact`, `hud`, `snapshotForAI` bebas spoiler, tab Wisma di Settings,
+`applySettings`, prompt interogasi memuat `[WISMA ANGKER]` dan bebas spoiler,
 fallback AI tanpa kunci, `checkHealthDetailed`, `budget.stats`, save/hasSave/clearSave,
 unload.
 
@@ -310,7 +310,7 @@ ucapan & ingatan; tidak ada saksi di ruang kerja selama blackout).
 ## 11. Menambah kasus baru
 
 1. Buat folder `cases/case_XXX/` dengan `case.json`, `characters/`, `evidence/`.
-2. Tulis `cases/case_XXX/office.json` (salin dari `case_001`, ganti denah/jadwal).
+2. Tulis `cases/case_XXX/wisma.json` (salin dari `case_001`, ganti denah/jadwal).
 3. Pastikan setiap `jobs.<jabatan>.schedule[]` menunjuk `task` yang terdaftar di
    `agents.<id>.tasks[]`, dan setiap `station` ada di `stations[]`.
 4. Tandai tugas sensitif dengan `"spoiler": true` dan `"reveal_evidence": ["evi_xxx"]`.

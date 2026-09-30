@@ -2,7 +2,7 @@
 /**
  * ============================================================
  *  SIMULATE-NIGHT.MJS — Uji kepala-terpotong (headless) untuk
- *  Kantor Virtual RetroSleuth.
+ *  Wisma Angker RetroSleuth.
  * ------------------------------------------------------------
  *  Menjalankan SEMUA malam 14 Juni 1979 di dalam Node (tanpa
  *  browser, tanpa API, tanpa kuota) lalu melaporkan:
@@ -67,15 +67,15 @@ const caseIdx = args.indexOf("--case");
 const caseFolder = caseIdx > -1 ? args[caseIdx + 1] : "case_001";
 
 const caseDir = path.join(ROOT, "cases", caseFolder);
-const officePath = path.join(caseDir, "office.json");
+const wismaPath = path.join(caseDir, "wisma.json");
 const casePath = path.join(caseDir, "case.json");
 
-if (!fs.existsSync(officePath)) {
-  console.error(`❌ ${officePath} tidak ada. Kantor Virtual belum didefinisikan untuk kasus ini.`);
+if (!fs.existsSync(wismaPath)) {
+  console.error(`❌ ${wismaPath} tidak ada. Wisma Angker belum didefinisikan untuk kasus ini.`);
   process.exit(1);
 }
 
-const officeData = JSON.parse(fs.readFileSync(officePath, "utf8"));
+const wismaData = JSON.parse(fs.readFileSync(wismaPath, "utf8"));
 const caseData = JSON.parse(fs.readFileSync(casePath, "utf8"));
 
 const characters = (caseData.characters || [])
@@ -89,11 +89,11 @@ const characters = (caseData.characters || [])
 // ------------------------------------------------------------
 //  3. JALANKAN DUNIA
 // ------------------------------------------------------------
-const { OfficeWorld } = await import(path.join(ROOT, "assets/js/office/OfficeWorld.js"));
+const { WismaWorld } = await import(path.join(ROOT, "assets/js/wisma/WismaWorld.js"));
 const { EventBus } = await import(path.join(ROOT, "assets/js/core/EventBus.js"));
 
-const world = new OfficeWorld({
-  data: officeData,
+const world = new WismaWorld({
+  data: wismaData,
   characters,
   director: null, // murni offline — menguji tulang punggung simulasi
   evidenceEngine: {
@@ -104,7 +104,7 @@ const world = new OfficeWorld({
 });
 
 const unlockedEvidence = new Set();
-EventBus.on("office:request-evidence", ({ evidenceId }) => unlockedEvidence.add(evidenceId));
+EventBus.on("wisma:request-evidence", ({ evidenceId }) => unlockedEvidence.add(evidenceId));
 const started = Date.now();
 let steps = 0;
 const errors = [];
@@ -149,10 +149,10 @@ const ms = Date.now() - started;
 // ------------------------------------------------------------
 const line = "─".repeat(72);
 console.log(line);
-console.log("🕵️  RETROSLEUTH — SIMULASI KANTOR VIRTUAL (headless, 0 request AI)");
+console.log("🕵️  RETROSLEUTH — SIMULASI WISMA ANGKER (headless, 0 request AI)");
 console.log(line);
 console.log(`Kasus        : ${caseData.meta?.title} (${caseFolder})`);
-console.log(`Rentang      : ${OfficeWorld.timeLabel(world.startMin)} → ${OfficeWorld.timeLabel(world.endMin)} (${steps} langkah)`);
+console.log(`Rentang      : ${WismaWorld.timeLabel(world.startMin)} → ${WismaWorld.timeLabel(world.endMin)} (${steps} langkah)`);
 console.log(`Durasi uji   : ${ms} ms (${(ms / Math.max(1, steps)).toFixed(2)} ms/langkah)`);
 console.log(`Fase akhir   : ${world.phaseLabel}`);
 console.log(`Insiden jalan: ${world.executedIncidents.size}/${world.incidents.length}`);

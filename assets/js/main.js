@@ -37,9 +37,9 @@ import { initBudgetManager, budget } from "./ai/BudgetManager.js";
 import { InterrogationRoom } from "./modules/InterrogationRoom.js";
 import { SettingsWindow } from "./modules/SettingsWindow.js";
 
-// --- Fase 5: Kantor Virtual (AI Workspace) ---
-import { OfficeController } from "./office/OfficeController.js";
-import { OfficeWindow } from "./modules/OfficeWindow.js";
+// --- Fase 5: Wisma Angker (Simulasi Penghuni) ---
+import { WismaController } from "./wisma/WismaController.js";
+import { WismaWindow } from "./modules/WismaWindow.js";
 
 // --- Fase 4: Deduction ---
 import { SolutionEngine } from "./engine/SolutionEngine.js";
@@ -532,7 +532,7 @@ function openWelcomeWindow(wm) {
           <div><span style="color: #8b6b4a;">🔍</span> <strong>Evidence</strong> — Collect evidence</div>
           <div><span style="color: #8b6b4a;">👤</span> <strong>Dossier</strong> — Suspect profiles</div>
           <div><span style="color: #8b6b4a;">🗣️</span> <strong>Interrogation</strong> — Question suspects</div>
-          <div><span style="color: #8b6b4a;">🏢</span> <strong>Kantor Virtual</strong> — penghuni wisma hidup & bekerja sendiri (AI workspace)</div>
+          <div><span style="color: #8b6b4a;">🏚️</span> <strong>Wisma Angker</strong> — sepuluh penghuni menjalani malamnya sendiri: bekerja, berbisik, bertengkar, dan meninggalkan barang bukti</div>
           <div><span style="color: #8b6b4a;">⏱️</span> <strong>Timeline</strong> — Chronology</div>
           <div><span style="color: #8b6b4a;">📝</span> <strong>Notes</strong> — Notes</div>
           <div><span style="color: #8b6b4a;">⚖️</span> <strong>Accusation</strong> — File accusation</div>
@@ -739,25 +739,25 @@ async function initializeApp() {
   const ai = initAIClient(aiConfig.endpoint, aiConfig.apiKey, aiConfig.model);
   ai.updateConfig({ ...aiConfig });
 
-  // --- 7.4b Fase 5: Kantor Virtual (AI Workspace) ---
+  // --- 7.4b Fase 5: Wisma Angker (Simulasi Penghuni) ---
   // Sepuluh penghuni Wisma menjalani malam kejadian secara mandiri:
   // bekerja sesuai jabatan, saling melihat, mengobrol, dan meninggalkan barang.
-  const office = new OfficeController({
+  const wisma = new WismaController({
     caseLoader: loader,
     evidenceEngine: eviEngine,
     notificationSystem,
     settings: settings.settings,
   });
-  office.applySettings(settings.settings);
+  wisma.applySettings(settings.settings);
 
-  const officeWindow = new OfficeWindow(wm, () => office.world, { caseHub });
+  const wismaWindow = new WismaWindow(wm, () => wisma.world, { caseHub });
 
-  // Muat kantor virtual setiap kali kasus dimuat
+  // Muat simulasi wisma setiap kali kasus dimuat
   EventBus.on("case:loaded", async ({ caseData }) => {
     try {
-      await office.loadForCase(caseData);
+      await wisma.loadForCase(caseData);
     } catch (err) {
-      console.warn("[RetroSleuth] ⚠️ Kantor Virtual gagal dimuat:", err);
+      console.warn("[RetroSleuth] ⚠️ Wisma Angker gagal dimuat:", err);
     }
   });
 
@@ -896,7 +896,7 @@ async function initializeApp() {
         // If more than 1, open Dossier for user to choose
         characterDossier.open();
       },
-      office: () => officeWindow.open(),
+      wisma: () => wismaWindow.open(),
       timeline: () => timelineViewer.open(),
       notes: () => notesApp.open(),
       accusation: () => accusationForm.open(),
@@ -948,8 +948,8 @@ async function initializeApp() {
     aiClient,
     openRouter,
     aiBudget: budget,
-    office,
-    officeWindow,
+    wisma,
+    wismaWindow,
     interrogationRoom,
     settings,
     accusationForm,
