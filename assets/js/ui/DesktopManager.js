@@ -19,6 +19,12 @@ export class DesktopManager {
         label: "Dossier",
         windowId: "dossier",
       },
+      {
+        id: "office",
+        icon: "🏢",
+        label: "Kantor Virtual",
+        windowId: "office",
+      },
       { id: "timeline", icon: "⏱️", label: "Timeline", windowId: "timeline" },
       { id: "notes", icon: "📝", label: "Notes", windowId: "notes" },
       {

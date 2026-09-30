@@ -2618,9 +2618,10 @@ Jika hanya kondisi numerik yang terpenuhi tetapi pemain tidak menyebutkan detail
 
 | Parameter     | Default                                      | Deskripsi                                            |
 | ------------- | -------------------------------------------- | ---------------------------------------------------- |
-| `endpoint`    | `http://localhost:20128/v1/chat/completions` | URL server AI (format OpenAI-compatible)             |
-| `apiKey`      | `sk-d9da44a505179175-...`                    | API key (disimpan di Settings)                       |
-| `model`       | `gemini-cli`                                 | Nama model yang digunakan                            |
+| `endpoint`    | `https://openrouter.ai/api/v1/chat/completions` | URL server AI (format OpenAI-compatible)          |
+| `apiKey`      | *(kosong)*                                   | API key OpenRouter — diisi pengguna di Settings, tidak pernah tertanam di kode |
+| `proxyUrl`    | *(kosong)*                                   | Opsional: URL proxy `tools/openrouter-proxy.mjs` (kunci di server) |
+| `model`       | `meta-llama/llama-3.3-70b-instruct:free`      | Nama model yang digunakan (free tier = akhiran `:free`) |
 | `temperature` | `0.8`                                        | Kreativitas respons (0 = deterministik, 1 = kreatif) |
 | `timeout`     | `30000` ms                                   | Waktu tunggu maksimal sebelum error                  |
 
@@ -6315,9 +6316,10 @@ Pemain dapat mengkonfigurasi koneksi AI melalui jendela Settings yang bisa dibuk
 
 | Pengaturan          | Tipe                | Default                                      | Deskripsi                                   |
 | ------------------- | ------------------- | -------------------------------------------- | ------------------------------------------- |
-| **AI Endpoint URL** | Input teks          | `http://localhost:20128/v1/chat/completions` | URL endpoint AI.                            |
-| **API Key**         | Input password      | `sk-d9da44a505179175-...`                    | API key untuk autentikasi.                  |
-| **Model Name**      | Input teks          | `gemini-cli`                                 | Nama model yang digunakan.                  |
+| **AI Endpoint URL** | Input teks          | `https://openrouter.ai/api/v1/chat/completions` | URL endpoint AI (OpenRouter).            |
+| **API Key**         | Input password      | *(kosong)*                                   | API key OpenRouter milik pengguna.          |
+| **Proxy URL**       | Input teks          | *(kosong)*                                   | Opsional: proxy Node agar kunci tetap di server. |
+| **Model Name**      | Input teks          | `meta-llama/llama-3.3-70b-instruct:free`     | Nama model yang digunakan.                  |
 | **Temperature**     | Slider (0.0–1.0)    | `0.8`                                        | Tingkat kreativitas respons AI.             |
 | **Test Connection** | Button              | —                                            | Klik untuk mengirim health check ke server. |
 | **Master Volume**   | Slider              | `70%`                                        | Volume keseluruhan.                         |

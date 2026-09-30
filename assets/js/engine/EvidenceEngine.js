@@ -47,6 +47,34 @@ export class EvidenceEngine {
     console.log(`[EvidenceEngine] ${this.registry.size} bukti terdaftar.`);
   }
 
+  /**
+   * Daftarkan bukti DINAMIS yang lahir dari Kantor Virtual
+   * (artefak hasil pekerjaan penghuni, bukan file di folder kasus).
+   * Tidak menghapus registri yang sudah ada.
+   * @param {Object} evi - { id, title, icon, description_short, content, source }
+   * @returns {boolean} true kalau baru terdaftar
+   */
+  registerDynamicEvidence(evi) {
+    if (!evi?.id) return false;
+    const isNew = !this.registry.has(evi.id);
+    this.registry.set(evi.id, {
+      id: evi.id,
+      title: evi.title || "Artefak",
+      file: null,
+      icon: evi.icon || "🗃",
+      description_short: evi.description_short || "Dihasilkan oleh aktivitas penghuni wisma.",
+      content: evi.content || "",
+      dynamic: true,
+      source: evi.source || "office",
+    });
+    if (evi.content) this.contentCache.set(evi.id, evi.content);
+    if (isNew) {
+      console.log(`[EvidenceEngine] 🗃 Bukti dinamis terdaftar: ${evi.title}`);
+      EventBus.emit("evidence:registered", { evidenceId: evi.id, dynamic: true });
+    }
+    return isNew;
+  }
+
   // ============================================================
   //  UNLOCK EVIDENCE
   // ============================================================

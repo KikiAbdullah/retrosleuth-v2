@@ -11,6 +11,17 @@ import { AudioManager } from "../utils/AudioManager.js";
 import { GameState } from "../core/Store.js";
 import { DatabaseManager } from "../utils/DatabaseManager.js";
 import { FileHelper } from "../utils/FileHelper.js";
+import { DEFAULT_MODELS } from "../ai/OpenRouterClient.js";
+import { OFFICE_DEFAULTS } from "../office/OfficeController.js";
+
+const FREE_MODEL_HINTS = [
+  "deepseek/deepseek-chat-v3-0324:free",
+  "meta-llama/llama-3.3-70b-instruct:free",
+  "qwen/qwen3-235b-a22b:free",
+  "google/gemini-2.0-flash-exp:free",
+  "mistralai/mistral-small-3.2-24b-instruct:free",
+  "deepseek/deepseek-r1:free",
+];
 
 const STORAGE_KEY = "retrosleuth_settings";
 
@@ -24,24 +35,44 @@ export class SettingsWindow {
     this.settings = this._loadSettings();
     this.activeTab = "ai";
 
-    // Set default jika belum ada atau masih pakai localhost lama
-    const needsReset =
-      !this.settings.endpoint;
+    // --- Default: OpenRouter free tier, TANPA key bawaan ---
+    // (key adalah rahasia pengguna; diisi sendiri di tab AI dan disimpan lokal)
+    const defaults = {
+      endpoint: "https://openrouter.ai/api/v1/chat/completions",
+      apiKey: "",
+      model: DEFAULT_MODELS.primary,
+      fallbackModels: DEFAULT_MODELS.fallbacks,
+      proxyUrl: "",
+      temperature: 0.85,
+      maxTokens: 420,
+      masterVolume: 0.7,
+      sfxVolume: 1.0,
+      ambientVolume: 0.3,
+      muted: false,
+      crtEnabled: true,
+      office: { ...OFFICE_DEFAULTS, dailyLimit: 50, perMinuteLimit: 20, reserve: 12 },
+    };
 
-    if (needsReset) {
-      this.settings = {
-        endpoint: "http://localhost:20128/v1/chat/completions",
-        apiKey: "sk-d9da44a505179175-7im48b-73d30919",
-        model: "ag-gemini3",
-        temperature: 0.8,
-        masterVolume: 0.7,
-        sfxVolume: 1.0,
-        ambientVolume: 0.3,
-        muted: false,
-        crtEnabled: true,
-      };
-      this._saveSettings();
+    const previous = this.settings || {};
+    this.settings = { ...defaults, ...previous };
+    this.settings.office = { ...defaults.office, ...(previous.office || {}) };
+
+    // Migrasi dari konfigurasi lama (server lokal / model & key bawaan repo)
+    const isLegacy =
+      !previous.endpoint ||
+      String(previous.endpoint).includes("localhost:20128") ||
+      previous.model === "ag-gemini3";
+    if (isLegacy) {
+      this.settings.endpoint = defaults.endpoint;
+      this.settings.model = defaults.model;
+      this.settings.fallbackModels = defaults.fallbackModels;
+      // key lama bukan key OpenRouter → jangan dipakai lagi
+      this.settings.apiKey =
+        typeof previous.apiKey === "string" && previous.apiKey.startsWith("sk-or-")
+          ? previous.apiKey
+          : "";
     }
+    this._saveSettings();
 
     // Terapkan ke AI Client
     if (aiClient) {
@@ -49,7 +80,10 @@ export class SettingsWindow {
         endpoint: this.settings.endpoint,
         apiKey: this.settings.apiKey,
         model: this.settings.model,
+        proxyUrl: this.settings.proxyUrl,
+        fallbackModels: this.settings.fallbackModels,
         temperature: this.settings.temperature,
+        maxTokens: this.settings.maxTokens,
       });
     }
 
@@ -157,6 +191,15 @@ export class SettingsWindow {
           cursor: pointer;
           font-size: 14px;
         ">🖥️ Display</button>
+        <button class="settings-tab" data-tab="office" style="
+          padding: 6px 16px;
+          background: ${this.activeTab === "office" ? "#000080" : "#e0e0e0"};
+          color: ${this.activeTab === "office" ? "#fff" : "#000"};
+          border: none;
+          font-family: var(--font-mono, monospace);
+          cursor: pointer;
+          font-size: 14px;
+        ">🏢 Kantor</button>
         <button class="settings-tab" data-tab="danger" style="
           padding: 6px 16px;
           background: ${this.activeTab === "danger" ? "#ff4444" : "#e0e0e0"};
@@ -173,6 +216,7 @@ export class SettingsWindow {
         ${this._renderAIPanel(s)}
         ${this._renderAudioPanel(s)}
         ${this._renderDisplayPanel(s)}
+        ${this._renderOfficePanel(s)}
         ${this._renderDangerPanel()}
       </div>
     `;
@@ -223,7 +267,15 @@ export class SettingsWindow {
           <input type="password" id="ai-apikey" value="${s.apiKey}" style="font-family: var(--font-mono); padding: 4px; width: 100%;">
 
           <label style="font-size: 13px;">Model</label>
-          <input type="text" id="ai-model" value="${s.model}" style="font-family: var(--font-mono); padding: 4px; width: 100%;">
+          <div style="display:flex; gap:4px; align-items:center;">
+            <input type="text" id="ai-model" list="ai-model-list" value="${s.model}" style="font-family: var(--font-mono); padding: 4px; flex:1;">
+            <datalist id="ai-model-list">
+              ${FREE_MODEL_HINTS.map((m) => `<option value="${m}"></option>`).join("")}
+            </datalist>
+          </div>
+
+          <label style="font-size: 13px;">Proxy URL</label>
+          <input type="text" id="ai-proxy" value="${s.proxyUrl || ""}" placeholder="kosong = langsung ke OpenRouter" style="font-family: var(--font-mono); padding: 4px; width: 100%;">
 
           <label style="font-size: 13px;">Temperature</label>
           <div style="display: flex; align-items: center; gap: 8px;">
@@ -233,6 +285,15 @@ export class SettingsWindow {
 
           <label style="font-size: 13px;">Max Tokens</label>
           <input type="number" id="ai-maxtokens" value="${s.maxTokens}" min="50" max="1000" style="font-family: var(--font-mono); padding: 4px; width: 80px;">
+        </div>
+
+        <div style="margin-top:8px; padding:8px; background:#fff8e1; border-left:4px solid #f9a825; font-size:12px; color:#5d4037;">
+          <strong>🔑 Satu AI saja: OpenRouter (model <code>:free</code>).</strong><br>
+          Ambil key di <code>openrouter.ai/keys</code> (gratis), tempel di atas. Free tier = <b>20 request/menit</b> dan
+          <b>50 request/hari</b> (naik ke 1.000/hari kalau akun pernah top-up $10). Semua panggilan — interogasi maupun
+          kantor virtual — diatur oleh <em>Budget Manager</em>, jadi kuota tidak jebol.<br>
+          <strong>⚠️ Key di browser = terlihat publik.</strong> Kalau game ini di-host (GitHub Pages), jalankan
+          <code>tools/openrouter-proxy.mjs</code> lalu isi <em>Proxy URL</em> supaya key tetap di server.
         </div>
 
         <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
@@ -305,6 +366,71 @@ export class SettingsWindow {
     `;
   }
 
+  _renderOfficePanel(s) {
+    const o = s.office || {};
+    const levels = [
+      { id: "off", label: "OFF — murni simulasi lokal (0 request)" },
+      { id: "hemat", label: "HEMAT — sutradara AI tiap 40 menit (~14 request/malam)" },
+      { id: "normal", label: "NORMAL — tiap 20 menit (~28 request/malam)" },
+      { id: "intens", label: "INTENSIF — tiap 10 menit (~57 request/malam, butuh 1.000/hari)" },
+    ];
+    return `
+      <div class="settings-panel" data-panel="office" style="padding: 4px 0; display: none;">
+        <h3 style="color: #000080; margin: 0 0 8px 0; font-size: 16px;">🏢 Kantor Virtual (AI Workspace)</h3>
+        <p style="font-size:12px;color:#555;margin:0 0 8px 0;">
+          Sepuluh penghuni Wisma Angker menjalani malam kejadian secara mandiri: bekerja sesuai jabatan,
+          saling melihat, mengobrol, dan meninggalkan barang yang bisa Anda sita.
+          Simulasi ini <b>tetap hidup tanpa API</b>; AI hanya memperkaya pikiran & ucapan mereka.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 150px 1fr; gap: 6px 10px; align-items: center;">
+          <label style="font-size:13px;">Kemandirian AI</label>
+          <select id="of-level" style="font-family: var(--font-mono); padding: 3px;">
+            ${levels.map((l) => `<option value="${l.id}" ${o.level === l.id ? "selected" : ""}>${l.label}</option>`).join("")}
+          </select>
+
+          <label style="font-size:13px;">Interval sutradara</label>
+          <input type="number" id="of-interval" min="5" max="120" step="5" value="${o.intervalMin || 20}" style="width:80px;font-family:var(--font-mono);padding:3px;"> menit simulasi
+
+          <label style="font-size:13px;">Kecepatan simulasi</label>
+          <select id="of-speed" style="font-family: var(--font-mono); padding: 3px; width:80px;">
+            ${[1, 2, 4, 8].map((v) => `<option value="${v}" ${Number(o.speed || 1) === v ? "selected" : ""}>${v}×</option>`).join("")}
+          </select>
+
+          <label style="font-size:13px;">Kuota harian</label>
+          <input type="number" id="of-daily" min="1" max="2000" value="${o.dailyLimit || 50}" style="width:80px;font-family:var(--font-mono);padding:3px;"> request/hari
+
+          <label style="font-size:13px;">Batas per menit</label>
+          <input type="number" id="of-rpm" min="1" max="60" value="${o.perMinuteLimit || 20}" style="width:80px;font-family:var(--font-mono);padding:3px;"> request/menit
+
+          <label style="font-size:13px;">Cadangan interogasi</label>
+          <input type="number" id="of-reserve" min="0" max="200" value="${o.reserve ?? 12}" style="width:80px;font-family:var(--font-mono);padding:3px;"> request
+        </div>
+
+        <div style="margin-top:10px; display:grid; gap:4px; font-size:13px;">
+          <label><input type="checkbox" id="of-enabled" ${o.enabled !== false ? "checked" : ""}> Kantor Virtual aktif</label>
+          <label><input type="checkbox" id="of-ondemand" ${o.aiOnDemand !== false ? "checked" : ""}> Hemat kuota: AI hanya menyala saat jendela Kantor dibuka</label>
+          <label><input type="checkbox" id="of-autostart" ${o.autoStart !== false ? "checked" : ""}> Jalankan simulasi otomatis saat kasus dimuat</label>
+          <label><input type="checkbox" id="of-eavesdrop" ${o.useAIForEavesdrop !== false ? "checked" : ""}> Pakai AI untuk 🎧 SADAP (kalau tidak, pakai mesin dialog lokal)</label>
+          <label><input type="checkbox" id="of-reflect" ${o.useAIForReflection !== false ? "checked" : ""}> Pakai AI untuk refleksi ingatan karakter</label>
+        </div>
+
+        <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <button id="btn-save-office" style="background:#000080;color:#fff;border:none;padding:4px 16px;font-family:var(--font-mono);cursor:pointer;">💾 Simpan Pengaturan Kantor</button>
+          <button id="btn-clear-office-save" style="background:#666;color:#fff;border:none;padding:4px 12px;font-family:var(--font-mono);cursor:pointer;">🗑 Hapus Sesi Malam</button>
+          <span id="office-status" style="font-size:13px;color:#888;"></span>
+        </div>
+
+        <div style="margin-top:10px; padding:8px; background:#e8f5e9; border-left:4px solid #43a047; font-size:12px; color:#1b5e20;">
+          <strong>Matematika kuota:</strong> satu malam penuh = 570 menit simulasi.
+          Level NORMAL memanggil sutradara AI tiap 20 menit ⇒ ±28 request. Ditambah sadapan/intai pikiran
+          (1 request masing-masing) dan cadangan 12 request untuk interogasi ⇒ masih di bawah 50/hari.
+          Kalau kuota habis, kantor otomatis lanjut dengan mesin simulasi lokal — tidak ada yang berhenti.
+        </div>
+      </div>
+    `;
+  }
+
   _renderDangerPanel() {
     return `
       <div class="settings-panel" data-panel="danger" style="padding: 4px 0; display: none;">
@@ -363,15 +489,22 @@ export class SettingsWindow {
           return;
         }
         status.textContent = "⏳ Testing...";
-        const ok = await aiClient.checkHealth();
-        status.textContent = ok ? "✅ Connected!" : "❌ Failed to connect";
-        status.style.color = ok ? "#4CAF50" : "#f44336";
+        const detail = await aiClient.checkHealthDetailed();
+        status.textContent = detail.ok ? `✅ ${detail.detail}` : `❌ ${detail.detail}`;
+        status.style.color = detail.ok ? "#4CAF50" : "#f44336";
+        if (detail.ok) {
+          const credit = await aiClient.credits();
+          if (credit.ok) {
+            status.textContent += ` | kredit $${credit.remaining.toFixed(2)} (${credit.remaining >= 10 ? "1.000 request/hari" : "50 request/hari"})`;
+          }
+        }
       });
 
     body.querySelector("#btn-save-ai")?.addEventListener("click", () => {
       const endpoint = body.querySelector("#ai-endpoint").value.trim();
       const apiKey = body.querySelector("#ai-apikey").value.trim();
       const model = body.querySelector("#ai-model").value.trim();
+      const proxyUrl = body.querySelector("#ai-proxy")?.value.trim() || "";
       const temperature = parseFloat(
         body.querySelector("#ai-temperature").value
       );
@@ -381,6 +514,7 @@ export class SettingsWindow {
       this.settings.endpoint = endpoint;
       this.settings.apiKey = apiKey;
       this.settings.model = model;
+      this.settings.proxyUrl = proxyUrl;
       this.settings.temperature = temperature;
       this.settings.maxTokens = maxTokens;
       this._saveSettings();
@@ -390,17 +524,60 @@ export class SettingsWindow {
           endpoint,
           apiKey,
           model,
+          proxyUrl,
           temperature,
           maxTokens,
         });
       }
 
+      // beri tahu seluruh sistem (Kantor Virtual, Budget Manager, dll.)
+      EventBus.emit("settings:changed", { ...this.settings });
+
       const status = body.querySelector("#ai-status");
-      status.textContent = "✅ Saved!";
+      status.textContent = apiKey || proxyUrl ? "✅ Saved!" : "✅ Saved (mode offline: tanpa key)";
       status.style.color = "#4CAF50";
       setTimeout(() => {
         status.textContent = "";
       }, 3000);
+    });
+
+    // --- Office Tab ---
+    body.querySelector("#btn-save-office")?.addEventListener("click", () => {
+      const read = (id) => body.querySelector(`#${id}`);
+      this.settings.office = {
+        ...(this.settings.office || {}),
+        level: read("of-level")?.value || "normal",
+        intervalMin: parseInt(read("of-interval")?.value) || 20,
+        speed: parseInt(read("of-speed")?.value) || 1,
+        dailyLimit: parseInt(read("of-daily")?.value) || 50,
+        perMinuteLimit: parseInt(read("of-rpm")?.value) || 20,
+        reserve: parseInt(read("of-reserve")?.value) || 0,
+        enabled: !!read("of-enabled")?.checked,
+        aiOnDemand: !!read("of-ondemand")?.checked,
+        autoStart: !!read("of-autostart")?.checked,
+        useAIForEavesdrop: !!read("of-eavesdrop")?.checked,
+        useAIForReflection: !!read("of-reflect")?.checked,
+      };
+      this._saveSettings();
+      EventBus.emit("settings:changed", { ...this.settings });
+      const st = body.querySelector("#office-status");
+      if (st) {
+        st.textContent = "✅ Tersimpan & diterapkan.";
+        st.style.color = "#4CAF50";
+        setTimeout(() => (st.textContent = ""), 3000);
+      }
+    });
+
+    body.querySelector("#btn-clear-office-save")?.addEventListener("click", () => {
+      const officeCtl = window.__RETROSLEUTH?.office;
+      if (!officeCtl?.world) {
+        alert("Kantor Virtual belum aktif (muat sebuah kasus dulu).");
+        return;
+      }
+      if (!confirm("Hapus sesi malam yang tersimpan dan ulangi dari pukul 17.00?")) return;
+      officeCtl.world.reset();
+      const st = body.querySelector("#office-status");
+      if (st) st.textContent = "🗑 Sesi malam dihapus.";
     });
 
     // --- Audio Tab ---
@@ -544,15 +721,19 @@ export class SettingsWindow {
         )
       ) {
         this.settings = {
-          endpoint: "http://localhost:20128/v1/chat/completions",
+          endpoint: "https://openrouter.ai/api/v1/chat/completions",
           apiKey: "",
-          model: "ag-gemini3",
-          temperature: 0.8,
+          model: DEFAULT_MODELS.primary,
+          fallbackModels: DEFAULT_MODELS.fallbacks,
+          proxyUrl: "",
+          temperature: 0.85,
+          maxTokens: 420,
           masterVolume: 0.7,
           sfxVolume: 1.0,
           ambientVolume: 0.3,
           muted: false,
           crtEnabled: true,
+          office: { ...OFFICE_DEFAULTS, dailyLimit: 50, perMinuteLimit: 20, reserve: 12 },
         };
         this._saveSettings();
         localStorage.removeItem(STORAGE_KEY);

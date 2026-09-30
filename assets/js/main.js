@@ -32,8 +32,14 @@ import { CharacterDossier } from "./modules/CharacterDossier.js";
 
 // --- Fase 3: AI Core ---
 import { initAIClient, aiClient } from "./ai/AIClient.js";
+import { initOpenRouterClient, openRouter, DEFAULT_MODELS } from "./ai/OpenRouterClient.js";
+import { initBudgetManager, budget } from "./ai/BudgetManager.js";
 import { InterrogationRoom } from "./modules/InterrogationRoom.js";
 import { SettingsWindow } from "./modules/SettingsWindow.js";
+
+// --- Fase 5: Kantor Virtual (AI Workspace) ---
+import { OfficeController } from "./office/OfficeController.js";
+import { OfficeWindow } from "./modules/OfficeWindow.js";
 
 // --- Fase 4: Deduction ---
 import { SolutionEngine } from "./engine/SolutionEngine.js";
@@ -526,6 +532,7 @@ function openWelcomeWindow(wm) {
           <div><span style="color: #8b6b4a;">🔍</span> <strong>Evidence</strong> — Collect evidence</div>
           <div><span style="color: #8b6b4a;">👤</span> <strong>Dossier</strong> — Suspect profiles</div>
           <div><span style="color: #8b6b4a;">🗣️</span> <strong>Interrogation</strong> — Question suspects</div>
+          <div><span style="color: #8b6b4a;">🏢</span> <strong>Kantor Virtual</strong> — penghuni wisma hidup & bekerja sendiri (AI workspace)</div>
           <div><span style="color: #8b6b4a;">⏱️</span> <strong>Timeline</strong> — Chronology</div>
           <div><span style="color: #8b6b4a;">📝</span> <strong>Notes</strong> — Notes</div>
           <div><span style="color: #8b6b4a;">⚖️</span> <strong>Accusation</strong> — File accusation</div>
@@ -713,12 +720,46 @@ async function initializeApp() {
   });
 
   // --- 7.4 Fase 3: AI Core ---
+  // Infrastruktur AI: satu pintu ke OpenRouter + polisi kuota free tier.
+  // Dibuat SEBELUM SettingsWindow supaya konfigurasi bisa langsung disuntik.
+  initOpenRouterClient({
+    endpoint: "https://openrouter.ai/api/v1/chat/completions",
+    apiKey: "",
+    model: DEFAULT_MODELS.primary,
+    fallbackModels: DEFAULT_MODELS.fallbacks,
+    proxyUrl: "",
+  });
+  initBudgetManager({ dailyLimit: 50, perMinuteLimit: 20, reserve: 12 });
+
   // Inisialisasi Settings Window (memuat settings dari localStorage)
   const settings = new SettingsWindow(wm);
 
   // Inisialisasi AI Client dengan settings yang sudah dimuat
   const aiConfig = settings.settings;
   const ai = initAIClient(aiConfig.endpoint, aiConfig.apiKey, aiConfig.model);
+  ai.updateConfig({ ...aiConfig });
+
+  // --- 7.4b Fase 5: Kantor Virtual (AI Workspace) ---
+  // Sepuluh penghuni Wisma menjalani malam kejadian secara mandiri:
+  // bekerja sesuai jabatan, saling melihat, mengobrol, dan meninggalkan barang.
+  const office = new OfficeController({
+    caseLoader: loader,
+    evidenceEngine: eviEngine,
+    notificationSystem,
+    settings: settings.settings,
+  });
+  office.applySettings(settings.settings);
+
+  const officeWindow = new OfficeWindow(wm, () => office.world, { caseHub });
+
+  // Muat kantor virtual setiap kali kasus dimuat
+  EventBus.on("case:loaded", async ({ caseData }) => {
+    try {
+      await office.loadForCase(caseData);
+    } catch (err) {
+      console.warn("[RetroSleuth] ⚠️ Kantor Virtual gagal dimuat:", err);
+    }
+  });
 
   // Modul Interrogation
   const interrogationRoom = new InterrogationRoom(wm);
@@ -855,6 +896,7 @@ async function initializeApp() {
         // If more than 1, open Dossier for user to choose
         characterDossier.open();
       },
+      office: () => officeWindow.open(),
       timeline: () => timelineViewer.open(),
       notes: () => notesApp.open(),
       accusation: () => accusationForm.open(),
@@ -904,6 +946,10 @@ async function initializeApp() {
     evidenceViewer,
     characterDossier,
     aiClient,
+    openRouter,
+    aiBudget: budget,
+    office,
+    officeWindow,
     interrogationRoom,
     settings,
     accusationForm,

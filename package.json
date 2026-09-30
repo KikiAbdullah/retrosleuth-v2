@@ -1,0 +1,30 @@
+{
+  "name": "retrosleuth-v2",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "RetroSleuth: game investigasi kriminal retro di browser + Kantor Virtual (AI Workspace) berbasis OpenRouter free tier.",
+  "scripts": {
+    "serve": "python3 -m http.server 8080 --bind 0.0.0.0",
+    "proxy": "node tools/openrouter-proxy.mjs",
+    "simulate": "node tools/simulate-night.mjs",
+    "simulate:full": "node tools/simulate-night.mjs --full",
+    "check:boot": "node tools/boot-check.mjs",
+    "check": "npm run check:boot && npm run simulate"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "game",
+    "detective",
+    "retro",
+    "ai-agents",
+    "generative-agents",
+    "openrouter",
+    "vanilla-js"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}

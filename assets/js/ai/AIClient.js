@@ -1,162 +1,178 @@
 /**
  * ============================================================
- *  AICLIENT.JS — HTTP Client untuk Server AI Lokal
- *  Format OpenAI-compatible. Menangani timeout, error, fallback.
+ *  AICLIENT.JS — Klien Interogasi (di atas OpenRouter + Budget)
+ * ------------------------------------------------------------
+ *  Dulu modul ini fetch langsung ke server lokal dengan API key
+ *  yang di-hardcode. Sekarang:
+ *   • semua HTTP lewat OpenRouterClient (retry, fallback model, proxy)
+ *   • semua panggilan lewat BudgetManager (kuota free tier aman)
+ *   • default: OpenRouter model :free, key KOSONG (diisi di Settings)
+ *   • konteks Kantor Virtual ikut disuntikkan ke prompt (PromptBuilder)
+ *
+ *  API publik lama tetap sama: sendMessage(), checkHealth(),
+ *  updateConfig() — supaya InterrogationRoom tidak perlu diubah.
  * ============================================================
  */
 
 import { GameState } from "../core/Store.js";
+import { EventBus } from "../core/EventBus.js";
 import { PromptBuilder } from "./PromptBuilder.js";
 import { TrustSystem } from "./TrustSystem.js";
 import { Security } from "../utils/Security.js";
-import {
-  getFallbackResponse,
-  getFallbackResponseWithError,
-} from "./FallbackMode.js";
+import { openRouter, DEFAULT_MODELS } from "./OpenRouterClient.js";
+import { budget } from "./BudgetManager.js";
+import { getFallbackResponse, getFallbackResponseWithError } from "./FallbackMode.js";
+
+const DEFAULT_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 
 export class AIClient {
   /**
-   * @param {string} endpoint - URL endpoint AI (default: http://localhost:20128/v1/chat/completions)
-   * @param {string} apiKey - API key (default: placeholder)
-   * @param {string} model - Nama model (default: gemini-2.5)
+   * @param {string|Object} endpoint - URL endpoint, ATAU object config penuh.
+   * @param {string} [apiKey]
+   * @param {string} [model]
    */
-  constructor(
-    endpoint = "http://localhost:20128/v1/chat/completions",
-    apiKey = "sk-d9da44a505179175-7im48b-73d30919",
-    model = "ag-gemini3"
-  ) {
-    this.endpoint = endpoint;
-    this.apiKey = apiKey;
-    this.model = model;
-    this.timeout = 30000; // 30 detik
-    this.temperature = 0.8;
+  constructor(endpoint = DEFAULT_ENDPOINT, apiKey = "", model = DEFAULT_MODELS.primary) {
+    if (endpoint && typeof endpoint === "object") {
+      const cfg = endpoint;
+      this.endpoint = cfg.endpoint || DEFAULT_ENDPOINT;
+      this.apiKey = cfg.apiKey || "";
+      this.model = cfg.model || DEFAULT_MODELS.primary;
+      this.proxyUrl = cfg.proxyUrl || "";
+      this.temperature = cfg.temperature ?? 0.85;
+      this.maxTokens = cfg.maxTokens ?? 420;
+      this.fallbackModels = cfg.fallbackModels || DEFAULT_MODELS.fallbacks;
+    } else {
+      this.endpoint = endpoint || DEFAULT_ENDPOINT;
+      this.apiKey = apiKey || "";
+      this.model = model || DEFAULT_MODELS.primary;
+      this.proxyUrl = "";
+      this.temperature = 0.85;
+      this.maxTokens = 420;
+      this.fallbackModels = DEFAULT_MODELS.fallbacks;
+    }
+    this.timeout = 45000;
+  }
+
+  /** Apakah AI siap dipakai (punya key atau proxy)? */
+  get ready() {
+    return openRouter.usable;
   }
 
   /**
-   * Mengirim pesan ke AI dan mengembalikan respons.
-   * @param {string} suspectId - ID karakter.
-   * @param {string} userMessage - Pertanyaan pemain.
-   * @returns {Promise<{success: boolean, reply: string, blocked: boolean}>}
+   * Mengirim pertanyaan detektif ke tersangka.
+   * @param {string} suspectId
+   * @param {string} userMessage
+   * @returns {Promise<{success:boolean, reply:string, blocked:boolean, source?:string}>}
    */
   async sendMessage(suspectId, userMessage) {
-    try {
-      // 1. Bangun system prompt
-      const systemPrompt = PromptBuilder.build(suspectId);
+    // Bangun prompt lebih dulu (murah, tanpa jaringan)
+    const systemPrompt = PromptBuilder.build(suspectId);
+    const history = GameState.getChatHistory(suspectId).slice(-8);
+    const messages = [
+      { role: "system", content: systemPrompt },
+      ...history,
+      { role: "user", content: userMessage },
+    ];
 
-      // 2. Ambil riwayat chat (maksimal 8 pesan terakhir)
-      const history = GameState.getChatHistory(suspectId);
-      const recentHistory = history.slice(-8);
+    if (!openRouter.usable) {
+      return this._fallback(suspectId, userMessage, "AI belum dikonfigurasi (isi API key OpenRouter di ⚙️ Settings).");
+    }
 
-      // 3. Susun messages
-      const messages = [
-        { role: "system", content: systemPrompt },
-        ...recentHistory,
-        { role: "user", content: userMessage },
-      ];
+    // Interogasi adalah prioritas tertinggi & punya slot cadangan sendiri
+    const result = budget
+      ? await budget.enqueue({
+          kind: "interrogation",
+          priority: 100,
+          maxWaitMs: 60000,
+          run: async () => {
+            const res = await openRouter.chat({
+              messages,
+              temperature: this.temperature,
+              maxTokens: this.maxTokens,
+              tag: "interrogation",
+            });
+            if (!res.ok) return { ok: false, error: res.error };
+            const text = Security.sanitizeInput(res.text, 2000);
+            if (!text.trim()) return { ok: false, error: "Respons kosong" };
+            return { ok: true, value: { reply: text, model: res.model } };
+          },
+        })
+      : null;
 
-      // 4. Kirim request
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-
-      const response = await fetch(this.endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`,
-          "HTTP-Referer": window.location.origin,
-        },
-        body: JSON.stringify({
-          model: this.model,
-          messages,
-          temperature: this.temperature,
-          stream: false,
-        }),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      // 5. Proses respons
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
-      }
-
-      const data = await response.json();
-      const rawReply = data.choices?.[0]?.message?.content || "";
-
-      if (!rawReply || rawReply.trim() === "") {
-        throw new Error("Respons AI kosong");
-      }
-
-      // Sanitasi response AI dari karakter berbahaya
-      const reply = Security.sanitizeInput(rawReply, 2000);
-
-      // 6. Simpan chat history
+    if (result?.ok && result.value?.reply) {
+      const reply = result.value.reply;
       GameState.addChatMessage(suspectId, "user", userMessage);
       GameState.addChatMessage(suspectId, "assistant", reply);
-
-      // 7. Proses emosi
       TrustSystem.process(suspectId, userMessage, reply);
-
-      return { success: true, reply, blocked: false };
-    } catch (error) {
-      console.error("[AIClient] Error:", error);
-
-      // Fallback
-      let fallbackReply;
-      if (error.name === "AbortError") {
-        fallbackReply = getFallbackResponseWithError(
-          "Server AI tidak merespons (timeout)"
-        );
-      } else if (error.message.includes("HTTP")) {
-        fallbackReply = getFallbackResponseWithError("Server AI error");
-      } else {
-        fallbackReply = getFallbackResponse();
-      }
-
-      // Simpan chat history (tetap simpan pertanyaan dan respons fallback)
-      GameState.addChatMessage(suspectId, "user", userMessage);
-      GameState.addChatMessage(suspectId, "assistant", fallbackReply);
-
-      return { success: false, reply: fallbackReply, blocked: false };
+      EventBus.emit("ai:reply", { suspectId, model: result.value.model });
+      return { success: true, reply, blocked: false, source: "ai" };
     }
+
+    return this._fallback(suspectId, userMessage, result?.reason || "Gagal menghubungi AI.");
   }
 
-  /**
-   * Mengecek kesehatan server AI.
-   * @returns {Promise<boolean>}
-   */
+  /** Jalur darurat: tetap simpan riwayat, tapi pakai respons generik. */
+  _fallback(suspectId, userMessage, reason) {
+    console.warn("[AIClient] Fallback:", reason);
+    const reply = reason?.includes("dibatalkan")
+      ? getFallbackResponseWithError("Server AI tidak merespons (timeout)")
+      : getFallbackResponse();
+
+    GameState.addChatMessage(suspectId, "user", userMessage);
+    GameState.addChatMessage(suspectId, "assistant", reply);
+    EventBus.emit("ai:fallback", { suspectId, reason });
+    return { success: false, reply, blocked: false, source: "fallback" };
+  }
+
+  /** Cek kesehatan koneksi AI. */
   async checkHealth() {
-    try {
-      const response = await fetch("https://openrouter.ai/api/v1/models", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${this.apiKey}` },
-        signal: AbortSignal.timeout(5000),
-      });
-      return response.ok;
-    } catch (error) {
-      console.warn("[AIClient] Health check gagal:", error);
-      return false;
-    }
+    const res = await openRouter.health();
+    return res.ok;
+  }
+
+  /** Cek kesehatan lengkap (untuk UI Settings). */
+  async checkHealthDetailed() {
+    return openRouter.health();
+  }
+
+  /** Sisa kredit akun OpenRouter. */
+  async credits() {
+    return openRouter.credits();
   }
 
   /**
    * Memperbarui konfigurasi AI.
    * @param {Object} config
    */
-  updateConfig(config) {
+  updateConfig(config = {}) {
     if (config.endpoint) this.endpoint = config.endpoint;
-    if (config.apiKey) this.apiKey = config.apiKey;
+    if (config.apiKey !== undefined) this.apiKey = config.apiKey;
     if (config.model) this.model = config.model;
     if (config.temperature !== undefined) this.temperature = config.temperature;
     if (config.maxTokens !== undefined) this.maxTokens = config.maxTokens;
+    if (config.proxyUrl !== undefined) this.proxyUrl = config.proxyUrl;
+    if (config.fallbackModels) this.fallbackModels = config.fallbackModels;
+
+    openRouter.updateConfig({
+      endpoint: this.endpoint,
+      apiKey: this.apiKey,
+      model: this.model,
+      proxyUrl: this.proxyUrl,
+      fallbackModels: this.fallbackModels,
+    });
   }
 }
 
-// Ekspor instance singleton
+// ------------------------------------------------------------
+//  Singleton
+// ------------------------------------------------------------
 export let aiClient = null;
 
+/**
+ * @param {string|Object} endpoint - URL atau object config
+ * @param {string} [apiKey]
+ * @param {string} [model]
+ */
 export function initAIClient(endpoint, apiKey, model) {
   aiClient = new AIClient(endpoint, apiKey, model);
   return aiClient;
