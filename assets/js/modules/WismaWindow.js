@@ -633,7 +633,7 @@ export class WismaWindow {
         .map((a) => `
           <div class="ws-artifact ${a.taken ? "taken" : ""}">
             <div class="ti">🗃 ${a.title}</div>
-            <div class="me">${a.agentName} (${a.agentJob}) • ${a.roomName} • ${a.timeLabel}</div>
+            <div class="me">${a.agentName} — ${a.agentJob}<br>Urusan: ${a.taskLabel || "-"} • ${a.roomName} • ${a.timeLabel}</div>
             ${a.taken
               ? `<div style="color:#2e7d32;font-size:12px;">✔ sudah disita ${a.evidenceId ? `→ ${a.evidenceId}` : ""}</div>`
               : `<button class="wisma-btn primary" data-take="${a.id}" style="margin-top:4px;">SITA SEKARANG</button>`}

@@ -222,11 +222,32 @@ for (const m of remembered) {
   }
 }
 
+// isi DOKUMEN artefak juga tidak boleh membocorkan rahasia
+const artifactLeaks = [];
+let artifactDocs = 0;
+const spoilerTexts = remembered.filter((m) => m.spoiler).map((m) => m.text.trim());
+for (const art of world.forge.all()) {
+  let doc = "";
+  try {
+    doc = world.forge._buildContent({ ...art, taken: true });
+  } catch (e) {
+    artifactLeaks.push(`${art.title}: gagal menyusun dokumen (${e.message})`);
+    continue;
+  }
+  artifactDocs++;
+  const hit = FORBIDDEN.find((rx) => rx.test(doc));
+  if (hit) artifactLeaks.push(`${art.title}: kata terlarang "${doc.match(hit)[0]}"`);
+  const bocor = spoilerTexts.find((t) => t && doc.includes(t));
+  if (bocor) artifactLeaks.push(`${art.title}: memuat ingatan terkunci → "${bocor.slice(0, 60)}"`);
+}
+
 console.log("UJI ANTI-SPOILER");
 console.log(`  Kebocoran racun/pelaku : ${leaks.length === 0 ? "✅ tidak ada" : "❌ " + leaks.length}`);
 leaks.slice(0, 5).forEach((l) => console.log(`     - ${l}`));
 console.log(`  Saksi saat blackout    : ${blackoutLeaks.length === 0 ? "✅ tidak ada" : "❌ " + blackoutLeaks.length}`);
 blackoutLeaks.slice(0, 5).forEach((l) => console.log(`     - ${l}`));
+console.log(`  Isi dokumen artefak  : ${artifactLeaks.length === 0 ? `✅ ${artifactDocs} dokumen bersih` : "❌ " + artifactLeaks.length}`);
+artifactLeaks.slice(0, 5).forEach((l) => console.log(`     - ${l}`));
 console.log("");
 
 if (errors.length) {
@@ -256,7 +277,13 @@ if (full) {
 
 console.log("");
 console.log(line);
-const ok = errors.length === 0 && leaks.length === 0 && blackoutLeaks.length === 0 && world.stats.conversations > 0;
+const ok =
+  errors.length === 0 &&
+  leaks.length === 0 &&
+  blackoutLeaks.length === 0 &&
+  artifactLeaks.length === 0 &&
+  world.stats.conversations > 0 &&
+  world.stats.artifacts > 0;
 console.log(ok ? "✅ SIMULASI SEHAT — dunia hidup tanpa satu pun panggilan AI." : "⚠️  ADA MASALAH — lihat laporan di atas.");
 console.log(line);
 process.exit(ok ? 0 : 1);

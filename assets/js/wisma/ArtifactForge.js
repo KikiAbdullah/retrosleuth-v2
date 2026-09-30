@@ -3,7 +3,7 @@
  *  ARTIFACTFORGE.JS — Hasil Kerja Nyata dari Tiap Karakter
  * ------------------------------------------------------------
  *  Inilah bagian "simulasi wisma"-nya yang paling terasa: setiap
- *  penghuni mengerjakan PEKERJAANNYA, dan pekerjaan itu meninggalkan
+ *  penghuni menjalani URUSAN RUMAHNYA, dan urusan itu meninggalkan
  *  barang di dunia.
  *
  *   Tio mencatat log gerbang      → Log Keamanan Gerbang (evi_003)
@@ -96,6 +96,7 @@ export class ArtifactForge {
       content: null,
       memories: (ctx.memories || []).slice(0, 12).map((m) => ({
         time: m.timeLabel || "",
+        clock: m.clock ?? 0,
         text: m.text || "",
         room: m.room || null,
       })),
@@ -185,7 +186,7 @@ export class ArtifactForge {
         id: evidenceId,
         title: a.title,
         icon: "🗃",
-        description_short: `Dihasilkan oleh aktivitas ${a.agentName} di ${a.roomName}.`,
+        description_short: `Hasil urusan rumah ${a.agentName} — "${a.taskLabel || "-"}" — di ${a.roomName}.`,
         content: a.content,
         source: "wisma",
       });
@@ -206,6 +207,40 @@ export class ArtifactForge {
     return { ok: true, evidenceId, title: a.title, isNew, unlocked };
   }
 
+  /**
+   * Susun isi catatan: urut waktu (malam ini lewat tengah malam), tanpa
+   * entri kembar, dan noise perpindahan dibuang bila catatan berarti cukup.
+   */
+  _logEntries(a) {
+    const seen = new Set();
+    const rows = [];
+    for (const m of a.memories || []) {
+      const t = String(m.text || "").trim();
+      if (!t) continue;
+      const k = t.toLowerCase().replace(/\s+/g, " ").slice(0, 55);
+      if (seen.has(k)) continue;
+      seen.add(k);
+      rows.push({ ...m, _noise: /berjalan menuju|lewat |keluar dari/.test(t) });
+    }
+    rows.sort((x, y) => (x.clock ?? 0) - (y.clock ?? 0));
+    const berarti = rows.filter((r) => !r._noise);
+    return (berarti.length >= 4 ? berarti : rows).slice(-10);
+  }
+
+  /**
+   * Kepala dokumen ala rumah tangga: urusan apa, siapa yang menjalani,
+   * perannya di wisma, lalu di mana & jam berapa barangnya tertinggal.
+   */
+  _docMeta(a) {
+    const urusan = a.taskLabel ? a.taskLabel.charAt(0).toLowerCase() + a.taskLabel.slice(1) : "-";
+    return [
+      `**Urusan**: ${urusan} — ${a.agentName}`,
+      `**Peran di wisma**: ${a.agentJob || "-"}`,
+      `**Ditemukan di**: ${a.roomName}, pukul ${a.timeLabel}`,
+      ``,
+    ].join("\n");
+  }
+
   /** Bangun konten Markdown untuk artefak tanpa file bukti. */
   _buildContent(a) {
     const header = (this.template?.header || "")
@@ -217,33 +252,32 @@ export class ArtifactForge {
 
     let body = "";
     if (a.dynamic === "memory_log") {
+      const urusan = a.taskLabel ? a.taskLabel.charAt(0).toLowerCase() + a.taskLabel.slice(1) : "urusannya";
       body = [
         `# ${a.title}`,
         ``,
-        `**Pemilik**: ${a.agentName} — ${a.agentJob}`,
-        `**Ditemukan di**: ${a.roomName}, pukul ${a.timeLabel}`,
-        ``,
+        this._docMeta(a),
         `Catatan ini ditulis tergesa-gesa di kertas bekas daftar belanja.`,
-        `Isinya adalah hal-hal yang dilihat ${a.agentName} sendiri selama bertugas:`,
+        `Isinya adalah hal-hal yang dilihat ${a.agentName} sendiri selama ${urusan}:`,
         ``,
       ].join("\n");
 
-      if (a.memories.length === 0) {
+      const rows = this._logEntries(a);
+      if (rows.length === 0) {
         body += `_Tidak ada yang tercatat. Malam itu berlangsung terlalu biasa._\n`;
       } else {
-        body += `| Jam | Yang dilihat / didengar | Ruangan |\n| :-- | :-- | :-- |\n`;
-        for (const m of a.memories) {
+        body += `| Jam | Yang dilihat / didengar di sekitar rumah | Dari mana ia melihat |\n`;
+        body += `| :-- | :-- | :-- |\n`;
+        for (const m of rows) {
           body += `| ${m.time || "-"} | ${m.text.replace(/\|/g, "/")} | ${m.room || "-"} |\n`;
         }
       }
-      body += `\n> Nilai barang ini terletak pada JAM dan TEMPAT: cocokkan dengan Timeline kasus.\n`;
+      body += `\n> Nilai barang ini terletak pada JAM dan TEMPAT: cocokkan dengan Timeline kasus.\n> Ingat: tidak semua yang tercatat di rumah ini jujur — pemegangnya bisa saja berbohong saat diinterogasi.\n`;
     } else if (a.dynamic === "threat_note") {
       body = [
         `# ${a.title}`,
         ``,
-        `**Ditemukan di**: ${a.roomName}, pukul ${a.timeLabel}`,
-        `**Ditulis oleh**: ${a.agentName} (${a.agentJob})`,
-        ``,
+        this._docMeta(a),
         `Kertas sobekan bungkus rokok, tulisan besar dan menekan:`,
         ``,
         `> "TANGGAL 15. JANGAN LUPA. AKU TIDAK MENERIMA ALASAN LAGI."`,
@@ -251,19 +285,19 @@ export class ArtifactForge {
         ``,
         `Di balik kertas terdapat coretan angka: **497.000.000** dan inisial **R.W.**`,
         ``,
-        `Catatan penyidik: kertas ini dibuang terburu-buru. Penulisnya sedang di dalam rumah malam itu.`,
+        `Catatan penyidik: kertas ini dibuang terburu-buru. Penulisnya sedang berada di dalam wisma malam itu.`,
       ].join("\n");
     } else {
       body = [
         `# ${a.title}`,
         ``,
-        `**Dihasilkan oleh**: ${a.agentName} — ${a.agentJob}`,
-        `**Ruangan**: ${a.roomName}`,
-        `**Jam**: ${a.timeLabel}`,
-        ``,
-        a.memories.length
-          ? a.memories.map((m) => `- (${m.time}) ${m.text}`).join("\n")
-          : `_Barang ini tidak banyak bercerita._`,
+        this._docMeta(a),
+        (() => {
+          const rows = this._logEntries(a);
+          return rows.length
+            ? `Yang tersirat dari barang ini:\n\n${rows.map((m) => `- (${m.time}) ${m.text}`).join("\n")}`
+            : `_Barang ini tidak banyak bercerita._`;
+        })(),
       ].join("\n");
     }
 

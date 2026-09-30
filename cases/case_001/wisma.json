@@ -2983,7 +2983,7 @@
     ]
   },
   "artifact_template": {
-    "header": "> 🗂 **ARTEFAK WISMA ANGKER** — dihasilkan otomatis oleh aktivitas {agent} ({job}) pada {time}, {room}.\n> Sumber: simulasi Wisma Angker. Barang ini {status}.\n",
+    "header": "> 🗂 **ARTEFAK WISMA ANGKER** — lahir dari urusan rumah {agent} ({job}) pada {time}, di {room}.\n> Sumber: simulasi Wisma Angker. Barang ini {status}.\n",
     "footer": "\n---\n*Artefak ini muncul karena {agent} menjalankan urusan \"{task}\". Anda menyitanya dari {room} pada pukul {time}.*\n"
   },
   "simulation": {

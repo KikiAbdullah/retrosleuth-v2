@@ -243,6 +243,48 @@ Mengambil artefak (`world.takeArtifact(id)`) memanggil
 inventaris, dossier karakter ikut terbarui, dan memori terkunci yang terkait
 menjadi terlihat.
 
+### Anatomi dokumen artefak
+
+Bukti dinamis disusun `ArtifactForge._buildContent()` dengan bahasa rumah tangga
+(kosakata §2b) — kepala dari `wisma.json ▸ artifact_template`, lalu blok identitas,
+isi, dan kaki:
+
+```markdown
+> 🗂 **ARTEFAK WISMA ANGKER** — lahir dari urusan rumah Budi (Kepala Pelayan Senior)
+> pada 23:30, di Pos Satpam.
+> Sumber: simulasi Wisma Angker. Barang ini telah disita detektif.
+
+# Catatan Ronda Malam Budi
+
+**Urusan**: ronda malam keliling wisma — Budi
+**Peran di wisma**: Kepala Pelayan Senior
+**Ditemukan di**: Pos Satpam, pukul 23:30
+
+Catatan ini ditulis tergesa-gesa di kertas bekas daftar belanja.
+Isinya adalah hal-hal yang dilihat Budi sendiri selama ronda malam keliling wisma:
+
+| Jam | Yang dilihat / didengar di sekitar rumah | Dari mana ia melihat |
+| :-- | :-- | :-- |
+| 22:45 | 🌳 Tio melihat seseorang berjalan cepat menuju taman belakang. | Pos Satpam |
+| 23:15 | 🚗 Gerbang dibuka. Mobil Nyonya keluar, tujuannya tidak diketahui. | Pos Satpam |
+
+> Nilai barang ini terletak pada JAM dan TEMPAT: cocokkan dengan Timeline kasus.
+
+---
+*Artefak ini muncul karena Budi menjalankan urusan "Ronda malam keliling wisma".
+Anda menyitanya dari Pos Satpam pada pukul 23:30.*
+```
+
+Aturan isi dokumen:
+
+| Aturan | Implementasi |
+|---|---|
+| Urut waktu (malam ini lewat tengah malam) | `_logEntries()` mengurutkan berdasarkan `clock`, bukan teks jam |
+| Tanpa entri kembar | dedupe 55 karakter pertama yang dinormalkan |
+| Noise perpindahan disingkirkan | entri `berjalan menuju / lewat / keluar dari` dibuang bila masih ada ≥4 catatan berarti |
+| **Bebas spoiler** | `_completeTask()` hanya menyetor ingatan dengan `spoiler: false` dan `private: false`; `npm run simulate` memindai ulang seluruh dokumen dan **gagal** bila ada kata terlarang atau ingatan terkunci yang ikut tercetak |
+| Frasa aktivitas wajar | `SimVoice.actionPhrase()` memakai label urusan (bukan kata kerja telanjang) dan menambahkan "bersiap …" bila urusan itu sebenarnya di ruangan lain |
+
 ---
 
 ## 8. API yang paling sering dipakai
@@ -318,8 +360,9 @@ fallback AI tanpa kunci, `checkHealthDetailed`, `budget.stats`, save/hasSave/cle
 unload.
 
 `simulate` memverifikasi: 570 tick selesai, semua insiden terpicu, artefak
-terbentuk, dan **dua uji anti-spoiler** (tidak ada kata racun/pelaku di seluruh
-ucapan & ingatan; tidak ada saksi di ruang kerja selama blackout).
+terbentuk, dan **tiga uji anti-spoiler** (tidak ada kata racun/pelaku di seluruh
+ucapan & ingatan; tidak ada saksi di ruang kerja selama blackout; tidak ada
+dokumen artefak yang memuat kata terlarang atau ingatan terkunci).
 
 > Kedua uji memakai `tools/dom-shim.mjs` — DOM tiruan, `fetch` yang membaca dari
 > disk, dan **tanpa akses jaringan**. Jadi tidak ada kuota AI yang terpakai saat uji.

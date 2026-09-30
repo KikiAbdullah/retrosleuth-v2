@@ -636,11 +636,17 @@ export class WismaWorld {
         roomName: this.floor.roomName(roomId),
         timeLabel: WismaWorld.timeLabel(this.clock),
         phase: this.phase,
-        memories: a.memory.recent(10).map((m) => ({
-          timeLabel: m.timeLabel,
-          text: m.text,
-          room: m.room ? this.floor.roomName(m.room) : "",
-        })),
+        // ANTI-SPOILER: barang fisik hanya memuat hal yang memang bisa
+        // ditulis/diceritakan pemegangnya — ingatan berspoiler & privat dibuang.
+        memories: a.memory
+          .recent(12)
+          .filter((m) => !m.spoiler && !m.private)
+          .map((m) => ({
+            timeLabel: m.timeLabel,
+            clock: m.clock,
+            text: m.text,
+            room: m.room ? this.floor.roomName(m.room) : "",
+          })),
       });
       if (art) {
         this.stats.artifacts++;
@@ -802,9 +808,16 @@ export class WismaWorld {
       if (other.task?.spoiler) importance = 90;
 
       const isHiddenAct = ["sneak", "silent"].includes(chatter);
+      const roomName = this.floor.roomName(room);
+      const act = String(activity || "").trim();
+      // kalau frasa aktivitas sudah menyebut lokasi, jangan tempel ruangan lagi
+      // (hindari "Tio berjalan menuju Pos Satpam di Pos Satpam.")
+      const adaLokasi = /menuju|\bdi\b/i.test(act) || act.toLowerCase().includes(roomName.toLowerCase());
       const text = isHiddenAct
-        ? `${other.name} ${activity} — gerak-geriknya mencurigakan.`
-        : `${other.name} ${activity} di ${this.floor.roomName(room)}.`;
+        ? `${other.name} ${act} — gerak-geriknya mencurigakan.`
+        : adaLokasi
+        ? `${other.name} ${act}.`
+        : `${other.name} ${act} di ${roomName}.`;
 
       this._remember(a, {
         text,
@@ -1698,7 +1711,9 @@ export class WismaWorld {
     if (a.state === "talking") return "sedang berbicara";
     if (a.task) {
       const st = a.targetStation ? this.floor.station(a.targetStation)?.label : null;
-      return SimVoice.actionPhrase(a, a.task, st);
+      const taskRoom = this.jobs.roomFor(a.task);
+      const preparing = !!taskRoom && taskRoom !== a.room;
+      return SimVoice.actionPhrase(a, a.task, st, { preparing });
     }
     return "berdiri tanpa kegiatan";
   }

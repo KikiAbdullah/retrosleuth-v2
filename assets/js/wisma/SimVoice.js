@@ -341,20 +341,31 @@ export class SimVoice {
    * @param {Object} agent
    * @param {Object} task
    */
-  static actionPhrase(agent, task, stationLabel = null) {
-    const verb = task?.verb || "berdiri";
-    const obj = task?.label ? task.label.replace(/^[A-Z]/, (c) => c.toLowerCase()) : "";
-    const place = stationLabel || task?.label || "";
+  static actionPhrase(agent, task, stationLabel = null, opts = {}) {
     // seed STABIL per (agen, urusan): frasa tidak berubah tiap menit,
     // supaya sistem persepsi bisa mengenali "aktivitas yang sama".
     const rnd = makeRng(hashSeed(`${agent.id}|${task?.id || "idle"}|act`));
-    const forms = [
-      `sedang ${verb}`,
-      `${verb}`,
-      `tengah ${verb}`,
-    ];
-    const base = pick(forms, rnd);
-    return stationLabel ? `${base} di ${stationLabel}` : base || obj || place;
+    const verb = task?.verb || "berdiri";
+    const label = task?.label ? task.label.charAt(0).toLowerCase() + task.label.slice(1) : "";
+
+    // Tanpa label, kata kerja telanjang ("menyiapkan") butuh titik aktivitas
+    // supaya tetap terbaca: "sedang menyiapkan di Rak Senter & Payung".
+    if (!label) {
+      const base = pick([`sedang ${verb}`, `tengah ${verb}`, verb], rnd);
+      return stationLabel ? `${base} di ${stationLabel}` : base;
+    }
+
+    // Label urusan sudah memuat objeknya ("mencuci piring", "ronda malam
+    // keliling wisma") — titik aktivitas tidak ditempel lagi supaya tidak
+    // muncul frasa janggal seperti "meronda di Rak Senter & Payung".
+    //
+    // Kalau urusan itu sebenarnya berlangsung di ruangan lain (ia masih di
+    // ruang persiapan, mis. mengambil senter di pos), katakan "bersiap"
+    // supaya tidak terdengar seperti ia meronda di dalam pos.
+    if (opts.preparing) {
+      return pick([`bersiap ${label}`, `sedang bersiap ${label}`, `tengah bersiap ${label}`], rnd);
+    }
+    return pick([`sedang ${label}`, `tengah ${label}`, label], rnd);
   }
 
   /**

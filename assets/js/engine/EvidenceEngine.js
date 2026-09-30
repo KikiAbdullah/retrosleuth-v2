@@ -62,7 +62,7 @@ export class EvidenceEngine {
       title: evi.title || "Artefak",
       file: null,
       icon: evi.icon || "🗃",
-      description_short: evi.description_short || "Dihasilkan oleh aktivitas penghuni wisma.",
+      description_short: evi.description_short || "Lahir dari urusan rumah penghuni wisma.",
       content: evi.content || "",
       dynamic: true,
       source: evi.source || "wisma",
